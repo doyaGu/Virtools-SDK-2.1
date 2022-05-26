@@ -4,7 +4,7 @@
 #include "VxMathDefines.h"
 
 #if defined(_LINUX) || defined(macintosh)
-	struct CMutexData;
+struct CMutexData;
 #endif
 
 /*************************************************
@@ -17,34 +17,26 @@ class VxMutex
 {
 
 public:
+    VX_EXPORT VxMutex();
+    VX_EXPORT ~VxMutex();
 
+    VX_EXPORT BOOL EnterMutex();
+    VX_EXPORT BOOL LeaveMutex();
 
-VX_EXPORT	VxMutex();
-VX_EXPORT	~VxMutex();
-    
-
-VX_EXPORT	BOOL EnterMutex();
-VX_EXPORT	BOOL LeaveMutex();
-
-VX_EXPORT	BOOL operator++(int) {return EnterMutex();}
-VX_EXPORT	BOOL operator--(int) {return LeaveMutex();}
-
+    VX_EXPORT BOOL operator++(int) { return EnterMutex(); }
+    VX_EXPORT BOOL operator--(int) { return LeaveMutex(); }
 
 private:
-
 #if defined(_LINUX) || defined(macintosh)
-	CMutexData*	m_MutexData;
+    CMutexData *m_MutexData;
 #else
-	
-	void* m_Mutex;
+
+    void *m_Mutex;
 #endif
 
+    VxMutex(const VxMutex &);
 
-	
-	VxMutex(const VxMutex&);
-	
-	VxMutex& operator=(const VxMutex&);
-
+    VxMutex &operator=(const VxMutex &);
 };
 
 /*************************************************
@@ -55,10 +47,11 @@ See also: VxThread,VxMutex
 *************************************************/
 class VxMutexLock
 {
-	VxMutex& m_Mutex;
+    VxMutex &m_Mutex;
+
 public:
-	VxMutexLock(VxMutex& Mutex):m_Mutex(Mutex) {m_Mutex++;}
-	~VxMutexLock() {m_Mutex--;}
+    VxMutexLock(VxMutex &Mutex) : m_Mutex(Mutex) { m_Mutex++; }
+    ~VxMutexLock() { m_Mutex--; }
 };
 
 /*************************************************
@@ -80,131 +73,116 @@ Example
 
 See also: VxThread,VxMutexLock,VxMutex
 *************************************************/
-template <class T> class VxDataMutexed
+template <class T>
+class VxDataMutexed
 {
 public:
+    /*************************************************
+    Summary: Default constructor. Nothing is done.
+    *************************************************/
+    VxDataMutexed()
+    {
+    }
 
-	/*************************************************
-	Summary: Default constructor. Nothing is done.
-	*************************************************/
-	VxDataMutexed()
-	{
-	}
+    /*************************************************
+    Summary: Initialization constructor. The internal value is intialized.
+    Remarks: The type associated with "T" must have an affectation operator.
+    *************************************************/
+    VxDataMutexed(const T &value)
+    {
+        m_Value = value;
+    }
 
-	/*************************************************
-	Summary: Initialization constructor. The internal value is intialized.
-	Remarks: The type associated with "T" must have an affectation operator.
-	*************************************************/
-	VxDataMutexed(const T &value)
-	{
-		m_Value = value;
-	}
+    /*************************************************
+    Summary: This class give you a thread safe access to the VxDataMutexed Value. Look the example in the VxDataMutexed.
+    *************************************************/
+    class Accessor
+    {
+    public:
+        /*************************************************
+        Summary: Construct an accessor on your data. The data is locked by its mutex.
+        *************************************************/
+        Accessor(VxDataMutexed<T> *dm)
+        {
+            m_DataM = dm;
+            m_DataM->m_Mutex.EnterMutex();
+        }
 
-	/*************************************************
-	Summary: This class give you a thread safe access to the VxDataMutexed Value. Look the example in the VxDataMutexed.
-	*************************************************/
-	class Accessor
-	{
-	public:
+        /*************************************************
+        Summary: Destruct the accessor on your data. The data is unlocked by its mutex.
+        *************************************************/
+        ~Accessor()
+        {
+            m_DataM->m_Mutex.LeaveMutex();
+        }
 
-		/*************************************************
-		Summary: Construct an accessor on your data. The data is locked by its mutex.
-		*************************************************/
-		Accessor(VxDataMutexed<T> *dm)
-		{
-			m_DataM = dm;
-			m_DataM->m_Mutex.EnterMutex();
-		}
+        /*************************************************
+        Summary: access to the Value
+        *************************************************/
+        T &Value()
+        {
+            return m_DataM->m_Value;
+        }
 
-		/*************************************************
-		Summary: Destruct the accessor on your data. The data is unlocked by its mutex.
-		*************************************************/
-		~Accessor()
-		{
-			m_DataM->m_Mutex.LeaveMutex();
-		}
+    private:
+        Accessor();
 
-		/*************************************************
-		Summary: access to the Value
-		*************************************************/
-		T& Value()
-		{
-			return m_DataM->m_Value;
-		}
+        Accessor(const Accessor &);
 
-	private:
+        Accessor &operator=(const Accessor &);
 
-		
-		Accessor();
-		
-		Accessor(const Accessor&);
-		
-		Accessor& operator=(const Accessor&);
+        VxDataMutexed<T> *m_DataM;
+    };
 
-		
-		VxDataMutexed<T> *m_DataM;
+    /*************************************************
+    Summary: This class give you a thread safe access to the VxDataMutexed Value. Look the example in the VxDataMutexed.
+    *************************************************/
+    class ConstAccessor
+    {
+    public:
+        /*************************************************
+        Summary: Construct an accessor on your data. The data is locked by its mutex.
+        *************************************************/
+        ConstAccessor(const VxDataMutexed<T> *dm)
+        {
+            m_DataM = dm;
+            m_DataM->m_Mutex.EnterMutex();
+        }
 
-	};
+        /*************************************************
+        Summary: Destruct the accessor on your data. The data is unlocked by its mutex.
+        *************************************************/
+        ~ConstAccessor()
+        {
+            m_DataM->m_Mutex.LeaveMutex();
+        }
 
-	/*************************************************
-	Summary: This class give you a thread safe access to the VxDataMutexed Value. Look the example in the VxDataMutexed.
-	*************************************************/
-	class ConstAccessor
-	{
-	public:
+        /*************************************************
+        Summary: access to the Value
+        *************************************************/
+        const T &Value() const
+        {
+            return m_DataM->m_Value;
+        }
 
-		/*************************************************
-		Summary: Construct an accessor on your data. The data is locked by its mutex.
-		*************************************************/
-		ConstAccessor(const VxDataMutexed<T> *dm)
-		{
-			m_DataM = dm;
-			m_DataM->m_Mutex.EnterMutex();
-		}
+    private:
+        ConstAccessor();
 
-		/*************************************************
-		Summary: Destruct the accessor on your data. The data is unlocked by its mutex.
-		*************************************************/
-		~ConstAccessor()
-		{
-			m_DataM->m_Mutex.LeaveMutex();
-		}
+        ConstAccessor(const ConstAccessor &);
 
-		/*************************************************
-		Summary: access to the Value
-		*************************************************/
-		const T& Value() const
-		{
-			return m_DataM->m_Value;
-		}
+        ConstAccessor &operator=(const ConstAccessor &);
 
-	private:
+        const VxDataMutexed<T> *m_DataM;
+    };
 
-		
-		ConstAccessor();
-		
-		ConstAccessor(const ConstAccessor&);
-		
-		ConstAccessor& operator=(const ConstAccessor&);
+    mutable VxMutex m_Mutex;
 
-		
-		const VxDataMutexed<T> *m_DataM;
-
-	};
-
-	
-	mutable VxMutex	m_Mutex;
-	
-	T				m_Value;
-
+    T m_Value;
 
 private:
+    VxDataMutexed(const VxDataMutexed &);
 
-	
-	VxDataMutexed(const VxDataMutexed&);
-	
-	VxDataMutexed& operator=(const VxDataMutexed&);
-
+    VxDataMutexed &operator=(const VxDataMutexed &);
 };
 
 #endif

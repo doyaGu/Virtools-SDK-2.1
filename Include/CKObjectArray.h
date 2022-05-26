@@ -1,19 +1,17 @@
 /*************************************************************************/
 /*	File : CKObjectArray.h												 */
-/*	Author :  Nicolas Galinotti											 */	
-/*	Last Modification : 28/09/99										 */	
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */	
+/*	Author :  Nicolas Galinotti											 */
+/*	Last Modification : 28/09/99										 */
+/*																		 */
+/*	Virtools SDK 														 */
+/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
 /*************************************************************************/
 #ifndef CKOBJECTARRAY_H
 #define CKOBJECTARRAY_H "$Id:$"
 
 #include "CKObject.h"
 
-
 typedef int (*OBJECTARRAYCMPFCT)(CKObject *elem1, CKObject *elem2);
-
 
 /********************************************************************************
 {filename:CKObjectArray}
@@ -21,7 +19,7 @@ Name: CKObjectArray
 
 Summary: Array of CKObject instances
 Remarks:
-+ This class is provided for compatibilty reasons and should not be used except for 
++ This class is provided for compatibilty reasons and should not be used except for
 methods that require it explicitely. Use XObjectArray or XObjectPointerArray instead.
 
 + Provides utilities for storing, retrieving, iterating arrays of instances of
@@ -42,19 +40,19 @@ instead of using Next.
 
 Do not use constructions like:
 
-			array->Reset();
-			while(tmp = array->Next())
-			{
-				[...use tmp ...]
-			}
+            array->Reset();
+            while(tmp = array->Next())
+            {
+                [...use tmp ...]
+            }
 
 But use:
 
-			for(array->Reset() ;!array->EndOfList(); array->Next())
-			{
-				tmp = array->GetData();
-				[.. check and use tmp ...]
-			}
+            for(array->Reset() ;!array->EndOfList(); array->Next())
+            {
+                tmp = array->GetData();
+                [.. check and use tmp ...]
+            }
 
 
 
@@ -64,98 +62,92 @@ But use:
 CKObjectArray must be  created and deleted through the global functions CreateCKObjectArray and DeleteCKObjectArray
 See also: CreateCKObjectArray, DeleteCKObjectArray
 *************************************************/
-class CKObjectArray{
-public :
-//----------------------------------------------------
-// Return Elements count
-	int GetCount();  
-	int GetCurrentPos();  
+class CKObjectArray
+{
+public:
+    //----------------------------------------------------
+    // Return Elements count
+    int GetCount();
+    int GetCurrentPos();
 
-//----------------------------------------------------
-// Return current element
-	CKObject *GetData(CKContext* context); 
-CK_ID	  GetDataId(); 
+    //----------------------------------------------------
+    // Return current element
+    CKObject *GetData(CKContext *context);
+    CK_ID GetDataId();
 
-CK_ID	  SetDataId(CK_ID id); 
-CK_ID     SetData(CKObject* obj); 
+    CK_ID SetDataId(CK_ID id);
+    CK_ID SetData(CKObject *obj);
 
-//----------------------------------------------------
-// Reset to start of list 
-	void Reset(); 
+    //----------------------------------------------------
+    // Reset to start of list
+    void Reset();
 
-//----------------------------------------------------
-// Seek Functions, modifies the list current position pointer
-	CKBOOL PtrSeek(CKObject *); 
-	CKBOOL IDSeek(CK_ID id);
-	CKBOOL PositionSeek(int Pos);
-	CK_ID  Seek(int Pos);
+    //----------------------------------------------------
+    // Seek Functions, modifies the list current position pointer
+    CKBOOL PtrSeek(CKObject *);
+    CKBOOL IDSeek(CK_ID id);
+    CKBOOL PositionSeek(int Pos);
+    CK_ID Seek(int Pos);
 
-//-----------------------------------------------------
-// Iterating
-	void Next();
-	void Previous();
-int GetPosition(CKObject *o);
-int GetPosition(CK_ID id);
+    //-----------------------------------------------------
+    // Iterating
+    void Next();
+    void Previous();
+    int GetPosition(CKObject *o);
+    int GetPosition(CK_ID id);
 
-//------------------------------------------------------
-// Find Functions, doesn't modify the list current position
-// Check if an object belongs to the list
-	CK_ID    PtrFind(CKObject *);
-	CK_ID	 IDFind(CK_ID id);
-	CK_ID	 PositionFind(int pos);
+    //------------------------------------------------------
+    // Find Functions, doesn't modify the list current position
+    // Check if an object belongs to the list
+    CK_ID PtrFind(CKObject *);
+    CK_ID IDFind(CK_ID id);
+    CK_ID PositionFind(int pos);
 
+    //----------------------------------------------------
+    // Insertion
+    void InsertFront(CKObject *obj);
+    void InsertRear(CKObject *obj);
+    void InsertAt(CKObject *obj);
+    CKBOOL AddIfNotHere(CKObject *obj);
+    CKBOOL AddIfNotHereSorted(CKObject *obj, OBJECTARRAYCMPFCT CmpFct, CKContext *context);
 
-//----------------------------------------------------
-// Insertion
-	void InsertFront(CKObject *obj);
-	void InsertRear(CKObject *obj);
-	void InsertAt(CKObject *obj);
-	CKBOOL AddIfNotHere(CKObject *obj);
-	CKBOOL AddIfNotHereSorted(CKObject *obj,OBJECTARRAYCMPFCT CmpFct,CKContext* context);
+    void InsertFront(CK_ID id);
+    void InsertRear(CK_ID id);
+    void InsertAt(CK_ID id);
+    CKBOOL AddIfNotHere(CK_ID id);
+    CKBOOL AddIfNotHereSorted(CK_ID id, OBJECTARRAYCMPFCT CmpFct, CKContext *context);
 
-	void InsertFront(CK_ID id);
-	void InsertRear(CK_ID id);
-	void InsertAt(CK_ID id);
-	CKBOOL AddIfNotHere(CK_ID id);
-	CKBOOL AddIfNotHereSorted(CK_ID id,OBJECTARRAYCMPFCT CmpFct,CKContext* context);
+    CKERROR Append(CKObjectArray *array);
 
-	CKERROR	Append(CKObjectArray *array);
+    //----------------------------------------------------
+    // Deletion
+    CK_ID RemoveFront();
+    CK_ID RemoveRear();
+    CK_ID RemoveAt();
+    CKBOOL Remove(CKObject *);
+    CKBOOL Remove(CK_ID id);
 
-//----------------------------------------------------
-// Deletion
-	CK_ID RemoveFront();
-	CK_ID RemoveRear();
-	CK_ID RemoveAt();
-	CKBOOL Remove(CKObject *);
-	CKBOOL Remove(CK_ID id);
+    //---------------------------------------------------
+    // Clears the list
+    void Clear();
 
-//---------------------------------------------------
-// Clears the list
-	void Clear();	
+    //---------------------------------------------------
+    // Checks if we are at end of list
+    CKBOOL EndOfList();
+    CKBOOL ListEmpty();
 
-//---------------------------------------------------
-// Checks if we are at end of list
-	CKBOOL EndOfList(); 
-	CKBOOL ListEmpty(); 
+    void SwapCurrentWithNext();
+    void SwapCurrentWithPrevious();
 
-	void SwapCurrentWithNext();
-	void SwapCurrentWithPrevious();
+    //---------------------------------------------------
+    // Checks and removes invalidr references
+    CKBOOL Check(CKContext *context);
 
-//---------------------------------------------------
-// Checks and removes invalidr references
-	CKBOOL Check(CKContext* context); 
-
-//---------------------------------------------------
-// Sorting and SortedInsertion (Bubble Sort)
-	void Sort(OBJECTARRAYCMPFCT CmpFct,CKContext* context); 
-	void InsertSorted(CKObject *o,OBJECTARRAYCMPFCT CmpFct,CKContext* context); 
-	void InsertSorted(CK_ID id,OBJECTARRAYCMPFCT CmpFct,CKContext* context); 
-
-
-
-	
+    //---------------------------------------------------
+    // Sorting and SortedInsertion (Bubble Sort)
+    void Sort(OBJECTARRAYCMPFCT CmpFct, CKContext *context);
+    void InsertSorted(CKObject *o, OBJECTARRAYCMPFCT CmpFct, CKContext *context);
+    void InsertSorted(CK_ID id, OBJECTARRAYCMPFCT CmpFct, CKContext *context);
 };
-
-
 
 #endif

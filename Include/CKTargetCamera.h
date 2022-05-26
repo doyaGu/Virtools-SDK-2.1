@@ -1,9 +1,9 @@
 /*************************************************************************/
 /*	File : CKTargetCamera.h			 				 					 */
-/*	Author :  Nicolas Galinotti											 */	
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */	
+/*	Author :  Nicolas Galinotti											 */
+/*																		 */
+/*	Virtools SDK 														 */
+/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
 /*************************************************************************/
 #ifndef CKTARGETCAMERA_H
 #define CKTARGETCAMERA_H "$Id:$"
@@ -24,28 +24,27 @@ The class id of CKCamera is CKCID_TARGETCAMERA.
 
 
 
-See also: 
+See also:
 *************************************************/
-class CKTargetCamera : public CKCamera {
-public:
-
-/*************************************************
-Summary: Dynamic cast operator. 
-Arguments:
-	iO: A pointer to a CKObject to cast.
-Return Value:
-	iO casted to the appropriate class or NULL if iO is not from the required class .
-Example:
-	  CKObject* Object;
-	  CKAnimation* anim = CKAnimation::Cast(Object);
-Remarks:
-
-*************************************************/
-static CKTargetCamera* Cast(CKObject* iO) 
+class CKTargetCamera : public CKCamera
 {
-	return CKIsChildClassOf(iO,CKCID_TARGETCAMERA)?(CKTargetCamera*)iO:NULL;
-}
+public:
+    /*************************************************
+    Summary: Dynamic cast operator.
+    Arguments:
+        iO: A pointer to a CKObject to cast.
+    Return Value:
+        iO casted to the appropriate class or NULL if iO is not from the required class .
+    Example:
+          CKObject* Object;
+          CKAnimation* anim = CKAnimation::Cast(Object);
+    Remarks:
 
+    *************************************************/
+    static CKTargetCamera *Cast(CKObject *iO)
+    {
+        return CKIsChildClassOf(iO, CKCID_TARGETCAMERA) ? (CKTargetCamera *)iO : NULL;
+    }
 };
 
 #endif

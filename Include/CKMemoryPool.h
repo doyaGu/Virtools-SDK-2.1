@@ -3,7 +3,8 @@
 
 #include <CKContext.h>
 
-class CKMemoryPool {
+class CKMemoryPool
+{
 public:
     CKMemoryPool(CKContext *Context, size_t ByteCount = 0);
     ~CKMemoryPool();

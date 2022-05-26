@@ -1,13 +1,12 @@
 /*************************************************************************/
 /*	File : CKError.h				 				 					 */
-/*	List of possible Error Codes										 */	
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 1999, All Rights Reserved.					 */	
+/*	List of possible Error Codes										 */
+/*																		 */
+/*	Virtools SDK 														 */
+/*	Copyright (c) Virtools 1999, All Rights Reserved.					 */
 /*************************************************************************/
 #ifndef CKERROR_H
 #define CKERROR_H "$Id:$"
-
 
 CKSTRING CKErrorToString(CKERROR err);
 
@@ -223,5 +222,4 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_INVALIDANIMATION						-123
 
-
-#endif 
+#endif

@@ -1,12 +1,12 @@
 /*************************************************************************/
 /*	File : CKDependenciesConstants.h									 */
-/*	Author:  Romain Sididris											 */	
-/*																		 */	
-/*	Default Delete,Copy,Replace and Save options for Virtools Classes	 */	
-/*	dependencies														 */	
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */	
+/*	Author:  Romain Sididris											 */
+/*																		 */
+/*	Default Delete,Copy,Replace and Save options for Virtools Classes	 */
+/*	dependencies														 */
+/*																		 */
+/*	Virtools SDK 														 */
+/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
 /*************************************************************************/
 #ifndef _DEPENDENCIESCONSTANTS_H
 #define _DEPENDENCIESCONSTANTS_H

@@ -1,12 +1,11 @@
 /*************************************************************************/
 /*	File : CKParameterManager.h											 */
-/*	Author :  Romain Sididris											 */	
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */	
+/*	Author :  Romain Sididris											 */
+/*																		 */
+/*	Virtools SDK 														 */
+/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
 /*************************************************************************/
 #ifndef CKPARAMETERMANAGER_H
-
 #define CKPARAMETERMANAGER_H "$Id:$"
 
 #include "CKParameterIn.h"
@@ -15,22 +14,20 @@
 #include "CKContext.h"
 
 /********************************************************
- Kept for compatibility issues : On macintosh the 
+ Kept for compatibility issues : On macintosh the
  const CKGUID& must be used to conform to Codewarrior, On PC
- we do not need to to this (and  must not to keep CK2 compatible 
+ we do not need to to this (and  must not to keep CK2 compatible
  with previously created DLLs) {secret}
 *********************************************************/
-#ifdef macintosh 
-	#define  CKGUIDCONSTREF const CKGUID&	
-	#define  CKGUIDREF		const CKGUID&	
-#else 
-	#define  CKGUIDCONSTREF CKGUID			
-	#define  CKGUIDREF		CKGUID&			
+#ifdef macintosh
+#define CKGUIDCONSTREF const CKGUID &
+#define CKGUIDREF const CKGUID &
+#else
+#define CKGUIDCONSTREF CKGUID
+#define CKGUIDREF CKGUID &
 #endif
 
-
-typedef XHashTable<int,CKGUID>		XHashGuidToType;		
-
+typedef XHashTable<int, CKGUID> XHashGuidToType;
 
 /***********************************************************
 Summary: Helper class to access a parameter of type structure.
@@ -45,12 +42,12 @@ method to easily access a structure members.
 
 {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
-		  typedef struct MyStructure 
-		  {
-			  float		  Priority;
-			  VxVector	  Position;
-			  CK_ID		  ObstacleId;			
-		  } MyStructure;
+          typedef struct MyStructure
+          {
+              float		  Priority;
+              VxVector	  Position;
+              CK_ID		  ObstacleId;
+          } MyStructure;
 
 {html:</td></tr></table>}
 
@@ -58,8 +55,8 @@ is equivalent to declare
 
 {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
-		#define  CKPGUID_MYSTRUCT CKGUID(0x4a893652,0x76e72d5c)
-		ParameterManager->RegisterNewStructure(CKPGUID_MYSTRUCT,"MyStructure","Priority,Position,Obstacle",CKPGUID_FLOAT,CKPGUID_VECTOR,CKPGUID_3DENTITY); 
+        #define  CKPGUID_MYSTRUCT CKGUID(0x4a893652,0x76e72d5c)
+        ParameterManager->RegisterNewStructure(CKPGUID_MYSTRUCT,"MyStructure","Priority,Position,Obstacle",CKPGUID_FLOAT,CKPGUID_VECTOR,CKPGUID_3DENTITY);
 
 {html:</td></tr></table>}
 
@@ -67,12 +64,12 @@ then the CKStructHelper can help to have a description of this structure later :
 
 {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
-		CKStructHelper	StructDesc(Context,CKPGUID_MYSTRUCT);
-		int Count = StructDesc.GetMemberCount();
-		for (int i=0;i<Count;++i) {
-			StructDesc.GetMemberName(i);  // Priority,Position,Obstacle
-			StructDesc.GetMemberGUID(i);  // CKPGUID_FLOAT,CKPGUID_VECTOR,CKPGUID_3DENTITY
-		}
+        CKStructHelper	StructDesc(Context,CKPGUID_MYSTRUCT);
+        int Count = StructDesc.GetMemberCount();
+        for (int i=0;i<Count;++i) {
+            StructDesc.GetMemberName(i);  // Priority,Position,Obstacle
+            StructDesc.GetMemberGUID(i);  // CKPGUID_FLOAT,CKPGUID_VECTOR,CKPGUID_3DENTITY
+        }
 
 {html:</td></tr></table>}
 
@@ -80,77 +77,75 @@ or it can be use to access the sub-members of a parameter of the type CKPGUID_MY
 
 {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
-		CKStructParameter MyStruct(param);
+        CKStructParameter MyStruct(param);
 
-		//--- Access sub-members
-		float		  Priority;
-		VxVector	  Position;
-		CK_ID		  ObstacleId;
+        //--- Access sub-members
+        float		  Priority;
+        VxVector	  Position;
+        CK_ID		  ObstacleId;
 
-		MyStruct[0]->GetValue(&Priority);
-		MyStruct[1]->GetValue(&Position);
-		MyStruct[2]->GetValue(&ObstacleId);
+        MyStruct[0]->GetValue(&Priority);
+        MyStruct[1]->GetValue(&Position);
+        MyStruct[2]->GetValue(&ObstacleId);
 
 {html:</td></tr></table>}
 
 See Also: RegisterNewStructure,
 ************************************************************/
-class CKStructHelper {
+class CKStructHelper
+{
 public:
-	CKStructHelper(CKParameter* Param);
-	CKStructHelper(CKContext* ctx,CKGUID PGuid,CK_ID* Data = NULL);
-	CKStructHelper(CKContext* ctx,CKParameterType PType,CK_ID* Data = NULL);
+    CKStructHelper(CKParameter *Param);
+    CKStructHelper(CKContext *ctx, CKGUID PGuid, CK_ID *Data = NULL);
+    CKStructHelper(CKContext *ctx, CKParameterType PType, CK_ID *Data = NULL);
 
-//------- Members description (These methods do not require
-// Data pointer to be valid )
-	char*			GetMemberName(int Pos);
-	CKGUID			GetMemberGUID(int Pos);
-	int				GetMemberCount();
+    //------- Members description (These methods do not require
+    // Data pointer to be valid )
+    char *GetMemberName(int Pos);
+    CKGUID GetMemberGUID(int Pos);
+    int GetMemberCount();
 
-/************************************************************
-Summary: Returns a member of this structure as a parameter
-Arguments:
-	i: Index of the member to return.
-Return Value:
-	A pointer to a CKParameter that holds the ith member.
-Remarks:
-This method does not perform any check concerning the validty of the given index, it is
-the user responsability to ensure it is below GetMemberCount
-See also:GetMemberGUID,GetMemberName,GetMemberCount
-*****************************************************************************/
-CKParameter* operator[] (int i){return (CKParameter*)m_Context->GetObject(m_SubIDS[i]);}
+    /************************************************************
+    Summary: Returns a member of this structure as a parameter
+    Arguments:
+        i: Index of the member to return.
+    Return Value:
+        A pointer to a CKParameter that holds the ith member.
+    Remarks:
+    This method does not perform any check concerning the validty of the given index, it is
+    the user responsability to ensure it is below GetMemberCount
+    See also:GetMemberGUID,GetMemberName,GetMemberCount
+    *****************************************************************************/
+    CKParameter *operator[](int i) { return (CKParameter *)m_Context->GetObject(m_SubIDS[i]); }
 
 protected:
-	CKContext*				m_Context;
-	CKStructStruct*			m_StructDescription;					
-	CK_ID*					m_SubIDS;
+    CKContext *m_Context;
+    CKStructStruct *m_StructDescription;
+    CK_ID *m_SubIDS;
 };
-
 
 /*************************************************
 Summary: Description of an available parametric operation.
 
 Remarks:
-	+  The CKParameterManager::GetAvailableOperationsDesc fills an array
-	of this structure according to search criteria. The 4 CKGUID defines the
-	parameter operation and the Fct member is the function the engine will
-	call to process the operation.
+    +  The CKParameterManager::GetAvailableOperationsDesc fills an array
+    of this structure according to search criteria. The 4 CKGUID defines the
+    parameter operation and the Fct member is the function the engine will
+    call to process the operation.
 See also: CKParameterManager::GetAvailableOperationsDesc
 *************************************************/
-typedef struct CKOperationDesc {
-								CKGUID OpGuid;				// Operation GUID
-								CKGUID P1Guid;				// Input Parameter 1 GUID
-								CKGUID P2Guid;				// Input Parameter 2 GUID
-								CKGUID ResGuid;				// Output Parameter GUID
-								CK_PARAMETEROPERATION Fct;	// Function to call to process the operation.
-								} CKOperationDesc;
-
-
+typedef struct CKOperationDesc
+{
+    CKGUID OpGuid;			   // Operation GUID
+    CKGUID P1Guid;			   // Input Parameter 1 GUID
+    CKGUID P2Guid;			   // Input Parameter 2 GUID
+    CKGUID ResGuid;			   // Output Parameter GUID
+    CK_PARAMETEROPERATION Fct; // Function to call to process the operation.
+} CKOperationDesc;
 
 struct TreeCell;
 
 struct OperationCell;
-
 
 /************************************************************************
 Name: CKParameterManager
@@ -174,140 +169,135 @@ cases the name argument is provided as a conveniency for debugging and display p
 
 See Also: CKParameterOperation, CKParameter,CKParameterIn, CKParameterOut,ParameterOperation Types,Pre-Registred Parameter Types
 ********************************************/
-class CKParameterManager : public CKBaseManager {
-friend class CKParameter;
-public :
+class CKParameterManager : public CKBaseManager
+{
+    friend class CKParameter;
 
-//-----------------------------------------------------------------------
-// Parameter Types registration
-CKERROR RegisterParameterType(CKParameterTypeDesc *param_type);
-CKERROR UnRegisterParameterType(CKGUIDCONSTREF guid);
-CKParameterTypeDesc* GetParameterTypeDescription(int type);
-CKParameterTypeDesc* GetParameterTypeDescription(CKGUIDCONSTREF guid);
-int	GetParameterSize(CKParameterType type);
-int GetParameterTypesCount();
+public:
+    //-----------------------------------------------------------------------
+    // Parameter Types registration
+    CKERROR RegisterParameterType(CKParameterTypeDesc *param_type);
+    CKERROR UnRegisterParameterType(CKGUIDCONSTREF guid);
+    CKParameterTypeDesc *GetParameterTypeDescription(int type);
+    CKParameterTypeDesc *GetParameterTypeDescription(CKGUIDCONSTREF guid);
+    int GetParameterSize(CKParameterType type);
+    int GetParameterTypesCount();
 
-//-----------------------------------------------------------------------
-// Parameter Types <=> Parameter Type Name <=> GUID conversion functions
-CKParameterType	ParameterGuidToType(CKGUIDCONSTREF guid); 
-CKSTRING		ParameterGuidToName(CKGUIDCONSTREF guid);
-CKGUID			ParameterTypeToGuid(CKParameterType type);
-CKSTRING		ParameterTypeToName(CKParameterType type);
-CKGUID			ParameterNameToGuid(CKSTRING name);
-CKParameterType	ParameterNameToType(CKSTRING name);
+    //-----------------------------------------------------------------------
+    // Parameter Types <=> Parameter Type Name <=> GUID conversion functions
+    CKParameterType ParameterGuidToType(CKGUIDCONSTREF guid);
+    CKSTRING ParameterGuidToName(CKGUIDCONSTREF guid);
+    CKGUID ParameterTypeToGuid(CKParameterType type);
+    CKSTRING ParameterTypeToName(CKParameterType type);
+    CKGUID ParameterNameToGuid(CKSTRING name);
+    CKParameterType ParameterNameToType(CKSTRING name);
 
-///----------------------------------------------------------------------
-// Derivated types functions
-CKBOOL		IsDerivedFrom(CKGUIDCONSTREF guid1,CKGUIDCONSTREF parent);
-CKBOOL		IsDerivedFrom(CKParameterType child,CKParameterType parent);
-CKBOOL		IsTypeCompatible(CKGUIDCONSTREF guid1,CKGUIDCONSTREF guid2);
-CKBOOL		IsTypeCompatible(CKParameterType Ptype1,CKParameterType Ptype2);
+    ///----------------------------------------------------------------------
+    // Derivated types functions
+    CKBOOL IsDerivedFrom(CKGUIDCONSTREF guid1, CKGUIDCONSTREF parent);
+    CKBOOL IsDerivedFrom(CKParameterType child, CKParameterType parent);
+    CKBOOL IsTypeCompatible(CKGUIDCONSTREF guid1, CKGUIDCONSTREF guid2);
+    CKBOOL IsTypeCompatible(CKParameterType Ptype1, CKParameterType Ptype2);
 
-//-----------------------------------------------------------------------
-// Parameter Type to Class ID conversions functions
-CK_CLASSID TypeToClassID(CKParameterType type);
-CK_CLASSID GuidToClassID(CKGUIDCONSTREF guid);
+    //-----------------------------------------------------------------------
+    // Parameter Type to Class ID conversions functions
+    CK_CLASSID TypeToClassID(CKParameterType type);
+    CK_CLASSID GuidToClassID(CKGUIDCONSTREF guid);
 
-CKParameterType	ClassIDToType(CK_CLASSID cid);
-CKGUID			ClassIDToGuid(CK_CLASSID cid);
+    CKParameterType ClassIDToType(CK_CLASSID cid);
+    CKGUID ClassIDToGuid(CK_CLASSID cid);
 
-//-----------------------------------------------------------------------
-// Special Types : Flags,enums and Structures
-CKERROR RegisterNewFlags(CKGUIDCONSTREF FlagsGuid,CKSTRING FlagsName,CKSTRING FlagsData);
-CKERROR RegisterNewEnum(CKGUIDCONSTREF EnumGuid,CKSTRING EnumName,CKSTRING EnumData);
-CKERROR ChangeEnumDeclaration(CKGUIDCONSTREF EnumGuid,CKSTRING EnumData);
-CKERROR ChangeFlagsDeclaration(CKGUIDCONSTREF FlagsGuid,CKSTRING FlagsData);
-CKERROR RegisterNewStructure(CKGUIDCONSTREF StructGuid,CKSTRING StructName,CKSTRING Structdata,...);
-CKERROR RegisterNewStructure(CKGUIDCONSTREF StructGuid,CKSTRING StructName,CKSTRING StructData,XArray<CKGUID>& ListGuid);
+    //-----------------------------------------------------------------------
+    // Special Types : Flags,enums and Structures
+    CKERROR RegisterNewFlags(CKGUIDCONSTREF FlagsGuid, CKSTRING FlagsName, CKSTRING FlagsData);
+    CKERROR RegisterNewEnum(CKGUIDCONSTREF EnumGuid, CKSTRING EnumName, CKSTRING EnumData);
+    CKERROR ChangeEnumDeclaration(CKGUIDCONSTREF EnumGuid, CKSTRING EnumData);
+    CKERROR ChangeFlagsDeclaration(CKGUIDCONSTREF FlagsGuid, CKSTRING FlagsData);
+    CKERROR RegisterNewStructure(CKGUIDCONSTREF StructGuid, CKSTRING StructName, CKSTRING Structdata, ...);
+    CKERROR RegisterNewStructure(CKGUIDCONSTREF StructGuid, CKSTRING StructName, CKSTRING StructData, XArray<CKGUID> &ListGuid);
 
-int GetNbFlagDefined();
-int GetNbEnumDefined();
-int GetNbStructDefined();
-CKFlagsStruct*  GetFlagsDescByType(CKParameterType pType);
-CKEnumStruct*   GetEnumDescByType(CKParameterType pType);
-CKStructStruct* GetStructDescByType(CKParameterType pType);
+    int GetNbFlagDefined();
+    int GetNbEnumDefined();
+    int GetNbStructDefined();
+    CKFlagsStruct *GetFlagsDescByType(CKParameterType pType);
+    CKEnumStruct *GetEnumDescByType(CKParameterType pType);
+    CKStructStruct *GetStructDescByType(CKParameterType pType);
 
-//------------ Parameter Operations -------------------------------------//
+    //------------ Parameter Operations -------------------------------------//
 
-//-----------------------------------------------------------------------
-// Operation Family Registration
-CKOperationType	RegisterOperationType(CKGUIDCONSTREF OpCode,CKSTRING name);
-CKERROR UnRegisterOperationType(CKGUIDCONSTREF opguid);
-CKERROR UnRegisterOperationType(CKOperationType opcode);
+    //-----------------------------------------------------------------------
+    // Operation Family Registration
+    CKOperationType RegisterOperationType(CKGUIDCONSTREF OpCode, CKSTRING name);
+    CKERROR UnRegisterOperationType(CKGUIDCONSTREF opguid);
+    CKERROR UnRegisterOperationType(CKOperationType opcode);
 
-//-----------------------------------------------------------------------
-// Operation function acces
-CKERROR RegisterOperationFunction(CKGUIDREF operation,CKGUIDREF type_paramres,CKGUIDREF type_param1,CKGUIDREF type_param2,CK_PARAMETEROPERATION op);
+    //-----------------------------------------------------------------------
+    // Operation function acces
+    CKERROR RegisterOperationFunction(CKGUIDREF operation, CKGUIDREF type_paramres, CKGUIDREF type_param1, CKGUIDREF type_param2, CK_PARAMETEROPERATION op);
 
-CK_PARAMETEROPERATION GetOperationFunction(CKGUIDREF operation,CKGUIDREF type_paramres,CKGUIDREF type_param1,CKGUIDREF type_param2);
-CKERROR UnRegisterOperationFunction(CKGUIDREF operation,CKGUIDREF type_paramres,CKGUIDREF type_param1,CKGUIDREF type_param2);
+    CK_PARAMETEROPERATION GetOperationFunction(CKGUIDREF operation, CKGUIDREF type_paramres, CKGUIDREF type_param1, CKGUIDREF type_param2);
+    CKERROR UnRegisterOperationFunction(CKGUIDREF operation, CKGUIDREF type_paramres, CKGUIDREF type_param1, CKGUIDREF type_param2);
 
-//-----------------------------------------------------------------------
-// operation type conversion functions : Name <-> GUID <-> internal code for operation
-CKGUID		OperationCodeToGuid(CKOperationType type);
-CKSTRING	OperationCodeToName(CKOperationType type);
-CKOperationType		OperationGuidToCode(CKGUIDCONSTREF guid);
-CKSTRING	OperationGuidToName(CKGUIDCONSTREF guid);
-CKGUID		OperationNameToGuid(CKSTRING name);
-CKOperationType		OperationNameToCode(CKSTRING name);
+    //-----------------------------------------------------------------------
+    // operation type conversion functions : Name <-> GUID <-> internal code for operation
+    CKGUID OperationCodeToGuid(CKOperationType type);
+    CKSTRING OperationCodeToName(CKOperationType type);
+    CKOperationType OperationGuidToCode(CKGUIDCONSTREF guid);
+    CKSTRING OperationGuidToName(CKGUIDCONSTREF guid);
+    CKGUID OperationNameToGuid(CKSTRING name);
+    CKOperationType OperationNameToCode(CKSTRING name);
 
+    int GetAvailableOperationsDesc(const CKGUID &opGuid,
+                                   CKParameterOut *res,
+                                   CKParameterIn *p1,
+                                   CKParameterIn *p2,
+                                   CKOperationDesc *list);
 
-int GetAvailableOperationsDesc(const CKGUID &opGuid,
-									  CKParameterOut *res,
-										CKParameterIn *p1,
-										   CKParameterIn *p2,
-											CKOperationDesc *list);
+    int GetParameterOperationCount();
 
-int GetParameterOperationCount();
+    CKBOOL IsParameterTypeToBeShown(CKParameterType type);
 
+    CKBOOL IsParameterTypeToBeShown(CKGUIDCONSTREF guid);
 
-CKBOOL IsParameterTypeToBeShown(CKParameterType type);
+    CKParameterManager(CKContext *Context);
 
-CKBOOL IsParameterTypeToBeShown(CKGUIDCONSTREF guid);
+    ~CKParameterManager();
 
+    void UpdateParameterEnum();
 
-	CKParameterManager(CKContext *Context);
+    CKBOOL m_ParameterTypeEnumUpToDate;
 
-	~CKParameterManager();
+protected:
+    XArray<CKParameterTypeDesc *> m_RegistredTypes;
 
-	void				UpdateParameterEnum();
+    int m_NbOperations, m_NbAllocatedOperations;
+    OperationCell *m_OperationTree;
 
-	CKBOOL				m_ParameterTypeEnumUpToDate;
-protected :
-	XArray<CKParameterTypeDesc*> m_RegistredTypes;
+    XHashGuidToType m_ParamGuids;
+    XHashGuidToType m_OpGuids;
 
-	int					m_NbOperations,m_NbAllocatedOperations;
-	OperationCell*		m_OperationTree;
+    BOOL m_DerivationMasksUpTodate;
 
-	XHashGuidToType		m_ParamGuids;
-	XHashGuidToType		m_OpGuids;
+    int m_NbFlagsDefined;
+    CKFlagsStruct *m_Flags;
+    int m_NbStructDefined;
+    CKStructStruct *m_Structs;
+    int m_NbEnumsDefined;
+    CKEnumStruct *m_Enums;
 
-	BOOL				m_DerivationMasksUpTodate;
-
-	int					m_NbFlagsDefined;
-	CKFlagsStruct*		m_Flags;
-	int					m_NbStructDefined;
-	CKStructStruct*		m_Structs;
-	int					m_NbEnumsDefined;
-	CKEnumStruct*		m_Enums;
-
-	CKBOOL CheckParamTypeValidity(CKParameterType type);
-	CKBOOL CheckOpCodeValidity(CKOperationType type);
+    CKBOOL CheckParamTypeValidity(CKParameterType type);
+    CKBOOL CheckOpCodeValidity(CKOperationType type);
 
 private:
-	CKBOOL	GetParameterGuidParentGuid(CKGUID child,CKGUID& parent);
-	void	UpdateDerivationTables();
-	void	RecurseDeleteParam(TreeCell *cell,CKGUID param);
-	int		DichotomicSearch(int start,int end,TreeCell *tab,CKGUID key);
-	void	RecurseDelete(TreeCell *cell);
+    CKBOOL GetParameterGuidParentGuid(CKGUID child, CKGUID &parent);
+    void UpdateDerivationTables();
+    void RecurseDeleteParam(TreeCell *cell, CKGUID param);
+    int DichotomicSearch(int start, int end, TreeCell *tab, CKGUID key);
+    void RecurseDelete(TreeCell *cell);
 
-	CKBOOL IsDerivedFromIntern(int child,int parent);
-	CKBOOL RemoveAllParameterTypes();
-	CKBOOL RemoveAllOperations();
-
-
+    CKBOOL IsDerivedFromIntern(int child, int parent);
+    CKBOOL RemoveAllParameterTypes();
+    CKBOOL RemoveAllOperations();
 };
-
-
 
 #endif

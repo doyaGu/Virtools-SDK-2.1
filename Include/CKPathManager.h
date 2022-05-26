@@ -1,40 +1,38 @@
 /*************************************************************************/
 /*	File : CKPathManager.h			 				 					 */
-/*	Author :  Nicolas Galinotti											 */	
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */	
+/*	Author :  Nicolas Galinotti											 */
+/*																		 */
+/*	Virtools SDK 														 */
+/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
 /*************************************************************************/
 #ifndef CKPATHMANAGER_H
 #define CKPATHMANAGER_H "$Id:$"
+
+#include "XClassArray.h"
+#include "XString.h"
 
 /****************************************************
 {filename:CK_PATHMANAGER_CATEGORY}
 Summary: Enumeration of pre-registred path categories
 
-Remarks 
-	+ The path manager pre-registers 3 categories of path (sound,bitmap and misc. data).
+Remarks
+    + The path manager pre-registers 3 categories of path (sound,bitmap and misc. data).
 See Also: CKPathManager
 *************************************************/
-typedef enum CK_PATHMANAGER_CATEGORY {
-	BITMAP_PATH_IDX		=0,	// Category index for bitmaps paths
-	DATA_PATH_IDX		=1,	// Category index for datas paths
-	SOUND_PATH_IDX		=2	// Category index for sounds paths
+typedef enum CK_PATHMANAGER_CATEGORY
+{
+    BITMAP_PATH_IDX = 0, // Category index for bitmaps paths
+    DATA_PATH_IDX = 1,	 // Category index for datas paths
+    SOUND_PATH_IDX = 2	 // Category index for sounds paths
 } CK_PATHMANAGER_CATEGORY;
-
-#include "XClassArray.h"
-#include "XString.h"
-
 
 typedef XClassArray<XString> CKPATHENTRYVECTOR;
 
-
 typedef struct CKPATHCATEGORY
 {
-	XString m_Name;
-	CKPATHENTRYVECTOR m_Entries;
+    XString m_Name;
+    CKPATHENTRYVECTOR m_Entries;
 } CKPATHCATEGORY;
-
 
 typedef XClassArray<CKPATHCATEGORY> CKPATHCATEGORYVECTOR;
 
@@ -53,102 +51,96 @@ new categories for application specific data can be defined.
 + At startup (creation of the CKContext) , the path manager always registers
 three default category:
 
-		"Bitmap Paths"	: Index 0
-		"Data Paths"	: Index 1
-		"Sound Paths"	: Index 2
+        "Bitmap Paths"	: Index 0
+        "Data Paths"	: Index 1
+        "Sound Paths"	: Index 2
 
 
 See Also:CKContext::GetPathManager
 ****************************************************/
-class CKPathManager : public CKBaseManager  
+class CKPathManager : public CKBaseManager
 {
 public:
- 
-	
-	CKPathManager(CKContext *Context);
-	
-	virtual ~CKPathManager();
+    CKPathManager(CKContext *Context);
 
-// Category Functions
+    virtual ~CKPathManager();
 
-	// Adds a category, category name must be unique
-	int AddCategory(XString& cat);	
-	// Removes a category using its name or its index in category list
-	CKERROR RemoveCategory(int catIdx);
+    // Category Functions
 
-	// Gets the number of categories
-	int GetCategoryCount();
+    // Adds a category, category name must be unique
+    int AddCategory(XString &cat);
+    // Removes a category using its name or its index in category list
+    CKERROR RemoveCategory(int catIdx);
 
-	// Gets the category name at specified index
-	CKERROR GetCategoryName(int catIdx,XString& catName);
+    // Gets the number of categories
+    int GetCategoryCount();
 
-	// Gets the category Index in List
-	int GetCategoryIndex(XString& cat);
+    // Gets the category name at specified index
+    CKERROR GetCategoryName(int catIdx, XString &catName);
 
-	// Renames a category 
-	CKERROR RenameCategory(int catIdx, XString& newName);
+    // Gets the category Index in List
+    int GetCategoryIndex(XString &cat);
 
-// Paths Functions
-	
-	// Adds a path to a category
-	int AddPath(int catIdx, XString& path);
-	// Removes a path in a category
-	CKERROR RemovePath(int catIdx, int pathIdx);
+    // Renames a category
+    CKERROR RenameCategory(int catIdx, XString &newName);
 
-	// Swap paths
-	CKERROR SwapPaths(int catIdx, int pathIdx1, int pathIdx2);
+    // Paths Functions
 
-	// Gets the path count for a category
-	int GetPathCount(int catIdx);
-	
-	// Gets the path at index pathIdx for a category
-	CKERROR GetPathName(int catIdx, int pathIdx,XString& path);
-	
-	// Gets the path at index pathIdx for a category
-	int GetPathIndex(int catIdx, XString& path);
-	
-	// Changes a path in a category
-	CKERROR RenamePath(int catIdx, int pathIdx, XString& path);
+    // Adds a path to a category
+    int AddPath(int catIdx, XString &path);
+    // Removes a path in a category
+    CKERROR RemovePath(int catIdx, int pathIdx);
 
-//--- Finding a file
-	
-	// Resolve File Name in the given category
-	CKERROR ResolveFileName(XString& file,int catIdx,int startIdx = -1);
+    // Swap paths
+    CKERROR SwapPaths(int catIdx, int pathIdx1, int pathIdx2);
 
+    // Gets the path count for a category
+    int GetPathCount(int catIdx);
 
-//--- Utilities
+    // Gets the path at index pathIdx for a category
+    CKERROR GetPathName(int catIdx, int pathIdx, XString &path);
 
-	// Path Type 
-	BOOL PathIsAbsolute(XString& file);
-	BOOL PathIsUNC(XString& file);
-	BOOL PathIsURL(XString& file);
-	BOOL PathIsFile(XString& file);
-	
-	// Converts '%20' characters to ' '
-	void RemoveEscapedSpace(char *str);
+    // Gets the path at index pathIdx for a category
+    int GetPathIndex(int catIdx, XString &path);
 
-	// Converts '' characters to '%20'
-	void AddEscapedSpace(XString &str);
+    // Changes a path in a category
+    CKERROR RenamePath(int catIdx, int pathIdx, XString &path);
 
-	// Virtools tempory storage folder...
-	XString GetVirtoolsTemporaryFolder();
-	
-protected :
+    //--- Finding a file
 
-	void Clean();	
+    // Resolve File Name in the given category
+    CKERROR ResolveFileName(XString &file, int catIdx, int startIdx = -1);
 
-	// Do not use, use RemoveEscapedSpace !
-	void RemoveSpace(char *str);
+    //--- Utilities
 
-	BOOL TryOpenAbsolutePath(XString& file);
-	BOOL TryOpenFilePath(XString& file);
-	BOOL TryOpenURLPath(XString&file);
+    // Path Type
+    BOOL PathIsAbsolute(XString &file);
+    BOOL PathIsUNC(XString &file);
+    BOOL PathIsURL(XString &file);
+    BOOL PathIsFile(XString &file);
 
-	
-	CKPATHCATEGORYVECTOR	m_Categories;
-	XString					m_TemporaryFolder;	
-	CKBOOL					m_TemporaryFolderExist;
+    // Converts '%20' characters to ' '
+    void RemoveEscapedSpace(char *str);
 
+    // Converts '' characters to '%20'
+    void AddEscapedSpace(XString &str);
+
+    // Virtools tempory storage folder...
+    XString GetVirtoolsTemporaryFolder();
+
+protected:
+    void Clean();
+
+    // Do not use, use RemoveEscapedSpace !
+    void RemoveSpace(char *str);
+
+    BOOL TryOpenAbsolutePath(XString &file);
+    BOOL TryOpenFilePath(XString &file);
+    BOOL TryOpenURLPath(XString &file);
+
+    CKPATHCATEGORYVECTOR m_Categories;
+    XString m_TemporaryFolder;
+    CKBOOL m_TemporaryFolderExist;
 };
 
 #endif

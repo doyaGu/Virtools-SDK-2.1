@@ -1,11 +1,11 @@
 /*************************************************************************/
 /*	File : CKAll.h														 */
-/*	Main Header file : Includes all necessary files for Virtools SDK	 */	
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */	
+/*	Main Header file : Includes all necessary files for Virtools SDK	 */
+/*																		 */
+/*	Virtools SDK 														 */
+/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
 /*************************************************************************/
-#ifndef CKALL_H 
+#ifndef CKALL_H
 #define CKALL_H
 
 // Defines And Global Functions
@@ -15,7 +15,7 @@
 #include "CKContext.h"
 #include "CKInterfaceObjectManager.h"
 
-// Managers    
+// Managers
 #include "CKParameterManager.h"
 #include "CKTimeManager.h"
 #include "CKMessageManager.h"
@@ -102,29 +102,27 @@
 #include "CKDebugContext.h"
 
 #ifdef VIRTOOLS_RUNTIME_VERSION
-	#ifdef CKBEHAVIOR_VARIABLEINPUTS
-		#undef CKBEHAVIOR_VARIABLEINPUTS	
-	#endif
+#ifdef CKBEHAVIOR_VARIABLEINPUTS
+#undef CKBEHAVIOR_VARIABLEINPUTS
+#endif
 
-	#ifdef CKBEHAVIOR_VARIABLEOUTPUTS
-		#undef CKBEHAVIOR_VARIABLEOUTPUTS	
-	#endif
+#ifdef CKBEHAVIOR_VARIABLEOUTPUTS
+#undef CKBEHAVIOR_VARIABLEOUTPUTS
+#endif
 
-	#ifdef CKBEHAVIOR_VARIABLEPARAMETERINPUTS
-		#undef CKBEHAVIOR_VARIABLEPARAMETERINPUTS	
-	#endif
-	
-	#ifdef CKBEHAVIOR_VARIABLEPARAMETERINPUTS
-		#undef CKBEHAVIOR_VARIABLEPARAMETERINPUTS	
-	#endif
-	
-	#define	CKBEHAVIOR_VARIABLEINPUTS			((CK_BEHAVIOR_FLAGS)0)	
-	#define	CKBEHAVIOR_VARIABLEOUTPUTS			((CK_BEHAVIOR_FLAGS)0)	
-	#define	CKBEHAVIOR_VARIABLEPARAMETERINPUTS	((CK_BEHAVIOR_FLAGS)0)	
-	#define	CKBEHAVIOR_VARIABLEPARAMETERINPUTS	((CK_BEHAVIOR_FLAGS)0)	
+#ifdef CKBEHAVIOR_VARIABLEPARAMETERINPUTS
+#undef CKBEHAVIOR_VARIABLEPARAMETERINPUTS
+#endif
+
+#ifdef CKBEHAVIOR_VARIABLEPARAMETERINPUTS
+#undef CKBEHAVIOR_VARIABLEPARAMETERINPUTS
+#endif
+
+#define CKBEHAVIOR_VARIABLEINPUTS ((CK_BEHAVIOR_FLAGS)0)
+#define CKBEHAVIOR_VARIABLEOUTPUTS ((CK_BEHAVIOR_FLAGS)0)
+#define CKBEHAVIOR_VARIABLEPARAMETERINPUTS ((CK_BEHAVIOR_FLAGS)0)
+#define CKBEHAVIOR_VARIABLEPARAMETERINPUTS ((CK_BEHAVIOR_FLAGS)0)
 
 #endif
 
 #endif
-
-
