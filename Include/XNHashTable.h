@@ -56,7 +56,7 @@ Example:
 
 
 ************************************************/
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XNHashTableIt
 {
     typedef XNHashTableEntry<T, K> *tEntry;
@@ -186,7 +186,7 @@ Example:
 
 
 ************************************************/
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XNHashTableConstIt
 {
     typedef XNHashTableEntry<T, K> *tEntry;
@@ -281,7 +281,7 @@ inserted (TRUE) or already there (FALSE).
 
 
 ************************************************/
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XNHashTablePair
 {
 public:
@@ -315,7 +315,7 @@ must be extended and rehashed.
 
 
 ************************************************/
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XNHashTable
 {
     // Types

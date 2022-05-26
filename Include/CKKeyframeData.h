@@ -9,6 +9,8 @@
 #ifndef CKKEYFRAMEDATA_H
 #define CKKEYFRAMEDATA_H "$Id:$"
 
+#include "CKDefines.h"
+
 /*************************************************************************
 Summary : Base class for animation keys.
 
@@ -156,18 +158,18 @@ typedef CKTCBRotationKey CKTCBScaleAxisKey;
 
 //------------------- Bezier  Keys  ------------------------------//
 
-#define INTAN_MASK   0xFFFF
-#define OUTTAN_MASK  0xFFFF0000L
+#define INTAN_MASK 0xFFFF
+#define OUTTAN_MASK 0xFFFF0000L
 #define OUTTAN_SHIFT 16
 
 typedef enum CKBEZIERKEY_FLAGS
 {
-    BEZIER_KEY_AUTOSMOOTH = 0x0001,	// compute smooth tangents
-    BEZIER_KEY_LINEAR     = 0x0002,	// linear to/from pt
-    BEZIER_KEY_STEP       = 0x0004,	// step to/from pt
-    BEZIER_KEY_FAST       = 0x0008,	// compute fast (2* (keyn-keyp)) tangent
-    BEZIER_KEY_SLOW       = 0x0010,	// compute slow (0) Tangent
-    BEZIER_KEY_TANGENTS   = 0x0020,	// Use tangent value
+    BEZIER_KEY_AUTOSMOOTH = 0x0001, // compute smooth tangents
+    BEZIER_KEY_LINEAR = 0x0002,     // linear to/from pt
+    BEZIER_KEY_STEP = 0x0004,       // step to/from pt
+    BEZIER_KEY_FAST = 0x0008,       // compute fast (2* (keyn-keyp)) tangent
+    BEZIER_KEY_SLOW = 0x0010,       // compute slow (0) Tangent
+    BEZIER_KEY_TANGENTS = 0x0020,   // Use tangent value
 } CKBEZIERKEY_FLAGS;
 
 class CKBezierKeyFlags
@@ -246,8 +248,8 @@ public:
 
 public:
     CKBezierKeyFlags Flags; // Flags specifying how incoming and outgoing tangents are computed.
-    VxVector In;			// Incoming tangent vector.
-    VxVector Out;			// Outgoing tangent vector.
+    VxVector In;            // Incoming tangent vector.
+    VxVector Out;           // Outgoing tangent vector.
 };
 
 typedef CKBezierPositionKey CKBezierScaleKey;
@@ -268,7 +270,7 @@ See Also: CKKey,CKRotationKey,CKTCBPositionKey,CKBezierPositionKey
 class CKMorphKey : public CKKey
 {
 public:
-    VxVector *PosArray;			   // List of vertex positions
+    VxVector *PosArray;            // List of vertex positions
     VxCompressedVector *NormArray; // List of vertex normals
 
     CKBOOL Compare(CKMorphKey &key, int NbVertex, float Threshold)
@@ -314,27 +316,27 @@ See Also : CKAnimController,CKObjectAnimation::CreateController,CKObjectAnimatio
 *****************************************************************/
 typedef enum CKANIMATION_CONTROLLER
 {
-    CKANIMATION_CONTROLLER_POS     = 0x00000001,	// Base type mask for position controllers
-    CKANIMATION_CONTROLLER_ROT     = 0x00000002,	// Base type mask for rotation controllers
-    CKANIMATION_CONTROLLER_SCL     = 0x00000004,	// Base type mask for scale controller
-    CKANIMATION_CONTROLLER_SCLAXIS = 0x00000008,	// Base type mask for off-axis scale controller (Shear)
-    CKANIMATION_CONTROLLER_MORPH   = 0x00000010,	// Base type mask for morph controller
-    CKANIMATION_CONTROLLER_MASK    = 0x000000FF,	// Mask for all controller types
+    CKANIMATION_CONTROLLER_POS = 0x00000001,     // Base type mask for position controllers
+    CKANIMATION_CONTROLLER_ROT = 0x00000002,     // Base type mask for rotation controllers
+    CKANIMATION_CONTROLLER_SCL = 0x00000004,     // Base type mask for scale controller
+    CKANIMATION_CONTROLLER_SCLAXIS = 0x00000008, // Base type mask for off-axis scale controller (Shear)
+    CKANIMATION_CONTROLLER_MORPH = 0x00000010,   // Base type mask for morph controller
+    CKANIMATION_CONTROLLER_MASK = 0x000000FF,    // Mask for all controller types
 
-    CKANIMATION_LINPOS_CONTROL     = 0x637c4301,	// LinearPosition Controller
-    CKANIMATION_LINROT_CONTROL     = 0x49ed4002,	// Linear Rotation Controller
-    CKANIMATION_LINSCL_CONTROL     = 0x654a3a04,	// Linear Scale Controller
-    CKANIMATION_LINSCLAXIS_CONTROL = 0x2f200b08,	// Linear Off-Axis Scale Controller (Shear)
+    CKANIMATION_LINPOS_CONTROL = 0x637c4301,     // LinearPosition Controller
+    CKANIMATION_LINROT_CONTROL = 0x49ed4002,     // Linear Rotation Controller
+    CKANIMATION_LINSCL_CONTROL = 0x654a3a04,     // Linear Scale Controller
+    CKANIMATION_LINSCLAXIS_CONTROL = 0x2f200b08, // Linear Off-Axis Scale Controller (Shear)
 
-    CKANIMATION_TCBPOS_CONTROL     = 0x347e4a01,	// TCB Position Controller
-    CKANIMATION_TCBROT_CONTROL     = 0x45b52a02,	// TCB Rotation Controller
-    CKANIMATION_TCBSCL_CONTROL     = 0x1b545904,	// TCB Scale Controller
-    CKANIMATION_TCBSCLAXIS_CONTROL = 0x32595908,	// TCB Off-Axis Scale Controller (Shear)
+    CKANIMATION_TCBPOS_CONTROL = 0x347e4a01,     // TCB Position Controller
+    CKANIMATION_TCBROT_CONTROL = 0x45b52a02,     // TCB Rotation Controller
+    CKANIMATION_TCBSCL_CONTROL = 0x1b545904,     // TCB Scale Controller
+    CKANIMATION_TCBSCLAXIS_CONTROL = 0x32595908, // TCB Off-Axis Scale Controller (Shear)
 
-    CKANIMATION_BEZIERPOS_CONTROL  = 0x921ab801,	// Bezier Position Controller
-    CKANIMATION_BEZIERSCL_CONTROL  = 0x18ab4404,	// Bezier Scale Controller
+    CKANIMATION_BEZIERPOS_CONTROL = 0x921ab801, // Bezier Position Controller
+    CKANIMATION_BEZIERSCL_CONTROL = 0x18ab4404, // Bezier Scale Controller
 
-    CKANIMATION_MORPH_CONTROL      = 0x73847810		// Morph Controller
+    CKANIMATION_MORPH_CONTROL = 0x73847810 // Morph Controller
 } CKANIMATION_CONTROLLER;
 
 //--------- Base Animation Controller -------------------//

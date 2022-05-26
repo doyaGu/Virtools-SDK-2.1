@@ -30,7 +30,7 @@ Remarks:
 
 See Also : XArray, XList
 ************************************************/
-template <class T, class PF = XPriority<T>>
+template <class T, class PF = XPriority<T> >
 class XPriorityQueue
 {
 public:
