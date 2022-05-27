@@ -44,13 +44,11 @@ See Also :
 class VxRect
 {
 public:
-#if defined(_LINUX) || defined(PSX2)
-    float left;
-    float top;
-    float right;
-    float bottom;
-#else
     // Members
+#if !defined(_MSC_VER)
+    Vx2DVector m_TopLeft;
+    Vx2DVector m_BottomRight;
+#else
     union
     {
         struct
@@ -79,12 +77,12 @@ public:
     Input Arguments:
         w: new width in float.
     ************************************************/
-    void SetWidth(float w) { right = left + w; };
+    void SetWidth(float w) { m_BottomRight.x = m_TopLeft.x + w; };
 
     /************************************************
     Summary: Returns the width of a rectangle.
     ************************************************/
-    float GetWidth() const { return right - left; }
+    float GetWidth() const { return m_BottomRight.x - m_TopLeft.x; }
 
     /************************************************
     Summary: Changes the height of a rectangle.
@@ -92,22 +90,22 @@ public:
     Input Arguments:
         h: new height in float.
     ************************************************/
-    void SetHeight(float h) { bottom = top + h; }
+    void SetHeight(float h) { m_BottomRight.y = m_TopLeft.y + h; }
 
     /************************************************
     Summary: Returns the height of a rectangle.
     ************************************************/
-    float GetHeight() const { return bottom - top; }
+    float GetHeight() const { return m_BottomRight.y - m_TopLeft.y; }
 
     /************************************************
     Summary: Returns the horizontal center of the rect.
     ************************************************/
-    float GetHCenter() const { return left + 0.5f * GetWidth(); }
+    float GetHCenter() const { return m_TopLeft.x + 0.5f * GetWidth(); }
 
     /************************************************
     Summary: Returns the vertical center of the rect.
     ************************************************/
-    float GetVCenter() const { return top + 0.5f * GetHeight(); }
+    float GetVCenter() const { return m_TopLeft.y + 0.5f * GetHeight(); }
 
     /************************************************
     Summary: Changes the size of a rectangle.
@@ -142,16 +140,14 @@ public:
 
     void SetTopLeft(const Vx2DVector &v)
     {
-        left = v.x;
-        top = v.y;
+        m_TopLeft = v;
     }
     const Vx2DVector &GetTopLeft() const { return m_TopLeft; }
     Vx2DVector &GetTopLeft() { return m_TopLeft; }
 
     void SetBottomRight(const Vx2DVector &v)
     {
-        right = v.x;
-        bottom = v.y;
+        m_BottomRight = v;
     }
     const Vx2DVector &GetBottomRight() const { return m_BottomRight; }
     Vx2DVector &GetBottomRight() { return m_BottomRight; }
@@ -176,17 +172,15 @@ public:
     *************************************************/
     void SetCorners(const Vx2DVector &topleft, const Vx2DVector &bottomright)
     {
-        left = topleft.x;
-        top = topleft.y;
-        right = bottomright.x;
-        bottom = bottomright.y;
+        m_TopLeft = topleft;
+        m_BottomRight = bottomright;
     }
     void SetCorners(float l, float t, float r, float b)
     {
-        left = l;
-        top = t;
-        right = r;
-        bottom = b;
+        m_TopLeft.x = l;
+        m_TopLeft.y = t;
+        m_BottomRight.x = r;
+        m_BottomRight.y = b;
     }
 
     /*************************************************
@@ -206,17 +200,17 @@ public:
     *************************************************/
     void SetDimension(const Vx2DVector &position, const Vx2DVector &size)
     {
-        left = position.x;
-        top = position.y;
-        right = left + size.x;
-        bottom = top + size.y;
+        m_TopLeft.x = position.x;
+        m_TopLeft.y = position.y;
+        m_BottomRight.x = m_TopLeft.x + size.x;
+        m_BottomRight.y = m_TopLeft.y + size.y;
     }
     void SetDimension(float x, float y, float w, float h)
     {
-        left = x;
-        top = y;
-        right = x + w;
-        bottom = y + h;
+        m_TopLeft.x = x;
+        m_TopLeft.y = y;
+        m_BottomRight.x = x + w;
+        m_BottomRight.y = y + h;
     }
 
     /*************************************************
@@ -236,17 +230,17 @@ public:
     *************************************************/
     void SetCenter(const Vx2DVector &center, const Vx2DVector &halfsize)
     {
-        left = center.x - halfsize.x;
-        top = center.y - halfsize.y;
-        right = center.x + halfsize.x;
-        bottom = center.y + halfsize.y;
+        m_TopLeft.x = center.x - halfsize.x;
+        m_TopLeft.y = center.y - halfsize.y;
+        m_BottomRight.x = center.x + halfsize.x;
+        m_BottomRight.y = center.y + halfsize.y;
     }
     void SetCenter(float cx, float cy, float hw, float hh)
     {
-        left = cx - hw;
-        top = cy - hh;
-        right = cx + hw;
-        bottom = cy + hh;
+        m_TopLeft.x = cx - hw;
+        m_TopLeft.y = cy - hh;
+        m_BottomRight.x = cx + hw;
+        m_BottomRight.y = cy + hh;
     }
 
     /*************************************************
@@ -257,10 +251,10 @@ public:
     *************************************************/
     void CopyFrom(const CKRECT &iRect)
     {
-        left = (float)iRect.left;
-        top = (float)iRect.top;
-        right = (float)iRect.right;
-        bottom = (float)iRect.bottom;
+        m_TopLeft.x = (float)iRect.left;
+        m_TopLeft.y = (float)iRect.top;
+        m_BottomRight.x = (float)iRect.right;
+        m_BottomRight.y = (float)iRect.bottom;
     }
 
     /*************************************************
@@ -273,10 +267,10 @@ public:
     {
         XASSERT(oRect);
 
-        oRect->left = (int)left;
-        oRect->top = (int)top;
-        oRect->right = (int)right;
-        oRect->bottom = (int)bottom;
+        oRect->left = (int)m_TopLeft.x;
+        oRect->top = (int)m_TopLeft.y;
+        oRect->right = (int)m_BottomRight.x;
+        oRect->bottom = (int)m_BottomRight.y;
     }
 
     /*************************************************
@@ -294,23 +288,23 @@ public:
     {
         if (p1.x < p2.x)
         {
-            left = p1.x;
-            right = p2.x;
+            m_TopLeft.x = p1.x;
+            m_BottomRight.x = p2.x;
         }
         else
         {
-            left = p2.x;
-            right = p1.x;
+            m_TopLeft.x = p2.x;
+            m_BottomRight.x = p1.x;
         }
         if (p1.y < p2.y)
         {
-            top = p1.y;
-            bottom = p2.y;
+            m_TopLeft.y = p1.y;
+            m_BottomRight.y = p2.y;
         }
         else
         {
-            top = p2.y;
-            bottom = p1.y;
+            m_TopLeft.y = p2.y;
+            m_BottomRight.y = p1.y;
         }
     }
 
@@ -329,12 +323,12 @@ public:
     void Normalize()
     {
         // Check horizontally
-        if (left > right)
-            XSwap(right, left);
+        if (m_TopLeft.x > m_BottomRight.x)
+            XSwap(m_BottomRight.x, m_TopLeft.x);
 
         // Check vertically
-        if (top > bottom)
-            XSwap(top, bottom);
+        if (m_TopLeft.y > m_BottomRight.y)
+            XSwap(m_TopLeft.y, m_BottomRight.y);
     }
 
     /*************************************************
@@ -349,10 +343,10 @@ public:
     *************************************************/
     void Move(const Vx2DVector &pos)
     {
-        right += (pos.x - left);
-        bottom += (pos.y - top);
-        left = pos.x;
-        top = pos.y;
+        m_BottomRight.x += (pos.x - m_TopLeft.x);
+        m_BottomRight.y += (pos.y - m_TopLeft.y);
+        m_TopLeft.x = pos.x;
+        m_TopLeft.y = pos.y;
     }
 
     /*************************************************
@@ -367,34 +361,34 @@ public:
     *************************************************/
     void Translate(const Vx2DVector &t)
     {
-        left += t.x;
-        right += t.x;
-        top += t.y;
-        bottom += t.y;
+        m_TopLeft.x += t.x;
+        m_TopLeft.y += t.x;
+        m_BottomRight.x += t.y;
+        m_BottomRight.y += t.y;
     }
 
     void HMove(float h)
     {
-        right += (h - left);
-        left = h;
+        m_BottomRight.x += (h - m_TopLeft.x);
+        m_TopLeft.x = h;
     }
 
     void VMove(float v)
     {
-        bottom += (v - top);
-        top = v;
+        m_BottomRight.y += (v - m_TopLeft.y);
+        m_TopLeft.y = v;
     }
 
     void HTranslate(float h)
     {
-        right += h;
-        left += h;
+        m_BottomRight.x += h;
+        m_TopLeft.x += h;
     }
 
     void VTranslate(float v)
     {
-        bottom += v;
-        top += v;
+        m_BottomRight.y += v;
+        m_TopLeft.y += v;
     }
 
     /*************************************************
@@ -411,8 +405,8 @@ public:
     *************************************************/
     void TransformFromHomogeneous(Vx2DVector &dest, const Vx2DVector &srchom) const
     {
-        dest.x = left + GetWidth() * srchom.x;
-        dest.y = left + GetHeight() * srchom.y;
+        dest.x = m_TopLeft.x + GetWidth() * srchom.x;
+        dest.y = m_TopLeft.x + GetHeight() * srchom.y;
     }
 
     /*************************************************
@@ -442,10 +436,10 @@ public:
     *************************************************/
     void Inflate(const Vx2DVector &pt)
     {
-        left -= pt.x;
-        right += pt.x;
-        top -= pt.y;
-        bottom += pt.y;
+        m_TopLeft.x -= pt.x;
+        m_BottomRight.x += pt.x;
+        m_TopLeft.y -= pt.y;
+        m_BottomRight.y += pt.y;
     }
 
     /*************************************************
@@ -459,10 +453,10 @@ public:
     *************************************************/
     void Interpolate(float value, const VxRect &a)
     {
-        left += (a.left - left) * value;
-        right += (a.right - right) * value;
-        top += (a.top - top) * value;
-        bottom += (a.bottom - bottom) * value;
+        m_TopLeft.x += (a.m_TopLeft.x - m_TopLeft.x) * value;
+        m_BottomRight.x += (a.m_BottomRight.x - m_BottomRight.x) * value;
+        m_TopLeft.y += (a.m_TopLeft.y - m_TopLeft.y) * value;
+        m_BottomRight.y += (a.m_BottomRight.y - m_BottomRight.y) * value;
     }
 
     /*************************************************
@@ -476,14 +470,14 @@ public:
     *************************************************/
     void Merge(const VxRect &a)
     {
-        if (a.left < left)
-            left = a.left;
-        if (a.right > right)
-            right = a.right;
-        if (a.top < top)
-            top = a.top;
-        if (a.bottom > bottom)
-            bottom = a.bottom;
+        if (a.m_TopLeft.x < m_TopLeft.x)
+            m_TopLeft.x = a.m_TopLeft.x;
+        if (a.m_BottomRight.x > m_BottomRight.x)
+            m_BottomRight.x = a.m_BottomRight.x;
+        if (a.m_TopLeft.y < m_TopLeft.y)
+            m_TopLeft.y = a.m_TopLeft.y;
+        if (a.m_BottomRight.y > m_BottomRight.y)
+            m_BottomRight.y = a.m_BottomRight.y;
     }
 
     /*************************************************
@@ -504,23 +498,23 @@ public:
     int IsInside(const VxRect &cliprect) const
     {
         // entirely clipped
-        if (left >= cliprect.right)
+        if (m_TopLeft.x >= cliprect.m_BottomRight.x)
             return ALLOUTSIDE;
-        if (right < cliprect.left)
+        if (m_BottomRight.x < cliprect.m_TopLeft.x)
             return ALLOUTSIDE;
-        if (top >= cliprect.bottom)
+        if (m_TopLeft.y >= cliprect.m_BottomRight.y)
             return ALLOUTSIDE;
-        if (bottom < cliprect.top)
+        if (m_BottomRight.y < cliprect.m_TopLeft.y)
             return ALLOUTSIDE;
 
         // partially or not clipped
-        if (left < cliprect.left)
+        if (m_TopLeft.x < cliprect.m_TopLeft.x)
             return PARTINSIDE;
-        if (right > cliprect.right)
+        if (m_BottomRight.x > cliprect.m_BottomRight.x)
             return PARTINSIDE;
-        if (top < cliprect.top)
+        if (m_TopLeft.y < cliprect.m_TopLeft.y)
             return PARTINSIDE;
-        if (bottom > cliprect.bottom)
+        if (m_BottomRight.y > cliprect.m_BottomRight.y)
             return PARTINSIDE;
 
         return ALLINSIDE;
@@ -543,13 +537,13 @@ public:
     BOOL IsOutside(const VxRect &cliprect) const
     {
         // entirely clipped
-        if (left >= cliprect.right)
+        if (m_TopLeft.x >= cliprect.m_BottomRight.x)
             return TRUE;
-        if (right < cliprect.left)
+        if (m_BottomRight.x < cliprect.m_TopLeft.x)
             return TRUE;
-        if (top >= cliprect.bottom)
+        if (m_TopLeft.y >= cliprect.m_BottomRight.y)
             return TRUE;
-        if (bottom < cliprect.top)
+        if (m_BottomRight.y < cliprect.m_TopLeft.y)
             return TRUE;
 
         return FALSE;
@@ -570,13 +564,13 @@ public:
     *************************************************/
     BOOL IsInside(const Vx2DVector &pt) const
     {
-        if (pt.x < left)
+        if (pt.x < m_TopLeft.x)
             return FALSE;
-        if (pt.x > right)
+        if (pt.x > m_BottomRight.x)
             return FALSE;
-        if (pt.y < top)
+        if (pt.y < m_TopLeft.y)
             return FALSE;
-        if (pt.y > bottom)
+        if (pt.y > m_BottomRight.y)
             return FALSE;
         return TRUE;
     }
@@ -591,7 +585,7 @@ public:
 
     See also: VxRect::IsEmpty, VxRect::IsOutside, VxRect::Clear
     *************************************************/
-    BOOL IsNull() const { return (left == 0 && right == 0 && bottom == 0 && top == 0); }
+    BOOL IsNull() const { return (m_TopLeft.x == 0 && m_BottomRight.x == 0 && m_BottomRight.y == 0 && m_TopLeft.y == 0); }
 
     /*************************************************
     Summary: Tests if a rectangle is Empty (width==0 or height==0)
@@ -603,7 +597,7 @@ public:
 
     See also: VxRect::IsNull, VxRect::IsOutside, VxRect::Clear
     *************************************************/
-    BOOL IsEmpty() const { return ((left == right) || (bottom == top)); }
+    BOOL IsEmpty() const { return ((m_TopLeft.x == m_BottomRight.x) || (m_BottomRight.y == m_TopLeft.y)); }
 
     /*************************************************
     Summary: Clips a rectangle over a clipping rectangle.
@@ -626,14 +620,14 @@ public:
             return FALSE;
 
         // partially or not clipped
-        if (left < cliprect.left)
-            left = cliprect.left;
-        if (right > cliprect.right)
-            right = cliprect.right;
-        if (top < cliprect.top)
-            top = cliprect.top;
-        if (bottom > cliprect.bottom)
-            bottom = cliprect.bottom;
+        if (m_TopLeft.x < cliprect.m_TopLeft.x)
+            m_TopLeft.x = cliprect.m_TopLeft.x;
+        if (m_BottomRight.x > cliprect.m_BottomRight.x)
+            m_BottomRight.x = cliprect.m_BottomRight.x;
+        if (m_TopLeft.y < cliprect.m_TopLeft.y)
+            m_TopLeft.y = cliprect.m_TopLeft.y;
+        if (m_BottomRight.y > cliprect.m_BottomRight.y)
+            m_BottomRight.y = cliprect.m_BottomRight.y;
 
         return TRUE;
     }
@@ -651,28 +645,28 @@ public:
     *************************************************/
     void Clip(Vx2DVector &pt, BOOL excluderightbottom = TRUE) const
     {
-        if (pt.x < left)
-            pt.x = left;
+        if (pt.x < m_TopLeft.x)
+            pt.x = m_TopLeft.x;
         else
         {
-            if (pt.x >= right)
+            if (pt.x >= m_BottomRight.x)
             {
                 if (excluderightbottom)
-                    pt.x = right - 1;
+                    pt.x = m_BottomRight.x - 1;
                 else
-                    pt.x = right;
+                    pt.x = m_BottomRight.x;
             }
         }
-        if (pt.y < top)
-            pt.y = top;
+        if (pt.y < m_TopLeft.y)
+            pt.y = m_TopLeft.y;
         else
         {
-            if (pt.y >= bottom)
+            if (pt.y >= m_BottomRight.y)
             {
                 if (excluderightbottom)
-                    pt.y = bottom - 1;
+                    pt.y = m_BottomRight.y - 1;
                 else
-                    pt.y = bottom;
+                    pt.y = m_BottomRight.y;
             }
         }
     }
@@ -721,36 +715,36 @@ public:
 
     VxRect &operator+=(const Vx2DVector &t)
     {
-        left += t.x;
-        right += t.x;
-        top += t.y;
-        bottom += t.y;
+        m_TopLeft.x += t.x;
+        m_BottomRight.x += t.x;
+        m_TopLeft.y += t.y;
+        m_BottomRight.y += t.y;
         return *this;
     }
     VxRect &operator-=(const Vx2DVector &t)
     {
-        left -= t.x;
-        right -= t.x;
-        top -= t.y;
-        bottom -= t.y;
+        m_TopLeft.x -= t.x;
+        m_BottomRight.x -= t.x;
+        m_TopLeft.y -= t.y;
+        m_BottomRight.y -= t.y;
         return *this;
     }
     VxRect &operator*=(const Vx2DVector &t)
     {
-        left *= t.x;
-        right *= t.x;
-        top *= t.y;
-        bottom *= t.y;
+        m_TopLeft.x *= t.x;
+        m_BottomRight.x *= t.x;
+        m_TopLeft.y *= t.y;
+        m_BottomRight.y *= t.y;
         return *this;
     }
     VxRect &operator/=(const Vx2DVector &t)
     {
         float x = 1.0f / t.x;
         float y = 1.0f / t.y;
-        left *= x;
-        right *= x;
-        top *= y;
-        bottom *= y;
+        m_TopLeft.x *= x;
+        m_BottomRight.x *= x;
+        m_TopLeft.y *= y;
+        m_BottomRight.y *= y;
         return *this;
     }
 
@@ -764,7 +758,7 @@ public:
 //
 inline int operator==(const VxRect &r1, const VxRect &r2)
 {
-    return (r1.left == r2.left && r1.right == r2.right && r1.top == r2.top && r1.bottom == r2.bottom);
+    return (r1.m_TopLeft.x == r2.m_TopLeft.x && r1.m_BottomRight.x == r2.m_BottomRight.x && r1.m_TopLeft.y == r2.m_TopLeft.y && r1.m_BottomRight.y == r2.m_BottomRight.y);
 }
 
 //

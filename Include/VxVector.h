@@ -577,6 +577,10 @@ A VxBbox is defined as:
 ***********************************************************/
 typedef struct VxBbox
 {
+#if !defined(_MSC_VER)
+    VxVector Max; // Maximum corner of the box
+    VxVector Min; // Minimum corner of the box
+#else
     union
     {
         struct
@@ -586,6 +590,7 @@ typedef struct VxBbox
         };
         float v[6];
     };
+#endif
 
 public:
     VxBbox() : Max(-1e6f, -1e6f, -1e6f), Min(1e6f, 1e6f, 1e6f) {}

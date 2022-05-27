@@ -66,9 +66,17 @@ typedef unsigned int XDWORD;
 #define VX_EXPORT
 #else
 #ifdef VX_API
+#if defined(WIN32) && defined(_MSC_VER)
 #define VX_EXPORT __declspec(dllexport) // VC++ export option  {secret}
 #else
+#define VX_EXPORT
+#endif
+#else
+#if defined(WIN32) && defined(_MSC_VER)
 #define VX_EXPORT __declspec(dllimport) // VC++ export option  {secret}
+#else
+#define VX_EXPORT
+#endif
 #endif
 #endif
 #endif
