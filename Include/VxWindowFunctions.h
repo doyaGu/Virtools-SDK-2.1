@@ -8,6 +8,12 @@
 #ifndef __VXWINDOWFUNCTION_H__
 #define __VXWINDOWFUNCTION_H__
 
+#include "XUtil.h"
+#include "VxMathDefines.h"
+
+class XString;
+struct VxImageDescEx;
+
 // KeyBoard Functions
 VX_EXPORT char VxScanCodeToAscii(DWORD scancode, unsigned char keystate[256]);
 VX_EXPORT int VxScanCodeToName(DWORD scancode, char *keyName);

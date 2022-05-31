@@ -9,8 +9,11 @@
 #define VXMATRIX_H
 
 #include "VxQuaternion.h"
+#include "VxVector.h"
 
 class VxMatrix;
+class Vx2DVector;
+class VxStridedData;
 
 VX_EXPORT void Vx3DMatrixIdentity(VxMatrix &Mat);
 

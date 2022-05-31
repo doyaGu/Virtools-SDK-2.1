@@ -8,6 +8,11 @@
 #ifndef VXFRUSTUM_H
 #define VXFRUSTUM_H
 
+#include "XUtil.h"
+#include "VxMatrix.h"
+#include "VxPlane.h"
+#include "VxVector.h"
+
 /**********************************************************
 {filename:VxFrustum}
 Name: VxFrustum

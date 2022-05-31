@@ -57,10 +57,10 @@ public:
     CKBOOL Compare(CKRotationKey &key, float Threshold)
     {
         return ((XFabs(TimeStep - key.TimeStep) <= Threshold) &&
-                (XFabs(Rot.axis.x - key.Rot.axis.x) <= Threshold) &&
-                (XFabs(Rot.axis.y - key.Rot.axis.y) <= Threshold) &&
-                (XFabs(Rot.axis.z - key.Rot.axis.z) <= Threshold) &&
-                (XFabs(Rot.angle - key.Rot.angle) <= Threshold));
+                (XFabs(Rot.x - key.Rot.x) <= Threshold) &&
+                (XFabs(Rot.y - key.Rot.y) <= Threshold) &&
+                (XFabs(Rot.z - key.Rot.z) <= Threshold) &&
+                (XFabs(Rot.w - key.Rot.w) <= Threshold));
     }
 
 public:
@@ -88,7 +88,10 @@ public:
 
     CKBOOL Compare(CKPositionKey &key, float Threshold)
     {
-        return ((XFabs(TimeStep - key.TimeStep) <= Threshold) && (XFabs(Pos.x - key.Pos.x) <= Threshold) && (XFabs(Pos.y - key.Pos.y) <= Threshold) && (XFabs(Pos.z - key.Pos.z) <= Threshold));
+        return ((XFabs(TimeStep - key.TimeStep) <= Threshold) &&
+                (XFabs(Pos.x - key.Pos.x) <= Threshold) &&
+                (XFabs(Pos.y - key.Pos.y) <= Threshold) &&
+                (XFabs(Pos.z - key.Pos.z) <= Threshold));
     }
 
 public:
@@ -396,7 +399,6 @@ public:
     See Also:Animation Keys,GetKey,GetKeyCount
     ******************************************************/
     virtual int AddKey(CKKey *key) = 0;
-    
     /*****************************************************
     Summary: Retuns a given key
 
@@ -412,7 +414,6 @@ public:
     See Also:Animation Keys,GetKeyCount
     ******************************************************/
     virtual CKKey *GetKey(int index) = 0;
-
     /*****************************************************
     Summary: Removes a given key from the list.
 
@@ -439,16 +440,15 @@ public:
     See Also:ReadKeysFrom
     ******************************************************/
     virtual int DumpKeysTo(void *Buffer) = 0; // Pass NULL to get the size
-
-    /*****************************************************
-     Summary: Reads controller data from a memory buffer.
-
-    Arguments:
-        Buffer: A pointer to the memory buffer that was previously written DumpKeysTo.
-    Return Value:
-        Size in bytes of the data read from Buffer.
-    See Also:DumpKeysTo
-    ******************************************************/
+                                              /*****************************************************
+                                              Summary: Reads controller data from a memory buffer.
+                                          
+                                              Arguments:
+                                                  Buffer: A pointer to the memory buffer that was previously written DumpKeysTo.
+                                              Return Value:
+                                                  Size in bytes of the data read from Buffer.
+                                              See Also:DumpKeysTo
+                                              ******************************************************/
     virtual int ReadKeysFrom(void *Buffer) = 0;
 
     virtual CKBOOL Compare(CKAnimController *control, float Threshold = 0.0f) = 0;
@@ -494,7 +494,6 @@ class CKMorphController : public CKAnimController
 {
 public:
     CKMorphController() : CKAnimController(CKANIMATION_MORPH_CONTROL) {}
-
     /*********************************************************
     Summary: Adds a morph key.
 
@@ -515,7 +514,6 @@ public:
     virtual void RemoveKey(int index) = 0;
 
     virtual CKBOOL Evaluate(float TimeStep, void *res) = 0;
-
     /************************************************
     Summary: Evaluates the vertex position at a given time
 
@@ -526,7 +524,6 @@ public:
         NormalPtr: A pointer to an array of VxCompressedVector that will be filled with the resulting normals.
     *************************************************/
     virtual CKBOOL Evaluate(float TimeStep, int VertexCount, void *VertexPtr, CKDWORD VertexStride, VxCompressedVector *NormalPtr) = 0;
-
     // Summary: Sets the number of vertices per key.
     virtual void SetMorphVertexCount(int count) = 0;
 };

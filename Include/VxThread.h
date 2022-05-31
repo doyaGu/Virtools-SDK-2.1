@@ -1,6 +1,7 @@
 #ifndef VXTHREAD_H
 #define VXTHREAD_H
 
+#include "XString.h"
 #include "VxMutex.h"
 
 #define VXTERROR_TIMEOUT		9	// The timeout of an operation was reached.

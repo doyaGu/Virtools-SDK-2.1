@@ -8,6 +8,9 @@
 #ifndef VXVECTOR_H
 #define VXVECTOR_H
 
+#include "VxMathDefines.h"
+#include "XUtil.h"
+
 VX_EXPORT int radToAngle(float val);
 VX_EXPORT float Tsin(int angle);
 VX_EXPORT float Tcos(int angle);

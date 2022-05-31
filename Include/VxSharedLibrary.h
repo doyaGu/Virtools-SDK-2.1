@@ -8,6 +8,9 @@
 #ifndef VXSHAREDLIBRARY_H
 #define VXSHAREDLIBRARY_H "$Id:$"
 
+#include "XUtil.h"
+#include "VxMathDefines.h"
+
 /***********************************************************************
 Summary: Utility class for loading Dlls.
 

@@ -12,6 +12,12 @@
 #include <stdlib.h>
 #include <math.h>
 
+#if defined(_WIN32) || defined(WIN32) || defined(WINDOWS)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef WIN32_LEAN_AND_MEAN
+#endif
+
 #ifdef _DEBUG
 #define _DEBUG_BREAKPOINT() DebugBreak();
 #else

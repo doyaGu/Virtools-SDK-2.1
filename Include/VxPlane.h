@@ -8,6 +8,9 @@
 #ifndef VXPLANE_H
 #define VXPLANE_H
 
+#include "VxMatrix.h"
+#include "VxVector.h"
+
 /**********************************************************
 {filename:VxPlane}
 Name: VxPlane

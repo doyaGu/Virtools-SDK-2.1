@@ -8,6 +8,8 @@
 #ifndef VXQUATERNION_H
 #define VXQUATERNION_H
 
+#include "VxVector.h"
+
 enum QuatPart
 {
     Quat_X,
@@ -15,6 +17,9 @@ enum QuatPart
     Quat_Z,
     Quat_W
 };
+
+class VxQuaternion;
+class VxMatrix;
 
 VX_EXPORT VxQuaternion Vx3DQuaternionSnuggle(VxQuaternion *Quat, VxVector *Scale);
 VX_EXPORT VxQuaternion Vx3DQuaternionFromMatrix(const VxMatrix &Mat);
@@ -60,8 +65,12 @@ typedef struct VxQuaternion
 {
     // Members
 #if !defined(_MSC_VER)
-    VxVector axis;
-    float angle;
+    float x, y, z;
+    union
+    {
+        float w;
+        float angle;
+    };
 #else
     union
     {
@@ -81,16 +90,16 @@ typedef struct VxQuaternion
 public:
     VxQuaternion()
     {
-        axis.x = axis.y = axis.z = 0;
-        angle = 1.0f;
+        x = y = z = 0;
+        w = 1.0f;
     }
     VxQuaternion(const VxVector &Vector, float Angle) { FromRotation(Vector, Angle); }
     VxQuaternion(float X, float Y, float Z, float W)
     {
-        axis.x = X;
-        axis.y = Y;
-        axis.z = Z;
-        angle = W;
+        x = X;
+        y = Y;
+        z = Z;
+        w = W;
     }
 
     VX_EXPORT void FromMatrix(const VxMatrix &Mat, BOOL MatIsUnit = TRUE, BOOL RestoreMat = TRUE);
@@ -106,8 +115,8 @@ public:
     float &operator[](int i);
 
     // Addition and subtraction
-    VxQuaternion operator+(const VxQuaternion &q) const { return VxQuaternion(axis.x + q.axis.x, axis.y + q.axis.y, axis.z + q.axis.z, angle + q.angle); }
-    VxQuaternion operator-(const VxQuaternion &q) const { return VxQuaternion(axis.x - q.axis.x, axis.y - q.axis.y, axis.z - q.axis.z, angle - q.angle); }
+    VxQuaternion operator+(const VxQuaternion &q) const { return VxQuaternion(x + q.x, y + q.y, z + q.z, w + q.w); }
+    VxQuaternion operator-(const VxQuaternion &q) const { return VxQuaternion(x - q.x, y - q.y, z - q.z, w - q.w); }
     VxQuaternion operator*(const VxQuaternion &q) const { return Vx3DQuaternionMultiply(*this, q); }
     VxQuaternion operator/(const VxQuaternion &q) const { return Vx3DQuaternionDivide(*this, q); }
 
@@ -116,14 +125,14 @@ public:
     friend VxQuaternion operator*(const VxQuaternion &, float);
     VxQuaternion &operator*=(float s)
     {
-        axis.x *= s;
-        axis.y *= s;
-        axis.z *= s;
-        angle *= s;
+        x *= s;
+        y *= s;
+        z *= s;
+        w *= s;
         return *this;
     }
 
-    VxQuaternion operator-() const { return (VxQuaternion(-axis.x, -axis.y, -axis.z, -angle)); }
+    VxQuaternion operator-() const { return (VxQuaternion(-x, -y, -z, -w)); }
     VxQuaternion operator+() const { return *this; }
 
     // Bitwise equality
@@ -136,42 +145,42 @@ public:
 
 inline int operator==(const VxQuaternion &q1, const VxQuaternion &q2)
 {
-    return (q1.axis.x == q2.axis.x && q1.axis.y == q2.axis.y && q1.axis.z == q2.axis.z && q1.angle == q2.angle);
+    return (q1.x == q2.x && q1.y == q2.y && q1.z == q2.z && q1.w == q2.w);
 }
 
 inline int operator!=(const VxQuaternion &q1, const VxQuaternion &q2)
 {
-    return (q1.axis.x != q2.axis.x || q1.axis.y != q2.axis.y || q1.axis.z != q2.axis.z || q1.angle != q2.angle);
+    return (q1.x != q2.x || q1.y != q2.y || q1.z != q2.z || q1.w != q2.w);
 }
 
 inline VxQuaternion operator*(float s, const VxQuaternion &q)
 {
-    return VxQuaternion(q.axis.x * s, q.axis.y * s, q.axis.z * s, q.angle * s);
+    return VxQuaternion(q.x * s, q.y * s, q.z * s, q.w * s);
 }
 
 inline VxQuaternion operator*(const VxQuaternion &q, float s)
 {
-    return VxQuaternion(q.axis.x * s, q.axis.y * s, q.axis.z * s, q.angle * s);
+    return VxQuaternion(q.x * s, q.y * s, q.z * s, q.w * s);
 }
 
 inline float Magnitude(const VxQuaternion &q)
 {
-    return (q.axis.x * q.axis.x + q.axis.y * q.axis.y + q.axis.z * q.axis.z + q.angle * q.angle);
+    return (q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w);
 }
 
 inline float DotProduct(const VxQuaternion &q1, const VxQuaternion &q2)
 {
-    return (q1.axis.x * q2.axis.x + q1.axis.y * q2.axis.y + q1.axis.z * q2.axis.z + q1.angle * q2.angle);
+    return (q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w);
 }
 
 inline const float &VxQuaternion::operator[](int i) const
 {
-    return *((&axis.x) + i);
+    return *((&x) + i);
 }
 
 inline float &VxQuaternion::operator[](int i)
 {
-    return *((&axis.x) + i);
+    return *((&x) + i);
 }
 
 #endif

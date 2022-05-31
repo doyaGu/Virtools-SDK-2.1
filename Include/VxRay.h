@@ -8,6 +8,8 @@
 #ifndef VXRAY_H
 #define VXRAY_H
 
+#include "VxVector.h"
+
 /**********************************************************
 {filename:VxRay}
 Name: VxRay

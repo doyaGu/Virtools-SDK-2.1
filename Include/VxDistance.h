@@ -8,6 +8,11 @@
 #ifndef VXDISTANCE_H
 #define VXDISTANCE_H
 
+#include "XUtil.h"
+
+class VxRay;
+class VxVector;
+
 /**********************************************************
 Name: VxDistance
 

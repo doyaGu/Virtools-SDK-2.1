@@ -8,6 +8,15 @@
 #ifndef VXINTERSECT_H
 #define VXINTERSECT_H
 
+#include "XUtil.h"
+
+class VxVector;
+class VxBbox;
+class VxMatrix;
+class VxRay;
+class VxOBB;
+class VxPlane;
+class VxSphere;
 class VxFrustum;
 
 /**********************************************************

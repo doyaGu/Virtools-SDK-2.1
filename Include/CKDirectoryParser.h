@@ -8,6 +8,8 @@
 #ifndef CKDIRECTORYPARSER_H
 #define CKDIRECTORYPARSER_H "$Id:$"
 
+#include "XUtil.h"
+
 /***********************************************************************
 Summary: Utility class for Directories parsing.
 
@@ -42,16 +44,16 @@ public:
 
     VX_EXPORT ~CKDirectoryParser();
     VX_EXPORT char *GetNextFile();
-    VX_EXPORT void Reset(char *dir = NULL, char *fileMask = NULL, BOOL recurse = FALSE, BOOL iReturnDirectory = FALSE);
+    VX_EXPORT void Reset(char *dir = NULL, char *fileMask = NULL, BOOL recurse = FALSE);
 
 protected:
     void Clean();
 
     void *m_FindData;
     int m_hFile;
-    char m_FullFileName[_MAX_PATH];
-    XString m_StartDir;
-    XString m_FileMask;
+    char *m_FullFileName;
+    char *m_StartDir;
+    char *m_FileMask;
     DWORD m_State;
     CKDirectoryParser *m_SubParser;
 };

@@ -8,8 +8,7 @@
 #ifndef CKPATHSPLITTER_H
 #define CKPATHSPLITTER_H "$Id:$"
 
-#include "string.h"
-#include "stdlib.h"
+#include "XUtil.h"
 
 /***********************************************************************
 Summary: Utility class for filenames extraction

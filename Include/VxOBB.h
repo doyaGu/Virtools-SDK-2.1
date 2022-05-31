@@ -8,6 +8,9 @@
 #ifndef VxOBB_H
 #define VxOBB_H
 
+#include "VxMatrix.h"
+#include "VxVector.h"
+
 /**********************************************************
 {filename:VxOBB}
 Name: VxOBB

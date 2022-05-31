@@ -1,6 +1,7 @@
 #ifndef VXMUTEX_H
 #define VXMUTEX_H
 
+#include "XUtil.h"
 #include "VxMathDefines.h"
 
 #if defined(_LINUX) || defined(macintosh)

@@ -8,26 +8,6 @@
 #ifndef VXMATH_H
 #define VXMATH_H
 
-#ifdef VX_LIB
-#define VX_EXPORT
-#else
-#ifdef VX_API
-#if defined(WIN32) && defined(_MSC_VER)
-#define VX_EXPORT __declspec(dllexport) // VC++ export option  {secret}
-#else
-#define VX_EXPORT
-#endif
-#else
-#if defined(WIN32) && defined(_MSC_VER)
-#define VX_EXPORT __declspec(dllimport) // VC++ export option  {secret}
-#else
-#define VX_EXPORT
-#endif
-#endif
-#endif
-
-#include "VxMathDefines.h"
-
 //*************** EXPORT DEFINES FOR LIB / DLL VERSIONS *************************************************
 
 #ifndef CK_LIB
@@ -48,22 +28,14 @@
 #define PLUGIN_EXPORT
 #endif // CK_LIB
 
-struct VxVector;
-struct VxCompressedVector;
+#include "VxMathDefines.h"
 
-struct VxCompressedVectorOld;
-struct Vx2DVector;
-struct VxColor;
-struct VxBbox;
-struct VxQuaternion;
-struct VxStridedData;
-struct VxImageDescEx;
-
-#include "XString.h"
-
+// Base Utility
 #include "XUtil.h"
 #include "XP.h"
-// Port Class Utility is it the right place
+#include "XString.h"
+
+// Port Class Utility
 #include "VxSharedLibrary.h"
 #include "VxMeMoryMappedFile.h"
 #include "CKPathSplitter.h"
@@ -84,6 +56,8 @@ struct VxImageDescEx;
 #include "VxFrustum.h"
 #include "VxColor.h"
 #include "VxMemoryPool.h"
+#include "VxTimeProfiler.h"
+#include "VxImageDescEx.h"
 
 // Containers
 #include "XArray.h"
@@ -167,147 +141,5 @@ VX_EXPORT BOOL VxComputeBestFitBBox(const BYTE *Points, const DWORD Stride, cons
 //
 VX_EXPORT void VxAddDirectorySeparator(XString &path);
 VX_EXPORT void VxConvertPathToSystemPath(XString &path);
-
-/*************************************************
-{filename:VxTimeProfiler}
-Name: VxTimeProfiler
-Summary: Class for profiling purposes
-
-Remarks:
-    This class provides methods to accurately compute
-    the time elapsed.
-Example:
-      // To profile several items :
-
-      VxTimeProfiler MyProfiler;
-      ...
-      float delta_time=MyProfiler.Current();
-      MyProfiler.Reset();
-      ...
-      float delta_time2=MyProfiler.Current();
-See also:
-*************************************************/
-class VX_EXPORT VxTimeProfiler
-{
-public:
-    /*************************************************
-    Name: VxTimeProfiler
-    Summary: Starts profiling
-    *************************************************/
-    VxTimeProfiler() { Reset(); }
-
-    /*************************************************
-    Summary: Restarts the timer
-    *************************************************/
-    void Reset();
-
-    /*************************************************
-    Summary: Returns the current time elapsed (in milliseconds)
-    *************************************************/
-    float Current();
-
-    /*************************************************
-    Summary: Returns the current time elapsed (in milliseconds)
-    *************************************************/
-    float Split()
-    {
-        float c = Current();
-        Reset();
-        return c;
-    }
-
-protected:
-    DWORD Times[4];
-};
-
-/****************************************************************
-Name: VxImageDescEx
-
-Summary: Enhanced Image description
-
-Remarks:
-The VxImageDescEx holds basically an VxImageDesc with additionnal support for
-Colormap, Image pointer and is ready for future enhancements.
-
-
-****************************************************************/
-typedef struct VxImageDescEx
-{
-    int Size;	 // Size of the structure
-    DWORD Flags; // Reserved for special formats (such as compressed ) 0 otherwise
-
-    int Width;	// Width in pixel of the image
-    int Height; // Height in pixel of the image
-    union
-    {
-        int BytesPerLine;	// Pitch (width in bytes) of the image
-        int TotalImageSize; // For compressed image (DXT1...) the total size of the image
-    };
-    int BitsPerPixel; // Number of bits per pixel
-    union
-    {
-        DWORD RedMask;	  // Mask for Red component
-        DWORD BumpDuMask; // Mask for Bump Du component
-    };
-    union
-    {
-        DWORD GreenMask;  // Mask for Green component
-        DWORD BumpDvMask; // Mask for Bump Dv component
-    };
-    union
-    {
-        DWORD BlueMask;	   // Mask for Blue component
-        DWORD BumpLumMask; // Mask for Luminance component
-    };
-    DWORD AlphaMask; // Mask for Alpha component
-
-    short BytesPerColorEntry; // ColorMap Stride
-    short ColorMapEntries;	  // If other than 0 image is palletized
-
-    BYTE *ColorMap; // Palette colors
-    BYTE *Image;	// Image
-
-public:
-    VxImageDescEx()
-    {
-        Size = sizeof(VxImageDescEx);
-        memset((BYTE *)this + 4, 0, Size - 4);
-    }
-
-    void Set(const VxImageDescEx &desc)
-    {
-        Size = sizeof(VxImageDescEx);
-        if (desc.Size < Size)
-            memset((BYTE *)this + 4, 0, Size - 4);
-        if (desc.Size > Size)
-            return;
-        memcpy((BYTE *)this + 4, (BYTE *)&desc + 4, desc.Size - 4);
-    }
-    BOOL HasAlpha()
-    {
-        return ((AlphaMask != 0) || (Flags >= _DXT1));
-    }
-
-    int operator==(const VxImageDescEx &desc)
-    {
-        return (Size == desc.Size &&
-                Height == desc.Height && Width == desc.Width &&
-                BitsPerPixel == desc.BitsPerPixel && BytesPerLine == desc.BytesPerLine &&
-                RedMask == desc.RedMask && GreenMask == desc.GreenMask &&
-                BlueMask == desc.BlueMask && AlphaMask == desc.AlphaMask &&
-                BytesPerColorEntry == desc.BytesPerColorEntry && ColorMapEntries == desc.ColorMapEntries);
-    }
-
-    int operator!=(const VxImageDescEx &desc)
-    {
-        return (Size != desc.Size ||
-                Height != desc.Height || Width != desc.Width ||
-                BitsPerPixel != desc.BitsPerPixel || BytesPerLine != desc.BytesPerLine ||
-                RedMask != desc.RedMask || GreenMask != desc.GreenMask ||
-                BlueMask != desc.BlueMask || AlphaMask != desc.AlphaMask ||
-                BytesPerColorEntry != desc.BytesPerColorEntry || ColorMapEntries != desc.ColorMapEntries);
-    }
-
-} VxImageDescEx;
 
 #endif
