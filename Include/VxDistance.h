@@ -11,7 +11,7 @@
 #include "XUtil.h"
 
 class VxRay;
-class VxVector;
+struct VxVector;
 
 /**********************************************************
 Name: VxDistance

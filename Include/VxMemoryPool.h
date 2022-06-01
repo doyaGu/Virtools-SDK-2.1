@@ -1,6 +1,8 @@
 #ifndef VXMEMORYPOOL_H
 #define VXMEMORYPOOL_H
 
+#include "XUtil.h"
+
 //---- Aligned memory allocation
 VX_EXPORT void *VxNewAligned(int size, int align);
 VX_EXPORT void VxDeleteAligned(void *ptr);

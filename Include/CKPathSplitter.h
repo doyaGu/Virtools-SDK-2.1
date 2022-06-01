@@ -119,7 +119,7 @@ struct CKFileExtension
 
     int operator==(const CKFileExtension &s)
     {
-        return !_strcmpi(m_Data, s.m_Data);
+        return !strcmpi(m_Data, s.m_Data);
     }
 
     operator char *() { return m_Data; }

@@ -8,6 +8,8 @@
 #ifndef VXCOLOR_H
 #define VXCOLOR_H
 
+#include "XUtil.h"
+
 #ifdef DOCJETDUMMY // DOCJET secret macro
 #else
 
@@ -22,6 +24,8 @@
 #define A_MASK 0xFF000000
 
 #endif
+
+struct VxColor;
 
 /***************************************************
 Summary: Converts 4 floats to a DWORD ARGB color

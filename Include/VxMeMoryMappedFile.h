@@ -8,6 +8,9 @@
 #ifndef __VxMemoryMappedFile_H__
 #define __VxMemoryMappedFile_H__
 
+#include "XUtil.h"
+#include "VxMathDefines.h"
+
 /***********************************************************************
 Summary: Possible return value when opening a memory mapped file.
 

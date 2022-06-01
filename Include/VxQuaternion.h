@@ -18,7 +18,7 @@ enum QuatPart
     Quat_W
 };
 
-class VxQuaternion;
+struct VxQuaternion;
 class VxMatrix;
 
 VX_EXPORT VxQuaternion Vx3DQuaternionSnuggle(VxQuaternion *Quat, VxVector *Scale);

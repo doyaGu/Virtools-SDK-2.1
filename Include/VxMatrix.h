@@ -12,8 +12,8 @@
 #include "VxVector.h"
 
 class VxMatrix;
-class Vx2DVector;
-class VxStridedData;
+struct Vx2DVector;
+struct VxStridedData;
 
 VX_EXPORT void Vx3DMatrixIdentity(VxMatrix &Mat);
 

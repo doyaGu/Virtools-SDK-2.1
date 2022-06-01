@@ -88,6 +88,27 @@ public:
 };
 
 /**************************************************************
+Summary: Rasterizer Events .
+
+Remarks:
+Rasterizer contexts used as render devices can be destroyed and recreated 
+at runtime. 
+According to implementation  (DirectX , OpenGL,etc.) some events can occur
+such as LostDevice with DirectX that you might need to handle when directly using 
+DirectX objects in a manager.
+See Also: CKBaseManager::OnRasterizerEvent
+****************************************************************/
+typedef enum CKRST_EVENTS 
+{
+    CKRST_EVENT_CREATE	= 0x00000001UL,	// Rasterizer context (device) has just been created
+    CKRST_EVENT_DESTROY	= 0x00000002UL,	// Rasterizer context (device) is being destroyed
+    CKRST_EVENT_LOST	= 0x00000003UL,	// Device was lost 
+    CKRST_EVENT_RESET	= 0x00000004UL,	// Device was reset
+    CKRST_EVENT_RESIZING= 0x00000008UL,	// Device is about to be resized
+    CKRST_EVENT_RESIZED	= 0x00000010UL,	// Device was resized
+} CKRST_EVENTS;
+
+/**************************************************************
 Summary: Vertex format and draw primitive options.
 
 Remarks:
@@ -993,8 +1014,6 @@ typedef struct Vx3DCapsDesc
     DWORD RasterCaps;				// Rasterization Caps CKRST_RASTERCAPS
     DWORD SrcBlendCaps;				// Source Blend Caps CKRST_BLENDCAPS
     DWORD DestBlendCaps;			// Destination Blend Caps CKRST_BLENDCAPS
-    DWORD CKRasterizerSpecificCaps; // Specific to CKRasterizers CKRST_SPECIFICCAPS
-    DWORD MaxIndexedBlendMatrices;	// Number of indexed Matrices
 } Vx3DCapsDesc;
 
 /****************************************************************

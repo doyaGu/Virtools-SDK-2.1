@@ -10,8 +10,8 @@
 
 #include "XUtil.h"
 
-class VxVector;
-class VxBbox;
+struct VxVector;
+struct VxBbox;
 class VxMatrix;
 class VxRay;
 class VxOBB;
