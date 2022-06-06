@@ -28,7 +28,7 @@ struct CKPARAMETER_DESC
 {
     CKSTRING Name; // Parameter Name
     CKGUID Guid;   // Guid identifying the type
-    int Type;	   // In, Out or local
+    int Type;      // In, Out or local
     CKSTRING DefaultValueString;
     BYTE *DefaultValue;
     int DefaultValueSize;
@@ -176,16 +176,16 @@ public:
 
     //---------------------------------------------------------------------
     // Info Functions {Secret}
-    int GetInputCount() { return m_InIOList.Size(); }
-    int GetOutputCount() { return m_OutIOList.Size(); }
-    int GetInParameterCount() { return m_InParameterList.Size(); }
-    int GetOutParameterCount() { return m_OutParameterList.Size(); }
-    int GetLocalParameterCount() { return m_LocalParameterList.Size(); }
-    const XArray<CKBEHAVIORIO_DESC> &GetInIOList() { return m_InIOList; }
-    const XArray<CKBEHAVIORIO_DESC> &GetOutIOList() { return m_OutIOList; }
-    const XClassArray<CKPARAMETER_DESC> &GetInParameterList() { return m_InParameterList; }
-    const XClassArray<CKPARAMETER_DESC> &GetOutParameterList() { return m_OutParameterList; }
-    const XClassArray<CKPARAMETER_DESC> &GetLocalParameterList() { return m_LocalParameterList; }
+    int GetInputCount() { return m_InIOCount; }
+    int GetOutputCount() { return m_OutIOCount; }
+    int GetInParameterCount() { return m_InParameterCount; }
+    int GetOutParameterCount() { return m_OutParameterCount; }
+    int GetLocalParameterCount() { return m_LocalParameterCount; }
+    const CKBEHAVIORIO_DESC *GetInIOList() { return m_InIOList; }
+    const CKBEHAVIORIO_DESC *GetOutIOList() { return m_OutIOList; }
+    const CKPARAMETER_DESC *GetInParameterList() { return m_InParameterList; }
+    const CKPARAMETER_DESC *GetOutParameterList() { return m_OutParameterList; }
+    const CKPARAMETER_DESC *GetLocalParameterList() { return m_LocalParameterList; }
 
     CKObjectDeclaration *GetSoureObjectDeclaration();
 
@@ -217,11 +217,16 @@ private:
     CKBEHAVIORCALLBACKFCT m_CallbackFctPtr;
     CKDWORD m_CallBackMask;
 
-    XArray<CKBEHAVIORIO_DESC> m_InIOList;
-    XArray<CKBEHAVIORIO_DESC> m_OutIOList;
-    XClassArray<CKPARAMETER_DESC> m_InParameterList;
-    XClassArray<CKPARAMETER_DESC> m_OutParameterList;
-    XClassArray<CKPARAMETER_DESC> m_LocalParameterList;
+    int m_InIOCount;
+    int m_OutIOCount;
+    int m_InParameterCount;
+    int m_LocalParameterCount;
+    int m_OutParameterCount;
+    CKBEHAVIORIO_DESC *m_InIOList;
+    CKBEHAVIORIO_DESC *m_OutIOList;
+    CKPARAMETER_DESC *m_InParameterList;
+    CKPARAMETER_DESC *m_OutParameterList;
+    CKPARAMETER_DESC *m_LocalParameterList;
     CK_BEHAVIOR_TYPE m_BehaviorType;
     void *m_CallBackParam;
     CKObjectDeclaration *m_SourceObjectDeclaration;
