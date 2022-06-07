@@ -65,7 +65,7 @@ public:
     CKERROR DestroyObject(CKObject *obj, DWORD Flags = 0, CKDependencies *depoptions = NULL);
     CKERROR DestroyObject(CK_ID id, DWORD Flags = 0, CKDependencies *depoptions = NULL);
     CKERROR DestroyObjects(CK_ID *obj_ids, int Count, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
-    void DestroyAllDynamicObjects(CKScene *iScene = NULL);
+    void DestroyAllDynamicObjects();
     void ChangeObjectDynamic(CKObject *iObject, CKBOOL iSetDynamic = TRUE);
 
     const XObjectPointerArray &CKFillObjectsUnused();

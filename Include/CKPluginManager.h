@@ -293,11 +293,6 @@ protected:
     void InitializeBehaviors(CKDLL_OBJECTDECLARATIONFUNCTION Fct, CKPluginEntry &entry);
     void RemoveBehaviors(int PluginIndex);
 
-#ifdef CK_LIB
-
-    XArray<CKRST_GETINFO> m_StaticRasterizers;
-#endif
-
     int AddPlugin(int catIdx, CKPluginEntry &Plugin); // Adds a Plugin to a category
     CKERROR RemovePlugin(int catIdx, int PluginIdx);  // Removes a Plugin in a category
 

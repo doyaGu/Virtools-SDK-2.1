@@ -120,8 +120,6 @@ public:
         Height: height in pixel of the bitmap to create
         BPP: Bit per pixel of the bitmap
         Slot: If there a multiple images, index of the image slot to create.
-        ImagePointer : You can provide a image pointer that will be used instead of allocating it in CKBitmap Data.
-        The pointer must NOT be deleted afterwards and will be deleted by CKBitmapData when the slot is deleted.
         If the system caching mode is CKBITMAP_PROCEDURAL (See SetSystemCaching) the image pointer must be a 32 bit ARGB image allocated with the correct Width and Height.
         Otherwise if the system caching mode is CKBITMAP_VIDEOSHADOW or CKBITMAP_DISCARD the image data must be in the same format than video memory pixel format.
     Return Value: TRUE if successful, FALSE otherwise.
@@ -132,7 +130,7 @@ public:
     the method returns FALSE.
     See Also:SaveImage,
     *******************************************************/
-    CKBOOL CreateImage(int Width, int Height, int BPP = 32, int Slot = 0, void *ImagePointer = NULL);
+    CKBOOL CreateImage(int Width, int Height, int BPP = 32, int Slot = 0);
     /************************************************
     Summary: Saves an image slot to a file.
     Arguments:
