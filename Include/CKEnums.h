@@ -1500,8 +1500,7 @@ typedef enum CK_VIRTOOLS_VERSION
 
 typedef enum CKKEYBOARD
 {
-    CKK,
-    EY_ESCAPE = 0x01, // Escape
+    CKKEY_ESCAPE = 0x01, // Escape
     CKKEY_1 = 0x02, // 1 through 0 on main keyboard
     CKKEY_2 = 0x03,
     CKKEY_3 = 0x04,
