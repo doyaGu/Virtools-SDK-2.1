@@ -40,7 +40,7 @@ See also: CKPathMaker,CKPathSplitter
 class CKDirectoryParser
 {
 public:
-    VX_EXPORT CKDirectoryParser(char *dir, char *fileMask, BOOL recurse = FALSE, BOOL iReturnDirectory = FALSE);
+    VX_EXPORT CKDirectoryParser(char *dir, char *fileMask, BOOL recurse = FALSE);
 
     VX_EXPORT ~CKDirectoryParser();
     VX_EXPORT char *GetNextFile();
