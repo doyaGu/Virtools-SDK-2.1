@@ -142,6 +142,7 @@ public:
 protected:
     short int m_ActivationDelay;
     short int m_InitialActivationDelay;
+    CKDWORD m_Flags;
     CKBehaviorIO *m_InIO;
     CKBehaviorIO *m_OutIO;
 #endif // Docjet secret macro
