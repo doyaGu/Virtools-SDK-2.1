@@ -1,13 +1,5 @@
-/*************************************************************************/
-/*	File : CKGlobals.h						 		 					 */
-/*																		 */
-/*  Globals Functions for Virtools SDK									 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _CKGLOBALS_H
-#define _CKGLOBALS_H "$Id:$"
+#ifndef CKGLOBALS_H
+#define CKGLOBALS_H
 
 #include "CKDefines.h"
 #include "CKDefines2.h"
@@ -25,13 +17,13 @@ CKContext *GetCKContext(int pos);
 
 CKObject *CKGetObject(CKContext *iCtx, CK_ID iID);
 
-CKERROR CKCreateContext(CKContext **iContext, WIN_HANDLE iWin, int iRenderEngine, DWORD Flags);
+CKERROR CKCreateContext(CKContext **iContext, WIN_HANDLE iWin, int iRenderEngine, CKDWORD Flags);
 CKERROR CKCloseContext(CKContext *);
 
 CKSTRING CKGetStartPath();
 CKSTRING CKGetPluginsPath();
 
-void CKDestroyObject(CKObject *o, DWORD Flags = 0, CKDependencies *dep = NULL);
+void CKDestroyObject(CKObject *o, CKDWORD Flags = 0, CKDependencies *dep = NULL);
 
 CKDWORD CKGetVersion();
 
@@ -120,7 +112,7 @@ CKWORD CKConvertEndian16(CKWORD w);
 //------------------------------------------------
 // Compression utilities
 
-CKDWORD CKComputeDataCRC(char *data, int size, DWORD PreviousCRC = 0);
+CKDWORD CKComputeDataCRC(char *data, int size, CKDWORD PreviousCRC = 0);
 char *CKPackData(char *Data, int size, int &NewSize, int compressionlevel);
 char *CKUnPackData(int DestSize, char *SrcBuffer, int SrcSize);
 
@@ -147,8 +139,6 @@ CKDependencies *CKGetDefaultClassDependencies(CK_DEPENDENCIES_OPMODE mode);
 void CKDeletePointer(void *ptr);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
 //-------------------------------------------------
 // Merge Utilities
@@ -193,5 +183,4 @@ void CKClassRegister(CK_CLASSID Cid, CK_CLASSID Parent_Cid,
                      CKCLASSNAMEFCT NameFct, CKCLASSDEPENDENCIESFCT DependsFct,
                      CKCLASSDEPENDENCIESCOUNTFCT DependsCountFct);
 
-#endif // Docjet secret macro
-#endif
+#endif // CKGLOBALS_H

@@ -1,19 +1,13 @@
-/*************************************************************************/
-/*	File : CKPathManager.h			 				 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPATHMANAGER_H
-#define CKPATHMANAGER_H "$Id:$"
+#define CKPATHMANAGER_H
 
+#include "CKBaseManager.h"
 #include "XClassArray.h"
 #include "XString.h"
 
 /****************************************************
 {filename:CK_PATHMANAGER_CATEGORY}
-Summary: Enumeration of pre-registred path categories
+Summary: Enumeration of pre-registered path categories
 
 Remarks
     + The path manager pre-registers 3 categories of path (sound,bitmap and misc. data).
@@ -22,7 +16,7 @@ See Also: CKPathManager
 typedef enum CK_PATHMANAGER_CATEGORY
 {
     BITMAP_PATH_IDX = 0, // Category index for bitmaps paths
-    DATA_PATH_IDX = 1,	 // Category index for datas paths
+    DATA_PATH_IDX = 1,	 // Category index for data paths
     SOUND_PATH_IDX = 2	 // Category index for sounds paths
 } CK_PATHMANAGER_CATEGORY;
 
@@ -43,7 +37,7 @@ Remarks:
 + The path manager holds a set of paths that everybody can use to
 retrieve a file.
 
-+ These paths are put into relevant categories (bitmap,sound,datas) but
++ These paths are put into relevant categories (bitmap,sound,data) but
 new categories for application specific data can be defined.
 
 + The Path manager also provides some utility methods to work on paths.
@@ -114,10 +108,10 @@ public:
     //--- Utilities
 
     // Path Type
-    BOOL PathIsAbsolute(XString &file);
-    BOOL PathIsUNC(XString &file);
-    BOOL PathIsURL(XString &file);
-    BOOL PathIsFile(XString &file);
+    CKBOOL PathIsAbsolute(XString &file);
+    CKBOOL PathIsUNC(XString &file);
+    CKBOOL PathIsURL(XString &file);
+    CKBOOL PathIsFile(XString &file);
 
     // Converts '%20' characters to ' '
     void RemoveEscapedSpace(char *str);
@@ -125,7 +119,7 @@ public:
     // Converts '' characters to '%20'
     void AddEscapedSpace(XString &str);
 
-    // Virtools tempory storage folder...
+    // Virtools temporary storage folder...
     XString GetVirtoolsTemporaryFolder();
 
 protected:
@@ -134,13 +128,13 @@ protected:
     // Do not use, use RemoveEscapedSpace !
     void RemoveSpace(char *str);
 
-    BOOL TryOpenAbsolutePath(XString &file);
-    BOOL TryOpenFilePath(XString &file);
-    BOOL TryOpenURLPath(XString &file);
+    CKBOOL TryOpenAbsolutePath(XString &file);
+    CKBOOL TryOpenFilePath(XString &file);
+    CKBOOL TryOpenURLPath(XString &file);
 
     CKPATHCATEGORYVECTOR m_Categories;
     XString m_TemporaryFolder;
     CKBOOL m_TemporaryFolderExist;
 };
 
-#endif
+#endif // CKPATHMANAGER_H

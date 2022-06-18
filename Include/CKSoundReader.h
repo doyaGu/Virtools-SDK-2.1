@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : CKSoundReader.h												 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSOUNDREADER_H
 #define CKSOUNDREADER_H
 
@@ -33,28 +26,28 @@ public:
 
     virtual CK_DATAREADER_FLAGS GetFlags() { return m_Flags; }
 
-    virtual CKERROR OpenFile(char *file) = NULL;
-    virtual CKERROR Decode() = NULL;
+    virtual CKERROR OpenFile(char *file) = 0;
+    virtual CKERROR Decode() = 0;
 
-    virtual CKERROR GetDataBuffer(BYTE **buf, int *size) = NULL;
+    virtual CKERROR GetDataBuffer(CKBYTE **buf, int *size) = 0;
 
-    virtual CKERROR GetWaveFormat(CKWaveFormat *wfe) = NULL;
+    virtual CKERROR GetWaveFormat(CKWaveFormat *wfe) = 0;
 
-    virtual int GetDataSize() = NULL;
+    virtual int GetDataSize() = 0;
 
-    virtual int GetDuration() = NULL;
+    virtual int GetDuration() = 0;
 
-    virtual CKERROR Play() = NULL;
+    virtual CKERROR Play() = 0;
 
-    virtual CKERROR Stop() = NULL;
+    virtual CKERROR Stop() = 0;
 
-    virtual CKERROR Pause() = NULL;
+    virtual CKERROR Pause() = 0;
 
-    virtual CKERROR Resume() = NULL;
+    virtual CKERROR Resume() = 0;
 
-    virtual CKERROR Seek(int pos) = NULL;
+    virtual CKERROR Seek(int pos) = 0;
 
     virtual CKERROR ReadMemory(void *memory, int size) { return CK_OK; };
 };
 
-#endif
+#endif // CKSOUNDREADER_H

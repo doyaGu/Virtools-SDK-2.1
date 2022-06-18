@@ -1,16 +1,5 @@
-/*************************************************************************/
-/*	File : CKTimemanager.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	A Manager to provide the same acces to time to behaviors			 */
-/*	The time as seen by behaviors can be the real time or clamped		 */
-/*	and stretched to slow or accelerate	"real" time						 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKTIMEMANAGER_H
-#define CKTIMEMANAGER_H "$Id:$"
+#define CKTIMEMANAGER_H
 
 #include "CKDefines.h"
 #include "CKBaseManager.h"
@@ -26,7 +15,7 @@ Summary:Time limits settings
 Remarks:
 + The default settings for the process loop is to
 execute one behavioral process then one rendering (with
-a synchonization to screen refresh rate).
+a synchronization to screen refresh rate).
 + Behavioral process and Rendering can have a maximum frame rate
 in which case it is guaranteed the rendering and behavioral loop
 will not be called more than the given fps time per second. The asked frame rate
@@ -144,6 +133,7 @@ public:
     See also: GetTime,GetLastDeltaTime,SetLastDeltaTime,SetMinimumDeltaTime,SetMaximumDeltaTime,GetTimeScaleFactor
     *********************************************************/
     void SetTimeScaleFactor(float mulfactor) { m_TimeScaleFactor = mulfactor; }
+
     /*********************************************************
     Summary: Gets the time scaling factor.
 
@@ -166,6 +156,7 @@ public:
     See Also:CK_FRAMERATE_LIMITS,ChangeLimitOptions
     *****************************************************/
     CKDWORD GetLimitOptions() { return m_LimitOptions; }
+
     /****************************************************
     Summary: Gets the frame rate limit
 
@@ -176,6 +167,7 @@ public:
     See Also:SetFrameRateLimit,GetLimitOptions,ChangeLimitOptions
     *****************************************************/
     float GetFrameRateLimit() { return m_LimitFrameRate; }
+
     /****************************************************
     Summary: Gets the behavioral rate limit
 
@@ -186,6 +178,7 @@ public:
     See Also:SetBehavioralRateLimit,GetLimitOptions,ChangeLimitOptions
     *****************************************************/
     float GetBehavioralRateLimit() { return m_LimitBehRate; }
+
     /****************************************************
     Summary: Gets the minimum delta time.
 
@@ -197,6 +190,7 @@ public:
     See Also:SetMinimumDeltaTime,GetMaximumDeltaTime
     *****************************************************/
     float GetMinimumDeltaTime() { return m_MinimumDeltaTime; }
+
     /****************************************************
     Summary: Gets the maximum delta time.
 
@@ -208,6 +202,7 @@ public:
     See Also:GetMinimumDeltaTime,SetMaximumDeltaTime
     *****************************************************/
     float GetMaximumDeltaTime() { return m_MaximumDeltaTime; }
+
     /****************************************************
     Summary: Changes the rendering and behavioral frame rate limits.
 
@@ -223,6 +218,7 @@ public:
     See Also:CK_FRAMERATE_LIMITS,SetBehavioralRateLimit,SetFrameRateLimit,GetLimitOptions
     *****************************************************/
     void ChangeLimitOptions(CK_FRAMERATE_LIMITS FpsOptions, CK_FRAMERATE_LIMITS BehOptions = CK_RATE_NOP);
+
     /****************************************************
     Summary: Sets the frame rate limit
 
@@ -233,6 +229,7 @@ public:
     See Also:GetFrameRateLimit,GetLimitOptions,ChangeLimitOptions
     *****************************************************/
     void SetFrameRateLimit(float FRLimit);
+
     /****************************************************
     Summary: Sets the behavioral rate limit
 
@@ -243,6 +240,7 @@ public:
     See Also:GetBehavioralRateLimit,GetLimitOptions,ChangeLimitOptions
     *****************************************************/
     void SetBehavioralRateLimit(float BRLimit);
+
     /****************************************************
     Summary: Sets the minimum delta time.
 
@@ -256,6 +254,7 @@ public:
     See Also:SetMaximumDeltaTime,GetMinimumDeltaTime
     *****************************************************/
     void SetMinimumDeltaTime(float DtMin);
+
     /****************************************************
     Summary: Sets the maximum delta time.
 
@@ -274,7 +273,7 @@ public:
     Summary: Set the DeltaTime for custom use.
 
     Remarks:
-        +This is usefull for special purposes.
+        +This is useful for special purposes.
     See also: GetTime,GetLastDeltaTime,SetLastDeltaTime,SetMinimumDeltaTime,SetMaximumDeltaTime,SetTimeScaleFactor
     *********************************************************/
     void SetLastDeltaTime(float DtSet) { m_DeltaTime = DtSet; }
@@ -292,12 +291,12 @@ public:
         a process loop.
     Remarks:
     + This method returns the time to wait in milliseconds
-    to perfom a rendering or a process loop so that the
+    to perform a rendering or a process loop so that the
     time manager limits are respected.
     + If the rendering or the behavioral process are not limited to given frame rate the
     method returns 0 values.
     Example
-        // This is a standard loop that takes potential frame rate limitats
+        // This is a standard loop that takes potential frame rate limits
         // into account
 
         CKTimeManager* TheTimeManager = TheContext->GetTimeManager();
@@ -328,8 +327,6 @@ public:
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
     virtual CKERROR PreProcess();
     virtual CKERROR OnCKPlay();
@@ -383,7 +380,6 @@ protected:
     VxTimeProfiler m_StartupChrono;
 
     float m_DeltaTimeFree;
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKTIMEMANAGER_H

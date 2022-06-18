@@ -1,13 +1,7 @@
-/*************************************************************************/
-/*	File : XSMatrix.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XSMATRIX_H_
-#define _XSMATRIX_H_
+#ifndef XSMATRIX_H
+#define XSMATRIX_H
 
+#include "VxMathDefines.h"
 #include "XUtil.h"
 
 // Template class Describing a 2D Matrix of variable width and height.
@@ -20,7 +14,7 @@ public:
         Allocate(iWidth, iHeight);
     }
 
-    ~XMatrix(void)
+    ~XMatrix()
     {
         delete[] m_Data;
     }
@@ -106,4 +100,4 @@ private:
     int m_Height;
 };
 
-#endif
+#endif // XSMATRIX_H

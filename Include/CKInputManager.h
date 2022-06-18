@@ -1,16 +1,9 @@
-/*************************************************************************/
-/*	File : CKInputManager.h					 		 					 */
-/*	Author : Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKINPUTMANAGER_H
-#define CKINPUTMANAGER_H "$Id:$"
+#define CKINPUTMANAGER_H
 
-#include "VxMath.h"
-#include "CKdefines.h"
+#include "CKDefines.h"
 #include "CKBaseManager.h"
+#include "VxMath.h"
 
 #define NO_KEY       0
 #define KEY_PRESSED  1
@@ -43,7 +36,7 @@ class CKInputManager : public CKBaseManager
 
 public:
     //*****************************************************
-    // Keyboard Acces
+    // Keyboard Access
 
     /************************************************
     Summary: Enables/Disables keyboard repetition.
@@ -59,7 +52,7 @@ public:
     Summary: Tests if the keyboard repetition is enabled
 
     Return Value:
-        TRUE if the keyboard repetion is enabled, FALSE otherwise.
+        TRUE if the keyboard repetition is enabled, FALSE otherwise.
 
     See Also: EnableKeyboardRepetition
     ************************************************/
@@ -121,7 +114,7 @@ public:
     Summary: Gets a key code from a key name.
 
     Arguments:
-        iKeyName: Name of the key code to retreive
+        iKeyName: Name of the key code to retrieve
     Return Value:
         Key code (in the CKKEYBOARD enumeration)
 
@@ -130,7 +123,7 @@ public:
     virtual CKDWORD GetKeyFromName(XString &iKeyName) = 0;
 
     /************************************************
-    Summary: Retreive the current state of the whole keyboard.
+    Summary: Retrieve the current state of the whole keyboard.
 
     Return Value:
         An array of 256 chars representing the state of each key. If
@@ -362,7 +355,7 @@ public:
     //*****************************************************
     // Suspend manager
 
-    virtual void Pause(BOOL pause) = 0;
+    virtual void Pause(CKBOOL pause) = 0;
 
     //*****************************************************
     // Cursor Access
@@ -375,7 +368,7 @@ public:
 
     See Also: GetCursorVisibility
     ************************************************/
-    virtual void ShowCursor(BOOL iShow) = 0;
+    virtual void ShowCursor(CKBOOL iShow) = 0;
 
     /************************************************
     Summary: Gets the cursor visibility.
@@ -385,7 +378,7 @@ public:
 
     See Also: ShowCursor
     ************************************************/
-    virtual BOOL GetCursorVisibility() = 0;
+    virtual CKBOOL GetCursorVisibility() = 0;
 
     CKInputManager(CKContext *Context, CKSTRING name) : CKBaseManager(Context, INPUT_MANAGER_GUID, name) {}
 
@@ -396,4 +389,4 @@ public:
     virtual void SetSystemCursor(VXCURSOR_POINTER cursor) = 0;
 };
 
-#endif
+#endif // CKINPUTMANAGER_H

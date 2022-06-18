@@ -1,16 +1,8 @@
-/*************************************************************************/
-/*	File : XString.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XSTRING_H_
-#define _XSTRING_H_
+#ifndef XSTRING_H
+#define XSTRING_H
 
+#include "VxMathDefines.h"
 #include "XUtil.h"
-
-#include <string.h>
 
 class XString;
 
@@ -41,7 +33,7 @@ public:
     ************************************************/
     XBaseString() : m_Buffer(0), m_Length(0), m_Allocated(0) {}
 
-    // Ctor from a const string litteral
+    // Ctor from a const string literal
     // Warning : the size is calculated here
     XBaseString(const char *iString)
     {
@@ -109,13 +101,13 @@ public:
     ************************************************/
     const char operator[](XWORD i) const
     {
-        assert(i < m_Length);
+        XASSERT(i < m_Length);
         return m_Buffer[i];
     }
 
     const char operator[](int i) const
     {
-        assert(i < m_Length);
+        XASSERT(i < m_Length);
         return m_Buffer[i];
     }
 
@@ -189,13 +181,13 @@ public:
     ************************************************/
     char &operator[](XWORD i)
     {
-        assert(i < m_Length);
+        XASSERT(i < m_Length);
         return m_Buffer[i];
     }
 
     char &operator[](int i)
     {
-        assert(i < m_Length);
+        XASSERT(i < m_Length);
         return m_Buffer[i];
     }
 
@@ -207,13 +199,13 @@ public:
     ************************************************/
     char operator[](XWORD i) const
     {
-        assert(i < m_Length);
+        XASSERT(i < m_Length);
         return m_Buffer[i];
     }
 
     char operator[](int i) const
     {
-        assert(i < m_Length);
+        XASSERT(i < m_Length);
         return m_Buffer[i];
     }
 
@@ -330,10 +322,10 @@ public:
     // cuts the string
     VX_EXPORT XString &Cut(XWORD iStart, XWORD iLength);
 
-    // replaces all the occurence of a character by another one
+    // replaces all the occurrence of a character by another one
     VX_EXPORT int Replace(char iSrc, char iDest);
 
-    // replaces all the occurence of a string by another string
+    // replaces all the occurrence of a string by another string
     VX_EXPORT int Replace(const XBaseString &iSrc, const XBaseString &iDest);
 
     ///
@@ -413,7 +405,7 @@ public:
     }
 
     /************************************************
-    Summary: Creteas a new string that is the concatenation of the
+    Summary: Creates a new string that is the concatenation of the
     left and right operand.
     ************************************************/
 
@@ -528,4 +520,4 @@ protected:
     void Assign(const char *iBuffer, int iLength);
 };
 
-#endif // _XSTRING_H_
+#endif // XSTRING_H

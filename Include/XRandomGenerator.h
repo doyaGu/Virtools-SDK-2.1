@@ -6,7 +6,8 @@
 // created  : AGoTH
 // date		: 01/12/01
 /////////////////////////////////////////////////
-#include <cstdlib>
+#include <stdlib.h>
+#include <math.h>
 
 //
 template <class R>
@@ -38,7 +39,7 @@ float GaussianDistribution(const R &iRG, float iMean, float iDeviation)
             w = x1 * x1 + x2 * x2;
         } while (w >= 1.0f);
 
-        // I need to /4 otherwise it pass the bounds !
+        // I need to /4 otherwise it passes the bounds !
         w = 0.25f * sqrtf((-2.0f * logf(w)) / w);
         y1 = x1 * w;
         y2 = x2 * w;
@@ -65,14 +66,14 @@ public:
         srand(iSeed);
     }
 
-    // Returns an uniformely distribued float
+    // Returns an uniformly distributed float
     // value : [0,1)
     float operator()() const
     {
         return (INVRANDMAX * rand());
     }
 
-    // returns a random number distribued
+    // returns a random number distributed
     // "gaussianly" with a mean and a deviation
     // value : [iMean-iDeviation,iMean+iDeviation)
     float Gaussian(float iMean, float iDeviation) const
@@ -95,7 +96,7 @@ public:
         Init();
     }
 
-    // Returns an uniformely distribued float
+    // Returns an uniformly distributed float
     // value : [0,1)
     float operator()() const
     {
@@ -113,7 +114,7 @@ public:
         return (float)(s_Factor * m_IX);
     }
 
-    // returns a random number distribued
+    // returns a random number distributed
     // "gaussianly" with a mean and a deviation
     // value : [iMean-iDeviation,iMean+iDeviation)
     float Gaussian(float iMean, float iDeviation) const
@@ -125,7 +126,7 @@ private:
     // Methods
     void Init()
     {
-#define INDEX(k, j) [(k) + (j - 1)]
+#define INDEX(k, j) [(k) + ((j) - 1)]
 
         int j, k, l, ipp, niv;
         unsigned int i, mval;
@@ -175,7 +176,7 @@ private:
             for (j = 1; j <= mdeg[k]; j++)
                 s_IV INDEX(k, j) *= (1L << (s_MaxBit - j));
 
-            // calcululate the rest of the s_IV values
+            // calculate the rest of the s_IV values
             for (j = mdeg[k] + 1; j <= s_MaxBit; j++)
             {
                 ipp = ip[k];

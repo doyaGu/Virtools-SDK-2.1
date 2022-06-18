@@ -1,14 +1,8 @@
-/*************************************************************************/
-/*	File : CK2dCurvePoint.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CK2DCURVEPOINT_H
-#define CK2DCURVEPOINT_H "$Id:$"
+#define CK2DCURVEPOINT_H
 
 #include "CKDefines.h"
+#include "Vx2dVector.h"
 
 #define CK2DCURVEPOINT_USETANGENTS 0x01
 #define CK2DCURVEPOINT_LINEAR      0x02
@@ -272,9 +266,9 @@ protected:
     float m_Tension, m_Continuity, m_Bias; // t,c,b, parameters
     float m_Length;						   // Length of the curve at this control point
     Vx2DVector m_Position;				   // Control point Position
-    Vx2DVector m_InTang, m_OutTang;		   // Incoming and outgoing tangents (may be overriden by t,c,b parameters)
-    Vx2DVector m_RCurvePos;				   // Real curve pos (according to curve fittig coef)
-    CKDWORD m_Flags;					   // Linear and Usetangents flags
+    Vx2DVector m_InTang, m_OutTang;		   // Incoming and outgoing tangents (maybe override by t,c,b parameters)
+    Vx2DVector m_RCurvePos;				   // Real curve pos (according to curve fitting coef)
+    CKDWORD m_Flags;					   // Linear and Use-tangents flags
 };
 
-#endif
+#endif // CK2DCURVEPOINT_H

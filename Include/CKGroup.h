@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKGroup.h						 		 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKGROUP_H
-#define CKGROUP_H "$Id:$"
+#define CKGROUP_H
 
 #include "CKBeObject.h"
 
@@ -57,8 +50,6 @@ public:
 
 //--------------------------------------------------------
 ////               Private Part
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     virtual int CanBeHide();
 
@@ -102,7 +93,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKGroup *);
     static CK_ID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKGroup *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_GROUP) ? (CKGroup *)iO : NULL;
@@ -117,9 +108,7 @@ protected:
 
     CKBOOL m_ClassIdUpated;
 
-    DWORD m_GroupIndex;
-
-#endif // Docjet secret macro
+    CKDWORD m_GroupIndex;
 };
 
-#endif
+#endif // CKGROUP_H

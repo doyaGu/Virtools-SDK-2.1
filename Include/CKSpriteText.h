@@ -1,18 +1,8 @@
-/*************************************************************************/
-/*	File : CKSpriteText.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKSPRITETEXT_H) || defined(CK_3DIMPLEMENTATION)
-#define CKSPRITETEXT_H "$Id:$"
+#define CKSPRITETEXT_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CKSprite.h"
-
-#undef CK_PURE
-#define CK_PURE = 0
 
 /*************************************************
 {filename:CKSpriteText}
@@ -22,7 +12,7 @@ Summary: Text Only sprites.
 
 Remarks:
     + A SpriteText is a special kind of sprite that is used to draw text on screen.
-    Methods provides acces to font,color,background color and transparency settings as
+    Methods provides access to font,color,background color and transparency settings as
     well as text alignment in the sprite.
 
     + The size of image used to draw the text is given by CKSprite::Create.
@@ -49,7 +39,7 @@ public:
         text : A CKSTRING containing the new text.
     See also: GetText
     ************************************************/
-    virtual void SetText(CKSTRING text) CK_PURE;
+    virtual void SetText(CKSTRING text) = 0;
 
     /************************************************
     Summary: Gets the text drawn in the sprite.
@@ -57,10 +47,10 @@ public:
     Return Value: A CKSTRING containing the current text.
     See also: SetText
     ************************************************/
-    virtual CKSTRING GetText() CK_PURE;
+    virtual CKSTRING GetText() = 0;
 
     //-------------------------------------------
-    // Appearence
+    // Appearance
 
     /************************************************
     Summary: Sets the text color.
@@ -69,7 +59,7 @@ public:
         col: CKDWORD containing the new color ( 32 bit ARGB )
     See also: GetTextColor,GetBackgroundColor,SetBackgroundColor
     ************************************************/
-    virtual void SetTextColor(CKDWORD col) CK_PURE;
+    virtual void SetTextColor(CKDWORD col) = 0;
 
     /************************************************
     Summary: Gets the text color.
@@ -77,7 +67,7 @@ public:
     Return Value: Current text color.
     See also: SetTextColor,GetBackgroundColor,SetBackgroundColor
     ************************************************/
-    virtual CKDWORD GetTextColor() CK_PURE;
+    virtual CKDWORD GetTextColor() = 0;
 
     /************************************************
     Summary: Sets the background color in the sprite.
@@ -86,7 +76,7 @@ public:
         col: CKDWORD containing the new color ( 32 bit ARGB )
     See also: SetTextColor,GetTextColor, GetBackgroundColor
     ************************************************/
-    virtual void SetBackgroundColor(CKDWORD col) CK_PURE;
+    virtual void SetBackgroundColor(CKDWORD col) = 0;
 
     /************************************************
     Summary: Gets the background color.
@@ -94,7 +84,7 @@ public:
     Return Value: Current background color.
     See also: SetTextColor,GetTextColor, SetBackgroundColor
     ************************************************/
-    virtual CKDWORD GetBackgroundTextColor() CK_PURE;
+    virtual CKDWORD GetBackgroundTextColor() = 0;
 
     /************************************************
     Summary: Sets the font used to draw the text in the sprite.
@@ -110,7 +100,7 @@ public:
         + See CreateFont in the Win32 API documentation for more details.
     See also: RCKSpriteText
     ************************************************/
-    virtual void SetFont(CKSTRING FontName, int FontSize = 12, int Weight = 400, CKBOOL italic = FALSE, CKBOOL underline = FALSE) CK_PURE;
+    virtual void SetFont(CKSTRING FontName, int FontSize = 12, int Weight = 400, CKBOOL italic = FALSE, CKBOOL underline = FALSE) = 0;
 
     /************************************************
     Summary: Sets the drawing alignment for the sprite
@@ -119,7 +109,7 @@ public:
         align : A combination of CKSPRITETEXT_ALIGNMENT flags specifying how to align the text inside the sprite.
     See also: CKSPRITETEXT_ALIGNMENT, GetAlign
     ************************************************/
-    virtual void SetAlign(CKSPRITETEXT_ALIGNMENT align) CK_PURE;
+    virtual void SetAlign(CKSPRITETEXT_ALIGNMENT align) = 0;
 
     /************************************************
     Summary: Gets the drawing alignment of the sprite
@@ -127,7 +117,7 @@ public:
     Return Value: Current alignment options.
     See also: CKSPRITETEXT_ALIGNMENT, SetAlign
     ************************************************/
-    virtual CKSPRITETEXT_ALIGNMENT GetAlign() CK_PURE;
+    virtual CKSPRITETEXT_ALIGNMENT GetAlign() = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -150,4 +140,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKSPRITETEXT_H

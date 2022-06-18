@@ -1,14 +1,7 @@
-/*************************************************************************/
-/*	File : CKMessage.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKMESSAGE_H
-#define CKMESSAGE_H "$Id:$"
+#define CKMESSAGE_H
 
-#include "CKObject.h"
+#include "CKBeObject.h"
 
 typedef enum CK_MESSAGE_SENDINGTYPE
 {
@@ -63,7 +56,7 @@ public:
     Summary: Specify the sender of this message
 
     Arguments:
-        obj: Sender of this message (Optionnal).
+        obj: Sender of this message (Optional).
     See Also:GetSender
     ********************************************/
     void SetSender(CKBeObject *obj) { m_Sender = CKOBJID(obj); }
@@ -91,7 +84,7 @@ public:
     Summary: Returns the recipient of this message.
 
     Return Value:
-        A pointer to the CKObject that is recipientof this message.
+        A pointer to the CKObject that is recipient of this message.
     Remarks:
     The recipient is not taken into account when using a broadcast message.
     See Also: GetSendingType, SetRecipient, SetBroadcastObjectType
@@ -179,4 +172,4 @@ protected:
     CKContext *m_Context;
 };
 
-#endif
+#endif // CKMESSAGE_H

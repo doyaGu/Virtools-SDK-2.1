@@ -1,15 +1,10 @@
-/*************************************************************************/
-/*	File : CKObjectAnimation.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 1999, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKOBJECTANIMATION_H
-#define CKOBJECTANIMATION_H "$Id:$"
+#define CKOBJECTANIMATION_H
 
-#include "CKObject.h"
-#include "CKKeyFrameData.h"
+#include "CKSceneObject.h"
+#include "CKKeyframeData.h"
+#include "VxVector.h"
+#include "VxQuaternion.h"
 
 typedef struct CKAnimKey
 {
@@ -34,7 +29,7 @@ Remarks:
     + It contains keyframe data for position,scale and rotation. Each of this data is driven by
     a given controller which performs the interpolation according to its type (linear,TCB or bezier)
 
-    + It can also contain keyframe data for morphing in which case a key is the set of vertices (optionnaly normals)
+    + It can also contain keyframe data for morphing in which case a key is the set of vertices (optionally normals)
     to set to the target mesh.
 
     + If often occurs that several characters have common animations, to avoid data to be reproduced the common animation
@@ -194,7 +189,7 @@ public:
         ScaleRot: A VxQuaternion pointer, to be filled with off-axis Scale.
     Return value: TRUE, if successful, FALSE otherwise.
     Remarks:
-        + All pointers parameter are optionnal and can be set to NULL is some
+        + All pointers parameter are optional and can be set to NULL is some
         values are not desired.
         + This method is a combination of services provided by EvaluatePosition,
         EvaluateRotation, EvaluateScale, EvaluateScaleAxis.
@@ -525,7 +520,7 @@ public:
     Return value: current step of animation (0..1).
     Remarks:
         + The animation step is the percentage of the current frame on its
-        overal length.
+        overall length.
     See also: SetStep
     *************************************************/
     virtual float GetCurrentStep() = 0;
@@ -613,4 +608,4 @@ public:
     }
 };
 
-#endif
+#endif // CKOBJECTANIMATION_H

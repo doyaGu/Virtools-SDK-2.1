@@ -1,16 +1,8 @@
-/*************************************************************************/
-/*	File : VxRect.h														 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXRECT_H
 #define VXRECT_H
 
-#include "XUtil.h"
-#include "Vx2dVector.h"
 #include "VxMathDefines.h"
+#include "Vx2dVector.h"
 
 typedef enum VXRECT_INTERSECTION
 {
@@ -232,7 +224,7 @@ public:
     }
 
     /*************************************************
-    Summary: Creates a rectangle based on the top left coner and the size.
+    Summary: Creates a rectangle based on the top left corner and the size.
 
     Input Arguments:
     position: a Vx2DVector containing the top left corner.
@@ -582,7 +574,7 @@ public:
 
     See also: VxRect::IsInside
     *************************************************/
-    BOOL IsOutside(const VxRect &cliprect) const
+    XBOOL IsOutside(const VxRect &cliprect) const
     {
         // entirely clipped
         if (left >= cliprect.right)
@@ -598,7 +590,7 @@ public:
     }
 
     /*************************************************
-    Summary: Tests a point for rectangle interiority.
+    Summary: Tests a point for rectangle interior.
 
     Input Arguments:
     pt: Vx2DVector to test.
@@ -610,7 +602,7 @@ public:
 
     See also: VxRect::IsOutside
     *************************************************/
-    BOOL IsInside(const Vx2DVector &pt) const
+    XBOOL IsInside(const Vx2DVector &pt) const
     {
         if (pt.x < left)
             return FALSE;
@@ -633,7 +625,7 @@ public:
 
     See also: VxRect::IsEmpty, VxRect::IsOutside, VxRect::Clear
     *************************************************/
-    BOOL IsNull() const { return (left == 0 && right == 0 && bottom == 0 && top == 0); }
+    XBOOL IsNull() const { return (left == 0 && right == 0 && bottom == 0 && top == 0); }
 
     /*************************************************
     Summary: Tests if a rectangle is Empty (width==0 or height==0)
@@ -645,7 +637,7 @@ public:
 
     See also: VxRect::IsNull, VxRect::IsOutside, VxRect::Clear
     *************************************************/
-    BOOL IsEmpty() const { return ((left == right) || (bottom == top)); }
+    XBOOL IsEmpty() const { return ((left == right) || (bottom == top)); }
 
     /*************************************************
     Summary: Clips a rectangle over a clipping rectangle.
@@ -661,7 +653,7 @@ public:
 
     See also: VxRect::IsOutside,VxRect::IsInside
     *************************************************/
-    BOOL Clip(const VxRect &cliprect)
+    XBOOL Clip(const VxRect &cliprect)
     {
         // entirely clipped
         if (IsOutside(cliprect))
@@ -691,7 +683,7 @@ public:
 
     See also: VxRect::IsOutside,VxRect::IsInside
     *************************************************/
-    void Clip(Vx2DVector &pt, BOOL excluderightbottom = TRUE) const
+    void Clip(Vx2DVector &pt, XBOOL excluderightbottom = TRUE) const
     {
         if (pt.x < left)
             pt.x = left;
@@ -720,7 +712,7 @@ public:
     }
 
     /*************************************************
-    Summary: Transforms a rectangle from a screen referentiel to another.
+    Summary: Transforms a rectangle from a screen referential to another.
 
     Input Arguments:
     destscreen: destination referential screen defined by a rectangle.
@@ -815,4 +807,4 @@ inline int operator!=(const VxRect &r1, const VxRect &r2)
     return !(r1 == r2);
 }
 
-#endif
+#endif // VXRECT_H

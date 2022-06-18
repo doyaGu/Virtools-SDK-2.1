@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKInterfaceManager.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKINTERFACEMANAGER_H
-#define CKINTERFACEMANAGER_H "$Id:$"
+#define CKINTERFACEMANAGER_H
 
 #include "CKDefines.h"
 #include "CKBaseManager.h"
@@ -30,4 +23,4 @@ public:
     char m_TheName[128]; // Used as argument for rename dialog {secret}
 };
 
-#endif
+#endif // CKINTERFACEMANAGER_H

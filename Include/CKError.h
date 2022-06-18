@@ -1,12 +1,7 @@
-/*************************************************************************/
-/*	File : CKError.h				 				 					 */
-/*	List of possible Error Codes										 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 1999, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKERROR_H
-#define CKERROR_H "$Id:$"
+#define CKERROR_H
+
+#include "CKTypes.h"
 
 CKSTRING CKErrorToString(CKERROR err);
 
@@ -76,11 +71,11 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_RENDERCONTEXTINACTIVE					-19
 
-// there was no plugins to load this kind of file
+// there were no plugins to load this kind of file
 
 #define CKERR_NOLOADPLUGINS							-20
 
-// there was no plugins to save this kind of file
+// there were no plugins to save this kind of file
 
 #define CKERR_NOSAVEPLUGINS							-21
 
@@ -92,11 +87,11 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_INVALIDPLUGIN							-23
 
-// attempt use an object that wasnt initialized
+// attempt use an object that wasn't initialized
 
 #define  CKERR_NOTINITIALIZED						-24
 
-// attempt use a message type that wasn't registred
+// attempt use a message type that wasn't registered
 
 #define  CKERR_INVALIDMESSAGE						-25
 
@@ -108,7 +103,7 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_NODLLFOUND							-29
 
-// this dll has already been registred 
+// this dll has already been registered
 
 #define CKERR_ALREADYREGISTREDDLL					-30
 
@@ -173,11 +168,11 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_CANTWRITETOFILE						-50	
 
-// The behavior cannnot be added to this entity 
+// The behavior cannot be added to this entity
 
 #define CKERR_BEHAVIORADDDENIEDBYCB					-51	
 
-// The behavior cannnot be added to this entity 
+// The behavior cannot be added to this entity
 
 #define CKERR_INCOMPATIBLECLASSID					-52	
 
@@ -185,11 +180,11 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_MANAGERALREADYEXISTS					-53	
 
-// CKprocess or TimeManager process while CK is paused will fail
+// CKProcess or TimeManager process while CK is paused will fail
 
 #define CKERR_PAUSED								-54	
 
-// Some plugins were missing whileloading a file
+// Some plugins were missing while loading a file
 
 #define CKERR_PLUGINSMISSING						-55	
 
@@ -214,7 +209,7 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_NOANIMATIONKEY						-121
 
-// attemp to acces an animation key with an invalid index
+// attempt to access an animation key with an invalid index
 
 #define CKERR_INVALIDINDEX							-122
 
@@ -222,4 +217,4 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_INVALIDANIMATION						-123
 
-#endif
+#endif // CKERROR_H

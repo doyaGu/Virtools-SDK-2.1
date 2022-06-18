@@ -1,24 +1,14 @@
-/*************************************************************************/
-/*	File : XObjectArray.h												 */
-/*	Author :  Aymeric BARD												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XOBJECTARRAY_H
-#define _XOBJECTARRAY_H
+#ifndef XOBJECTARRAY_H
+#define XOBJECTARRAY_H
 
+#include "CKGlobals.h"
 #include "XArray.h"
 #include "XSArray.h"
 
-#include "CKGlobals.h"
-
 class CKDependenciesContext;
 class CKObject;
-
 class XObjectArray;
 class XObjectPointerArray;
-class XSObjectArray;
 class XSObjectPointerArray;
 
 #define ITEROBJECTARRAY(array, obj_type, action)                 \
@@ -112,7 +102,7 @@ public:
 
     See Also: XObjectArray::Check
     *******************************************************/
-    BOOL Check(CKContext *Context);
+    CKBOOL Check(CKContext *Context);
 
     /*******************************************************
     Summary: Adds given object's ID to the array only if it is not already present.
@@ -128,8 +118,8 @@ public:
         + Addition is done only if the given Object is not already in the array.
     See Also: FindObject, RemoveObject
     *******************************************************/
-    BOOL AddIfNotHere(CK_ID id);
-    BOOL AddIfNotHere(CKObject *obj);
+    CKBOOL AddIfNotHere(CK_ID id);
+    CKBOOL AddIfNotHere(CKObject *obj);
 
     /*******************************************************
     Summary: Gets an object from CK_ID's array.
@@ -176,7 +166,7 @@ public:
 
     See Also: FindObject, AddIfNotHere
     *******************************************************/
-    BOOL RemoveObject(CKObject *obj);
+    CKBOOL RemoveObject(CKObject *obj);
 
     /*******************************************************
     Summary: Checks if given object is in CK_ID's array.
@@ -189,7 +179,7 @@ public:
 
     See Also: AddIfNotHere, RemoveObject, FindID
     *******************************************************/
-    BOOL FindObject(CKObject *obj) const;
+    CKBOOL FindObject(CKObject *obj) const;
 
     /***************************************************************************
     Summary: Finds whether the given Object Id is in the Object Id Array.
@@ -202,7 +192,7 @@ public:
 
     See Also: FindObject
     *******************************************************/
-    BOOL FindID(CK_ID id) const { return Find(id) != m_End; }
+    CKBOOL FindID(CK_ID id) const { return Find(id) != m_End; }
 
     void Load(CKStateChunk *chunk);
     void Save(CKStateChunk *chunk, CKContext *ctx) const;
@@ -239,7 +229,7 @@ public:
 
     See Also: RemoveObject, FindObject
     *******************************************************/
-    BOOL AddIfNotHere(CKObject *obj)
+    CKBOOL AddIfNotHere(CKObject *obj)
     {
         if (FindObject(obj))
             return FALSE;
@@ -295,7 +285,7 @@ public:
 
     See Also: RemoveObject, AddIfNotHere
     *******************************************************/
-    BOOL FindObject(CKObject *obj) const { return IsHere(obj); }
+    CKBOOL FindObject(CKObject *obj) const { return IsHere(obj); }
 
     /*******************************************************
     Summary: Gets the object id from object array at a given position.
@@ -325,7 +315,7 @@ public:
 
     See Also: XSObjectPointerArray::Check
     *******************************************************/
-    BOOL Check();
+    CKBOOL Check();
 
     void Load(CKContext *Context, CKStateChunk *chunk);
     void Save(CKStateChunk *chunk) const;
@@ -405,7 +395,7 @@ public:
 
     See Also: XSObjectArray::Check
     *******************************************************/
-    BOOL Check(CKContext *Context);
+    CKBOOL Check(CKContext *Context);
 
     /*******************************************************
     Summary: Adds given object's ID to the array if it is not already present..
@@ -422,8 +412,8 @@ public:
 
     See Also: FindObject, RemoveObject
     *******************************************************/
-    BOOL AddIfNotHere(CK_ID id);
-    BOOL AddIfNotHere(CKObject *obj);
+    CKBOOL AddIfNotHere(CK_ID id);
+    CKBOOL AddIfNotHere(CKObject *obj);
 
     /*******************************************************
     Summary: Gets an object from CK_ID's array.
@@ -470,7 +460,7 @@ public:
 
     See Also: FindObject, AddIfNotHere
     *******************************************************/
-    BOOL RemoveObject(CKObject *obj);
+    CKBOOL RemoveObject(CKObject *obj);
 
     /*******************************************************
     Summary: Checks if given object is in CK_ID's array.
@@ -483,7 +473,7 @@ public:
 
     See Also: AddIfNotHere, RemoveObject, FindID
     *******************************************************/
-    BOOL FindObject(CKObject *obj) const;
+    CKBOOL FindObject(CKObject *obj) const;
 
     /***************************************************************************
     Summary: Finds whether the given Object Id is in the Object Id Array.
@@ -496,7 +486,7 @@ public:
 
     See Also: FindObject
     *******************************************************/
-    BOOL FindID(CK_ID id) const { return Find(id) != m_End; }
+    CKBOOL FindID(CK_ID id) const { return Find(id) != m_End; }
 
     void Load(CKStateChunk *chunk);
     void Save(CKStateChunk *chunk, CKContext *ctx) const;
@@ -533,7 +523,7 @@ public:
 
     See Also: RemoveObject, FindObject
     *******************************************************/
-    BOOL AddIfNotHere(CKObject *obj)
+    CKBOOL AddIfNotHere(CKObject *obj)
     {
         if (FindObject(obj))
             return FALSE;
@@ -590,7 +580,7 @@ public:
 
     See Also: RemoveObject, AddIfNotHere
     *******************************************************/
-    BOOL FindObject(CKObject *obj) const { return IsHere(obj); }
+    CKBOOL FindObject(CKObject *obj) const { return IsHere(obj); }
 
     /*******************************************************
     Summary: Gets the object id from object array at a given position.
@@ -620,7 +610,7 @@ public:
 
     See Also: XObjectPointerArray::Check
     **************************************************************/
-    BOOL Check();
+    CKBOOL Check();
 
     void Load(CKContext *Context, CKStateChunk *chunk);
     void Save(CKStateChunk *chunk) const;
@@ -628,4 +618,4 @@ public:
     void Remap(CKDependenciesContext &context);
 };
 
-#endif
+#endif // XOBJECTARRAY_H

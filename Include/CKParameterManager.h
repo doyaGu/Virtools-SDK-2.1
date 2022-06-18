@@ -1,17 +1,11 @@
-/*************************************************************************/
-/*	File : CKParameterManager.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPARAMETERMANAGER_H
-#define CKPARAMETERMANAGER_H "$Id:$"
+#define CKPARAMETERMANAGER_H
 
+#include "CKBaseManager.h"
+#include "CKContext.h"
 #include "CKParameterIn.h"
 #include "CKParameterOut.h"
 #include "CKParameterLocal.h"
-#include "CKContext.h"
 
 /********************************************************
  Kept for compatibility issues : On macintosh the
@@ -40,8 +34,6 @@ method to easily access a structure members.
 
 + A structure defined in C like this:
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
           typedef struct MyStructure
           {
               float		  Priority;
@@ -49,20 +41,12 @@ method to easily access a structure members.
               CK_ID		  ObstacleId;
           } MyStructure;
 
-{html:</td></tr></table>}
-
 is equivalent to declare
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
         #define  CKPGUID_MYSTRUCT CKGUID(0x4a893652,0x76e72d5c)
         ParameterManager->RegisterNewStructure(CKPGUID_MYSTRUCT,"MyStructure","Priority,Position,Obstacle",CKPGUID_FLOAT,CKPGUID_VECTOR,CKPGUID_3DENTITY);
 
-{html:</td></tr></table>}
-
 then the CKStructHelper can help to have a description of this structure later :
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
         CKStructHelper	StructDesc(Context,CKPGUID_MYSTRUCT);
         int Count = StructDesc.GetMemberCount();
@@ -71,11 +55,7 @@ then the CKStructHelper can help to have a description of this structure later :
             StructDesc.GetMemberGUID(i);  // CKPGUID_FLOAT,CKPGUID_VECTOR,CKPGUID_3DENTITY
         }
 
-{html:</td></tr></table>}
-
 or it can be use to access the sub-members of a parameter of the type CKPGUID_MYSTRUCT for example:
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
         CKStructParameter MyStruct(param);
 
@@ -87,8 +67,6 @@ or it can be use to access the sub-members of a parameter of the type CKPGUID_MY
         MyStruct[0]->GetValue(&Priority);
         MyStruct[1]->GetValue(&Position);
         MyStruct[2]->GetValue(&ObstacleId);
-
-{html:</td></tr></table>}
 
 See Also: RegisterNewStructure,
 ************************************************************/
@@ -112,8 +90,8 @@ public:
     Return Value:
         A pointer to a CKParameter that holds the ith member.
     Remarks:
-    This method does not perform any check concerning the validty of the given index, it is
-    the user responsability to ensure it is below GetMemberCount
+    This method does not perform any check concerning the validity of the given index, it is
+    the user responsibility to ensure it is below GetMemberCount
     See also:GetMemberGUID,GetMemberName,GetMemberCount
     *****************************************************************************/
     CKParameter *operator[](int i) { return (CKParameter *)m_Context->GetObject(m_SubIDS[i]); }
@@ -165,9 +143,9 @@ perform the same kind of operations on different types of parameters. For exampl
 add floats and also imagine adding 3D entities.
 In order to define a new operation type, its family should first be registered, then its function should
 be declared. When a family is unregistered, all the operations of that family are unregistered too. In all
-cases the name argument is provided as a conveniency for debugging and display purposes.
+cases the name argument is provided as a convenience for debugging and display purposes.
 
-See Also: CKParameterOperation, CKParameter,CKParameterIn, CKParameterOut,ParameterOperation Types,Pre-Registred Parameter Types
+See Also: CKParameterOperation, CKParameter,CKParameterIn, CKParameterOut,ParameterOperation Types,Pre-Registered Parameter Types
 ********************************************/
 class CKParameterManager : public CKBaseManager
 {
@@ -232,7 +210,7 @@ public:
     CKERROR UnRegisterOperationType(CKOperationType opcode);
 
     //-----------------------------------------------------------------------
-    // Operation function acces
+    // Operation function access
     CKERROR RegisterOperationFunction(CKGUIDREF operation, CKGUIDREF type_paramres, CKGUIDREF type_param1, CKGUIDREF type_param2, CK_PARAMETEROPERATION op);
 
     CK_PARAMETEROPERATION GetOperationFunction(CKGUIDREF operation, CKGUIDREF type_paramres, CKGUIDREF type_param1, CKGUIDREF type_param2);
@@ -276,7 +254,7 @@ protected:
     XHashGuidToType m_ParamGuids;
     XHashGuidToType m_OpGuids;
 
-    BOOL m_DerivationMasksUpTodate;
+    CKBOOL m_DerivationMasksUpToDate;
 
     int m_NbFlagsDefined;
     CKFlagsStruct *m_Flags;
@@ -300,4 +278,4 @@ private:
     CKBOOL RemoveAllOperations();
 };
 
-#endif
+#endif // CKPARAMETERMANAGER_H

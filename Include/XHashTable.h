@@ -1,19 +1,12 @@
-/*************************************************************************/
-/*	File : XHashTable.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XHashTable_H_
-#define _XHashTable_H_
+#ifndef XHASHTABLE_H
+#define XHASHTABLE_H
 
 #include "XClassArray.h"
 #include "XArray.h"
 #include "XSArray.h"
 #include "XHashFun.h"
 
-#ifdef _WIN32
+#ifdef VX_MSVC
 #pragma warning(disable : 4786)
 #endif
 
@@ -322,22 +315,22 @@ public:
     Summary: Default Constructor.
 
     Input Arguments:
-        initialsize: The default number of buckets
+        initialize: The default number of buckets
         (should be a power of 2, otherwise will be
         converted.)
         l: Load Factor (see Class Description).
         a: hash table to copy.
 
     ************************************************/
-    XHashTable(int initialsize = 16)
+    XHashTable(int initialize = 16)
     {
-        initialsize = Near2Power(initialsize);
-        if (initialsize < 4)
-            initialsize = 4;
+        initialize = Near2Power(initialize);
+        if (initialize < 4)
+            initialize = 4;
 
-        m_Table.Resize(initialsize);
+        m_Table.Resize(initialize);
         m_Table.Fill(0);
-        m_Pool.Reserve((int)(initialsize * L));
+        m_Pool.Reserve((int)(initialize * L));
     }
 
     /************************************************
@@ -424,7 +417,7 @@ public:
     Summary: Affectation operator.
 
     Remarks:
-        The content of the table is enterely overwritten
+        The content of the table is entirely overwritten
     by the given table.
     ************************************************/
     Table &operator=(const Table &a)
@@ -447,7 +440,7 @@ public:
         key: key of the element to insert.
         o: element to insert.
         override: if the key is already present, should
-    the old element be overriden ?
+    the old element be overridden ?
 
     Remarks:
         Insert will automatically override the old value
@@ -569,7 +562,7 @@ public:
         key: key of the element to remove.
         it: iterator on the object to remove.
 
-    Return Value: iterator on the lement next to
+    Return Value: iterator on the element next to
     the one just removed.
     ************************************************/
     void Remove(const K &key)
@@ -773,7 +766,7 @@ public:
     ************************************************/
     XBOOL IsHere(const K &key) const
     {
-        return (XBOOL)XFindIndex(key);
+        return XFindIndex(key) != NULL;
     }
 
     /************************************************
@@ -885,8 +878,7 @@ private:
 
     pEntry *GetFirstBucket() const { return m_Table.Begin(); }
 
-    void
-    Rehash(int iSize)
+    void Rehash(int iSize)
     {
         int oldsize = m_Table.Size();
 
@@ -941,7 +933,7 @@ private:
                 m_Table[i] = m_Pool.Begin() + (a.m_Table[i] - a.m_Pool.Begin());
         }
 
-        // remap the adresses in the entries
+        // remap the addresses in the entries
         for (Entry *e = m_Pool.Begin(); e != m_Pool.End(); ++e)
         {
             if (e->next)
@@ -1020,4 +1012,4 @@ private:
     XClassArray<Entry> m_Pool;
 };
 
-#endif
+#endif // XHASHTABLE_H

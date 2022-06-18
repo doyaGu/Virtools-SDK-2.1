@@ -1,12 +1,7 @@
-/*************************************************************************/
-/*	File : CKSquare.h											         */
-/*	Author :  Cabrita Francisco					                         */
-/*														                 */
-/*	Virtools SDK 										        		 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.		        	 */
-/*************************************************************************/
-#ifndef CKSquare_H
-#define CKSquare_H "$Id:$"
+#ifndef CKSQUARE_H
+#define CKSQUARE_H
+
+#include "CKDefines.h"
 
 class CKSquare
 {
@@ -24,4 +19,4 @@ public:
     };
 };
 
-#endif
+#endif // CKSQUARE_H

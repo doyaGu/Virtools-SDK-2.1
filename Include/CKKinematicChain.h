@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKKinematicChain.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKKINEMATICCHAIN_H
-#define CKKINEMATICCHAIN_H "$Id:$"
+#define CKKINEMATICCHAIN_H
 
 #include "CKBodyPart.h"
 
@@ -17,17 +10,17 @@ Summary: Kinematic Chain for Inverse Kinematic
 
 Remarks:
 + This class provides methods for applying IK to a chain of
-hierachical bodyparts. To define a KinematicChain you should
+hierarchical body-parts. To define a KinematicChain you should
 specify a start effector (parent) and a end effector (child),
-the chain is defined by all the bodyparts that are between
+the chain is defined by all the body-parts that are between
 parent and child in the hierarchy. If the two effectors
 are not linked directly or indirectly via the hierarchy an error
 occurs.
 
 + Once defined you can use KinematicChain methods to make any
-bodypart of the chain move toward a desired position using IK, that is
-moving all the bodyparts of the chain according to their joint data
-so that the designed bodypart position is equal to the desired position.
+body-part of the chain move toward a desired position using IK, that is
+moving all the body-parts of the chain according to their joint data
+so that the designed body-part position is equal to the desired position.
 
 + The class id of CKKinematicChain is CKCID_KINEMATICCHAIN.
 
@@ -46,8 +39,8 @@ public:
     Arguments:
         End: Ending effector of the chain, NULL for the default ending effector.
     Remarks:
-        + Returns the length of the kinematic chain from the starting bodypart
-        to the ending bodypart.
+        + Returns the length of the kinematic chain from the starting body-part
+        to the ending body-part.
     See also:SetStartEffector,GetChainBodyCount,SetEndEffector
     *************************************************/
     virtual float GetChainLength(CKBodyPart *End = NULL) = 0;
@@ -57,8 +50,8 @@ public:
     Arguments:
         End: Ending effector of the chain, NULL for the default ending effector
     Remarks:
-        + Returns the number of bodypart from the starting bodypart
-        to the ending bodypart.
+        + Returns the number of body-part from the starting body-part
+        to the ending body-part.
     See also:SetStartEffector, GetChainLength,SetEndEffector
     *************************************************/
     virtual int GetChainBodyCount(CKBodyPart *End = NULL) = 0;
@@ -126,13 +119,13 @@ public:
     Return Value:
         CK_OK if successful, error code otherwise.
     Remarks:
-        + This methods moves all the bodyparts from the start effector to body so that body position
+        + This methods moves all the body-parts from the start effector to body so that body position
         goes to pos.
         + If body is not specified, the end effector is moved to pos.
 
 
 
-    See also:CKBodyPart, CKCharater
+    See also:CKBodyPart, CKCharacter
     *************************************************/
     virtual CKERROR IKSetEffectorPos(VxVector *pos, CK3dEntity *ref = NULL, CKBodyPart *body = NULL) = 0;
 
@@ -156,4 +149,4 @@ public:
     }
 };
 
-#endif
+#endif // CKKINEMATICCHAIN_H

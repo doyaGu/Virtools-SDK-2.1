@@ -1,14 +1,9 @@
-/*************************************************************************/
-/*	File : CKMidiSound.h												 */
-/*	Author :  Francisco Cabrita											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKMIDISOUND_H
-#define CKMIDISOUND_H "$Id:$"
+#define CKMIDISOUND_H
 
 #include "CKSound.h"
+
+class CKMidiManager;
 
 /**************************************************************************
 Name: CKMidiSound
@@ -40,8 +35,6 @@ public:
     CKBOOL IsPaused();
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     CKMidiSound(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKMidiSound();
@@ -76,7 +69,6 @@ public:
 protected:
     void *m_Source;
     CKMidiManager *m_MidiManager;
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKMIDISOUND_H

@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKSceneObject.h												 */
-/*	Author :  Aymeric BARD												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSCENEOBJECT_H
-#define CKSCENEOBJECT_H "$Id:$"
+#define CKSCENEOBJECT_H
 
 #include "CKObject.h"
 #include "XBitArray.h"
@@ -42,12 +35,8 @@ public:
     CKScene *GetSceneIn(int index);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
-    CKSceneObject()
-    {
-    }
+    CKSceneObject() {}
     CKSceneObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKSceneObject();
     virtual CK_CLASSID GetClassID();
@@ -64,7 +53,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKSceneObject *);
     static CK_ID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKSceneObject *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_SCENEOBJECT) ? (CKSceneObject *)iO : NULL;
@@ -81,8 +70,6 @@ public:
 
 protected:
     XBitArray m_Scenes;
-
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKSCENEOBJECT_H

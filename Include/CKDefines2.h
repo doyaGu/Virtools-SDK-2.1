@@ -1,14 +1,8 @@
-/*************************************************************************/
-/*	File : CKDefines.h				 				 					 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKDEFINES2_H
-#define CKDEFINES2_H "$Id:$"
+#define CKDEFINES2_H
 
 //***********************************************************//
-// Obsolete Flags are only kept for compatibilty purposes
+// Obsolete Flags are only kept for compatibility purposes
 // They cannot be used in the current version
 //
 // These flags are only used when saving an Object state not when saving to file
@@ -40,8 +34,8 @@ typedef enum CK_STATESAVEFLAGS_BEOBJECT
     CK_STATESAVE_PARAMETERS     = 0x00000200,   // Obsolete
     CK_STATESAVE_SINGLEACTIVITY = 0x00000400,   // SINGLE ACTIVITY
     CK_STATESAVE_SCRIPTS        = 0x00000800,   // Obsolete
-    CK_STATESAVE_BEOBJECTONLY   = 0x00000FF0,   // Save only BeObject specific datas
-    CK_STATESAVE_BEOBJECTALL    = 0x00000FFF    // Save All datas
+    CK_STATESAVE_BEOBJECTONLY   = 0x00000FF0,   // Save only BeObject specific data
+    CK_STATESAVE_BEOBJECTALL    = 0x00000FFF    // Save All data
 } CK_STATESAVEFLAGS_BEOBJECT;
 
 //------------------------------------------------
@@ -58,8 +52,8 @@ typedef enum CK_STATESAVEFLAGS_3DENTITY
     CK_STATESAVE_3DENTITYPLACE           = 0x00080000,  // Save Place in which the Entity is referenced
     CK_STATESAVE_3DENTITYNDATA           = 0x00100000,  // Reserved for future use
     CK_STATESAVE_3DENTITYSKINDATA        = 0x00200000,  // Save Skin data
-    CK_STATESAVE_3DENTITYONLY            = 0x003FF000,  // Save only 3dEntity specific datas
-    CK_STATESAVE_3DENTITYALL             = 0x003FFFFF   // Save All datas for sub-classes
+    CK_STATESAVE_3DENTITYONLY            = 0x003FF000,  // Save only 3dEntity specific data
+    CK_STATESAVE_3DENTITYALL             = 0x003FFFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_3DENTITY;
 
 //------------------------------------------------
@@ -72,15 +66,15 @@ typedef enum CK_STATESAVEFLAGS_LIGHT
     CK_STATESAVE_LIGHTRESERVED2  = 0x02000000,  // Reserved for future use
     CK_STATESAVE_LIGHTRESERVED3  = 0x04000000,  // Reserved for future use
     CK_STATESAVE_LIGHTRESERVED4  = 0x08000000,  // Reserved for future use
-    CK_STATESAVE_LIGHTONLY       = 0x0FC00000,  // Save only Light specific datas
-    CK_STATESAVE_LIGHTALL        = 0x0FFFFFFF,  // Save All datas for sub-classes
+    CK_STATESAVE_LIGHTONLY       = 0x0FC00000,  // Save only Light specific data
+    CK_STATESAVE_LIGHTALL        = 0x0FFFFFFF,  // Save All data for sub-classes
                                                 // Target Light
     CK_STATESAVE_TLIGHTTARGET    = 0x80000000,  // Save Light Target
     CK_STATESAVE_TLIGHTRESERVED0 = 0x10000000,  // Reserved for future use
     CK_STATESAVE_TLIGHTRESERVED1 = 0x20000000,  // Reserved for future use
     CK_STATESAVE_TLIGHTRESERVED2 = 0x40000000,  // Reserved for future use
-    CK_STATESAVE_TLIGHTONLY      = 0xF0000000,  // Save only Target Light specific datas
-    CK_STATESAVE_TLIGHTALL       = 0xFFFFFFFF   // Save All datas for sub-classes
+    CK_STATESAVE_TLIGHTONLY      = 0xF0000000,  // Save only Target Light specific data
+    CK_STATESAVE_TLIGHTALL       = 0xFFFFFFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_LIGHT;
 
 //--------------------------------------------------
@@ -89,18 +83,18 @@ typedef enum CK_STATESAVEFLAGS_CAMERA
 {
     CK_STATESAVE_CAMERAFOV        = 0x00400000, // Save Camera Field of View
     CK_STATESAVE_CAMERAPROJTYPE   = 0x00800000,	// Save Camera projection type
-    CK_STATESAVE_CAMERAOTHOZOOM   = 0x01000000,	// Save Camera orhographic zoom
-    CK_STATESAVE_CAMERAASPECT     = 0x02000000, // Save Camera aspect ration
+    CK_STATESAVE_CAMERAOTHOZOOM   = 0x01000000,	// Save Camera orthographic zoom
+    CK_STATESAVE_CAMERAASPECT     = 0x02000000, // Save Camera aspect ratio
     CK_STATESAVE_CAMERAPLANES     = 0x04000000, // Save Camera near and far clip planes
     CK_STATESAVE_CAMERARESERVED2  = 0x08000000,	// Reserved for future use
-    CK_STATESAVE_CAMERAONLY       = 0x0FC00000, // Save only camera specific datas
-    CK_STATESAVE_CAMERAALL        = 0x0FFFFFFF, // Save All datas for sub-classes
+    CK_STATESAVE_CAMERAONLY       = 0x0FC00000, // Save only camera specific data
+    CK_STATESAVE_CAMERAALL        = 0x0FFFFFFF, // Save All data for sub-classes
                                                 // Target Camera
     CK_STATESAVE_TCAMERATARGET    = 0x10000000,	// Save camera Target
     CK_STATESAVE_TCAMERARESERVED1 = 0x20000000, // Reserved for future use
     CK_STATESAVE_TCAMERARESERVED2 = 0x40000000, // Reserved for future use
-    CK_STATESAVE_TCAMERAONLY      = 0x70000000, // Save only Target camera specific datas
-    CK_STATESAVE_TCAMERAALL       = 0x7FFFFFFF  // Save All datas for sub-classes
+    CK_STATESAVE_TCAMERAONLY      = 0x70000000, // Save only Target camera specific data
+    CK_STATESAVE_TCAMERAALL       = 0x7FFFFFFF  // Save All data for sub-classes
 } CK_STATESAVEFLAGS_CAMERA;
 
 //--------------------------------------------------
@@ -113,8 +107,8 @@ typedef enum CK_STATESAVEFLAGS_SPRITE3D
     CK_STATESAVE_SPRITE3DRESERVED2 = 0x02000000,    // Reserved for future use
     CK_STATESAVE_SPRITE3DRESERVED3 = 0x04000000,    // Reserved for future use
     CK_STATESAVE_SPRITE3DRESERVED4 = 0x08000000,    // Reserved for future use
-    CK_STATESAVE_SPRITE3DONLY      = 0x0FC00000,    // Save only Sprite3D specific datas
-    CK_STATESAVE_SPRITE3DALL       = 0x0FFFFFFF     // Save All datas for sub-classes
+    CK_STATESAVE_SPRITE3DONLY      = 0x0FC00000,    // Save only Sprite3D specific data
+    CK_STATESAVE_SPRITE3DALL       = 0x0FFFFFFF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_SPRITE3D;
 
 //--------------------------------------------------
@@ -123,8 +117,8 @@ typedef enum CK_STATESAVEFLAGS_3DOBJECT
 {
     CK_STATESAVE_3DOBJECTATTRIBUTES = 0x00400000,   // Obsolete
     CK_STATESAVE_3DOBJECTRESERVED   = 0x00800000,   // Reserved for future use
-    CK_STATESAVE_3DOBJECTRONLY      = 0x00C00000,   // Save only 3dObject specific datas
-    CK_STATESAVE_3DOBJECTALL        = 0x03FFFFFF    // Save All datas for sub-classes
+    CK_STATESAVE_3DOBJECTRONLY      = 0x00C00000,   // Save only 3dObject specific data
+    CK_STATESAVE_3DOBJECTALL        = 0x03FFFFFF    // Save All data for sub-classes
 } CK_STATESAVEFLAGS_3DOBJECT;
 
 //--------------------------------------------------
@@ -133,13 +127,13 @@ typedef enum CK_STATESAVEFLAGS_BODYPART
 {
     CK_STATESAVE_BODYPARTROTJOINT  = 0x01000000,    // Save rotation joint data
     CK_STATESAVE_BODYPARTPOSJOINT  = 0x02000000,    // Save position joint data
-    CK_STATESAVE_BODYPARTCHARACTER = 0x04000000,    // Save character owning this bodypart
+    CK_STATESAVE_BODYPARTCHARACTER = 0x04000000,    // Save character owning this body-part
     CK_STATESAVE_BODYPARTRESERVED1 = 0x08000000,    // Reserved for future use
     CK_STATESAVE_BODYPARTRESERVED2 = 0x10000000,    // Reserved for future use
     CK_STATESAVE_BODYPARTRESERVED3 = 0x20000000,    // Reserved for future use
     CK_STATESAVE_BODYPARTRESERVED4 = 0x40000000,    // Reserved for future use
-    CK_STATESAVE_BODYPARTONLY      = 0x7F000000,    // Save only bodypart specific datas
-    CK_STATESAVE_BODYPARTALL       = 0x7FFFFFFF     // Save All datas for sub-classes
+    CK_STATESAVE_BODYPARTONLY      = 0x7F000000,    // Save only body-part specific data
+    CK_STATESAVE_BODYPARTALL       = 0x7FFFFFFF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_BODYPART;
 
 //--------------------------------------------------
@@ -152,12 +146,12 @@ typedef enum CK_STATESAVEFLAGS_CHARACTER
     CK_STATESAVE_CHARACTERROOT       = 0x02000000,  // Obsolete
     CK_STATESAVE_CHARACTERSAVEANIMS  = 0x04000000,  // Save current and next active animations
     CK_STATESAVE_CHARACTERSAVECHAINS = 0x08000000,  // Obsolete
-    CK_STATESAVE_CHARACTERSAVEPARTS  = 0x10000000,  // Save sub bodyparts and sub-bodyparts data (saved with flag :CK_STATESAVE_BODYPARTALL)
+    CK_STATESAVE_CHARACTERSAVEPARTS  = 0x10000000,  // Save sub body-parts and sub-body-parts data (saved with flag :CK_STATESAVE_BODYPARTALL)
     CK_STATESAVE_CHARACTERFLOORREF   = 0x20000000,  // Save Character floor reference object
     CK_STATESAVE_CHARACTERRESERVED2  = 0x40000000,  // Reserved for future use
     CK_STATESAVE_CHARACTERRESERVED3  = 0x80000000,  // Reserved for future use
-    CK_STATESAVE_CHARACTERONLY       = 0xFFC00000,  // Save only character specific datas
-    CK_STATESAVE_CHARACTERALL        = 0xFFFFFFFF   // Save All datas for sub-classes
+    CK_STATESAVE_CHARACTERONLY       = 0xFFC00000,  // Save only character specific data
+    CK_STATESAVE_CHARACTERALL        = 0xFFFFFFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_CHARACTER;
 
 //--------------------------------------------------
@@ -179,7 +173,7 @@ typedef enum CK_STATESAVEFLAGS_CURVE
     CK_STATESAVE_CURVESAVEPOINTS       = 0xFF000000,    // Save control points data
 
     CK_STATESAVE_CURVEONLY             = 0xFFC00000,    // Save only curve specific data
-    CK_STATESAVE_CURVEALL              = 0xFFFFFFFF     // Save All datas for sub-classes
+    CK_STATESAVE_CURVEALL              = 0xFFFFFFFF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_CURVE;
 
 //------------------------------------------------
@@ -194,7 +188,7 @@ typedef enum CK_STATESAVEFLAGS_2DENTITY
     CK_STATESAVE_2DENTITYONLY      = 0x0010F000,    // Save only 2dEntity specific data
     CK_STATESAVE_2DENTITYMATERIAL  = 0x00200000,    // Save Material
     CK_STATESAVE_2DENTITYHIERARCHY = 0x00400000,    // Save Material
-    CK_STATESAVE_2DENTITYALL       = 0x0070FFFF     // Save All datas for sub-classes
+    CK_STATESAVE_2DENTITYALL       = 0x0070FFFF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_2DENTITY;
 
 //------------------------------------------------
@@ -205,7 +199,7 @@ typedef enum CK_STATESAVEFLAGS_SPRITE
     CK_STATESAVE_SPRITETRANSPARENT   = 0x00020000,  // Save transparency settings
     CK_STATESAVE_SPRITEBITMAPS       = 0x00040000,  // Obsolete
     CK_STATESAVE_SPRITESHARED        = 0x00080000,  // Save shared sprite
-    CK_STATESAVE_SPRITEDONOTUSE      = 0x00100000,  // Reseved by CK_STATESAVEFLAGS_2DENTITY
+    CK_STATESAVE_SPRITEDONOTUSE      = 0x00100000,  // Reserved by CK_STATESAVEFLAGS_2DENTITY
     CK_STATESAVE_SPRITEAVIFILENAME   = 0x00200000,  // Obsolete
     CK_STATESAVE_SPRITEFILENAMES     = 0x00400000,  // Obsolete
     CK_STATESAVE_SPRITECOMPRESSED    = 0x00800000,  // Obsolete
@@ -215,7 +209,7 @@ typedef enum CK_STATESAVEFLAGS_SPRITE
     CK_STATESAVE_SPRITESYSTEMCACHING = 0x80000000,  // System Memory Caching
     CK_STATESAVE_SPRITERENDEROPTIONS = 0x80800000,  // Render options if any...
     CK_STATESAVE_SPRITEONLY          = 0xF0EF0000,  // Save only sprite specific data
-    CK_STATESAVE_SPRITEALL           = 0x70FFFFFF   // Save All datas for sub-classes
+    CK_STATESAVE_SPRITEALL           = 0x70FFFFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_SPRITE;
 
 //------------------------------------------------
@@ -229,7 +223,7 @@ typedef enum CK_STATESAVEFLAGS_SPRITETEXT
     CK_STATESAVE_SPRITETEXTDOTNOTUSE  = 0x10000000,	// Reserved by CK_STATESAVE_SPRITEREADER
     CK_STATESAVE_SPRITETEXTDONOTUSED2 = 0x20000000, // Reserved by CK_STATESAVE_SPRITEFORMAT
     CK_STATESAVE_SPRITETEXTONLY       = 0x0F000000, // Save only SpriteText specific data
-    CK_STATESAVE_SPRITETEXTALL        = 0x3FFFFFFF  // Save All datas for sub-classes
+    CK_STATESAVE_SPRITETEXTALL        = 0x3FFFFFFF  // Save All data for sub-classes
 } CK_STATESAVEFLAGS_SPRITETEXT;
 
 //------------------------------------------------
@@ -245,7 +239,7 @@ typedef enum CK_STATESAVEFLAGS_SOUND
     CK_STATESAVE_SOUNDRESERVED6 = 0x00040000,   // Reserved for future use
     CK_STATESAVE_SOUNDRESERVED7 = 0x00080000,   // Reserved for future use
     CK_STATESAVE_SOUNDONLY      = 0x000FF000,   // Save only Sound specific data
-    CK_STATESAVE_SOUNDALL       = 0x000FFFFF    // Save All datas for sub-classes
+    CK_STATESAVE_SOUNDALL       = 0x000FFFFF    // Save All data for sub-classes
 } CK_STATESAVEFLAGS_SOUND;
 
 //------------------------------------------------
@@ -260,8 +254,8 @@ typedef enum CK_STATESAVEFLAGS_WAVSOUND
     CK_STATESAVE_WAVSOUNDRESERVED5 = 0x02000000,    // Reserved for future use
     CK_STATESAVE_WAVSOUNDRESERVED6 = 0x04000000,    // Reserved for future use
     CK_STATESAVE_WAVSOUNDRESERVED7 = 0x08000000,    // Reserved for future use
-    CK_STATESAVE_WAVSOUNDONLY      = 0x0FF00000,    // Save All datas for sub-classes
-    CK_STATESAVE_WAVSOUNDALL       = 0x0FFFFFFF     // Save All datas for sub-classes
+    CK_STATESAVE_WAVSOUNDONLY      = 0x0FF00000,    // Save All data for sub-classes
+    CK_STATESAVE_WAVSOUNDALL       = 0x0FFFFFFF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_WAVSOUND;
 
 //------------------------------------------------
@@ -277,7 +271,7 @@ typedef enum CK_STATESAVEFLAGS_MIDISOUND
     CK_STATESAVE_MIDISOUNDRESERVED6 = 0x04000000,   // Reserved for future use
     CK_STATESAVE_MIDISOUNDRESERVED7 = 0x08000000,   // Reserved for future use
     CK_STATESAVE_MIDISOUNDONLY      = 0x0FF00000,
-    CK_STATESAVE_MIDISOUNDALL       = 0x0FFFFFFF    // Save All datas for sub-classes
+    CK_STATESAVE_MIDISOUNDALL       = 0x0FFFFFFF    // Save All data for sub-classes
 } CK_STATESAVEFLAGS_MIDISOUND;
 
 //------------------------------------------------
@@ -288,7 +282,7 @@ typedef enum CK_STATESAVEFLAGS_PLACE
     CK_STATESAVE_PLACECAMERA     = 0x00002000,  // Save attached camera
     CK_STATESAVE_PLACEREFERENCES = 0x00004000,  // Save list of objects in the place
     CK_STATESAVE_PLACELEVEL      = 0x00008000,  // Save level using the place
-    CK_STATESAVE_PLACEALL        = 0x0000FFFF   // Save All datas for sub-classes
+    CK_STATESAVE_PLACEALL        = 0x0000FFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_PLACE;
 
 //------------------------------------------------
@@ -301,7 +295,7 @@ typedef enum CK_STATESAVEFLAGS_LEVEL
     CK_STATESAVE_LEVELDUPLICATEMAN = 0x00004000,    // Reserved for future use
     CK_STATESAVE_LEVELDEFAULTDATA  = 0x20000000,    // Save Places,Scenes and Objects
     CK_STATESAVE_LEVELSCENE        = 0x80000000,    // Default and active  scene
-    CK_STATESAVE_LEVELALL          = 0xFFFFFFFF	    // Save All datas for sub-classes
+    CK_STATESAVE_LEVELALL          = 0xFFFFFFFF	    // Save All data for sub-classes
 } CK_STATESAVEFLAGS_LEVEL;
 
 //------------------------------------------------
@@ -316,7 +310,7 @@ typedef enum CK_STATESAVEFLAGS_GROUP
     CK_STATESAVE_GROUPRESERVED5 = 0x00020000,   // Reserved for future use
     CK_STATESAVE_GROUPRESERVED6 = 0x00040000,   // Reserved for future use
     CK_STATESAVE_GROUPRESERVED7 = 0x00080000,   // Reserved for future use
-    CK_STATESAVE_GROUPALL       = 0x000FFFFF    // Save All datas for sub-classes
+    CK_STATESAVE_GROUPALL       = 0x000FFFFF    // Save All data for sub-classes
 } CK_STATESAVEFLAGS_GROUP;
 
 //------------------------------------------------
@@ -335,9 +329,9 @@ typedef enum CK_STATESAVEFLAGS_MESH
     CK_STATESAVE_MESHMATERIALS    = 0x00100000,	// Reserved for future use
     CK_STATESAVE_MESHRESERVED1    = 0x00200000,	// Reserved for future use
     CK_STATESAVE_MESHRESERVED2    = 0x00400000,	// Reserved for future use
-    CK_STATESAVE_PROGRESSIVEMESH  = 0x00800000,	// Save All datas for sub-classes
-    CK_STATESAVE_MESHONLY         = 0x00FFF000,	// Save All datas for sub-classes
-    CK_STATESAVE_MESHALL          = 0x00FFFFFF	// Save All datas for sub-classes
+    CK_STATESAVE_PROGRESSIVEMESH  = 0x00800000,	// Save All data for sub-classes
+    CK_STATESAVE_MESHONLY         = 0x00FFF000,	// Save All data for sub-classes
+    CK_STATESAVE_MESHALL          = 0x00FFFFFF	// Save All data for sub-classes
 } CK_STATESAVEFLAGS_MESH;
 
 //------------------------------------------------
@@ -350,8 +344,8 @@ typedef enum CK_STATESAVEFLAGS_PATCHMESH
     CK_STATESAVE_PATCHMESHSMOOTH    = 0x02000000,   // Obsolete
     CK_STATESAVE_PATCHMESHMATERIALS = 0x04000000,   // Obsolete
     CK_STATESAVE_PATCHMESHDATA3     = 0x08000000,   // Save Patch Data
-    CK_STATESAVE_PATCHMESHONLY      = 0x0FF00000,   // Save All datas for sub-classes
-    CK_STATESAVE_PATCHMESHALL       = 0x0FFFFFFF    // Save All datas for sub-classes
+    CK_STATESAVE_PATCHMESHONLY      = 0x0FF00000,   // Save All data for sub-classes
+    CK_STATESAVE_PATCHMESHALL       = 0x0FFFFFFF    // Save All data for sub-classes
 } CK_STATESAVEFLAGS_PATCHMESH;
 
 //-------------------------------------------------
@@ -366,8 +360,8 @@ typedef enum CK_STATESAVEFLAGS_MATERIAL
     CK_STATESAVE_MATRESERVED5 = 0x00020000, // Reserved for future use
     CK_STATESAVE_MATRESERVED6 = 0x00040000, // Reserved for future use
     CK_STATESAVE_MATRESERVED7 = 0x00080000, // Reserved for future use
-    CK_STATESAVE_MATERIALONLY = 0x000FF000, // Save All datas for sub-classes
-    CK_STATESAVE_MATERIALALL  = 0x0FFFFFFF	// Save All datas for sub-classes
+    CK_STATESAVE_MATERIALONLY = 0x000FF000, // Save All data for sub-classes
+    CK_STATESAVE_MATERIALALL  = 0x0FFFFFFF	// Save All data for sub-classes
 } CK_STATESAVEFLAGS_MATERIAL;
 
 //---------------------------------------------------
@@ -389,7 +383,7 @@ typedef enum CK_STATESAVEFLAGS_TEXTURE
     CK_STATESAVE_TEXSYSTEMCACHING = 0x00800000, // System Memory Caching
     CK_STATESAVE_OLDTEXONLY       = 0x002FF000, // Kept for compatibility
     CK_STATESAVE_TEXONLY          = 0x00FFF000, // Save Only Texture Data (Dot NOT MODIFY ! Texture loading/saving relies on this value)
-    CK_STATESAVE_TEXALL           = 0x002FFFFF  // Save All datas for sub-classes
+    CK_STATESAVE_TEXALL           = 0x002FFFFF  // Save All data for sub-classes
 } CK_STATESAVEFLAGS_TEXTURE;
 
 //---------------------------------------------------
@@ -412,7 +406,7 @@ typedef enum CK_STATESAVEFLAGS_2DCURVE
     CK_STATESAVE_2DCURVEPOINTRESERVED1   = 0x00010000,  // Reserved for future use
     CK_STATESAVE_2DCURVEPOINTRESERVED2   = 0x00020000,  // Reserved for future use
     CK_STATESAVE_2DCURVESAVEPOINTS       = 0x0003F800,  // Obsolete
-    CK_STATESAVE_2DCURVEALL              = 0x0007FFFF   // Save All datas for sub-classes
+    CK_STATESAVE_2DCURVEALL              = 0x0007FFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_2DCURVE;
 
 //---------------------------------------------------
@@ -424,7 +418,7 @@ typedef enum CK_STATESAVEFLAGS_KINEMATICCHAIN
     CK_STATESAVE_KINEMATICCHAINRESERVED1 = 0x00000020,  // Reserved for future use
     CK_STATESAVE_KINEMATICCHAINRESERVED2 = 0x00000040,  // Reserved for future use
     CK_STATESAVE_KINEMATICCHAINRESERVED3 = 0x00000080,  // Reserved for future use
-    CK_STATESAVE_KINEMATICCHAINALL       = 0x000000FF   // Save All datas for sub-classes
+    CK_STATESAVE_KINEMATICCHAINALL       = 0x000000FF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_KINEMATICCHAIN;
 
 //---------------------------------------------------
@@ -434,12 +428,12 @@ typedef enum CK_STATESAVEFLAGS_ANIMATION
     CK_STATESAVE_ANIMATIONDATA        = 0x00000010, // Save Flags & Framerate data
     CK_STATESAVE_ANIMATIONRESERVED1   = 0x00000020, // Reserved for future use
     CK_STATESAVE_ANIMATIONLENGTH      = 0x00000040, // Save animation Length
-    CK_STATESAVE_ANIMATIONBODYPARTS   = 0x00000080,	// Save root & list of bodypart
+    CK_STATESAVE_ANIMATIONBODYPARTS   = 0x00000080,	// Save root & list of body-part
     CK_STATESAVE_ANIMATIONCHARACTER   = 0x00000100,	// Save character
     CK_STATESAVE_ANIMATIONCURRENTSTEP = 0x00000200, // Save current step
     CK_STATESAVE_ANIMATIONRESERVED5   = 0x00000400,	// Reserved for future use
     CK_STATESAVE_ANIMATIONRESERVED6   = 0x00000800,	// Reserved for future use
-    CK_STATESAVE_ANIMATIONALL         = 0x0FFFFFFF			// Save All datas for sub-classes
+    CK_STATESAVE_ANIMATIONALL         = 0x0FFFFFFF	// Save All data for sub-classes
 } CK_STATESAVEFLAGS_ANIMATION;
 
 //---------------------------------------------------
@@ -484,8 +478,8 @@ typedef enum CK_STATESAVEFLAGS_OBJECTANIMATION
     CK_STATESAVE_OBJANIMCONTROLLERS  = 0x04000000,  // (Virtools 1.5) Save All Controller information
     CK_STATESAVE_OBJANIMONLY         = 0x07FFF000,
     CK_STATESAVE_OBJANIMALL          = 0x07FFFFFF,
-    CK_STATESAVE_KEYEDANIMONLY       = 0x03FFF000,  // Save All datas for sub-classes
-    CK_STATESAVE_KEYEDANIMALL        = 0x03FFFFFF   // Save All datas for sub-classes
+    CK_STATESAVE_KEYEDANIMONLY       = 0x03FFF000,  // Save All data for sub-classes
+    CK_STATESAVE_KEYEDANIMALL        = 0x03FFFFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_OBJECTANIMATION;
 
 //---------------------------------------------------
@@ -501,7 +495,7 @@ typedef enum CK_STATESAVEFLAGS_IKANIMATION
     CK_STATESAVE_IKANIMATIONRESERVED7 = 0x00040000, // Reserved for future use
     CK_STATESAVE_IKANIMATIONRESERVED8 = 0x00100000, // Reserved for future use
     CK_STATESAVE_IKANIMATIONRESERVED9 = 0x00200000, // Reserved for future use
-    CK_STATESAVE_IKANIMATIONALL       = 0x003FFFFF  // Save All datas for sub-classes
+    CK_STATESAVE_IKANIMATIONALL       = 0x003FFFFF  // Save All data for sub-classes
 } CK_STATESAVEFLAGS_IKANIMATION;
 
 //---------------------------------------------------
@@ -515,7 +509,7 @@ typedef enum CK_STATESAVEFLAGS_BEHAV_LINK
     CK_STATESAVE_BEHAV_LINKRESERVED5 = 0x00000040,  // Reserved for future use
     CK_STATESAVE_BEHAV_LINKRESERVED6 = 0x00000080,  // Reserved for future use
     CK_STATESAVE_BEHAV_LINKONLY      = 0x000000F0,  //
-    CK_STATESAVE_BEHAV_LINKALL       = 0x000000FF   // Save All datas for sub-classes
+    CK_STATESAVE_BEHAV_LINKALL       = 0x000000FF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_BEHAV_LINK;
 
 //---------------------------------------------------
@@ -528,7 +522,7 @@ typedef enum CK_STATESAVEFLAGS_BEHAV_IO
     CK_STATESAVE_BEHAV_IORESERVED5 = 0x00000040,    // Reserved for future use
     CK_STATESAVE_BEHAV_IORESERVED6 = 0x00000080,    // Reserved for future use
     CK_STATESAVE_BEHAVIOONLY       = 0x000000F0,    //
-    CK_STATESAVE_BEHAVIOALL        = 0x000000FF     // Save All datas for sub-classes
+    CK_STATESAVE_BEHAVIOALL        = 0x000000FF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_BEHAV_IO;
 
 //---------------------------------------------------
@@ -551,7 +545,7 @@ typedef enum CK_STATESAVEFLAGS_PROTOTYPE
     CK_STATESAVE_PROTOPARAMETERLINKS = 0x00020000,  // Save parameter links
     CK_STATESAVE_PROTOAPPLYTO        = 0x00040000,  // Save ClassID of object to which it applies
     CK_STATESAVE_PROTORESERVED14     = 0x00080000,  // Reserved for future use
-    CK_STATESAVE_PROTOALL            = 0x000FFFFF   // Save All datas for sub-classes
+    CK_STATESAVE_PROTOALL            = 0x000FFFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_PROTOTYPE;
 
 //---------------------------------------------------
@@ -580,7 +574,7 @@ typedef enum CK_STATESAVEFLAGS_BEHAVIOR
     CK_STATESAVE_BEHAVIORPRIORITY       = 0x00800000,   // not used
     CK_STATESAVE_BEHAVIORTARGET         = 0x01000000,   // not used
     CK_STATESAVE_BEHAVIORONLY           = 0x01FFFFF0,
-    CK_STATESAVE_BEHAVIORALL            = 0x01FFFFFF    // Save All datas for sub-classes
+    CK_STATESAVE_BEHAVIORALL            = 0x01FFFFFF    // Save All data for sub-classes
 } CK_STATESAVEFLAGS_BEHAVIOR;
 
 //---------------------------------------------------
@@ -604,7 +598,7 @@ typedef enum CK_STATESAVEFLAGS_SCENE
     CK_STATESAVE_SCENERESERVED12     = 0x02000000,  // Reserved for future use
     CK_STATESAVE_SCENERESERVED13     = 0x04000000,  // Reserved for future use
     CK_STATESAVE_SCENERESERVED14     = 0x08000000,  // Reserved for future use
-    CK_STATESAVE_SCENEALL            = 0x0FFFFFFF   // Save All datas for sub-classes
+    CK_STATESAVE_SCENEALL            = 0x0FFFFFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_SCENE;
 
 //---------------------------------------------------
@@ -618,10 +612,10 @@ typedef enum CK_STATESAVEFLAGS_PARAMETERIN
     CK_STATESAVE_PARAMETERIN_INSHARED    = 0x00000100,  // Obsolete
     CK_STATESAVE_PARAMETERIN_OUTSOURCE   = 0x00000200,  // Obsolete
     CK_STATESAVE_PARAMETERIN_DEFAULTDATA = 0x00000400,  // Obsolete
-    CK_STATESAVE_PARAMETERIN_DATASHARED  = 0x00000800,  // Save reference to shared inparameter
-    CK_STATESAVE_PARAMETERIN_DATASOURCE  = 0x00001000,  // Save reference to source outparameter
+    CK_STATESAVE_PARAMETERIN_DATASHARED  = 0x00000800,  // Save reference to shared in parameter
+    CK_STATESAVE_PARAMETERIN_DATASOURCE  = 0x00001000,  // Save reference to source out parameter
     CK_STATESAVE_PARAMETERIN_DISABLED    = 0x00002000,  // The parameter was disabled
-    CK_STATESAVE_PARAMETERIN_ALL         = 0x0000FFFF   // Save All datas for sub-classes
+    CK_STATESAVE_PARAMETERIN_ALL         = 0x0000FFFF   // Save All data for sub-classes
 } CK_STATESAVEFLAGS_PARAMETERIN;
 
 //---------------------------------------------------
@@ -634,7 +628,7 @@ typedef enum CK_STATESAVEFLAGS_PARAMETEROUT
     CK_STATESAVE_PARAMETEROUT_OWNER        = 0x00000080,    // Save Owner
     CK_STATESAVE_PARAMETEROUT_MYSELF       = 0x00000200,    //
     CK_STATESAVE_PARAMETEROUT_ISSETTING    = 0x00000400,    // Reserved for future use
-    CK_STATESAVE_PARAMETEROUT_ALL          = 0x0000FFFF     // Save All datas for sub-classes
+    CK_STATESAVE_PARAMETEROUT_ALL          = 0x0000FFFF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_PARAMETEROUT;
 
 //---------------------------------------------------
@@ -649,7 +643,7 @@ typedef enum CK_STATESAVEFLAGS_OPERATION
     CK_STATESAVE_OPERATIONOP          = 0x00000100,
     CK_STATESAVE_OPERATIONDEFAULTDATA = 0x00000200,
     CK_STATESAVE_OPERATIONNEWDATA     = 0x00000400,
-    CK_STATESAVE_OPERATIONALL         = 0x000007FF  // Save All datas for sub-classes
+    CK_STATESAVE_OPERATIONALL         = 0x000007FF  // Save All data for sub-classes
 } CK_STATESAVEFLAGS_OPERATION;
 
 //---------------------------------------------------
@@ -662,7 +656,7 @@ typedef enum CK_STATESAVEFLAGS_SYNCHRO
     CK_STATESAVE_SYNCHRORESERVED1 = 0x00000080, // Reserved for future use
     CK_STATESAVE_SYNCHRORESERVED2 = 0x00000100, // Reserved for future use
     CK_STATESAVE_SYNCHRORESERVED3 = 0x00000200, // Reserved for future use
-    CK_STATESAVE_SYNCHRONALL      = 0x000003FF  // Save All datas for sub-classes
+    CK_STATESAVE_SYNCHRONALL      = 0x000003FF  // Save All data for sub-classes
 } CK_STATESAVEFLAGS_SYNCHRO;
 
 //------------------------------------------------
@@ -676,7 +670,7 @@ typedef enum CK_STATESAVEFLAGS_GRID
     CK_STATESAVE_GRIDRESERVED3 = 0x04000000,    // Reserved for future use
     CK_STATESAVE_GRIDRESERVED4 = 0x08000000,    // Reserved for future use
     CK_STATESAVE_GRIDONLY      = 0x0FC00000,    //
-    CK_STATESAVE_GRIDALL       = 0x0FFFFFFF     // Save All datas for sub-classes
+    CK_STATESAVE_GRIDALL       = 0x0FFFFFFF     // Save All data for sub-classes
 } CK_STATESAVEFLAGS_GRID;
 
 //------------------------------------------------
@@ -690,7 +684,7 @@ typedef enum CK_STATESAVEFLAGS_LAYER
     CK_STATESAVE_LAYERRESERVED3 = 0x00000100,	// Reserved for future use
     CK_STATESAVE_LAYERRESERVED4 = 0x00000200,	// Reserved for future use
     CK_STATESAVE_LAYERONLY 		= 0x000003F0,	//
-    CK_STATESAVE_LAYERALL 		= 0x000003FF	// Save All datas for sub-classes
+    CK_STATESAVE_LAYERALL 		= 0x000003FF	// Save All data for sub-classes
 } CK_STATESAVEFLAGS_LAYER;
 
 //------------------------------------------------
@@ -701,7 +695,7 @@ typedef enum CK_STATESAVEFLAGS_DATAARRAY
     CK_STATESAVE_DATAARRAYFORMAT  = 0x00001000,	// Save format
     CK_STATESAVE_DATAARRAYDATA	  = 0x00002000,	// Save array data
     CK_STATESAVE_DATAARRAYMEMBERS = 0x00004000,	// Save members
-    CK_STATESAVE_DATAARRAYALL 	  = 0x0000FFFF	// Save All datas for sub-classes
+    CK_STATESAVE_DATAARRAYALL 	  = 0x0000FFFF	// Save All data for sub-classes
 } CK_STATESAVEFLAGS_DATAARRAY;
 
 //------------------------------------------------
@@ -715,4 +709,4 @@ typedef enum CK_STATESAVEFLAGS_SCENEOBJECTDESC
     CK_STATESAVE_SCENEOBJECTDESCALL = 0x000000FF	// Save All datas for sub-classes
 } CK_STATESAVEFLAGS_SCENEOBJECTDESC;
 
-#endif
+#endif // CKDEFINES2_H

@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKBehaviorManager.h						 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBEHAVIORMANAGER_H
-#define CKBEHAVIORMANAGER_H "$Id:$"
+#define CKBEHAVIORMANAGER_H
 
 #include "CKDefines.h"
 #include "CKBaseManager.h"
@@ -52,8 +45,6 @@ public:
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
     virtual CKStateChunk *SaveData(CKFile *SavedFile);
     virtual CKERROR LoadData(CKStateChunk *chunk, CKFile *LoadedFile);
@@ -72,8 +63,6 @@ public:
                CKMANAGER_FUNC_OnSequenceToBeDeleted |
                CKMANAGER_FUNC_OnCKPlay;
     }
-
-#endif
 };
 
-#endif
+#endif // CKBEHAVIORMANAGER_H

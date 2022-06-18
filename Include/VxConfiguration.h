@@ -1,20 +1,7 @@
-/*************************************************************************/
-/*	File : VxConfiguration.h											 */
-/*	Author :  Nicolas Hognon											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _VXCONFIGURATION_H_
-#define _VXCONFIGURATION_H_
+#ifndef VXCONFIGURATION_H
+#define VXCONFIGURATION_H
 
 #include "XHashTable.h"
-
-#ifdef macintosh
-#include <stdio.h>
-#else
-#include <cstdio>
-#endif
 
 class VxConfigurationSection;
 
@@ -53,45 +40,45 @@ public:
     VX_EXPORT int GetNumberOfSubSectionsRecursive() const;
     VX_EXPORT int GetNumberOfEntriesRecursive() const;
 
-    VX_EXPORT BOOL AddEntry(char *parent, char *ename, const char *evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT BOOL AddEntry(char *parent, char *ename, int evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT BOOL AddEntry(char *parent, char *ename, unsigned int evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT BOOL AddEntry(char *parent, char *ename, float evalue, VxConfigurationEntry **result = 0);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, const char *evalue, VxConfigurationEntry **result = 0);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, int evalue, VxConfigurationEntry **result = 0);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, unsigned int evalue, VxConfigurationEntry **result = 0);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, float evalue, VxConfigurationEntry **result = 0);
     VX_EXPORT VxConfigurationSection *CreateSubSection(char *parent, char *sname);
 
-    VX_EXPORT BOOL DeleteEntry(char *parent, char *ename);
-    VX_EXPORT BOOL DeleteSection(char *parent, char *sname);
+    VX_EXPORT XBOOL DeleteEntry(char *parent, char *ename);
+    VX_EXPORT XBOOL DeleteSection(char *parent, char *sname);
     VX_EXPORT VxConfigurationEntry *RemoveEntry(char *parent, char *ename);
     VX_EXPORT VxConfigurationSection *RemoveSection(char *parent, char *sname);
 
-    VX_EXPORT BOOL AddDefaultEntry(char *parent, char *ename, const char *evalue);
-    VX_EXPORT BOOL AddDefaultEntry(char *parent, char *ename, int evalue);
-    VX_EXPORT BOOL AddDefaultEntry(char *parent, char *ename, unsigned int evalue);
-    VX_EXPORT BOOL AddDefaultEntry(char *parent, char *ename, float evalue);
+    VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, const char *evalue);
+    VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, int evalue);
+    VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, unsigned int evalue);
+    VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, float evalue);
     VX_EXPORT VxConfigurationSection *CreateDefaultSubSection(char *parent, char *sname);
 
     VX_EXPORT ConstSectionIt BeginSections() const;
     VX_EXPORT ConstEntryIt BeginEntries() const;
     VX_EXPORT VxConfigurationSection *GetNextSection(ConstSectionIt &it) const;
     VX_EXPORT VxConfigurationEntry *GetNextEntry(ConstEntryIt &it) const;
-    VX_EXPORT VxConfigurationSection *GetSubSection(char *sname, BOOL usedot) const;
-    VX_EXPORT VxConfigurationEntry *GetEntry(char *ename, BOOL usedot) const;
+    VX_EXPORT VxConfigurationSection *GetSubSection(char *sname, XBOOL usedot) const;
+    VX_EXPORT VxConfigurationEntry *GetEntry(char *ename, XBOOL usedot) const;
 
-    VX_EXPORT BOOL BuildFromDataFile(const char *name, XString &error);
-    VX_EXPORT BOOL BuildFromFile(const char *name, int &cline, XString &error);
-    VX_EXPORT BOOL BuildFromMemory(const char *buffer, int &cline, XString &error);
+    VX_EXPORT XBOOL BuildFromDataFile(const char *name, XString &error);
+    VX_EXPORT XBOOL BuildFromFile(const char *name, int &cline, XString &error);
+    VX_EXPORT XBOOL BuildFromMemory(const char *buffer, int &cline, XString &error);
 
-    VX_EXPORT BOOL SaveToDataFile(const char *name);
-    VX_EXPORT BOOL SaveToFile(const char *name);
+    VX_EXPORT XBOOL SaveToDataFile(const char *name);
+    VX_EXPORT XBOOL SaveToFile(const char *name);
 
 protected:
-    VxConfigurationSection *CreateSubSection(VxConfigurationSection *root, char *sname, BOOL usedot) const;
+    VxConfigurationSection *CreateSubSection(VxConfigurationSection *root, char *sname, XBOOL usedot) const;
 
-    VxConfigurationSection *GetSubSection(VxConfigurationSection *root, char *sname, BOOL usedot) const;
+    VxConfigurationSection *GetSubSection(VxConfigurationSection *root, char *sname, XBOOL usedot) const;
 
-    BOOL ManageSection(char *line, VxConfigurationSection **current, XString &error);
+    XBOOL ManageSection(char *line, VxConfigurationSection **current, XString &error);
 
-    BOOL ManageEntry(char *line, VxConfigurationSection *current, XString &error);
+    XBOOL ManageEntry(char *line, VxConfigurationSection *current, XString &error);
 
     VxConfigurationSection *m_Root;
 
@@ -118,13 +105,12 @@ public:
     VX_EXPORT void AddEntry(char *ename, int evalue, VxConfigurationEntry **result = 0);
     VX_EXPORT void AddEntry(char *ename, long evalue, VxConfigurationEntry **result = 0);
     VX_EXPORT void AddEntry(char *ename, unsigned int evalue, VxConfigurationEntry **result = 0);
-    // VX_EXPORT	void	AddEntry(char* ename,unsigned int evalue,VxConfigurationEntry** result = 0);
     VX_EXPORT void AddEntry(char *ename, float evalue, VxConfigurationEntry **result = 0);
 
     VX_EXPORT VxConfigurationSection *CreateSubSection(char *sname);
 
-    VX_EXPORT BOOL DeleteEntry(char *ename);
-    VX_EXPORT BOOL DeleteSection(char *sname);
+    VX_EXPORT XBOOL DeleteEntry(char *ename);
+    VX_EXPORT XBOOL DeleteSection(char *sname);
     VX_EXPORT VxConfigurationEntry *RemoveEntry(char *ename);
     VX_EXPORT VxConfigurationSection *RemoveSection(char *sname);
 
@@ -162,15 +148,14 @@ public:
     VX_EXPORT void SetValue(int value);
     VX_EXPORT void SetValue(long value);
     VX_EXPORT void SetValue(unsigned int value);
-    // VX_EXPORT	void SetValue(unsigned int value);
     VX_EXPORT void SetValue(float value);
 
     VX_EXPORT const char *GetName() const;
     VX_EXPORT VxConfigurationSection *GetParent() const;
     VX_EXPORT const char *GetValue() const;
-    VX_EXPORT BOOL GetValueAsInteger(int &value) const;
-    VX_EXPORT BOOL GetValueAsUnsignedInteger(unsigned int &value) const;
-    VX_EXPORT BOOL GetValueAsFloat(float &value) const;
+    VX_EXPORT XBOOL GetValueAsInteger(int &value) const;
+    VX_EXPORT XBOOL GetValueAsUnsignedInteger(unsigned int &value) const;
+    VX_EXPORT XBOOL GetValueAsFloat(float &value) const;
 
 protected:
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, const char *value);
@@ -189,8 +174,6 @@ protected:
 };
 
 char *Shrink(char *str);
-
-#ifndef _XBOX
 
 class VxConfig
 {
@@ -220,6 +203,4 @@ private:
     void *m_CurrentSection;
 };
 
-#endif
-
-#endif // _VXCONFIGURATION_H_
+#endif // VXCONFIGURATION_H

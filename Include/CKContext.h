@@ -1,22 +1,16 @@
-/*************************************************************************/
-/*	File : CKContext.h				 				 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKCONTEXT_H
-#define CKCONTEXT_H "$Id:$"
+#define CKCONTEXT_H
 
 #include "VxDefines.h"
 #include "CKDefines.h"
 #include "XObjectArray.h"
-#include "XHashTable.h"
 #include "CKDependencies.h"
+#include "XHashTable.h"
+#include "VxTimeProfiler.h"
+
+#include <stdio.h>
 
 //-------------------------------------------------------------------------
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
 typedef XClassArray<CKClassDesc> XClassInfoArray;
 typedef XArray<CKBaseManager *> XManagerArray;
@@ -30,8 +24,6 @@ typedef XHashTable<CKObjectDeclaration *, CKGUID> XObjDeclHashTable;
 typedef XObjDeclHashTable::Iterator XObjDeclHashTableIt;
 typedef XObjDeclHashTable::Pair XObjDeclHashTablePair;
 
-#endif // Docjet secret macro
-
 /***************************************************************************
 {filename:CKContext}
 Summary: Main Interface Object
@@ -43,7 +35,7 @@ Remarks:
     + The CKContext object act as the central interface to create/destroy objects,to access managers, to load/save files.
 
     + Several CKContext can be created inside a same process (in multiple threads for example) but objects created
-    by a specific CKContext must not be used in other contextes.
+    by a specific CKContext must not be used in other contexts.
 
 
 See also: CKContext::CreateObject, CKContext::GetObject, CKContext::DestroyObject
@@ -62,8 +54,8 @@ public:
     CKObject *GetObject(CK_ID ObjID);
     int GetObjectCount();
     int GetObjectSize(CKObject *obj);
-    CKERROR DestroyObject(CKObject *obj, DWORD Flags = 0, CKDependencies *depoptions = NULL);
-    CKERROR DestroyObject(CK_ID id, DWORD Flags = 0, CKDependencies *depoptions = NULL);
+    CKERROR DestroyObject(CKObject *obj, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
+    CKERROR DestroyObject(CK_ID id, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
     CKERROR DestroyObjects(CK_ID *obj_ids, int Count, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
     void DestroyAllDynamicObjects();
     void ChangeObjectDynamic(CKObject *iObject, CKBOOL iSetDynamic = TRUE);
@@ -111,7 +103,6 @@ public:
     CKParameterLocal *CreateCKParameterLocal(CKSTRING Name, CKGUID guid, CKBOOL Dynamic = FALSE);
     CKParameterLocal *CreateCKParameterLocal(CKSTRING Name, CKSTRING TypeName, CKBOOL Dynamic = FALSE);
     CKParameterOperation *CreateCKParameterOperation(CKSTRING Name, CKGUID opguid, CKGUID ResGuid, CKGUID p1Guid, CKGUID p2Guid);
-    // CKParameterVariable* CreateCKParameterVariable(CKSTRING Name,CKBOOL Dynamic);
 
     CKFile *CreateCKFile();
     CKERROR DeleteCKFile(CKFile *);
@@ -131,7 +122,7 @@ public:
 
     CKERROR ShowSetup(CK_ID);
     CK_ID ChooseObject(void *dialogParentWnd);
-    CKERROR Select(const XObjectArray &o, BOOL clearSelection = TRUE);
+    CKERROR Select(const XObjectArray &o, CKBOOL clearSelection = TRUE);
     CKDWORD SendInterfaceMessage(CKDWORD reason, CKDWORD param1, CKDWORD param2);
 
     CKERROR UICopyObjects(const XObjectArray &iObjects, CKBOOL iClearClipboard = TRUE);
@@ -209,8 +200,8 @@ public:
     CKERROR GetFileInfo(CKSTRING FileName, CKFileInfo *FileInfo);
     CKERROR GetFileInfo(int BufferSize, void *MemoryBuffer, CKFileInfo *FileInfo);
     CKERROR Save(CKSTRING FileName, CKObjectArray *liste, CKDWORD SaveFlags, CKDependencies *dependencies = NULL, CKGUID *ReaderGuid = NULL);
-    CKERROR LoadAnimationOnCharacter(CKSTRING FileName, CKObjectArray *liste, CKCharacter *carac, CKGUID *ReaderGuid = NULL, BOOL AsDynamicObjects = FALSE);
-    CKERROR LoadAnimationOnCharacter(int BufferSize, void *MemoryBuffer, CKObjectArray *ckarray, CKCharacter *carac, BOOL AsDynamicObjects = FALSE);
+    CKERROR LoadAnimationOnCharacter(CKSTRING FileName, CKObjectArray *liste, CKCharacter *carac, CKGUID *ReaderGuid = NULL, CKBOOL AsDynamicObjects = FALSE);
+    CKERROR LoadAnimationOnCharacter(int BufferSize, void *MemoryBuffer, CKObjectArray *ckarray, CKCharacter *carac, CKBOOL AsDynamicObjects = FALSE);
 
     void SetAutomaticLoadMode(CK_LOADMODE GeneralMode, CK_LOADMODE _3DObjectsMode, CK_LOADMODE MeshMode, CK_LOADMODE MatTexturesMode);
     void SetUserLoadCallback(CK_USERLOADCALLBACK fct, void *Arg);
@@ -240,17 +231,7 @@ public:
     int GetPVInformation();
     CKBOOL IsInDynamicCreationMode();
 
-// Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
-
-#endif // Docjet secret macro
 };
-
-//-------------------------------------------------------------------------
-// Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
 /*************************************************
 Name: CKTimeProfiler
@@ -341,6 +322,4 @@ protected:
     XArray<Mark> m_Marks;
 };
 
-#endif
-
-#endif
+#endif // CKCONTEXT_H

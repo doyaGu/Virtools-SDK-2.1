@@ -1,17 +1,13 @@
-/*************************************************************************/
-/*	File : CKRenderContext.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKRENDERCONTEXT_H
-#define CKRENDERCONTEXT_H "$Id:$"
+#define CKRENDERCONTEXT_H
 
 #include "CKObject.h"
+#include "CKMesh.h"
 #include "XObjectArray.h"
 #include "VxDefines.h"
-#include "CKMesh.h"
+#include "Vx2dVector.h"
+#include "VxRect.h"
+#include "VxPlane.h"
 
 /*********************************************************************
 Name: CKPickResult
@@ -30,7 +26,7 @@ typedef struct CKPICKRESULT
     VxVector IntersectionNormal; // Normal  at the Intersection Point
     float TexU, TexV;			 // Textures coordinates
     float Distance;				 // Distance from Viewpoint to the intersection point
-    int FaceIndex;				 // Index of the face where the intersection occured
+    int FaceIndex;				 // Index of the face where the intersection occurred
     CK_ID Sprite;				 // If there was a sprite at the picked coordinates, ID of this sprite
 } CKPICKRESULT;
 
@@ -57,7 +53,7 @@ Remarks:
 be rendered.
 
 + At Creation time, a render context is attached to a window from which it
-will take size information. At anytime the rendercontext can be switch forth and back
+will take size information. At anytime the render context can be switch forth and back
 to fullscreen mode.
 
 + CKRenderContext provides methods for Fog management, Primitive drawing, ambient lighting
@@ -65,9 +61,9 @@ and cameras management.
 
 + Callbacks can be set to have functions called before and after rendering occurs.
 
-+ The rendercontext contains a list of objects to be rendered. When creating a level all the objects
-of the level will be added to its render contextes (attached through the function CKLevel::AddRenderContext).
-If a rendercontext is used without a level the user must attach the objects he wants to be rendered.
++ The render context contains a list of objects to be rendered. When creating a level all the objects
+of the level will be added to its render contexts (attached through the function CKLevel::AddRenderContext).
+If a render context is used without a level the user must attach the objects he wants to be rendered.
 
 + CKRenderContext is created through the CKRenderManager::CreateRenderContext() method.
 
@@ -81,31 +77,31 @@ public:
     Summary: Adds an object to the render context.
 
     Arguments:
-        obj: A pointer to a CKRenderObject to attach to the rendercontext.
+        obj: A pointer to a CKRenderObject to attach to the render context.
     Remarks:
     + This function does not need to be called if you are using scenes, since every objects
-    in a scene are automatically added to the render contextes a level use.
+    in a scene are automatically added to the render contexts a level use.
     + But you may need to render objects without them being added to the level
-    in which case you must attach them to the rendercontext.
-    + Both 2dEntities (Sprites) and 3dEntities can be added to a rendercontext.
+    in which case you must attach them to the render context.
+    + Both 2dEntities (Sprites) and 3dEntities can be added to a render context.
     See also:IsObjectAttached,RemoveObject,AddObjectWithHierarchy,DetachAll,AddRemoveSequence
     *************************************************/
     virtual void AddObject(CKRenderObject *obj) = 0;
     /*************************************************
-    Summary: Adds an object to the rendercontext along with its hierarchy.
+    Summary: Adds an object to the render context along with its hierarchy.
 
     Arguments:
-        obj: A pointer to a CKRenderObject to attach to the rendercontext.
+        obj: A pointer to a CKRenderObject to attach to the render context.
     Remarks:
         + Adds obj and all its children to the render context.
     See also:IsObjectAttached,RemoveObject,AddObject,DetachAll
     *************************************************/
     virtual void AddObjectWithHierarchy(CKRenderObject *obj) = 0;
     /*************************************************
-    Summary: Removes an object from the rendercontext
+    Summary: Removes an object from the render context
 
     Arguments:
-        obj: Object to be removed from the rendercontext.
+        obj: Object to be removed from the render context.
     See also:IsObjectAttached,AddObjectWithHierarchy,AddObject,DetachAll
     *************************************************/
     virtual void RemoveObject(CKRenderObject *obj) = 0;
@@ -115,7 +111,7 @@ public:
     Arguments:
         obj: A pointer to a CKRenderObject
     Return Value:
-        TRUE if the object is attached to the Rendercontext,
+        TRUE if the object is attached to the render context,
         FALSE otherwise.
     See also:AddObject,RemoveObject,AddObjectWithHierarchy,DetachAll
     *************************************************/
@@ -153,7 +149,7 @@ public:
     *************************************************/
     virtual CK2dEntity *Get2dRoot(CKBOOL background) = 0;
     /*************************************************
-    Summary: Removes all the objects from the rendercontext.
+    Summary: Removes all the objects from the render context.
 
     See also:IsObjectAttached,AddObjectWithHierarchy,AddObject,RemoveObject
     *************************************************/
@@ -164,7 +160,7 @@ public:
 
     Remarks:
         + Every frame the settings of the current camera are used to update the current render context (Position,Fov,Aspect Ration,Clip Planes,etc...).
-        + This function force the settings to be updated immediatly.
+        + This function force the settings to be updated immediately.
     See also:PrepareCameras
     *************************************************/
     virtual void ForceCameraSettingsUpdate() = 0;
@@ -173,7 +169,7 @@ public:
 
     Remarks:
     + This function updates the orientation of all target lights and cameras so that they point toward their targets.
-    + If there is an active camera to which the viewpoint is attached, the rendercontext is updated according to the camera settings
+    + If there is an active camera to which the viewpoint is attached, the render context is updated according to the camera settings
     (Field of View,Type of projection (Perspective or Orthographic),Clip planes).
     + It finally updates the size of the viewport according to active camera aspect ratio.
     + This method is automatically called by the Render method.
@@ -294,7 +290,7 @@ public:
     + According to the format flags the returned VxDrawPrimitiveData structure is ready to be use with the DrawPrimitive method : vertex count,vertex format and transformation,clipping,lighting flags are set.
     + If the flags CKRST_DP_VBUFFER is set and the current context supports vertex buffers,the returned structure will point to a vertex buffer. The returned pointers must not be kept and should only be used to fill up the vertex data. Once the data have been set the vertex buffer must be unlocked before any call to DrawPrimitive via the ReleaseCurrentVB method.
     + To see if the returned structure effectively points to a vertex buffer, check that the CKRST_DP_VBUFFER is present in the structure m_Flags member.
-    + Using vertex buffers enable you to directly write in driver optimal memory and avoid the overead of a recopy in temporary system memory. When using vertex buffers one should take care of filling up the vertex data in a sequential manner and avoid random write access to the returned memory pointers.
+    + Using vertex buffers enable you to directly write in driver optimal memory and avoid the overhead of a recopy in temporary system memory. When using vertex buffers one should take care of filling up the vertex data in a sequential manner and avoid random write access to the returned memory pointers.
     See also:Custom Rendering,GetDrawPrimitiveIndices,LockCurrentVB,ReleaseCurrentVB,CKRST_DPFLAGS,VxDrawPrimitiveData,DrawPrimitive
     *************************************************/
     virtual VxDrawPrimitiveData *GetDrawPrimitiveStructure(CKRST_DPFLAGS Flags, int VertexCount) = 0;
@@ -318,7 +314,7 @@ public:
     Arguments:
         Dest: A pointer to a VxVector that will be filled with the screen coordinates of Src
         Src: A pointer to the VxVector to transform.
-        Ref: A optionnal pointer to CK3dEntity which is the referential in which Src is taken. If NULL Transform uses the current World Transformation Matrix.
+        Ref: A optional pointer to CK3dEntity which is the referential in which Src is taken. If NULL Transform uses the current World Transformation Matrix.
     Remarks:
     + If no referential is given Transform takes the current world transformation (See SetWorldTransformationMatrix)
     matrix when converting from model coordinates to screen coordinates.
@@ -332,7 +328,7 @@ public:
     Arguments:
         VertexCount: Number of vertices to transform
         data: A pointer to a VxTransformData that describes the vectors to transform.
-        Ref:  A optionnal pointer to CK3dEntity which is the referential from which . If NULL TransformVertices uses the current World Transformation Matrix.
+        Ref:  A optional pointer to CK3dEntity which is the referential from which . If NULL TransformVertices uses the current World Transformation Matrix.
     Remarks:
 
     o If no referential is given Transform takes the current world transformation
@@ -364,6 +360,7 @@ public:
     See also: StopFullScreen,IsFullScreen
     *************************************************/
     virtual CKERROR GoFullScreen(int Width = 640, int Height = 480, int Bpp = -1, int Driver = 0, int RefreshRate = 0) = 0;
+
     /*************************************************
     Summary: Switches back from FullScreen mode to windowed mode
 
@@ -374,6 +371,7 @@ public:
     See also:GoFullScreen,IsFullScreen
     *************************************************/
     virtual CKERROR StopFullScreen() = 0;
+
     /*************************************************
     Summary: Returns whether the context is in FullScreen mode.
 
@@ -382,6 +380,7 @@ public:
     See also:StopFullScreen,GoFullScreen
     *************************************************/
     virtual CKBOOL IsFullScreen() = 0;
+
     /*****************************************************
     Summary:Returns the index of the driver used by this context.
 
@@ -391,6 +390,7 @@ public:
     See Also: ChangeDriver,CKRenderManager::GetRenderDriverDescription.
     *****************************************************/
     virtual int GetDriverIndex() = 0;
+
     /*****************************************************
     Summary:Changes the current driver used by a context.
 
@@ -407,7 +407,7 @@ public:
     virtual CKBOOL ChangeDriver(int NewDriver) = 0;
 
     //-----------------------------------------------------------
-    // Window acces and position
+    // Window access and position
 
     /*************************************************
     Summary: Returns the handle of the window used to create the context.
@@ -419,6 +419,7 @@ public:
     See also:CKRenderManager::CreateContext
     *************************************************/
     virtual WIN_HANDLE GetWindowHandle() = 0;
+
     /*****************************************************
     Summary:Converts screen coordinates to render context window coordinates
 
@@ -446,6 +447,7 @@ public:
     See also:GetWindowRect,Resize,GetWidth,GetHeight,GetViewRect
     *************************************************/
     virtual CKERROR SetWindowRect(VxRect &rect, CKDWORD Flags = 0) = 0;
+
     /*************************************************
     Summary: Returns the render context dimensions.
 
@@ -458,6 +460,7 @@ public:
     See also:SetWindowRect,Resize,,GetWidth,GetHeight,GetViewRect
     *************************************************/
     virtual void GetWindowRect(VxRect &rect, CKBOOL ScreenRelative = FALSE) = 0;
+
     /*************************************************
     Summary: Returns the height of the context.
 
@@ -466,6 +469,7 @@ public:
     See also:GetWidth,GetWindowRect,Resize,GetViewRect,
     *************************************************/
     virtual int GetHeight() = 0;
+
     /*************************************************
     Summary: Returns the width of the context.
 
@@ -474,25 +478,27 @@ public:
     See also:GetHeight,GetWindowRect,Resize,GetViewRect,
     *************************************************/
     virtual int GetWidth() = 0;
+
     /*************************************************
     Summary: Changes the size of the render context.
 
     Arguments:
         PosX  : Position of the left corner of the context in the window.
         PosY  : Position of the top corner of the context in the window.
-        SizeX : Optionnal new width of the context (0 to use the current size of the window).
-        SizeY : Optionnal new height of the context  (0 to use the current size of the window).
+        SizeX : Optional new width of the context (0 to use the current size of the window).
+        SizeY : Optional new height of the context  (0 to use the current size of the window).
         Flags : See remarks.
     Return Value:
         CK_OK if successful	or an error code otherwise.
     Remarks:
-    + This function is usually called by the user to warn that the rendercontext window has changed its size.
-    If the user does not specifies the new size the render engine will take the size of the client rect of the rendercontext window.
+    + This function is usually called by the user to warn that the render context window has changed its size.
+    If the user does not specifies the new size the render engine will take the size of the client rect of the render context window.
     + If Flags contains VX_RESIZE_NOSIZE SizeX and SizeY arguments are ignored.
     + If Flags contains VX_RESIZE_NOMOVE PosX and PosY arguments are ignored.
     See also:GetWindowHandle,SetWindowRect,GetWindowRect,SetViewRect,GetViewRect
     *************************************************/
     virtual CKERROR Resize(int PosX = 0, int PosY = 0, int SizeX = 0, int SizeY = 0, CKDWORD Flags = 0) = 0;
+
     // Viewport Dimensions
     /*************************************************
     Summary: Sets the viewport dimensions.
@@ -506,6 +512,7 @@ public:
     See also:GetViewRect,SetWindowRect,SetCurrentRenderOptions,PrepareCameras
     *************************************************/
     virtual void SetViewRect(VxRect &rect) = 0;
+
     /*************************************************
     Summary: Returns the viewport dimensions.
 
@@ -523,9 +530,9 @@ public:
     Summary:Returns the current pixel format of the context.
 
     Arguments:
-        Bpp: Optionnal integer to be filled with the number of color buffer bits per pixel.
-        Zbpp: Optionnal integer to be filled with the number of depth buffer bits per pixel.
-        StencilBpp: Optionnal integer to be filled with the number of stencil bits per pixel.
+        Bpp: Optional integer to be filled with the number of color buffer bits per pixel.
+        Zbpp: Optional integer to be filled with the number of depth buffer bits per pixel.
+        StencilBpp: Optional integer to be filled with the number of stencil bits per pixel.
     Return Value: VX_PIXELFORMAT of the color buffer.
     See Also: VX_PIXELFORMAT
     *****************************************************/
@@ -549,6 +556,7 @@ public:
     See also:GetState,CKMaterial::SetAsCurrent,VXRENDERSTATETYPE
     ****************************************************************/
     virtual void SetState(VXRENDERSTATETYPE State, CKDWORD Value) = 0;
+
     /*****************************************************
     Summary: Returns a rendering state value.
 
@@ -562,6 +570,7 @@ public:
     See also:SetState,CKMaterial::SetAsCurrent,VXRENDERSTATETYPE
     *****************************************************/
     virtual CKDWORD GetState(VXRENDERSTATETYPE State) = 0;
+
     /*************************************************************
     Summary: Specifies the current texture to use when drawing primitives.
 
@@ -569,7 +578,7 @@ public:
         TRUE if successful.
     Arguments:
         tex: A pointer to a CKTexture that will be used (a NULL texture disables the texturing).
-        Clamped: Some implementation require additionnal processing when texture address mode is set to clamping. This value must be set to true if the texture is to be used in clamping mode.
+        Clamped: Some implementation require additional processing when texture address mode is set to clamping. This value must be set to true if the texture is to be used in clamping mode.
         Stage: Texture stage on which this texture should be set, usually 0.
     Remarks:
     + When setting a texture as current the render engine will use it when drawing primitives.
@@ -579,6 +588,7 @@ public:
     See also:DrawPrimitive,SetTextureStageState,SetState,SetCurrentMaterial,CKTexture::SetAsCurrent,CKMaterial::SetAsCurrent
     **************************************************************/
     virtual CKBOOL SetTexture(CKTexture *tex, CKBOOL Clamped = 0, int Stage = 0) = 0;
+
     /*****************************************************
     Summary:Sets the rendering state for the current texture.
 
@@ -603,7 +613,7 @@ public:
     Return Value: A pointer to a CKRasterizerContext.
     Remarks:
     + This method is specific to the Virtools implementation of
-    the render engine. It gives acces to the low-level rasterizer
+    the render engine. It gives access to the low-level rasterizer
     object.
     + To use this object include the header files in CKRasterizerLib project
     given in the render engine source code.
@@ -618,12 +628,13 @@ public:
         ClearBack : A boolean specifying if the back buffer should be cleared.
     Remarks:
     This function modifies the current render options and is a
-    conveniency for ChangeCurrentRenderOptions(CK_RENDER_CLEARBACK)
+    convenience for ChangeCurrentRenderOptions(CK_RENDER_CLEARBACK)
     See also:SetClearZBuffer,ChangeCurrentRenderOptions
     *************************************************/
     virtual void SetClearBackground(CKBOOL ClearBack = TRUE) = 0;
 
     virtual CKBOOL GetClearBackground() = 0;
+
     /*************************************************
     Summary: Specifies whether backbuffer should be cleared.
 
@@ -631,7 +642,7 @@ public:
         ClearBack : A boolean specifying if the back buffer should be cleared.
     Remarks:
     + This function modifies the current render options and is a
-    conveniency for ChangeCurrentRenderOptions(CK_RENDER_CLEARBACK)
+    convenience for ChangeCurrentRenderOptions(CK_RENDER_CLEARBACK)
     See also:SetClearZBuffer,ChangeCurrentRenderOptions
     *************************************************/
     virtual void SetClearZBuffer(CKBOOL ClearZ = TRUE) = 0;
@@ -639,13 +650,14 @@ public:
     virtual CKBOOL GetClearZBuffer() = 0;
 
     virtual void GetGlobalRenderMode(VxShadeType *Shading, CKBOOL *Texture, CKBOOL *Wireframe) = 0;
+
     /*************************************************
     Summary: Forces render settings for all objects.
 
     Arguments:
         Shading: A global shade mode that all objects will use.
         Texture: Enable or disables texturing for all objects.
-        Wireframe: Draws an additionnal wireframe layer on all the objects.
+        Wireframe: Draws an additional wireframe layer on all the objects.
     Remarks:
     This method can be used to override the material settings of every objects.
     See also:VxShadeType
@@ -655,6 +667,7 @@ public:
     virtual void SetCurrentRenderOptions(CKDWORD flags) = 0;
 
     virtual CKDWORD GetCurrentRenderOptions() = 0;
+
     /*************************************************
     Summary: Sets the current rendering options.
 
@@ -667,7 +680,7 @@ public:
     + To automatically adjust the viewport rectangle according to the current camera aspect ratio (CK_RENDER_USECAMERARATIO).
     + To clear Color,Z and stencil buffer at the beginning of each render loop (CK_RENDER_CLEARZ,CK_RENDER_CLEARBACK,CK_RENDER_CLEARSTENCIL)
     + To blit the content of the back buffer to the screen at the end (CK_RENDER_DOBACKTOFRONT)
-    This settings can be changed or overriden when calling the Render,Clear,DrawScene or BackToFront method.
+    This settings can be changed or overridden when calling the Render,Clear,DrawScene or BackToFront method.
     See also:ChangeCurrentRenderOptions,GetCurrentRenderOptions,CK_RENDER_FLAGS
     *************************************************/
     virtual void ChangeCurrentRenderOptions(CKDWORD Add, CKDWORD Remove) = 0;
@@ -718,6 +731,7 @@ public:
     See also:SetFogStart,SetFogEnd,SetFogColor
     *************************************************/
     virtual void SetFogMode(VXFOG_MODE Mode) = 0;
+
     /*************************************************
     Summary: Sets or gets the depth at which the fog starts.
 
@@ -733,6 +747,7 @@ public:
     See also:SetFogMode,SetFogEnd,SetFogColor
     *************************************************/
     virtual void SetFogStart(float Start) = 0;
+
     /*************************************************
     Summary: Sets or gets the depth at which the fog is at its maximum.
 
@@ -748,6 +763,7 @@ public:
     See also:SetFogMode,SetFogStart,SetFogColor
     *************************************************/
     virtual void SetFogEnd(float End) = 0;
+
     /*************************************************
     Summary: Sets or gets the fog density
 
@@ -766,6 +782,7 @@ public:
     See also:SetFogColor,SetFogMode,SetFogStart,SetFogEnd
     *************************************************/
     virtual void SetFogDensity(float Density) = 0;
+
     /*************************************************
     Summary: Sets or gets the fog color
 
@@ -811,6 +828,7 @@ public:
     See also:VXPRIMITIVETYPE,Custom Rendering,SetWorldTransformationMatrix,VxDrawPrimitiveData
     ************************************************************/
     virtual CKBOOL DrawPrimitive(VXPRIMITIVETYPE pType, CKWORD *indices, int indexcount, VxDrawPrimitiveData *data) = 0;
+
     /*****************************************************
     Summary:Sets the current world transformation matrix
 
@@ -818,7 +836,7 @@ public:
         M : A VxMatrix representation of the world transformation.
     Remarks:
     The world, view and projection matrices determine the way vertices are transformed respectively from
-    local coordinate sytem to world, from world to camera and from camera to screen coordinates.
+    local coordinate system to world, from world to camera and from camera to screen coordinates.
 
     When a scene is drawn the View (Camera) , Projection and World (Object) matrices are automatically set.
 
@@ -830,6 +848,7 @@ public:
     See also: SetProjectionTransformationMatrix,SetViewTransformationMatrix
     *****************************************************/
     virtual void SetWorldTransformationMatrix(const VxMatrix &M) = 0;
+
     /*****************************************************
     Summary:Sets the current projection transformation matrix
 
@@ -837,7 +856,7 @@ public:
         M : A VxMatrix representation of the projection transformation.
     Remarks:
         + The world, view and projection matrices determine the way vertices are transformed
-        respectively from local coordinate sytem to world, from world to camera and from
+        respectively from local coordinate system to world, from world to camera and from
         camera to screen coordinates.
         + When a scene is drawn the View (Camera) , Projection and
         World (Object) matrices are automatically set.
@@ -876,6 +895,7 @@ public:
     See also: SetProjectionTransformationMatrix,SetViewTransformationMatrix,VxMatrix::Perspective
     *****************************************************/
     virtual void SetProjectionTransformationMatrix(const VxMatrix &M) = 0;
+
     /*****************************************************
     Summary:Sets the current view transformation matrix
 
@@ -883,7 +903,7 @@ public:
         M : A VxMatrix representation of the view transformation.
     Remarks:
     + The world, view and projection matrices determine the way vertices are transformed
-    respectively from local coordinate sytem to world, from world to camera and from
+    respectively from local coordinate system to world, from world to camera and from
     camera to screen coordinates.
     + When a scene is drawn the View (Camera) , Projection and
     World (Object) matrices are automatically set.
@@ -916,6 +936,7 @@ public:
     See also:GetUserClipPlane,SetState,VXRENDERSTATE_CLIPPLANEENABLE
     *****************************************************/
     virtual CKBOOL SetUserClipPlane(CKDWORD ClipPlaneIndex, const VxPlane &PlaneEquation) = 0;
+
     /*****************************************************
     Summary:Returns a user clip plane equation
     Remarks:
@@ -946,6 +967,7 @@ public:
     *************************************************/
     virtual CKRenderObject *Pick(int x, int y, CKPICKRESULT *oRes, CKBOOL iIgnoreUnpickable = FALSE) = 0;
     virtual CKRenderObject *Pick(CKPOINT pt, CKPICKRESULT *oRes, CKBOOL iIgnoreUnpickable = FALSE) = 0;
+
     /*************************************************
     Summary: Returns the list of objects contained in a rectangle.
 
@@ -973,8 +995,9 @@ public:
     See also:DetachViewpointFromCamera,GetViewpoint,GetAttachedCamera
     *************************************************/
     virtual void AttachViewpointToCamera(CKCamera *cam) = 0;
+
     /*************************************************
-    Summary: Detachs the viewpoint from its camera.
+    Summary: Detaches the viewpoint from its camera.
 
     Remarks:
         + Once detached the viewpoint does not follow anymore the position and orientation of the camera it was attached to.
@@ -982,6 +1005,7 @@ public:
     See also:AttachViewpointToCamera,GetViewpoint,GetAttachedCamera
     *************************************************/
     virtual void DetachViewpointFromCamera() = 0;
+
     /*************************************************
     Summary: Returns the camera to which the viewpoint is attached.
 
@@ -993,6 +1017,7 @@ public:
     See also:AttachViewpointToCamera,GetViewpoint
     *************************************************/
     virtual CKCamera *GetAttachedCamera() = 0;
+
     /*************************************************
     Summary: Returns the 3dEntity which represents the viewpoint.
 
@@ -1020,6 +1045,7 @@ public:
     See also:Clear
     *************************************************/
     virtual CKMaterial *GetBackgroundMaterial() = 0;
+
     /*************************************************
     Summary: Returns the bounding box of every objects referenced in the context.
 
@@ -1027,11 +1053,12 @@ public:
         box : A pointer to a VxBbox that will contain the extents of all the objects.
     Remarks:
         + This method computes the bounding box from the list of all the objects attached to the
-        rendercontext. Computing this bounding box may be a slow operation especially if there is
+        render context. Computing this bounding box may be a slow operation especially if there is
         a great number of objects.
     See also:VxBbox,CK3dEntity::GetBoundingBox,CK3dEntity::GetHierarchicalBox
     *************************************************/
     virtual void GetBoundingBox(VxBbox *BBox) = 0;
+
     /*************************************************
     Summary: Returns statistics about the last rendered frame .
 
@@ -1045,6 +1072,7 @@ public:
     See also:VxStats
     *************************************************/
     virtual void GetStats(VxStats *stats) = 0;
+
     /*************************************************
     Summary: Specifies the current material to use when drawing primitives.
 
@@ -1068,12 +1096,12 @@ public:
     + Alpha testing is set,SetState(VXRENDERSTATE_ALPHATESTENABLE,AlphaTestEnabled),SetState(VXRENDERSTATE_ALPHAFUNC, AlphaFunc),SetState(VXRENDERSTATE_ALPHAREF, AlphaRef);
     See also:DrawPrimitive,SetState,SetTexture,CKTexture::SetAsCurrent,CKMaterial::SetAsCurrent
     *************************************************/
-    virtual void SetCurrentMaterial(CKMaterial *mat, BOOL Lit = TRUE) = 0;
+    virtual void SetCurrentMaterial(CKMaterial *mat, CKBOOL Lit = TRUE) = 0;
 
     virtual void Activate(CKBOOL active = TRUE) = 0;
 
     //-----------------------------------------------------------
-    // Buffers Acces
+    // Buffers Access
 
     /*************************************************
     Summary: Creates an image from the specified video buffer (Back or Z ).
@@ -1114,7 +1142,7 @@ public:
         desc: A pointer to a VxImageDescEx giving the format in which image data was stored.Must not be NULL.
         buffer: buffer to which copy should be done can be either VXBUFFER_BACKBUFFER or VXBUFFER_ZBUFFER
     Return Value:
-        The size of the resultant buffer or 0 if an error occured.
+        The size of the resultant buffer or 0 if an error occurred.
     Remarks:
     + The desc parameter must contain information about image format. If the image stored in data does not
     have the same format than the video buffer the function will fail and return 0.
@@ -1128,7 +1156,7 @@ public:
 
     Arguments:
         filename: Filename of the bitmap file to save.
-        rect: A pointer to a VxRect specifiyng which part of the buffer should be saved. A NULL parameter takes the whole buffer.
+        rect: A pointer to a VxRect specifying which part of the buffer should be saved. A NULL parameter takes the whole buffer.
         buffer: Video buffer to save (can be back or depth buffer).
     Return Value:
         CK_OK if successful or an error code otherwise.
@@ -1148,7 +1176,7 @@ public:
     Return Value:
         A pointer to a VxDirectXData that contain the pointers to the DirectDraw and Direct3D objects.
     Remarks:
-        + When using a DirectX based rasterizers, one can access the DirectDraw and Direct3D objects through this method.
+        + When using a DirectX based rasterizer, one can access the DirectDraw and Direct3D objects through this method.
     See also:VxDirectXData
     *************************************************/
     virtual VxDirectXData *GetDirectXInfo() = 0;
@@ -1158,8 +1186,8 @@ public:
     Summary: Multi thread
 
     Remarks:
-        + Some rasterizers (OpenGL) functions will failed
-        if called from 2 differents threads without changing
+        + Some rasterizer (OpenGL) functions will failed
+        if called from 2 different threads without changing
         the active thread before calling them.
         + In a multi-thread application where more than
         one thread may access a render context you need to
@@ -1183,6 +1211,7 @@ public:
     See also:RectPick,Pick
     *************************************************/
     virtual CK2dEntity *Pick2D(const Vx2DVector &v) = 0;
+
     /*****************************************************
     Summary:Sets a texture as target for the rendering
 
@@ -1240,10 +1269,8 @@ public:
     + This method returns a pointer to a VxDrawPrimitiveData structure ( pointing to a vertex buffer) that can be used to update vertex data.
     + ReleaseCurrentVB must be called once the data have been written.
 
-    A typical usage of this mehod is for users who want to render the same geometry twice
+    A typical usage of this method is for users who want to render the same geometry twice
     and change only a subset of data between the two calls to draw primitive. Such a technique would look like
-
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
                 DataPtr = GetDrawPrimitiveStructure(Flags | CKRST_DP_VBUFFER...)
 
@@ -1253,7 +1280,7 @@ public:
                 DrawPrimitive(DataPtr);
 
                 if (DataPtr->m_Flags & CKRST_DP_VBUFFER) {
-                    //.. Returned pointer was a vertex buffer we must lock it before writting again
+                    //.. Returned pointer was a vertex buffer we must lock it before writing again
                     LockCurrentVB()
                 }
 
@@ -1267,8 +1294,6 @@ public:
 
                 DrawPrimitive(DataPtr);
 
-    {html:</td></tr></table>}
-
     Return Value:
         A pointer to a VxDrawPrimitiveData containing the vertex buffer data.
 
@@ -1276,7 +1301,7 @@ public:
     *************************************************/
     virtual VxDrawPrimitiveData *LockCurrentVB(CKDWORD VertexCount) = 0;
 
-    virtual BOOL ReleaseCurrentVB() = 0;
+    virtual CKBOOL ReleaseCurrentVB() = 0;
 
     /*****************************************************
     Summary:Sets the current texture transformation matrix
@@ -1330,4 +1355,4 @@ public:
     virtual void ScreenToViewpoint(const Vx2DVector &i2DPosition, VxVector *o3DPosition, CKBOOL iScreen = TRUE) = 0;
 };
 
-#endif
+#endif // CKRENDERCONTEXT_H

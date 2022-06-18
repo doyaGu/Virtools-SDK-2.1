@@ -1,18 +1,12 @@
-/*************************************************************************/
-/*	File : CKAttributeManager.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKATTRIBUTEMANAGER_H
-#define CKATTRIBUTEMANAGER_H "$Id:$"
+#define CKATTRIBUTEMANAGER_H
 
 #include "CKDefines.h"
 #include "CKBaseManager.h"
 
 struct CKAttributeDesc;
 struct CKAttributeCategoryDesc;
+class XObjectPointerArray;
 
 /****************************************************************
 Summary: Function called when an attribute is set or removed on an object.
@@ -35,8 +29,8 @@ Remarks:
 classes may ask for information.
 + An attribute is defined by :
     + A Name
-    + A Category (Optionnal)
-    + A Parameter type (Optionnal)
+    + A Category (Optional)
+    + A Parameter type (Optional)
 + New types of attributes may be registered by giving them a name and the type of parameters that will come along with them. Once registered this
 new type of attribute may be accessed by name or by the unique index returned by RegisterNewAttributeType.
 + Retrieving attributes by index is of course far more efficient than by Name.
@@ -144,4 +138,4 @@ public:
                                                      CKMANAGER_FUNC_OnSequenceRemovedFromScene; }
 };
 
-#endif
+#endif // CKATTRIBUTEMANAGER_H

@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKBehaviorIO.h			 				 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBEHAVIORIO_H
-#define CKBEHAVIORIO_H "$Id:$"
+#define CKBEHAVIORIO_H
 
 #include "CKObject.h"
 
@@ -43,6 +36,7 @@ public:
         m_ObjectFlags &= ~CK_OBJECT_IOTYPEMASK;
         m_ObjectFlags |= Type;
     }
+
     /*************************************************
     Summary: Returns whether the behavior IO is an input or output.
     Return Value:
@@ -65,6 +59,7 @@ public:
         else
             m_ObjectFlags &= ~CK_BEHAVIORIO_ACTIVE;
     }
+
     /*************************************************
     Summary: Returns whether the behavior IO is active.
     Return Value:
@@ -83,8 +78,6 @@ public:
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
     void SetOwner(CKBehavior *b)
     {
@@ -129,10 +122,6 @@ public:
 protected:
     XSObjectPointerArray m_Links;
     CKBehavior *m_OwnerBehavior;
-
-    void SetOldFlags(int Type);
-    int GetOldFlags();
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKBEHAVIORIO_H

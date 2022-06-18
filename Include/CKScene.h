@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : CKScene.h													 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSCENE_H
 #define CKSCENE_H
 
@@ -24,8 +17,6 @@ to iterate on objects in a scene.
 
 For example if can be use in following way:
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
         CKSceneObjectIterator it = scene->GetObjectIterator();
         CKObject* obj;
 
@@ -35,8 +26,6 @@ For example if can be use in following way:
             ...
             it++;
         }
-
-{html:</td></tr></table>}
 
 See Also:CKScene::GetObjectIterator
 *************************************************/
@@ -133,7 +122,7 @@ public:
     //-----------------------------------------------------------
     // Render Settings
     void ApplyEnvironmentSettings(XObjectPointerArray *renderlist = NULL);
-    void UseEnvironmentSettings(BOOL use = TRUE);
+    void UseEnvironmentSettings(CKBOOL use = TRUE);
     CKBOOL EnvironmentSettings();
 
     //-----------------------------------------------------------
@@ -178,8 +167,7 @@ public:
     CKERROR Merge(CKScene *mergedScene, CKLevel *fromLevel = NULL);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
+
     //-----------------------------------------------------------
     // Virtual functions
     CKScene(CKContext *Context, CKSTRING name = NULL);
@@ -221,8 +209,6 @@ public:
     CKERROR ComputeObjectList(CKObjectArray *array, CK_CLASSID cid, CKBOOL derived = TRUE);
     void AddObject(CKSceneObject *o);
     void RemoveObject(CKSceneObject *o);
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKSCENE_H

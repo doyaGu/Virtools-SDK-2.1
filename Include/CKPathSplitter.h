@@ -1,14 +1,10 @@
-/*************************************************************************/
-/*	File : CKPathSplitter.h												 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPATHSPLITTER_H
-#define CKPATHSPLITTER_H "$Id:$"
+#define CKPATHSPLITTER_H
 
-#include "XUtil.h"
+#include "VxMathDefines.h"
+
+#include <stdlib.h>
+#include <string.h>
 
 /***********************************************************************
 Summary: Utility class for filenames extraction
@@ -40,9 +36,9 @@ public:
 
     ~CKPathSplitter();
 
-    // Returns the optionnal drive letter, followed by a colon (:)
+    // Returns the optional drive letter, followed by a colon (:)
     char *GetDrive();
-    // Returns the optionnal directory path, including trailing slash (\)
+    // Returns the optional directory path, including trailing slash (\)
     char *GetDir();
     // Returns the file name without extension
     char *GetName();
@@ -80,7 +76,7 @@ See also: CKPathSplitter
 class VX_EXPORT CKPathMaker
 {
 public:
-    // Constructs the object from an optionnal Drive letter,Directory,Filename and Extension.
+    // Constructs the object from an optional Drive letter,Directory,Filename and Extension.
     CKPathMaker(char *Drive, char *Directory, char *Fname, char *Extension);
     // Returns the full path.
     char *GetFileName();
@@ -129,4 +125,4 @@ struct CKFileExtension
     char m_Data[4];
 };
 
-#endif
+#endif // CKPATHSPLITTER_H

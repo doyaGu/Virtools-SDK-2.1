@@ -1,12 +1,7 @@
-/*************************************************************************/
-/*	File : VxSphere.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXSPHERE_H
 #define VXSPHERE_H
+
+#include "VxVector.h"
 
 /**********************************************************
 {filename:VxSphere}
@@ -31,14 +26,12 @@ public:
     float &Radius() { return m_Radius; }
     const float &Radius() const { return m_Radius; }
 
-    bool
-    IsPointInside(const VxVector &iPoint)
+    bool IsPointInside(const VxVector &iPoint)
     {
         return (SquareMagnitude(iPoint - m_Center) <= (m_Radius * m_Radius));
     }
 
-    bool
-    IsBoxTotallyInside(const VxBbox &iBox)
+    bool IsBoxTotallyInside(const VxBbox &iBox)
     {
         float totalDist = 0;
 
@@ -50,8 +43,7 @@ public:
         return (maxD.SquareMagnitude() < (m_Radius * m_Radius));
     }
 
-    bool
-    IsPointOnSurface(const VxVector &iPoint)
+    bool IsPointOnSurface(const VxVector &iPoint)
     {
         return (SquareMagnitude(iPoint - m_Center) == (m_Radius * m_Radius));
     }

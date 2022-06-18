@@ -1,21 +1,14 @@
-/*************************************************************************/
-/*	File : XHashFun.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XHashFun_H_
-#define _XHashFun_H_
+#ifndef XHASHFUN_H
+#define XHASHFUN_H
 
+#include "VxMathDefines.h"
 #include "XString.h"
-#include "XUtil.h"
 
-#include <cctype>
-#include <cstdlib>
+#include <ctype.h>
+#include <stdlib.h>
 
 /************************************************
-Summary: A serie of comparison function
+Summary: A series of comparison function
 
 Remarks
 
@@ -53,7 +46,7 @@ struct XEqualStringI
 };
 
 /************************************************
-Summary: A serie of hash functions
+Summary: A series of hash functions
 
 Remarks
 These hash functions are designed to be used when declaring a hash table where the
@@ -132,7 +125,7 @@ struct XHashFun<float>
 template <>
 struct XHashFun<void *>
 {
-    int operator()(const void *__x) const { return (int)__x >> 8; }
+    int operator()(const void *__x) const { return *(int*)__x >> 8; }
 };
 
 template <>
@@ -154,4 +147,4 @@ struct XHashFunXStringI
     int operator()(const XString &__s) const { return XHashStringI(__s.CStr()); }
 };
 
-#endif
+#endif // XHASHFUN_H

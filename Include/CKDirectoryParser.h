@@ -1,14 +1,7 @@
-/*************************************************************************/
-/*	File : CKDirectoryParser.h											 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKDIRECTORYPARSER_H
-#define CKDIRECTORYPARSER_H "$Id:$"
+#define CKDIRECTORYPARSER_H
 
-#include "XUtil.h"
+#include "VxMathDefines.h"
 
 /***********************************************************************
 Summary: Utility class for Directories parsing.
@@ -40,11 +33,11 @@ See also: CKPathMaker,CKPathSplitter
 class CKDirectoryParser
 {
 public:
-    VX_EXPORT CKDirectoryParser(char *dir, char *fileMask, BOOL recurse = FALSE);
+    VX_EXPORT CKDirectoryParser(char *dir, char *fileMask, XBOOL recurse = FALSE);
 
     VX_EXPORT ~CKDirectoryParser();
     VX_EXPORT char *GetNextFile();
-    VX_EXPORT void Reset(char *dir = NULL, char *fileMask = NULL, BOOL recurse = FALSE);
+    VX_EXPORT void Reset(char *dir = NULL, char *fileMask = NULL, XBOOL recurse = FALSE);
 
 protected:
     void Clean();
@@ -54,8 +47,8 @@ protected:
     char *m_FullFileName;
     char *m_StartDir;
     char *m_FileMask;
-    DWORD m_State;
+    XULONG m_State;
     CKDirectoryParser *m_SubParser;
 };
 
-#endif
+#endif // CKDIRECTORYPARSER_H

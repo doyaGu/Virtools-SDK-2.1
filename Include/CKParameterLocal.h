@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : CKParameterLocal.h											 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPARAMETERLOCAL_H
 #define CKPARAMETERLOCAL_H
 
@@ -44,8 +37,6 @@ public:
     virtual CKERROR SetStringValue(CKSTRING Value);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     //---------------------------------------
     // Virtual functions
@@ -75,13 +66,11 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKParameterLocal *);
     static CK_CLASSID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKParameterLocal *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_PARAMETERLOCAL) ? (CKParameterLocal *)iO : NULL;
     }
-
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKPARAMETERLOCAL_H

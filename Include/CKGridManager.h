@@ -1,18 +1,12 @@
-/*************************************************************************/
-/*	File : CKGridManager.h												 */
-/*	Author :  Cabrita Francisco											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef CKGridManager_H
-#define CKGridManager_H "$Id:$"
+#ifndef CKGRIDMANAGER_H
+#define CKGRIDMANAGER_H
 
 #define GRID_FLAG_SCENE 0
 #define GRID_FLAG_LEVEL 1
 
 #include "CKGrid.h"
 #include "CKBaseManager.h"
+#include "VxColor.h"
 
 #define CKPGUID_LAYERSQUARETYPE_ENUM CKGUID(0x454d7d88, 0x210e3f33)
 
@@ -38,10 +32,10 @@ existing layer type.
 
 + For Dev Interface purposes a layer type can also be given a color with SetAssociatedColor
 
-+ The Grid Manager is the entry point to acces a grid given a custom point in Space.
++ The Grid Manager is the entry point to access a grid given a custom point in Space.
 
 + The Grid Manager, manage all grids and is the gateway between a point in 3D Space and
-the correspondant grid. The Grid Manager, also manages the Layer Types (eg: fire, danger, grass)
+the corresponding grid. The Grid Manager, also manages the Layer Types (eg: fire, danger, grass)
 
 See also: CKGrid
 *************************************************/
@@ -80,7 +74,7 @@ public:
         iType: Layer Type
         Name: New name for the layer type.
     Return Value:
-        CK_OK if succesful or an error code otherwise.
+        CK_OK if successful or an error code otherwise.
     See also: GetTypeFromName,GetTypeName,RegisterType
     *************************************************/
     virtual CKERROR SetTypeName(int iType, CKSTRING Name) = 0;
@@ -104,7 +98,7 @@ public:
         type: Layer Type
         param: CKGUID of the parameter type associated with the layer type.
     Return Value:
-        CK_OK if succesful or an error code otherwise (invalid layer type).
+        CK_OK if successful or an error code otherwise (invalid layer type).
     Remarks:
         Most of the time an integer data (CKPGUID_INT) is associated with layer types. Some exception
         such as the path finding use a Linker type (CKPGUID_LINKERGRAPH_ENUM) when linking grids together.
@@ -132,7 +126,7 @@ public:
         type: Layer Type
         col: Color to associate to this layer type.
     Return Value:
-        CK_OK if succesful or an error code otherwise (invalid layer type).
+        CK_OK if successful or an error code otherwise (invalid layer type).
     Remarks:
         The color association is used in the Dev Interface to draw the layer data.
     See also: GetTypeFromName,GetTypeName,RegisterType,GetAssociatedColor
@@ -146,7 +140,7 @@ public:
     Output Arguments:
         col: Color associated with layer type.
     Return Value:
-        CK_OK if succesful or an error code otherwise (invalid layer type).
+        CK_OK if successful or an error code otherwise (invalid layer type).
     Remarks:
         The color association is used in the Dev Interface to draw the layer data.
     See also: GetTypeFromName,GetTypeName,RegisterType,SetAssociatedColor
@@ -284,9 +278,6 @@ public:
     //	  LINKER GRAPH
     // virtual void InitLinkerIterator (int layerType, unsigned int flags, LinkerGraphIterator &it)=0;
 
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
-
     virtual void Init() = 0;
     virtual CKERROR OnCKInit() = 0;
     virtual CKERROR PostClearAll() = 0;
@@ -321,9 +312,6 @@ public:
     int m_RemapCount;
 
     int *m_Remap; // Array for remapping of the layer type parameters  {secret}
-
-#endif // Docjet secret macro
 };
 
-// CK2 VERSION ...
-#endif
+#endif // CKGRIDMANAGER_H

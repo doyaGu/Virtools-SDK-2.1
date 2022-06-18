@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKTexture.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKTEXTURE_H
-#define CKTEXTURE_H "$Id:$"
+#define CKTEXTURE_H
 
 #include "CKBeObject.h"
 #include "CKBitmapData.h"
@@ -26,7 +19,7 @@ Remarks:
     added to a texture or loaded through  LoadMovie or LoadImage function.
 
     + A texture surface information is stored in a buffer in system memory and load into video memory
-    when needed. You can acces system memory surface with LockSurfacePtr for procedural texturing.
+    when needed. You can access system memory surface with LockSurfacePtr for procedural texturing.
 
     + The class identifier of CKTexture is CKCID_TEXTURE.
 
@@ -56,6 +49,7 @@ public:
     See Also:SaveImage,CKBitmapData::CreateImage
     *******************************************************/
     virtual CKBOOL Create(int Width, int Height, int BPP = 32, int Slot = 0) = 0;
+
     /*************************************************
     Summary: Loads a image slot from a file.
 
@@ -70,6 +64,7 @@ public:
     See also: SaveImage
     *************************************************/
     virtual CKBOOL LoadImage(CKSTRING Name, int Slot = 0) = 0;
+
     /************************************************
     Summary: Creates a multi-image texture from a movie file.
 
@@ -116,6 +111,7 @@ public:
     See also: SystemToVideoMemory
     ************************************************/
     virtual CKBOOL Restore(CKBOOL Clamp = FALSE) = 0;
+
     /*************************************************
     Summary: Allocates and copies the texture image from system to video memory.
 
@@ -127,7 +123,7 @@ public:
         + This method is automatically called by the framework when a texture
         needs to be drawn and is not present in video memory.
         + Use this function to creates the video memory copy.
-        + Usually, youc can call FreeVideoMemory for textures that won't be visible for a long time. When one of
+        + Usually, you can call FreeVideoMemory for textures that won't be visible for a long time. When one of
         these sprites should be used again, calling SystemToVideoMemory ensures that the texture
         will be stored into video memory.
     See also: FreeVideoMemory,Restore
@@ -141,7 +137,7 @@ public:
         TRUE if successful, FALSE otherwise.
     Remarks:
     + Use this function to manage which textures should be stored in video memory. Some video
-    cards may use textures stored in sytem memory (ie. AGP).
+    cards may use textures stored in system memory (ie. AGP).
     + This method can be used in low video memory configuration
     to flush textures that have not been used for a long time.
     See also: SystemToVideoMemory
@@ -156,6 +152,7 @@ public:
     See also: SystemToVideoMemory
     *************************************************/
     virtual CKBOOL IsInVideoMemory() = 0;
+
     /*************************************************
     Summary: Copies the content of the back buffer to the texture video memory.
 
@@ -172,6 +169,7 @@ public:
     See also: CKRenderContext::SetRenderTarget
     ************************************************/
     virtual CKBOOL CopyContext(CKRenderContext *ctx, VxRect *Src, VxRect *Dest, int CubeMapFace = 0) = 0;
+
     /*************************************************
     Summary: Generates the mipmap levels.
 
@@ -184,6 +182,7 @@ public:
     See Also: GetMipmapCount
     *************************************************/
     virtual CKBOOL UseMipmap(int UseMipMap) = 0;
+
     /*************************************************
     Summary: Returns whether mipmaps levels are automatically generated.
 
@@ -206,6 +205,7 @@ public:
     See Also: GetVideoPixelFormat,SetDesiredVideoFormat
     *************************************************/
     virtual CKBOOL GetVideoTextureDesc(VxImageDescEx &desc) = 0;
+
     /*************************************************
     Summary: Returns the pixel format of the texture surface in video memory.
 
@@ -260,7 +260,7 @@ public:
     mipmaps level...
     See Also:SetUserMipMapMode
     ************************************************/
-    virtual BOOL GetUserMipMapLevel(int Level, VxImageDescEx &ResultImage) = 0;
+    virtual CKBOOL GetUserMipMapLevel(int Level, VxImageDescEx &ResultImage) = 0;
 
     /************************************************
     Summary: Gets the texture index of this texture in the rasterizer context.
@@ -281,13 +281,13 @@ public:
     Summary: Transfers the content of the video memory to the system memory copy.
 
     Return Value:
-        TRUE if succesful, FALSE if the texture is not currently in video memory
+        TRUE if successful, FALSE if the texture is not currently in video memory
     Remarks:
     + The System Caching mode must be CKBITMAP_PROCEDURAL or CKBITMAP_VIDEOSHADOW
     for this method to work (that is a system copy must exist)
     See Also:LockVideoMemory,LockSurfacePtr,
     ************************************************/
-    virtual BOOL VideoToSystemMemory() = 0;
+    virtual CKBOOL VideoToSystemMemory() = 0;
 
     /************************************************
     Summary: Gets the texture object of this texture in the rasterizer context.
@@ -325,4 +325,4 @@ public:
     }
 };
 
-#endif
+#endif // CKTEXTURE_H

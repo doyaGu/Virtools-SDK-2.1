@@ -1,13 +1,7 @@
-/*************************************************************************/
-/*	File : XBinaryTree.h												 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
 
+#include "VxMathDefines.h"
 #include "XUtil.h"
 
 template <class T>
@@ -55,43 +49,52 @@ public:
     {
     public:
         ConstIterator() {}
+
         ConstIterator(Node *iP) : m_Node(iP) {}
-        ConstIterator(const Iterator &iCopy)
-            : m_Node(iCopy.m_Node) {}
+
+        ConstIterator(const Iterator &iCopy) : m_Node(iCopy.m_Node) {}
+
         ConstReference operator*() const
         {
             return m_Node->value;
         }
+
         Type *operator->() const
         {
             return &m_Node->value;
         }
+
         ConstIterator &operator++()
         {
             XInc();
             return (*this);
         }
+
         ConstIterator operator++(int)
         {
             ConstIterator _Tmp = *this;
             ++*this;
             return (_Tmp);
         }
+
         ConstIterator &operator--()
         {
             XDec();
             return (*this);
         }
+
         ConstIterator operator--(int)
         {
             ConstIterator _Tmp = *this;
             --*this;
             return (_Tmp);
         }
+
         bool operator==(const ConstIterator &iX) const
         {
-            return (m_Node == _X.m_Node);
+            return (m_Node == iX.m_Node);
         }
+
         bool operator!=(const ConstIterator &iX) const
         {
             return (!(*this == iX));
@@ -119,6 +122,7 @@ public:
                 }
             }
         }
+
         void XInc()
         {
             if (m_Node->right != m_Nil)
@@ -147,34 +151,42 @@ public:
     {
     public:
         Iterator() {}
+
         Iterator(Node *iNode) : ConstIterator(iNode) {}
-        Reference operator*() const { return m_Node->value; }
+
+        Reference operator*() const { return ConstIterator::m_Node->value; }
+
         Iterator &operator++()
         {
-            XInc();
+            ConstIterator::XInc();
             return (*this);
         }
+
         Iterator operator++(int)
         {
             Iterator _Tmp = *this;
             ++*this;
             return (_Tmp);
         }
+
         Iterator &operator--()
         {
-            XDec();
+            ConstIterator::XDec();
             return (*this);
         }
+
         Iterator operator--(int)
         {
             Iterator _Tmp = *this;
             --*this;
             return (_Tmp);
         }
+
         bool operator==(const Iterator &iA) const
         {
-            return (m_Node == iA.m_Node);
+            return (ConstIterator::m_Node == iA.m_Node);
         }
+
         bool operator!=(const Iterator &iA) const
         {
             return (!(*this == iA));
@@ -210,9 +222,9 @@ public:
         }
     }
 
-    const XBTree &operator=(const XBTree &iModel)
+    XBTree &operator=(const XBTree &iModel)
     {
-        if (this != &_X)
+        if (this != &iModel)
         {
             Erase(Begin(), End());
             m_KeyCompare = iModel.m_KeyCompare;
@@ -225,6 +237,7 @@ public:
     Summary: Returns an iterator on the first element.
     ************************************************/
     Iterator Begin() { return Iterator(XLMost()); }
+
     /************************************************
     Summary: Returns an iterator after the last element.
     ************************************************/
@@ -233,7 +246,8 @@ public:
     /************************************************
     Summary: Returns a const iterator on the first element.
     ************************************************/
-    ConstIterator Begin() const { return Iterator(XLmost()); }
+    ConstIterator Begin() const { return Iterator(XLMost()); }
+
     /************************************************
     Summary: Returns a const iterator after the last element.
     ************************************************/
@@ -244,6 +258,7 @@ public:
     element for a reverse iteration.
     ************************************************/
     Iterator RBegin() { return (Size()) ? Iterator(--End()) : Iterator(m_Nil); }
+
     /************************************************
     Summary: Returns a const iterator after the last
     element for a reverse iteration.
@@ -255,6 +270,7 @@ public:
     element for a reverse iteration.
     ************************************************/
     ConstIterator RBegin() const { return ConstIterator(End()); }
+
     /************************************************
     Summary: Returns a const iterator after the last
     element for a reverse iteration.
@@ -268,9 +284,7 @@ public:
 
     Iterator Insert(Iterator iT, ConstReference iValue)
     {
-        if (Size() == 0)
-            ;
-        else if (iT == Begin())
+        if (iT == Begin())
         {
             if (m_KeyCompare(iValue, iT.m_Node->value))
                 return (XInsert(m_Head, iT.m_Node, iValue));
@@ -547,6 +561,7 @@ protected:
             iN = iN->right;
         return iN;
     }
+
     static Node *XMin(Node *iN)
     {
         while (iN->left != m_Nil)
@@ -572,13 +587,9 @@ protected:
         else
         {
             if (iN == XLeft(iN->parent))
-            {
                 XLeft(iN->parent) = y;
-            }
             else
-            {
                 XRight(iN->parent) = y;
-            }
         }
         y->left = iN;
         iN->parent = y;
@@ -700,6 +711,7 @@ protected:
             if (iBefore == XRMost())
                 XRMost() = z;
         }
+
         for (iNode = z; iNode != XRoot() && XColor(iNode->parent) == RED;)
         {
             if (iNode->parent == XLeft(XParent(iNode->parent)))
@@ -903,13 +915,13 @@ public:
         return tIterator(m_NullNode);
     }
 
-    // Infixed iteration
+    // Infix iteration
     void Iterate(void (*f)(const T &, void *), void *arg = NULL) const
     {
         XInfixe(m_Root, f, arg);
     }
 
-    // Postfixed iteration
+    // Postfix iteration
     void BackIterate(void (*f)(const T &, void *), void *arg = NULL) const
     {
         XPostfixe(m_Root, f, arg);

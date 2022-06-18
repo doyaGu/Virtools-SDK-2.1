@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKBitmapReader.h												 */
-/*	Author :  Aymeric BARD												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2001, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _CKBITMAPREADER_H_
-#define _CKBITMAPREADER_H_
+#ifndef CKBITMAPREADER_H
+#define CKBITMAPREADER_H
 
 #include "CKDataReader.h"
 
@@ -36,17 +29,13 @@ can add. This is done by deriving from the CKBitmapProperties class.
 + For a example of usage of CKBitmapProperties you can refer to
 the DDSReader sample available in the source code directory.
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
         struct CKBitmapProperties {
             int					m_Size;			// Size of this structure in byte (should be initialized )
             CKGUID  			m_ReaderGuid;	// CKGUID that uniquely identifies the reader that created this properties structure
             CKFileExtension		m_Ext;			// File Extension of the image being described by this structure
-            VxImageDescEx		m_Format;		// Optionnal Image format
-            void*				m_Data;			// Optionnal Image data pointer
+            VxImageDescEx		m_Format;		// Optional Image format
+            void*				m_Data;			// Optional Image data pointer
         };
-
-{html:</td></tr></table>}
 
 See Also:Creation of Bitmap Media Plugins,CKBitmapReader
 ****************************************************************/
@@ -65,9 +54,9 @@ struct CKBitmapProperties
 
     CKFileExtension m_Ext; // File Extension of the image being described by this structure
 
-    VxImageDescEx m_Format; // Optionnal Image format
+    VxImageDescEx m_Format; // Optional Image format
 
-    void *m_Data; // Optionnal Image data pointer
+    void *m_Data; // Optional Image data pointer
 };
 
 /***********************************************************
@@ -192,4 +181,4 @@ public:
     // virtual int ReadStream(VxStream& iStream,CKBitmapProperties** oBitmapProperties) {return CKBITMAPERROR_UNSUPPORTEDFUNCTION;}
 };
 
-#endif
+#endif // CKBITMAPREADER_H

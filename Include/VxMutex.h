@@ -1,12 +1,7 @@
 #ifndef VXMUTEX_H
 #define VXMUTEX_H
 
-#include "XUtil.h"
 #include "VxMathDefines.h"
-
-#if defined(_LINUX) || defined(macintosh)
-struct CMutexData;
-#endif
 
 /*************************************************
 Summary: Represent an objet used for mutual-exclusion synchronization
@@ -21,19 +16,14 @@ public:
     VX_EXPORT VxMutex();
     VX_EXPORT ~VxMutex();
 
-    VX_EXPORT BOOL EnterMutex();
-    VX_EXPORT BOOL LeaveMutex();
+    VX_EXPORT XBOOL EnterMutex();
+    VX_EXPORT XBOOL LeaveMutex();
 
-    VX_EXPORT BOOL operator++(int) { return EnterMutex(); }
-    VX_EXPORT BOOL operator--(int) { return LeaveMutex(); }
+    VX_EXPORT XBOOL operator++(int);
+    VX_EXPORT XBOOL operator--(int);
 
 private:
-#if defined(_LINUX) || defined(macintosh)
-    CMutexData *m_MutexData;
-#else
-
     void *m_Mutex;
-#endif
 
     VxMutex(const VxMutex &);
 
@@ -67,8 +57,8 @@ Example
 
   VxDataMutexed<int> val;
   {
-    VxDataMutexed<int>::Accessor acces(val);
-    acces.Value() = 1;
+    VxDataMutexed<int>::Accessor access(val);
+    access.Value() = 1;
   }
 
 
@@ -86,7 +76,7 @@ public:
     }
 
     /*************************************************
-    Summary: Initialization constructor. The internal value is intialized.
+    Summary: Initialization constructor. The internal value is initialized.
     Remarks: The type associated with "T" must have an affectation operator.
     *************************************************/
     VxDataMutexed(const T &value)
@@ -186,4 +176,4 @@ private:
     VxDataMutexed &operator=(const VxDataMutexed &);
 };
 
-#endif
+#endif // VXMUTEX_H

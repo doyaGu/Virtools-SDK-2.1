@@ -1,12 +1,7 @@
-/*************************************************************************/
-/*	File : Vx2DVector.h													 */
-/*	Author :  Romain SIDIDRIS											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VX2DVECTOR_H
 #define VX2DVECTOR_H
+
+#include "XUtil.h"
 
 /*******************************************************
 {filename:Vx2DVector}
@@ -355,4 +350,4 @@ inline Vx2DVector operator/(float s, const Vx2DVector &v)
     return Vx2DVector(s / v.x, s / v.y);
 }
 
-#endif
+#endif // VX2DVECTOR_H

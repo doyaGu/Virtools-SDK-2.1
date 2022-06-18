@@ -1,15 +1,8 @@
-/*************************************************************************/
-/*	File : CKBaseManager.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Base Class for Virtools Managers									 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBASEMANAGER_H
-#define CKBASEMANAGER_H "$Id:$"
+#define CKBASEMANAGER_H
 
 #include "CKDefines.h"
+#include "VxTimeProfiler.h"
 
 class CKFile;
 class CKStateChunk;
@@ -92,7 +85,7 @@ Remarks:
 
 + The instances of managers may be retrieved through the global function CKContext::GetManagerByGuid()
 
-+ Some default managers implemented in Virtools  can be accessed directly : See Managers Access
++ Some default managers implemented in Virtools can be accessed directly : See Managers Access
 
 
 
@@ -106,15 +99,13 @@ public:
     virtual ~CKBaseManager();
 
     /*************************************************
-    Summary: Acces to Manager GUID
+    Summary: Access to Manager GUID
 
     Return Value:
         CKGUID of this manager.
     Remarks:
         + Each Manager is given an unique GUID. When creating a new manager it should
-        assign itself a GUID and name before registering itsef.
-
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
+        assign itself a GUID and name before registering itself.
 
             CKAttributeManager::CKAttributeManager(CKContext *Context):CKBaseManager(Context,ATTRIBUTE_MANAGER_GUID,"Attribute Manager")
             {
@@ -122,23 +113,19 @@ public:
                 ....
                 Context->RegisterNewManager(this);
             }
-
-    {html:</td></tr></table>}
 
     See Also: CKContext::RegisterNewManager,GetName
     *************************************************/
     CKGUID GetGuid() { return m_ManagerGuid; }
 
     /*************************************************
-    Summary: Acces to Manager name
+    Summary: Access to Manager name
 
     Return Value:
         Name of this manager.
     Remarks:
         + Each Manager can be given a name. When creating a new manager it should
-        assign itself a GUID and name before registering itsef.
-
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
+        assign itself a GUID and name before registering itself.
 
             CKAttributeManager::CKAttributeManager(CKContext *Context):CKBaseManager(Context,ATTRIBUTE_MANAGER_GUID,"Attribute Manager")
             {
@@ -146,8 +133,6 @@ public:
                 ....
                 Context->RegisterNewManager(this);
             }
-
-    {html:</td></tr></table>}
 
     See Also: CKContext::RegisterNewManager,GetGuid
     *************************************************/
@@ -516,7 +501,7 @@ public:
     Return Value:
         CK_OK if successful or an error code otherwise.
     Remarks:
-    + You can override this function to add specific processing before the rendering of the scene occured.
+    + You can override this function to add specific processing before the rendering of the scene occurred.
     + You must override GetValidFunctionsMask and return a value including
     CKMANAGER_FUNC_OnPreRender for this function to get called.
     See Also:OnPostRender,OnPostSpriteRender,CKRenderContext::Render,Understanding the Render Loop
@@ -529,7 +514,7 @@ public:
     Return Value:
         CK_OK if successful or an error code otherwise.
     Remarks:
-    + You can override this function to add specific processing after the rendering of the 3D scene occured.
+    + You can override this function to add specific processing after the rendering of the 3D scene occurred.
     + You must override GetValidFunctionsMask and return a value including
     CKMANAGER_FUNC_OnPostRender for this function to get called.
     See Also:OnPreRender,OnPostSpriteRender,CKRenderContext::Render,Understanding the Render Loop
@@ -542,7 +527,7 @@ public:
     Return Value:
         CK_OK if successful or an error code otherwise.
     Remarks:
-    + You can override this function to add specific processing after the rendering of the 2D entities occured.
+    + You can override this function to add specific processing after the rendering of the 2D entities occurred.
     + You must override GetValidFunctionsMask and return a value including
     CKMANAGER_FUNC_OnPostSpriteRender for this function to get called.
     See Also:OnPostRender,OnPreRender,CKRenderContext::Render,Understanding the Render Loop
@@ -578,7 +563,7 @@ public:
     Remarks.
     + You must override this function to indicate which functions your manager implements.
     Example:
-        // The attribute manager implements four CKBaseManager functions :PreClearAll,PostLoad,OnSequenceAddedToscene
+        // The attribute manager implements four CKBaseManager functions :PreClearAll,PostLoad,OnSequenceAddedToScene
         // and OnSequenceRemovedFromScene so its GetValidFunctionsMask looks like this:
 
         virtual CKDWORD	GetValidFunctionsMask()	{ return CKMANAGER_FUNC_PreClearAll				|
@@ -590,9 +575,9 @@ public:
     *************************************************/
     virtual CKDWORD GetValidFunctionsMask() { return 0; }
 
-    CKERROR CKDestroyObject(CKObject *obj, DWORD Flags = 0, CKDependencies *depoptions = NULL);
-    CKERROR CKDestroyObject(CK_ID id, DWORD Flags = 0, CKDependencies *depoptions = NULL);
-    CKERROR CKDestroyObjects(CK_ID *obj_ids, int Count, DWORD Flags = 0, CKDependencies *depoptions = NULL);
+    CKERROR CKDestroyObject(CKObject *obj, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
+    CKERROR CKDestroyObject(CK_ID id, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
+    CKERROR CKDestroyObjects(CK_ID *obj_ids, int Count, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
     CKObject *CKGetObject(CK_ID id);
 
     /*******************************************
@@ -634,4 +619,4 @@ public:
     VxTimeProfiler m_Timer;
 };
 
-#endif
+#endif // CKBASEMANAGER_H

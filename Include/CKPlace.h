@@ -1,19 +1,10 @@
-/*************************************************************************/
-/*	File : CKPlace.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKPLACE_H) || defined(CK_3DIMPLEMENTATION)
-#define CKPLACE_H "$Id:$"
+#define CKPLACE_H
 #ifndef CK_3DIMPLEMENTATION
 
+#include "CK3dEntity.h"
 #include "CKBeObject.h"
 #include "XObjectArray.h"
-
-#undef CK_PURE
-#define CK_PURE = 0
 
 /****************************************************************************
 {filename:CKPlace}
@@ -24,9 +15,9 @@ Remarks:
 
     + Every objects that are children of a place are marked as belonging to this place.
 
-    + 3D entities, like ligths, cameras, 3D objects, characters, etc... are logically grouped into places.
+    + 3D entities, like lights, cameras, 3D objects, characters, etc... are logically grouped into places.
     A 3d entity cannot belong to more than one place, but some entities may be attached to no place. They
-    will be displayed and activated if they are global to the curent scene or level or to the whole game.
+    will be displayed and activated if they are global to the current scene or level or to the whole game.
 
     + Portals can be used to declare the links between places so that a quick rejection
     can be performed by a portal manager to remove unseen places from a given place.
@@ -45,9 +36,9 @@ public:
     //-----------------------------------------------------
     // Camera
 
-    virtual CKCamera *GetDefaultCamera() CK_PURE;
+    virtual CKCamera *GetDefaultCamera() = 0;
 
-    virtual void SetDefaultCamera(CKCamera *cam) CK_PURE;
+    virtual void SetDefaultCamera(CKCamera *cam) = 0;
 
     //-----------------------------------------------------
     // Portals
@@ -66,7 +57,7 @@ public:
     the camera is in this place.
     See Also:RemovePortal,GetPortalCount,GetPortal,ViewportClip
     *********************************************************/
-    virtual void AddPortal(CKPlace *place, CK3dEntity *portal) CK_PURE;
+    virtual void AddPortal(CKPlace *place, CK3dEntity *portal) = 0;
     /********************************************************
     Summary: Removes a portal.
 
@@ -75,7 +66,7 @@ public:
         portal: A pointer to the CK3DEntity that represents the portal extents.
     See Also:AddPortal,GetPortalCount,GetPortal,ViewportClip
     *********************************************************/
-    virtual void RemovePortal(CKPlace *place, CK3dEntity *portal) CK_PURE;
+    virtual void RemovePortal(CKPlace *place, CK3dEntity *portal) = 0;
     /********************************************************
     Summary: Returns the number of portals in this place.
 
@@ -83,7 +74,7 @@ public:
         Number of portals in this place.
     See Also:AddPortal,GetPortalCount,GetPortal,ViewportClip
     *********************************************************/
-    virtual int GetPortalCount() CK_PURE;
+    virtual int GetPortalCount() = 0;
     /************************************************
     Summary: Returns the place seen by a given portal.
     Arguments:
@@ -94,7 +85,7 @@ public:
 
     See Also:AddPortal,GetPortalCount,ViewportClip
     ************************************************/
-    virtual CKPlace *GetPortal(int i, CK3dEntity **portal) CK_PURE;
+    virtual CKPlace *GetPortal(int i, CK3dEntity **portal) = 0;
     /************************************************
     Summary: Clipping rectangle.
     Return Value:
@@ -106,7 +97,7 @@ public:
     places are clipped to this portal.
     See Also:AddPortal,GetPortalCount,GetPortal
     ************************************************/
-    virtual VxRect &ViewportClip() CK_PURE;
+    virtual VxRect &ViewportClip() = 0;
     /************************************************
     Summary: Automatically computes a matrix standing for the portal boundaries
     between place1 and place2.
@@ -115,7 +106,7 @@ public:
     BBoxMatrix: a reference to a matrix in which the calculation will be put.
     Return Value:
         TRUE if the bounding box matrix was generated correctly,
-        FALSE if some problem occured.
+        FALSE if some problem occurred.
     Remarks:
     + The position and orientation of BBoxMatrix will match the best fitting bounding
     box between Place1 and Place2.
@@ -126,7 +117,7 @@ public:
     wrap up the common vertices between Place1 and Place2.
     See Also:AddPortal
     ************************************************/
-    virtual CKBOOL ComputeBestFitBBox(CKPlace *p2, VxMatrix &BBoxMatrix) CK_PURE;
+    virtual CKBOOL ComputeBestFitBBox(CKPlace *p2, VxMatrix &BBoxMatrix) = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -149,4 +140,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKPLACE_H

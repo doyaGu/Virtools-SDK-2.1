@@ -1,16 +1,9 @@
-/*************************************************************************/
-/*	File : CKBeObject.h				 				 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBEOBJECT_H
-#define CKBEOBJECT_H "$Id:$"
+#define CKBEOBJECT_H
 
 #include "CKSceneObject.h"
 #include "XObjectArray.h"
-#include "XHashTable.h"
+#include "XBitArray.h"
 
 struct CKFileObject;
 
@@ -18,7 +11,7 @@ struct CKFileObject;
 Summary: Storage of couple (Attribute,Parameter)
 
 Remarks:
-    This structure is used to gain acces to the list of attribute on a CKBeObject through the
+    This structure is used to gain access to the list of attribute on a CKBeObject through the
 function CKBeObject::GetAttributeList.
 
 
@@ -57,7 +50,7 @@ Remarks:
     processed during the process loop. By default, a behavioral object is activated at start.
 
     + Behavioral objects can have "Attributes" attached to them, each attribute has a specific type (or name) and a type of
-    parameter that is associated to. For exemple one can create a new attribute type called "Health Point" with a associated parameter type "float"
+    parameter that is associated to. For example one can create a new attribute type called "Health Point" with a associated parameter type "float"
     and attach it to any behavioral object using SetAttribute method.
 
     + Behavioral objects may be grouped together using instance of CKGroup.
@@ -123,8 +116,6 @@ public:
 
 //-------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     virtual void ApplyPatchForOlderVersion(int NbObject, CKFileObject *FileObjects);
     CKBeObject() {}
@@ -186,8 +177,6 @@ protected:
     void ResetExecutionTime();
 
     static int BeObjectPrioritySort(const void *o1, const void *o2);
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKBEOBJECT_H

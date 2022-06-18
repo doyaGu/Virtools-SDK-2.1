@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKModelReader.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2001, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _CKMODELREADER_H_
-#define _CKMODELREADER_H_
+#ifndef CKMODELREADER_H
+#define CKMODELREADER_H
 
 #include "CKDataReader.h"
 
@@ -50,4 +43,4 @@ public:
     virtual CKERROR Save(CKContext *context, CKSTRING FileName, CKObjectArray *liste, CKDWORD SaveFlags) { return CKERR_NOTIMPLEMENTED; }
 };
 
-#endif
+#endif // CKMODELREADER_H

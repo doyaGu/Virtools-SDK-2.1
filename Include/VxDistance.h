@@ -1,13 +1,7 @@
-/*************************************************************************/
-/*	File : VxDistance.h												 	 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXDISTANCE_H
 #define VXDISTANCE_H
 
+#include "VxMathDefines.h"
 #include "XUtil.h"
 
 class VxRay;
@@ -84,4 +78,4 @@ public:
     }
 };
 
-#endif
+#endif // VXDISTANCE_H

@@ -1,21 +1,12 @@
-/*************************************************************************/
-/*	File : CKStateChunk.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSTATECHUNK_H
-#define CKSTATECHUNK_H "$Id:$"
+#define CKSTATECHUNK_H
 
-#include "VxDefines.h"
-#include "CKdefines.h"
+#include "CKDefines.h"
 #include "CKObject.h"
 #include "CKDependencies.h"
+#include "VxDefines.h"
+#include "VxVector.h"
 
-//-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 struct ChunkIteratorData;
 typedef int (*ChunkIterateFct)(ChunkIteratorData *It);
 
@@ -70,8 +61,8 @@ class ChunkParser
 public:
     CKDWORD CurrentPos;
     CKDWORD PrevIdentifierPos;
-    virtual BOOL IsReader() { return FALSE; }
-    virtual BOOL IsWriter() { return FALSE; }
+    virtual CKBOOL IsReader() { return FALSE; }
+    virtual CKBOOL IsWriter() { return FALSE; }
 
 public:
     virtual ~ChunkParser() {}
@@ -83,11 +74,11 @@ public:
 class ChunkReader : public ChunkParser
 {
 public:
-    virtual BOOL IsReader() { return TRUE; }
-    virtual BOOL IsWriter() { return FALSE; }
-    // These methods does not check that allocated size is correct
+    virtual CKBOOL IsReader() { return TRUE; }
+    virtual CKBOOL IsWriter() { return FALSE; }
+    // These methods do not check that allocated size is correct
     inline CKDWORD Read();
-    inline void Read(WORD &a, WORD &b);
+    inline void Read(CKWORD &a, CKWORD &b);
     inline void Read(CKDWORD *v, int DwordCount);
     inline void Read_NoEndian(CKDWORD *v, int DwordCount);
 
@@ -114,13 +105,13 @@ public:
 class ChunkWriter : public ChunkParser
 {
 public:
-    virtual BOOL IsReader() { return FALSE; }
-    virtual BOOL IsWriter() { return TRUE; }
+    virtual CKBOOL IsReader() { return FALSE; }
+    virtual CKBOOL IsWriter() { return TRUE; }
 
     CKDWORD &operator[](int i) { return Data[i]; }
-    // These methods does not check that allocated size is correct
+    // These methods do not check that allocated size is correct
     inline void Write(CKDWORD v);
-    inline void Write(WORD a, WORD b);
+    inline void Write(CKWORD a, CKWORD b);
     inline void Write(CKDWORD *v, int DwordCount);
     inline void Write_NoEndian(CKDWORD *v, int DwordCount);
 
@@ -135,8 +126,6 @@ public:
     ChunkWriter(CKStateChunk *chnk = NULL);
     void WriteToChunk(CKStateChunk *chnk);
 };
-
-#endif // Docjet secret macro
 
 class CKFileChunk;
 class CKBitmapReader;
@@ -164,7 +153,7 @@ The second use is to create blocks of data that can be saved to the disk or in m
 Methods of CKStateChunk provide easy ways to write and read any type of CkObjects, integer, float
 array, buffer ,bitmap, string ,etc.. in a buffer.
 
-Instances of CKStateChunk should be explicitely deleted with the DeleteCKStateChunk function.
+Instances of CKStateChunk should be explicitly deleted with the DeleteCKStateChunk function.
 
 
 
@@ -179,7 +168,7 @@ class CKStateChunk
 
 public:
     //----------------------------------------------------------
-    // Initilisation function
+    // Initialization function
     void StartRead();
     void StartWrite();
     void CloseChunk();
@@ -265,9 +254,9 @@ public:
 
     //----------------------------------------------------------
     // Reading functions
-    int StartReadSequence(); // Starts reading a sequence that was written usign StartObjectIDSequence or  StartSubChunkSequence functions ,return value is the count
+    int StartReadSequence(); // Starts reading a sequence that was written using StartObjectIDSequence or  StartSubChunkSequence functions ,return value is the count
 
-    int StartManagerReadSequence(CKGUID *guid); // Starts reading a sequence that was written usign StartManagerSequence functions ,return value is the count
+    int StartManagerReadSequence(CKGUID *guid); // Starts reading a sequence that was written using StartManagerSequence functions ,return value is the count
     int ReadManagerIntSequence();
 
     CK_ID ReadObjectID();			   // Returns an object ID
@@ -300,9 +289,9 @@ public:
 
     CKStateChunk *ReadSubChunk(CK_READSUBCHUNK_FLAGS Flags = CK_RSC_DEFAULT);
     int ReadBuffer(void **buffer);	  // returns the size in bytes of the allocated buffer (// Use CKDeletePointer to delete allocated pointer)
-    int ReadString(CKSTRING *str);	  // returns the length of the string including the terminating null caracter (// Use CKStrdelete to delete allocated string)
-    XString ReadString();			  // returns the length of the string including the terminating null caracter
-    int ReadString(XString &oString); // returns the length of the string including the terminating null caracter
+    int ReadString(CKSTRING *str);	  // returns the length of the string including the terminating null character (// Use CKStrdelete to delete allocated string)
+    XString ReadString();			  // returns the length of the string including the terminating null character
+    int ReadString(XString &oString); // returns the length of the string including the terminating null character
 
     //----------------------------------------------------------
     // Bitmaps functions
@@ -324,27 +313,22 @@ public:
     //----------------------------------------------------------
     // Conversion to buffers for file i/o
     // Buffer must be allocated by user (call  ConvertToBuffer(NULL) to get the size of the buffer needed
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
     int ConvertToBuffer(void *buffer);
     CKBOOL ConvertFromBuffer(void *buffer);
-#endif
+
     void *LockWriteBuffer(int DwordCount);
     void *LockReadBuffer();
 
-    BYTE *ReadRawBitmap(VxImageDescEx &desc);
+    CKBYTE *ReadRawBitmap(VxImageDescEx &desc);
     void WriteRawBitmap(const VxImageDescEx &desc);
 
 //--------------------------------------------------------
 ////               Private Part
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
-    BOOL ReadRawBitmapHeader(VxImageDescEx &desc);
-    BOOL ReadRawBitmapData(VxImageDescEx &desc);
+
+    CKBOOL ReadRawBitmapHeader(VxImageDescEx &desc);
+    CKBOOL ReadRawBitmapData(VxImageDescEx &desc);
 
     CKStateChunk(CK_CLASSID Cid, CKFile *f);
-
-#endif // Docjet secret macro
 };
 
 class CKFileChunk
@@ -355,4 +339,4 @@ public:
     void InitFromBuffer(void *Buffer, CKFile *f);
 };
 
-#endif
+#endif // CKSTATECHUNK_H

@@ -1,18 +1,8 @@
-/*************************************************************************/
-/*	File : CKKeyedAnimation.h						 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKKEYEDANIMATION_H) || defined(CK_3DIMPLEMENTATION)
-#define CKKEYEDANIMATION_H "$Id:$"
+#define CKKEYEDANIMATION_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CKAnimation.h"
-
-#undef CK_PURE
-#define CK_PURE = 0
 
 /***********************************************************************
 {filename:CKKeyedAnimation}
@@ -45,7 +35,7 @@ public:
         CK_OK if successful, error code otherwise.
     See also: CKObjectAnimation,CKCharacter
     *************************************************/
-    virtual CKERROR AddAnimation(CKObjectAnimation *anim) CK_PURE;
+    virtual CKERROR AddAnimation(CKObjectAnimation *anim) = 0;
 
     /*************************************************
     Summary: Removes an Object Animation.
@@ -55,7 +45,7 @@ public:
         CK_OK if successful, error code otherwise.
     See also: AddAnimation,GetAnimationCount,GetAnimation
     *************************************************/
-    virtual CKERROR RemoveAnimation(CKObjectAnimation *anim) CK_PURE;
+    virtual CKERROR RemoveAnimation(CKObjectAnimation *anim) = 0;
 
     /*************************************************
     Summary: Gets the number of Object Animations.
@@ -63,7 +53,7 @@ public:
         Number of ObjectAnimations that are currently available.
     See also: GetAnimation,AddAnimation
     *************************************************/
-    virtual int GetAnimationCount() CK_PURE;
+    virtual int GetAnimationCount() = 0;
 
     /*************************************************
     Summary: Retrieves an ObjectAnimation entry from its index or entity.
@@ -77,16 +67,16 @@ public:
         and Scale.
     See also: GetAnimationCount,AddAnimation
     *************************************************/
-    virtual CKObjectAnimation *GetAnimation(CK3dEntity *ent) CK_PURE;
-    virtual CKObjectAnimation *GetAnimation(int index) CK_PURE;
+    virtual CKObjectAnimation *GetAnimation(CK3dEntity *ent) = 0;
+    virtual CKObjectAnimation *GetAnimation(int index) = 0;
 
     /*************************************************
     Summary: Removes all ObjectAnimations.
     See also: RemoveAnimation
     *************************************************/
-    virtual void Clear() CK_PURE;
+    virtual void Clear() = 0;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKKeyedAnimation *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_KEYEDANIMATION) ? (CKKeyedAnimation *)iO : NULL;
@@ -96,4 +86,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKKEYEDANIMATION_H

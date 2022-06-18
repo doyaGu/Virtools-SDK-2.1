@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKFloorManager.h					 		 					 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKFLOORMANAGER_H
-#define CKFLOORMANAGER_H "$Id:$"
+#define CKFLOORMANAGER_H
 
 #include "CKBaseManager.h"
 #include "CKDefines.h"
@@ -22,8 +15,6 @@ Remarks:
 This structure will be filled when calling CKFloorManager::GetNearestFloors
 with the details about floor entities that are below and above the requested position.
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
         class CKFloorPoint {
         public:
             CK_ID		m_UpFloor;
@@ -36,8 +27,6 @@ with the details about floor entities that are below and above the requested pos
             VxVector	m_DownNormal;
             float		m_DownDistance;
         };
-
-{html:</td></tr></table>}
 
 See Also: CKFloorManager,CKFloorManager::GetNearestFloors
 ************************************************/
@@ -78,7 +67,7 @@ Remarks:
 
 + The floor manager will keep the count of the floor objects, marked with the Floor attribute, or registered
 directly to the FloorManager. These floors will be used for intersection tests, at a precision level depending
-on their attribute, wheen looking for the floor under an object or a character, so that it can follow the landscape.
+on their attribute, when looking for the floor under an object or a character, so that it can follow the landscape.
 
 + The unique instance of CKFloorManager can be retrieved by calling CKContext::GetManagerByGUID(FLOOR_MANAGER_GUID).
 
@@ -92,7 +81,7 @@ public:
     virtual ~CKFloorManager() {}
 
     /************************************************
-    Summary: Returns the nearest floors (up floor and down floor, if availables).
+    Summary: Returns the nearest floors (up floor and down floor, if available).
 
     Arguments:
         iPosition: a vector in world space to be tested.
@@ -111,7 +100,7 @@ public:
 
     +The test for floors will be done on the Y world axis, so you
     cannot for example use this function for doing a looping in a
-    rollercoaster for example.
+    roller coaster for example.
 
     See Also:CKFloorPoint
     ************************************************/
@@ -150,13 +139,13 @@ public:
     Summary: Declares objects as floors, based on their name.
 
     Arguments:
-        level: level containg the objects to parse.
-        floorname: string to be seach in the object name.
+        level: level contain the objects to parse.
+        floorname: string to be search in the object name.
         geo: geometry precision of the floor (CKFLOOR_FACES or CKFLOOR_BOX).
         moving: will the floor be moving or not.
         type: integer provided by the user to "type" the floors.
         hiera: should the hierarchy of the floor considered too.
-        first: should the intersection test at the first contact (asuming that
+        first: should the intersection test at the first contact (assuming that
         the floor faces does not overlap in the Y axis).
     Return Value:
         count of the declared floors.
@@ -178,6 +167,7 @@ public:
     See Also:RemoveFloorObject,AddFloorObjectsByName,GetFloorObjectCount,GetFloorObject
     ************************************************/
     virtual void AddFloorObject(CK3dEntity *ent, CK_FLOORGEOMETRY geo, CKBOOL moving, int type, CKBOOL hiera, CKBOOL first) = 0;
+
     /************************************************
     Summary: Unregister a floor object.
 
@@ -186,6 +176,7 @@ public:
     See Also:AddFloorObject,AddFloorObjectsByName,GetFloorObjectCount,GetFloorObject
     ************************************************/
     virtual void RemoveFloorObject(CK3dEntity *ent) = 0;
+
     /************************************************
     Summary: Returns the floor object count.
 
@@ -194,6 +185,7 @@ public:
     See Also:AddFloorObject,AddFloorObjectsByName,RemoveFloorObject,GetFloorObject
     ************************************************/
     virtual int GetFloorObjectCount() = 0;
+
     /************************************************
     Summary: Returns the floor object at the given index.
 
@@ -216,6 +208,7 @@ public:
     See also: GetNearestFloors,
     *************************************************/
     virtual float GetCacheThreshold() = 0;
+
     /*************************************************
     Summary: Set the current threshold use by the cache system of the FloorManager
 
@@ -229,6 +222,7 @@ public:
     See also: FloorManager, FloorManager::GetNearestFloors
     *************************************************/
     virtual void SetCacheThreshold(float t) = 0;
+
     /*************************************************
     Summary: Gets the current number of positions kept by the cache.
 
@@ -291,10 +285,10 @@ public:
 
     +The test for floors will be done on the Y world axis, so you
     cannot for example use this function for doing a looping in a
-    rollercoaster for example.
+    roller coaster for example.
 
     ************************************************/
     virtual CK_FLOORNEAREST GetNearestFloor(const VxVector &iPosition, CK3dEntity **oFloor, int *oFaceIndex = NULL, VxVector *oNormal = NULL, float *oDistance = NULL, CK3dEntity *iExcludeFloor = NULL) = 0;
 };
 
-#endif
+#endif // CKFLOORMANAGER_H

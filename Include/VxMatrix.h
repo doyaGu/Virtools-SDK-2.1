@@ -1,15 +1,9 @@
-/*************************************************************************/
-/*	File : VxMatrix.h													 */
-/*	Author :  Romain SIDIDRIS											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXMATRIX_H
 #define VXMATRIX_H
 
 #include "VxQuaternion.h"
 #include "VxVector.h"
+#include "XUtil.h"
 
 class VxMatrix;
 struct Vx2DVector;
@@ -74,8 +68,8 @@ public:
     operator const void *() const { return &m_Data[0]; }
     operator void *() { return &m_Data[0]; }
 
-    BOOL operator==(const VxMatrix &mat) const { return (this == &mat); }
-    BOOL operator!=(const VxMatrix &mat) const { return (this != &mat); }
+    XBOOL operator==(const VxMatrix &mat) const { return (this == &mat); }
+    XBOOL operator!=(const VxMatrix &mat) const { return (this != &mat); }
 
     VxMatrix &operator*=(const VxMatrix &mat)
     {
@@ -301,4 +295,4 @@ inline void VxMatrix::OrthographicRect(float Left, float Right, float Top, float
     m_Data[3][3] = 1.0f;
 }
 
-#endif
+#endif // VXMATRIX_H

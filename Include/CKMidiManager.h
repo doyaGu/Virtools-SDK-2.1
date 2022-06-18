@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKMidiManager.h												 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef CKMidiManager_H
-#define CKMidiManager_H "$Id:$"
+#ifndef CKMIDIMANAGER_H
+#define CKMIDIMANAGER_H
 
 #include "CKBaseManager.h"
 
@@ -15,7 +8,7 @@ Name: CKMidiManager
 Summary: Midi sound engine manager.
 
 Remarks:
-+ The midi manager is implemented as an external plugin.The default implmentation	in Virtools is made using the standard windows API.
++ The midi manager is implemented as an external plugin.The default implementation in Virtools is made using the standard windows API.
 + The unique instance of this class may be retrieved through the CKContext::GetManagerByGuid(MIDI_MANAGER_GUID)
 See also: CKContext::GetManagerByGuid,CKSoundManager,CKMidiSound
 ****************************************************************************/
@@ -47,4 +40,4 @@ public:
     virtual ~CKMidiManager(){};
 };
 
-#endif
+#endif // CKMIDIMANAGER_H

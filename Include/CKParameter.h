@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKParameter.h												 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef CKParameter_H
-#define CKParameter_H
+#ifndef CKPARAMETER_H
+#define CKPARAMETER_H
 
 #include "CKObject.h"
 
@@ -50,7 +43,7 @@ public:
     virtual void *GetWriteDataPtr();
 
     //--------------------------------------------
-    // Convertion from / to string
+    // Conversion from / to string
     virtual CKERROR SetStringValue(CKSTRING Value);
     virtual int GetStringValue(CKSTRING Value, CKBOOL update = TRUE);
 
@@ -71,8 +64,6 @@ public:
 // Disabled parameters in behaviors
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     void Enable(CKBOOL act = TRUE);
     CKBOOL IsEnabled();
@@ -108,7 +99,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKParameter *);
     static CK_CLASSID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKParameter *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_PARAMETER) ? (CKParameter *)iO : NULL;
@@ -139,8 +130,6 @@ protected:
     friend void CKObjectArrayRemapfunc(CKParameter *param, CKDependenciesContext &);
     friend void CKObjectRemapFunc(CKParameter *param, CKDependenciesContext &);
     friend void CKStructRemapFunc(CKParameter *param, CKDependenciesContext &);
-
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKPARAMETER_H

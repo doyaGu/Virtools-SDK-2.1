@@ -1,15 +1,9 @@
-/*************************************************************************/
-/*	File : CKMesh.h														 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKMESH_H
-#define CKMESH_H "$Id:$"
+#define CKMESH_H
 
 #include "CKBeObject.h"
 #include "VxDefines.h"
+#include "VxVector.h"
 
 #define CKCHANNELMASK(Channel) (1 << Channel)
 
@@ -24,8 +18,8 @@ Remarks:
 It can be a mesh made up of faces or lines. Description of a mesh includes
 vertices (Position,color,texture coordinates,normal),faces or lines
 
-    + A CKMesh can have up to 8 additionals material channels that is textures that
-are blended together on the mesh. Material Channels can be used to produce lightmaps for example.
+    + A CKMesh can have up to 8 additional material channels that is textures that
+are blended together on the mesh. Material Channels can be used to produce light-maps for example.
 
     + A CKMesh can have callbacks attached to it. A PreRender or PostRender Callback can be set to
 do specific operations before or after the rendering of the mesh is done (A mesh could be rendered several
@@ -172,7 +166,7 @@ public:
 
     See Also: GetModifierUVs, ModifierVertexMove, GetPositionsPtr
     *************************************************/
-    virtual BYTE *GetModifierVertices(CKDWORD *Stride) = 0;
+    virtual CKBYTE *GetModifierVertices(CKDWORD *Stride) = 0;
 
     virtual int GetModifierVertexCount() = 0;
 
@@ -188,8 +182,8 @@ public:
     *************************************************/
     virtual void ModifierVertexMove(CKBOOL RebuildNormals, CKBOOL RebuildFaceNormals) = 0;
 
-    //---------- Use these fonctions if you intend to modify vertices texture coordinates
-    //---------- rather than accesing directly by  GetTextureCoordinatesPtr
+    //---------- Use these functions if you intend to modify vertices texture coordinates
+    //---------- rather than accessing directly by  GetTextureCoordinatesPtr
 
     /*************************************************
     Summary: Returns a pointer to the vertices texture coordinates.
@@ -197,12 +191,12 @@ public:
     Arguments:
         Stride: Size in byte between each texture coordinate in the returned buffer.
         channel: Index of the texture channel whose coordinates should be returned. -1 means
-        the default texture coordinates, additionnal channels are accessed from 0 to MAX_CHANNELS
+        the default texture coordinates, additional channels are accessed from 0 to MAX_CHANNELS
     Return Value:
         A pointer to the texture coordinates list
     Remarks:
         + Use this method along with GetModifierUVCount rather than using
-        GetTextureCoordinatesPtr to acces texture coordinates so that you code will work
+        GetTextureCoordinatesPtr to access texture coordinates so that you code will work
         on any type of mesh (CKMesh and CKPatchMesh for example).
         + For a pure CKMesh this methods is the same than GetTextureCoordinatesPtr.
     Example:
@@ -224,7 +218,7 @@ public:
 
     See Also: ModifierUVMove, GetTextureCoordinatesPtr
     *************************************************/
-    virtual BYTE *GetModifierUVs(CKDWORD *Stride, int channel = -1) = 0;
+    virtual CKBYTE *GetModifierUVs(CKDWORD *Stride, int channel = -1) = 0;
 
     virtual int GetModifierUVCount(int channel = -1) = 0;
 
@@ -236,7 +230,7 @@ public:
     virtual void ModifierUVMove() = 0;
 
     //------------------------------------------------------------------------
-    // VERTEX ACCES
+    // VERTEX ACCESS
 
     /*************************************************
     Summary: Returns the number of vertices.
@@ -318,7 +312,7 @@ public:
         u: U Texture coordinate .
         v: V Texture coordinate.
         channel: Index of the texture channel whose coordinates should be set. -1 means
-        the default texture coordinates, additionnal channels are accessed from 0 to MAX_CHANNELS
+        the default texture coordinates, additional channels are accessed from 0 to MAX_CHANNELS
     See Also: GetVertexTextureCoordinates,GetTextureCoordinatesPtr
     *************************************************/
     virtual void SetVertexTextureCoordinates(int Index, float u, float v, int channel = -1) = 0;
@@ -542,7 +536,7 @@ public:
     virtual void ColorChanged() = 0;
 
     //------------------------------------------------------------------------
-    //  FACES ACCES
+    //  FACES ACCESS
 
     /*************************************************
     Summary: Returns number of faces in the mesh.
@@ -574,7 +568,7 @@ public:
     + The returned array content must not be modify.
     See Also:GetFaceCount,GetFaceVertexIndex
     *************************************************/
-    virtual WORD *GetFacesIndices() = 0;
+    virtual CKWORD *GetFacesIndices() = 0;
 
     /*************************************************
     Summary: Gets the vertices making a given face.
@@ -627,7 +621,7 @@ public:
 
     Remarks:
         + When adding a channel to a mesh, it is added to all the faces of the
-        mesh, but you can exclude some faces from a channel so the additionnal
+        mesh, but you can exclude some faces from a channel so the additional
         material is not applied to them.
         + The mask is a set of bit , each channel mask is given by the CKCHANNELMASK(channel)
         macro. A Mask of 0xFFFF indicates the face is included in all the channels.
@@ -680,7 +674,7 @@ public:
 
     See Also: GetFaceNormal, SetFaceNormal
     *************************************************/
-    virtual BYTE *GetFaceNormalsPtr(CKDWORD *Stride) = 0;
+    virtual CKBYTE *GetFaceNormalsPtr(CKDWORD *Stride) = 0;
 
     /*************************************************
     Summary: Sets the vertex indices for a face.
@@ -739,7 +733,7 @@ public:
         RemoveChannelMask: Mask to be removed.
     Remarks:
         + When adding a channel to a mesh, it is added to all the faces of the
-        mesh, but you can exclude some faces from a channel so the additionnal
+        mesh, but you can exclude some faces from a channel so the additional
         material is not applied to them.
         + The mask is a set of bit , each channel mask is given by the CKCHANNELMASK(channel)
         macro. A Mask of 0xFFFF indicates the face is included in all the channels.
@@ -747,7 +741,7 @@ public:
         with ActivateChannel(channel,FALSE) rather than using this method for all the faces.
 
     Example:
-        //  Sets additionnal channel 0 to be displayed on all faces
+        //  Sets additional channel 0 to be displayed on all faces
         int Channel = 0;
         CKWORD ChannelMask = CKCHANNELMASK(channel);
         int FaceCount = mesh->GetFacesCount();
@@ -787,7 +781,7 @@ public:
     Summary: Sets the number of lines in the mesh.
 
     Return Value:
-        TRUE if succesful.
+        TRUE if successful.
     Arguments:
         Count: Number of lines.
     See Also: GetLineCount
@@ -887,7 +881,7 @@ public:
     Summary: Marks the mesh as to be re-optimized.
 
     Remarks:
-        + Before rendering a mehs is optimized according to
+        + Before rendering a mesh is optimized according to
         its material and face organisation to minimize
         render state changes.
         + This method is automatically called by the framework when
@@ -935,7 +929,7 @@ public:
     Summary: Returns the number of channels in the mesh.
 
     Return Value:
-        Number of additionnal channels in the mesh.
+        Number of additional channels in the mesh.
     See Also: AddChannel, RemoveChannel
     *************************************************/
     virtual int GetChannelCount() = 0;
@@ -968,7 +962,7 @@ public:
     Summary: Returns the index of a channel given its material.
 
     Arguments:
-        Mat: A pointer to material, channel corrensponding to this material will be returned.
+        Mat: A pointer to material, channel corresponding to this material will be returned.
     Return Value:
         Channel index.
     See Also: AddChannel, GetChannelCount
@@ -1020,7 +1014,7 @@ public:
         Lit: Lighting flag, TRUE for the channel to be lit, FALSE otherwise.
     Remarks:
         + This method sets or removes the VXCHANNEL_NOTLIT flags for this channel.
-        + A additionnal channel can be drawn with as a decal ( only the texture color
+        + A additional channel can be drawn with as a decal ( only the texture color
         is used) or be lit (influenced by lights) as for the vertices of the mesh.
     See also: IsChannelLit,  AddChannel, RemoveChannel,VXCHANNEL_FLAGS
     ************************************************/
@@ -1049,7 +1043,7 @@ public:
     Remarks:
         + The channel flags contain the activation and lighting flags
         and alo some hint or information set by the render engine. For example
-        is the channel was render along with the default faces in monopass
+        is the channel was render along with the default faces in mono-pass
         multi-texturing.
     See Also: SetChannelFlags,VXCHANNEL_FLAGS
     *************************************************/
@@ -1064,7 +1058,7 @@ public:
     Remarks:
         + The channel flags contain the activation and lighting flags
         and alo some hint or information set by the render engine. For example
-        is the channel was render along with the default faces in monopass
+        is the channel was render along with the default faces in mono-pass
         multi-texturing.
     See Also: GetChannelFlags,VXCHANNEL_FLAGS
     *************************************************/
@@ -1184,8 +1178,8 @@ public:
     Summary: Renders the mesh.
 
     Arguments:
-        Dev: A CKrenderContext on which the mesh should be rendered.
-        Mov: A optionnal 3dEntity for position, scaling, rotation... infomation.
+        Dev: A CKRenderContext on which the mesh should be rendered.
+        Mov: A optional 3dEntity for position, scaling, rotation... information.
 
     Return Value: CK_OK if successful, an error code otherwise.
     Remarks:
@@ -1210,7 +1204,7 @@ public:
     Return Value: TRUE if successful, FALSE otherwise.
     See also: RemovePreRenderCallBack, SetRenderCallBack
     *************************************************/
-    virtual CKBOOL AddPreRenderCallBack(CK_MESHRENDERCALLBACK Function, void *Argument, BOOL Temporary = FALSE) = 0;
+    virtual CKBOOL AddPreRenderCallBack(CK_MESHRENDERCALLBACK Function, void *Argument, CKBOOL Temporary = FALSE) = 0;
 
     /*************************************************
     Summary: Removes a pre-render callback function.
@@ -1233,7 +1227,7 @@ public:
     Return Value: TRUE if successful, FALSE otherwise.
     See also: RemovePostRenderCallBack, SetRenderCallBack
     *************************************************/
-    virtual CKBOOL AddPostRenderCallBack(CK_MESHRENDERCALLBACK Function, void *Argument, BOOL Temporary = FALSE) = 0;
+    virtual CKBOOL AddPostRenderCallBack(CK_MESHRENDERCALLBACK Function, void *Argument, CKBOOL Temporary = FALSE) = 0;
 
     /*************************************************
     Summary: Removes a post-render callback function.
@@ -1270,7 +1264,7 @@ public:
     Summary: Removes all the callback functions.
 
     Remarks:
-        + All Pre,Postand RenderCallback functions are removed.
+        + All Pre,Post and RenderCallback functions are removed.
     See also: SetRenderCallBack, AddPreRenderCallBack, AddPostRenderCallBack
     *************************************************/
     virtual void RemoveAllCallbacks() = 0;
@@ -1350,7 +1344,7 @@ public:
     Summary: Returns the vertex weight of a given vertex.
 
     Arguments:
-        index: Position from which vertex wieght is to be obtained.
+        index: Position from which vertex weight is to be obtained.
     Return Value:
         Vertex weight at given index.
     See Also: SetVertexWeightsCount, GetVertexWeightsPtr, SetVertexWeight
@@ -1486,7 +1480,7 @@ public:
         + A Mesh is divided in sub-parts when it uses several materials,each sub-parts only use a given material.
     See also: RemoveSubMeshPreRenderCallBack,AddSubMeshPostRenderCallBack
     *************************************************/
-    virtual CKBOOL AddSubMeshPreRenderCallBack(CK_SUBMESHRENDERCALLBACK Function, void *Argument, BOOL Temporary = FALSE) = 0;
+    virtual CKBOOL AddSubMeshPreRenderCallBack(CK_SUBMESHRENDERCALLBACK Function, void *Argument, CKBOOL Temporary = FALSE) = 0;
 
     /*************************************************
     Summary: Removes a pre-render callback function.
@@ -1509,7 +1503,7 @@ public:
     Return Value: TRUE if successful, FALSE otherwise.
     See also: RemoveSubMeshPostRenderCallBack, AddSubMeshPreRenderCallBack
     *************************************************/
-    virtual CKBOOL AddSubMeshPostRenderCallBack(CK_SUBMESHRENDERCALLBACK Function, void *Argument, BOOL Temporary = FALSE) = 0;
+    virtual CKBOOL AddSubMeshPostRenderCallBack(CK_SUBMESHRENDERCALLBACK Function, void *Argument, CKBOOL Temporary = FALSE) = 0;
 
     /*************************************************
     Summary: Removes a post-render callback function.
@@ -1543,4 +1537,4 @@ public:
     CKMesh(CKContext *Context, CKSTRING name = NULL) : CKBeObject(Context, name) {}
 };
 
-#endif
+#endif // CKMESH_H

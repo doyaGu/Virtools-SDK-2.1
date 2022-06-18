@@ -1,16 +1,7 @@
-/*************************************************************************/
-/*	File : XP.h															 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XSMARTPTR_H_
-#define _XSMARTPTR_H_
+#ifndef XSMARTPTR_H
+#define XSMARTPTR_H
 
-#include "XUtil.h"
-
-#if !defined(_LINUX)
+#if VX_MSVC > 1000
 #pragma warning(disable : 4284)
 #endif
 
@@ -189,4 +180,4 @@ private:
     int m_Stride;
 };
 
-#endif
+#endif // XSMARTPTR_H

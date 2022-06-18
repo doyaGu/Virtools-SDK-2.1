@@ -1,15 +1,8 @@
-/*************************************************************************/
-/*	File : CKBitmapData.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBITMAPDATA_H
-#define CKBITMAPDATA_H "$Id:$"
+#define CKBITMAPDATA_H
 
-#include "VxDefines.h"
 #include "CKMovieReader.h"
+#include "VxMath.h"
 
 #define CKBITMAPDATA_INVALID         1
 #define CKBITMAPDATA_TRANSPARENT     2
@@ -22,7 +15,7 @@
 class CKBitmapSlot
 {
 public:
-    DWORD *m_DataBuffer; // Image Data
+    CKDWORD *m_DataBuffer; // Image Data
     XString m_FileName;	 // Image Filename
 public:
     CKBitmapSlot()
@@ -33,7 +26,7 @@ public:
     void Allocate(int Width, int Height, int iBpp)
     {
         Flush();
-        m_DataBuffer = (DWORD *)VxNewAligned(Width * Height * iBpp / 8, 16);
+        m_DataBuffer = (CKDWORD *)VxNewAligned(Width * Height * iBpp / 8, 16);
     }
     void Free()
     {
@@ -43,19 +36,19 @@ public:
 
     void Resize(VxImageDescEx &Src, VxImageDescEx &Dst)
     {
-        DWORD *NewBuffer = (DWORD *)VxNewAligned(Dst.Width * Dst.Height * sizeof(DWORD), 16);
+        CKDWORD *NewBuffer = (CKDWORD *)VxNewAligned(Dst.Width * Dst.Height * sizeof(CKDWORD), 16);
         if (m_DataBuffer)
         {
-            Src.Image = (BYTE *)m_DataBuffer;
-            Dst.Image = (BYTE *)NewBuffer;
+            Src.Image = (CKBYTE *)m_DataBuffer;
+            Dst.Image = (CKBYTE *)NewBuffer;
             VxResizeImage32(Src, Dst);
             Flush();
         }
         else
         {
-            DWORD *ptr = NewBuffer;
-            DWORD size = Dst.Width * Dst.Height;
-            for (DWORD i = 0; i < size; i++, ptr++)
+            CKDWORD *ptr = NewBuffer;
+            CKDWORD size = Dst.Width * Dst.Height;
+            for (CKDWORD i = 0; i < size; i++, ptr++)
                 *ptr = 0xFF000000;
         }
         m_DataBuffer = NewBuffer;
@@ -186,7 +179,7 @@ public:
     }
 
     //-------------------------------------------------------------
-    // SURFACE PTR ACCES
+    // SURFACE PTR ACCESS
 
     /*************************************************
     Summary: Returns a pointer to the image surface buffer.
@@ -196,7 +189,7 @@ public:
     Remarks:
         + When dealing with textures or sprites the return value is a pointer on the system memory copy of the texture.
         If any changes are made (write access) to the image surface, you must either call CKTexture::Restore which
-        immediatly copies the texture back in video memory or ReleaseSurfacePtr() which flags this bitmap
+        immediately copies the texture back in video memory or ReleaseSurfacePtr() which flags this bitmap
         as to be reloaded before it is used next time.
 
     See also: ReleaseSurfacePtr,SetPixel,GetPixel
@@ -346,7 +339,7 @@ public:
     CKBOOL ReleaseAllSlots();
 
     //-------------------------------------------------------------
-    // ACCES TO SYSTEM MEMORY SURFACE
+    // ACCESS TO SYSTEM MEMORY SURFACE
 
     /*************************************************
     Summary: Sets the color of a pixel.
@@ -360,7 +353,7 @@ public:
         slot: Index of the slot in which the pixel should be set or -1 for the current slot.
     Remarks:
     + There is no check on the validity of x or y parameters so its the
-    user responsability.
+    user responsibility.
     + Sets the color of a pixel in the copy of the texture in system memory.
     + If this is used on a texture changes will only be visible after using CKTexture::Restore()
     function to force the texture to re-load from
@@ -377,7 +370,7 @@ public:
     Return Value: Color of the pixel (32 bit ARGB)
     Remarks:
         + There is no check on the validity of x or y parameter so its the
-        user responsability.
+        user responsibility.
 
     See Also:LockSurfacePtr,SetPixel
     *************************************************/
@@ -447,7 +440,7 @@ public:
     Arguments:
         iOptions: System Caching Options.
     Remarks:
-    The system memory cahcing option specify whether a copy of the image must
+    The system memory caching option specify whether a copy of the image must
     be kept for textures and sprites and in which format this copy should be kept...
 
     See Also: SetSaveFormat,CK_BITMAP_SYSTEMCACHING
@@ -484,7 +477,7 @@ public:
     + If the save options have been set to CKTEXTURE_IMAGEFORMAT you can specify a
     format in which the bitmap will be converted before being saved inside the composition file.
     + The CKBitmapProperties structure contains the CKGUID of a BitmapReader that is to be
-    used plus some additionnal settings specific to each format.
+    used plus some additional settings specific to each format.
 
     See Also: SetSaveOptions,CKBitmapProperties,CKBitmapReader
     *************************************************/
@@ -623,8 +616,6 @@ public:
 
 //-------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     CKBOOL ToRestore()
     {
@@ -648,8 +639,8 @@ public:
     int m_Height;
     int m_CurrentSlot;
     int m_PickThreshold;
-    DWORD m_BitmapFlags;
-    DWORD m_TransColor;
+    CKDWORD m_BitmapFlags;
+    CKDWORD m_TransColor;
 
     // TODO : Useless when in player mode
     CKBitmapProperties *m_SaveProperties;
@@ -661,10 +652,8 @@ public:
     void SetAlphaForTransparentColor(const VxImageDescEx &desc);
     void SetBorderColorForClamp(const VxImageDescEx &desc);
     CKBOOL SetSlotImage(int Slot, void *buffer, VxImageDescEx &bdesc);
-    CKBOOL DumpToChunk(CKStateChunk *chnk, CKFile *f, DWORD Identifiers[4]);
-    CKBOOL ReadFromChunk(CKStateChunk *chnk, CKFile *f, DWORD Identifiers[5]);
-
-#endif // Docjet secret macro
+    CKBOOL DumpToChunk(CKStateChunk *chnk, CKFile *f, CKDWORD Identifiers[4]);
+    CKBOOL ReadFromChunk(CKStateChunk *chnk, CKFile *f, CKDWORD Identifiers[5]);
 };
 
-#endif
+#endif // CKBITMAPDATA_H

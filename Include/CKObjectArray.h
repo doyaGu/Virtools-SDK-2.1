@@ -1,13 +1,5 @@
-/*************************************************************************/
-/*	File : CKObjectArray.h												 */
-/*	Author :  Nicolas Galinotti											 */
-/*	Last Modification : 28/09/99										 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKOBJECTARRAY_H
-#define CKOBJECTARRAY_H "$Id:$"
+#define CKOBJECTARRAY_H
 
 #include "CKObject.h"
 
@@ -19,8 +11,8 @@ Name: CKObjectArray
 
 Summary: Array of CKObject instances
 Remarks:
-+ This class is provided for compatibilty reasons and should not be used except for
-methods that require it explicitely. Use XObjectArray or XObjectPointerArray instead.
++ This class is provided for compatibility reasons and should not be used except for
+methods that require it explicitly. Use XObjectArray or XObjectPointerArray instead.
 
 + Provides utilities for storing, retrieving, iterating arrays of instances of
 CKObject and derived classes. The CKObjectArray instance uses
@@ -53,8 +45,6 @@ But use:
                 tmp = array->GetData();
                 [.. check and use tmp ...]
             }
-
-
 
 + The objects are stored linearly. So seek time speed is O(n), deletion and insertion speed are O(1).
 
@@ -140,7 +130,7 @@ public:
     void SwapCurrentWithPrevious();
 
     //---------------------------------------------------
-    // Checks and removes invalidr references
+    // Checks and removes invalid references
     CKBOOL Check(CKContext *context);
 
     //---------------------------------------------------
@@ -148,6 +138,20 @@ public:
     void Sort(OBJECTARRAYCMPFCT CmpFct, CKContext *context);
     void InsertSorted(CKObject *o, OBJECTARRAYCMPFCT CmpFct, CKContext *context);
     void InsertSorted(CK_ID id, OBJECTARRAYCMPFCT CmpFct, CKContext *context);
+
+private:
+    struct Node
+    {
+        Node *m_Prev;
+        Node *m_Next;
+        CK_ID m_Data;
+    };
+
+    Node *m_Current;
+    Node *m_Next;
+    Node *m_Previous;
+    int m_Count;
+    int m_Position;
 };
 
-#endif
+#endif // CKOBJECTARRAY_H

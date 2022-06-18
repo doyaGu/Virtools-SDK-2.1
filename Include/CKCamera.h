@@ -1,21 +1,11 @@
-/*************************************************************************/
-/*	File : CKCamera.h				 				 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKCAMERA_H) || defined(CK_3DIMPLEMENTATION)
-#define CKCAMERA_H "$Id:$"
+#define CKCAMERA_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CK3dEntity.h"
 
 #define CK_PERSPECTIVEPROJECTION 1
 #define CK_ORTHOGRAPHICPROJECTION 2
-
-#undef CK_PURE
-#define CK_PURE = 0
 
 /*************************************************
 {filename:CKCamera}
@@ -30,11 +20,11 @@ all the potentialities from those classes, especially the possibility
 to have behaviors attached to it. The orientation and position of the camera
 is defined the same way a 3dEntity does.
 
-+ For a camera to become active in a rendercontext you should attach the
++ For a camera to become active in a render context you should attach the
 viewpoint to it using the function CKRenderContext::AttachViewpointToCamera()
 
 + Field of View (FOV): It controls how much of a scene is visible and is an angle
-measured in radians. The Dev interface gives acces to the notion of focal length
+measured in radians. The Dev interface gives access to the notion of focal length
 used in photography.  For a standard 35 mm camera the conversion formula between
 field of view and focal length is :
 
@@ -47,7 +37,6 @@ class CKCamera : public CK3dEntity
 {
 public:
 #endif
-
     /*************************************************
     Summary: Returns the front clipping plane distance
 
@@ -58,7 +47,8 @@ public:
         + By default, at creation time, the front plane distance is equal to 1.0f.
     See also: GetBackPlane,SetFrontPlane
     *************************************************/
-    virtual float GetFrontPlane() CK_PURE;
+    virtual float GetFrontPlane() = 0;
+
     /*************************************************
     Summary: Sets the front clipping plane distance
 
@@ -69,7 +59,8 @@ public:
         + By default, at creation time, the front plane distance is equal to 1.0f.
     See also: SetBackPlane,GetFrontPlane
     *************************************************/
-    virtual void SetFrontPlane(float front) CK_PURE;
+    virtual void SetFrontPlane(float front) = 0;
+
     /*************************************************
     Summary: Returns the back clipping plane distance
 
@@ -80,7 +71,8 @@ public:
         + By default, at creation time, the back clipping plane distance is equal to 4000.0f.
     See also: SetBackPlane,SetFrontPlane
     *************************************************/
-    virtual float GetBackPlane() CK_PURE;
+    virtual float GetBackPlane() = 0;
+
     /*************************************************
     Summary: Sets the back clipping plane distance
 
@@ -91,7 +83,7 @@ public:
         + By default, at creation time, the back clipping plane distance is equal to 4000.0f.
     See also: GetBackPlane,SetFrontPlane
     *************************************************/
-    virtual void SetBackPlane(float back) CK_PURE;
+    virtual void SetBackPlane(float back) = 0;
 
     /*************************************************
     Summary: Returns the field of view of the camera
@@ -102,7 +94,8 @@ public:
         + By default, the field of view is equal to: 0.5f ( 30 Degree )
     See also: SetFov
     *************************************************/
-    virtual float GetFov() CK_PURE;
+    virtual float GetFov() = 0;
+
     /*************************************************
     Summary: Changes the field of view of the camera
 
@@ -112,7 +105,7 @@ public:
         + By default, the field of view is equal to: 0.5f ( 30 Degree )
     See also: GetFov
     *************************************************/
-    virtual void SetFov(float fov) CK_PURE;
+    virtual void SetFov(float fov) = 0;
 
     /*************************************************
     Summary: Returns the current projection type
@@ -124,7 +117,8 @@ public:
         + The project type is either orthographic or perspective.
     See also: SetProjectionType,SetOrthographicZoom
     *************************************************/
-    virtual int GetProjectionType() CK_PURE;
+    virtual int GetProjectionType() = 0;
+
     /*************************************************
     Summary: Sets the projection type of the camera
 
@@ -137,7 +131,7 @@ public:
     + If the projection is orthographic, you can specify a zoom value.
     See also: GetProjectionType,SetOrthographicZoom
     *************************************************/
-    virtual void SetProjectionType(int proj) CK_PURE;
+    virtual void SetProjectionType(int proj) = 0;
 
     /*************************************************
     Summary: Changes the zoom value in orthographic projection
@@ -150,7 +144,8 @@ public:
     + By default, at creation time, the zoom of the camera is equal to: 1.0f
     See also: GetOrthographicZoom,SetProjectionType
     *************************************************/
-    virtual void SetOrthographicZoom(float zoom) CK_PURE;
+    virtual void SetOrthographicZoom(float zoom) = 0;
+
     /*************************************************
     Summary: Returns the zoom value in orthographic projection
 
@@ -158,7 +153,7 @@ public:
         Zoom factor.
     See also: SetOrthographicZoom,SetProjectionType
     *************************************************/
-    virtual float GetOrthographicZoom() CK_PURE;
+    virtual float GetOrthographicZoom() = 0;
 
     //---------------------------------------
     // AspectRatio
@@ -172,7 +167,8 @@ public:
         attached.
     See also: GetAspectRatio,CKRenderContext::SetViewRect,CKRenderContext::AttachViewpointToCamera
     *****************************************************/
-    virtual void SetAspectRatio(int width, int height) CK_PURE;
+    virtual void SetAspectRatio(int width, int height) = 0;
+
     /*****************************************************
     Summary:Gets the aspect ratio
 
@@ -182,7 +178,7 @@ public:
         attached.
     See also: SetAspectRatio,CKRenderContext::SetViewRect,CKRenderContext::AttachViewpointToCamera
     *****************************************************/
-    virtual void GetAspectRatio(int &width, int &height) CK_PURE;
+    virtual void GetAspectRatio(int &width, int &height) = 0;
 
     //-------------------------------------
     // Result Projection Matrix
@@ -195,7 +191,7 @@ public:
         a projection matrix.
     See also: VxMatrix::Perspective,VxMatrix::Orthographic
     *****************************************************/
-    virtual void ComputeProjectionMatrix(VxMatrix &mat) CK_PURE;
+    virtual void ComputeProjectionMatrix(VxMatrix &mat) = 0;
 
     //---------------------------------------
     // Roll Angle
@@ -211,7 +207,8 @@ public:
 
     See Also:CKTargetCamera,SetTarget,Roll
     *****************************************************/
-    virtual void ResetRoll() CK_PURE;
+    virtual void ResetRoll() = 0;
+
     /*****************************************************
     Summary:Rolls the camera of the desired angle,
 
@@ -223,7 +220,7 @@ public:
     + To align the camera back with the Up vector in the world use ResetRoll
     See Also:CKTargetCamera,SetTarget,ResetRoll
     *****************************************************/
-    virtual void Roll(float angle) CK_PURE;
+    virtual void Roll(float angle) = 0;
 
     //-------------------------------------------
     // Target Access
@@ -238,7 +235,8 @@ public:
         otherwise it returns NULL.
     See Also:CKTargetCamera,SetTarget
     *****************************************************/
-    virtual CK3dEntity *GetTarget() CK_PURE;
+    virtual CK3dEntity *GetTarget() = 0;
+
     /*****************************************************
     Summary:Sets the target of this camera.
 
@@ -250,7 +248,7 @@ public:
         updated toward the given target.
     See Also:CKTargetCamera,GetTarget
     *****************************************************/
-    virtual void SetTarget(CK3dEntity *target) CK_PURE;
+    virtual void SetTarget(CK3dEntity *target) = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -273,4 +271,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKCAMERA_H

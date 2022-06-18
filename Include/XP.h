@@ -1,14 +1,5 @@
-/*************************************************************************/
-/*	File : XP.h															 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XP_H_
-#define _XP_H_
-
-#include "XUtil.h"
+#ifndef XP_H
+#define XP_H
 
 /************************************************
 Name: XP
@@ -18,7 +9,7 @@ Summary: auto_ptr like class.
 Remarks:
     XP objects will allow you to keep a reference
 on pointers, without having to delete them
-explicitely. The pointers will be deleted by
+explicitly. The pointers will be deleted by
 the XP object when leaving the its scope. This class
 use a delete operator, so to handle pointers
 allocated with new [], use XAP.
@@ -112,7 +103,7 @@ Summary: auto_ptr like class.
 Remarks:
     XAP objects will allow you to keep a reference
 on pointers, without having to delete them
-explicitely. The pointers will be deleted by
+explicitly. The pointers will be deleted by
 the XP object when leaving the its scope. This class
 use a delete [] operator, so to handle pointers
 allocated with new , use XP.
@@ -192,4 +183,5 @@ protected:
     // The pointee object
     T *m_Pointee;
 };
-#endif
+
+#endif // XP_H

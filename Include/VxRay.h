@@ -1,14 +1,8 @@
-/*************************************************************************/
-/*	File : VxRay.h														 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXRAY_H
 #define VXRAY_H
 
 #include "VxVector.h"
+#include "XUtil.h"
 
 /**********************************************************
 {filename:VxRay}
@@ -112,4 +106,4 @@ public:
     VxVector m_Direction;
 };
 
-#endif
+#endif // VXRAY_H

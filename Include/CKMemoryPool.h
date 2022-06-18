@@ -1,7 +1,8 @@
 #ifndef CKMEMORYPOOL_H
-#define CKMEMORYPOOL_H "$Id:$"
+#define CKMEMORYPOOL_H
 
-#include <CKContext.h>
+#include "CKContext.h"
+#include "VxMemoryPool.h"
 
 class CKMemoryPool
 {
@@ -19,4 +20,4 @@ protected:
     int m_Index;
 };
 
-#endif
+#endif // CKMEMORYPOOL_H

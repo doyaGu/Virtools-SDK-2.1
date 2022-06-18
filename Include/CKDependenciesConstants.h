@@ -1,15 +1,5 @@
-/*************************************************************************/
-/*	File : CKDependenciesConstants.h									 */
-/*	Author:  Romain Sididris											 */
-/*																		 */
-/*	Default Delete,Copy,Replace and Save options for Virtools Classes	 */
-/*	dependencies														 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _DEPENDENCIESCONSTANTS_H
-#define _DEPENDENCIESCONSTANTS_H
+#ifndef CKDEPENDENCIESCONSTANTS_H
+#define CKDEPENDENCIESCONSTANTS_H
 
 // Destroy Dependencies
 // Defines which dependencies of an object  should also be destroyed
@@ -24,13 +14,13 @@
 #define CK_DEPENDENCIES_DESTROY_SPRITE3D_MATERIAL		1	// Destroy Sprite3D material, Default : Off
 #define CK_DEPENDENCIES_DESTROY_TARGETLIGHT_TARGET		1	// Destroy TargetLight target 3DEntity, Default : Off
 #define CK_DEPENDENCIES_DESTROY_TARGETCAMERA_TARGET		1	// Destroy TargetCamera target 3DEntity, Default : Off
-#define CK_DEPENDENCIES_DESTROY_GROUP_OBJECTS			1	// Destroy every objects referenced by the Group, Default : Off
+#define CK_DEPENDENCIES_DESTROY_GROUP_OBJECTS			1	// Destroy every object referenced by the Group, Default : Off
 
 // Copy Dependencies
 // Defines which dependencies of an object should also be copied
 #define CK_DEPENDENCIES_COPY_OBJECT_NAME			1		// Copy object name, Default : On
 #define CK_DEPENDENCIES_COPY_OBJECT_UNIQUENAME		2		// Ensure name uniqueness when copying, Default : On
-#define CK_DEPENDENCIES_COPY_SCENEOBJECT_SCENES		1		// Add copy to every scenes the source was belonging to, Default : On
+#define CK_DEPENDENCIES_COPY_SCENEOBJECT_SCENES		1		// Add copy to every scene the source belonged to, Default : On
 #define CK_DEPENDENCIES_COPY_BEOBJECT_SCRIPTS		1		// Copy BeObject scripts, Default : On
 #define CK_DEPENDENCIES_COPY_BEOBJECT_ATTRIBUTES	2		// Copy BeObject attributes, Default : On
 #define CK_DEPENDENCIES_COPY_BEOBJECT_GROUPS		4		// If BeObject belongs to a group, adds its copy to the group, Default : On
@@ -47,7 +37,7 @@
 #define CK_DEPENDENCIES_COPY_SPRITE3D_MATERIAL		1		// Copy Sprite3D material, Default : On
 #define CK_DEPENDENCIES_COPY_TARGETLIGHT_TARGET		1		// Copy TargetLight target 3DEntity, Default : On
 #define CK_DEPENDENCIES_COPY_TARGETCAMERA_TARGET	1		// Copy TargetCamera target 3DEntity, Default : On
-#define CK_DEPENDENCIES_COPY_GROUP_OBJECTS			1		// Copy every objects referenced by the Group, Default : On
+#define CK_DEPENDENCIES_COPY_GROUP_OBJECTS			1		// Copy every object referenced by the Group, Default : On
 #define CK_DEPENDENCIES_COPY_GRID_LAYERS			1		// Copy Grid layers, Default : On
 #define CK_DEPENDENCIES_COPY_GRIDLAYER_DATA			1		// Copy Layer Data, Default : On
 
@@ -66,6 +56,6 @@
 #define CK_DEPENDENCIES_SAVE_SPRITE3D_MATERIAL		1		// Save Sprite3D material, Default : On
 #define CK_DEPENDENCIES_SAVE_TARGETLIGHT_TARGET		1		// Save TargetLight target 3DEntity, Default : On
 #define CK_DEPENDENCIES_SAVE_TARGETCAMERA_TARGET	1		// Save TargetCamera target 3DEntity, Default : On
-#define CK_DEPENDENCIES_SAVE_GROUP_OBJECTS			1		// Save every objects referenced by the Group, Default : On
+#define CK_DEPENDENCIES_SAVE_GROUP_OBJECTS			1		// Save every object referenced by the Group, Default : On
 
-#endif
+#endif // CKDEPENDENCIESCONSTANTS_H

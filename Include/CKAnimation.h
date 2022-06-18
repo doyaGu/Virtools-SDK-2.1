@@ -1,17 +1,10 @@
-/*************************************************************************/
-/*	File : CKKeyedAnimation.h						 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKANIMATION_H
-#define CKANIMATION_H "$Id:$"
+#define CKANIMATION_H
 
-#include "CKObject.h"
+#include "CKSceneObject.h"
 
 /*********************************************************************
-{filename:CKanimation}
+{filename:CKAnimation}
 Name: CKAnimation
 
 Summary: Base Class for character animations or group of object animations.
@@ -24,11 +17,11 @@ Remarks:
     the animation.
     For more details about characters and their animation management see CKCharacter.
 
-    + An Animation may be maded up of two other blended animations, the resulting
+    + An Animation may be made up of two other blended animations, the resulting
     animation depends on a float factor between 0 and 1. If 0 the merged animation is equal
     to the first animation and if 1 it is equal to the second. A factor of 0.5 gives a smooth
     blending between the two initial animations. One can use this to create a universal grab animation
-    for example maded up of 4 initial animations ( grab right,grab left,grab high,grab low) then according
+    for example made up of 4 initial animations ( grab right,grab left,grab high,grab low) then according
     to where the grabbing occurs we calculate the two merge factors (right-left,low-high) so that
     the resulting animation grab at the right place.
 
@@ -36,9 +29,9 @@ Remarks:
     smooth using motion warping. Motion warping creates on the fly a transition animation
     between the current character animation and the desired animation.
 
-    + An animation has a length which can be time dependend or not. For example an animation
+    + An animation has a length which can be time dependent or not. For example an animation
     of 60 frames can be played at a fixed frame rate (eg with LinkToFrameRate(TRUE,60) the animation
-    will be played in exactly 1 second (60 frame per second)) or can be completly process dependendant
+    will be played in exactly 1 second (60 frame per second)) or can be completely process dependent
     in which case the animation is played at 1 frame per (behavior+render) process which is never sure to give a constant speed
     according to what is on screen.
 
@@ -64,6 +57,7 @@ public:
     See Also:SetLength,GetFrame,SetStep,SetFrame
     *************************************************/
     virtual float GetLength() = 0;
+
     /*************************************************
     Summary: Returns the current position of the animation.
     Return Value:
@@ -73,19 +67,21 @@ public:
     See Also:SetStep,GetStep,SetFrame,Getlength
     *************************************************/
     virtual float GetFrame() = 0;
+
     /*************************************************
     Summary: Returns the expected next frame.
 
     Arguments:
         delta_t: Time in milliseconds to next process.
     Return Value:
-        Espected next frame if delta_t milliseconds elapse.
+        Expected next frame if delta_t milliseconds elapse.
     Remarks:
         + According to the animation settings (Linked to frame rate,etc..)
         the return value is the expected next frame of animation if delta_t milliseconds elapse.
     See Also:SetStep,GetFrame,SetFrame,Getlength
     *************************************************/
     virtual float GetNextFrame(float delta_t) = 0;
+
     /*************************************************
     Summary: Returns the current progression of the animation.
     Return Value:
@@ -111,6 +107,7 @@ public:
     See Also:SetStep,GetFrame,GetStep,GetNextFrame,Getlength
     *************************************************/
     virtual void SetFrame(float frame) = 0;
+
     /*************************************************
     Summary: Sets the current progression of the animation
     Arguments:
@@ -121,6 +118,7 @@ public:
     See Also:SetStep,GetFrame,GetStep,GetNextFrame,Getlength,SetCurrentStep
     *************************************************/
     virtual void SetStep(float step) = 0;
+
     /*************************************************
     Summary: Sets the total length of the animation.
     Arguments:
@@ -329,7 +327,7 @@ public:
     Return Value:
         Merging factor of blended animation.
     Remarks:
-        + An Animation may be maded up of two other blended animations, the resulting
+        + An Animation may be made up of two other blended animations, the resulting
         animation depends on a float factor between 0 and 1.
 
     See Also: SetMergeFactor, IsMerged, CreateMergedAnimation
@@ -353,7 +351,7 @@ public:
     Return Value:
         Returns TRUE if animation is blended, FALSE otherwise.
     Remarks:
-        + An Animation may be maded up of two other blended animations, the resulting
+        + An Animation may be made up of two other blended animations, the resulting
         animation depends on a float factor between 0 and 1.
 
     See Also: GetMergeFactor, SetMergeFactor, CreateMergedAnimation
@@ -369,7 +367,7 @@ public:
     Return Value:
         A pointer to the blended animation object.
     Remarks:
-    + An Animation may be maded up of two other blended animations, the resulting
+    + An Animation may be made up of two other blended animations, the resulting
     animation depends on a float factor between 0 and 1.
 
     See Also: GetMergeFactor, SetMergeFactor, IsMerged
@@ -431,4 +429,4 @@ public:
     }
 };
 
-#endif
+#endif // CKANIMATION_H

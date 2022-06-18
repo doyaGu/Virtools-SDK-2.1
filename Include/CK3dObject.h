@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CK3dObject.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CK3DOBJECT_H
-#define CK3DOBJECT_H "$Id:$"
+#define CK3DOBJECT_H
 
 #include "CK3dEntity.h"
 
@@ -21,8 +14,8 @@ Remarks:
 
     + You are advised to use CK3dObjects for all of
     your real 3D objects with a geometry. The loading plug-ins of Virtools should all create instances of CK3dObject
-    when loading models imported from foreign formats. Even though you can instanciate CK3dEntity directly, using a
-    CK3dObject provides you with additionnal services that may be increased in future.
+    when loading models imported from foreign formats. Even though you can instantiate CK3dEntity directly, using a
+    CK3dObject provides you with additional services that may be increased in future.
 
     + The class id of CK3dObject is CKCID_3DOBJECT.
 
@@ -51,4 +44,4 @@ public:
     }
 };
 
-#endif
+#endif // CK3DOBJECT_H

@@ -1,7 +1,7 @@
 #ifndef VXMEMORYPOOL_H
 #define VXMEMORYPOOL_H
 
-#include "XUtil.h"
+#include "VxMathDefines.h"
 
 //---- Aligned memory allocation
 VX_EXPORT void *VxNewAligned(int size, int align);
@@ -52,15 +52,15 @@ public:
         {
             VxDeleteAligned(m_Memory);
 
-            m_Memory = (DWORD *)VxNewAligned(ByteCount, 16);
+            m_Memory = (XULONG *)VxNewAligned(ByteCount, 16);
             Allocated = ByteCount;
         }
     }
 
 protected:
-    DWORD *m_Memory;
+    XULONG *m_Memory;
 
     size_t Allocated;
 };
 
-#endif
+#endif // VXMEMORYPOOL_H

@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKObject.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKOBJECT_H
-#define CKOBJECT_H "$Id:$"
+#define CKOBJECT_H
 
 #include "CKDefines.h"
 #include "CKDefines2.h"
@@ -31,13 +24,13 @@ Summary: Base class for most CK objects
 Remarks:
     + This is the base class for all objects of Virtools. You usually don't need to create an instance of
     CKObject, though this is possible. You usually create instances of classes derived of CKObject (See CKContext::CreateObject).
-    CKObject provides functionnalities that are applicable to all its derived classes.
+    CKObject provides functionalities that are applicable to all its derived classes.
 
     + CKObject and derived classes have no public (exported) constructors. Instances of CKObject and derived classes are created
     with the CKContext::CreateObject method, and should be deleted with the CKContext::DestroyObject method. The CKContext::DestroyObject
-    function ensures that all Virtools objects using the to-be-deleted object take the necessary mesures to reflect the upcoming deletion. If you have
+    function ensures that all Virtools objects using the to-be-deleted object take the necessary measures to reflect the upcoming deletion. If you have
     created and used the object for your own needs and are sure that it has not been referenced anywhere else, you may delete the object without notifications
-    spcifying CK_DESTROY_NONOTIFY.
+    specifying CK_DESTROY_NONOTIFY.
 
     + The CKObject class maintains a global ID for each of its instances. The IDs are globally unique and
     automatically created when the object is created. You obtain the global ID through the
@@ -50,11 +43,11 @@ Remarks:
     around when you need it by using the CKGetObject function to retrieve it.
 
     + Each class derived from CKObject has a class ID associated to it. You can access this class ID through the instances.
-    This is usefull for filtering or triggering different actions on objects according to their class. You access
+    This is usefully for filtering or triggering different actions on objects according to their class. You access
     the class ID through the GetClassID method.
 
     + A name can be attached to each instance of the CKObject class and derived classes. This name is a CKSTRING.
-    This functionnality is provided as a conveniency for debugging purposes. The Virtools library does not do any processing
+    This functionality is provided as a convenience for debugging purposes. The Virtools library does not do any processing
     on name except for loading purposes only (in the case of animation that should be attributed to objects for example).
 
     + It is possible to associate arbitrary data to each instance of CKObject and derived classes. This data
@@ -119,7 +112,7 @@ public:
     Summary: Returns a pointer to the owner CKContext
     Return Value: A pointer to the CKContext this object belongs to.
     Remarks:
-    Each CKObject belongs to a given CKContext, this method gives acces to this CKContext.
+    Each CKObject belongs to a given CKContext, this method gives access to this CKContext.
     See also: CKContext
     **************************************************/
     CKContext *GetCKContext() { return m_Context; }
@@ -142,7 +135,7 @@ public:
     Summary: Returns the name of the object.
     Return Value: A pointer to the object name or NULL if the object is unnamed.
     Remarks:
-        + Provided as a conveniency for debugging purposes.
+        + Provided as a convenience for debugging purposes.
         + The Virtools library does not do any processing corresponding to the name
         but it can be used when loading animation on objects for example.
 
@@ -195,8 +188,8 @@ public:
       remove : A combination of CK_OBJECT_FLAGS to remove.
     Remarks:
         + You rarely need to modify directly this flags through CKObject::ModifyObjectFlags instead
-        you should always use the specific acces function (given between () in CK_OBJECT_FLAGS documentation)
-        which may need to perform additionnal operations.
+        you should always use the specific access function (given between () in CK_OBJECT_FLAGS documentation)
+        which may need to perform additional operations.
 
     See also: CK_OBJECT_FLAGS,GetObjectFlags
     *************************************************/
@@ -208,12 +201,8 @@ public:
 
 //--------------------------------------------------------
 ////               Private Part
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
-    CKObject()
-    {
-    }
+    CKObject() {}
     CKObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKObject();
     virtual CK_CLASSID GetClassID();
@@ -256,19 +245,18 @@ public:
     CKDWORD m_ObjectFlags;
     CKContext *m_Context;
 
-    // Flags acces
+    // Flags access
     CKBOOL IsUpToDate() { return (m_ObjectFlags & CK_OBJECT_UPTODATE); }
     CKBOOL IsPrivate() { return (m_ObjectFlags & CK_OBJECT_PRIVATE); }
     CKBOOL IsNotToBeSaved() { return (m_ObjectFlags & CK_OBJECT_NOTTOBESAVED); }
     CKBOOL IsInterfaceObj() { return (m_ObjectFlags & CK_OBJECT_INTERFACEOBJ); }
 
-    // Util acces to CKContext functions
-    CKERROR CKDestroyObject(CKObject *obj, DWORD Flags = 0, CKDependencies *depoptions = NULL) { return m_Context->DestroyObject(obj, Flags, depoptions); }
-    CKERROR CKDestroyObject(CK_ID id, DWORD Flags = 0, CKDependencies *depoptions = NULL) { return m_Context->DestroyObject(id, Flags, depoptions); }
-    CKERROR CKDestroyObjects(CK_ID *obj_ids, int Count, DWORD Flags = 0, CKDependencies *depoptions = NULL) { return m_Context->DestroyObjects(obj_ids, Count, Flags, depoptions); }
+    // Util access to CKContext functions
+    CKERROR CKDestroyObject(CKObject *obj, CKDWORD Flags = 0, CKDependencies *depoptions = NULL) { return m_Context->DestroyObject(obj, Flags, depoptions); }
+    CKERROR CKDestroyObject(CK_ID id, CKDWORD Flags = 0, CKDependencies *depoptions = NULL) { return m_Context->DestroyObject(id, Flags, depoptions); }
+    CKERROR CKDestroyObjects(CK_ID *obj_ids, int Count, CKDWORD Flags = 0, CKDependencies *depoptions = NULL) { return m_Context->DestroyObjects(obj_ids, Count, Flags, depoptions); }
     CKObject *CKGetObject(CK_ID id) { return m_Context->GetObject(id); }
     CKObject *GetCKObject(CK_ID id) { return m_Context->GetObject(id); }
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKOBJECT_H

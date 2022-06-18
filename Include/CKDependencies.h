@@ -1,16 +1,9 @@
-/*************************************************************************/
-/*	File : CKBeObject.h				 				 					 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _DEPENDENCIES_H
-#define _DEPENDENCIES_H
+#ifndef CKDEPENDENCIES_H
+#define CKDEPENDENCIES_H
 
 #include "XSArray.h"
-#include "XObjectArray.h"
 #include "XHashTable.h"
+#include "XObjectArray.h"
 #include "CKDependenciesConstants.h"
 
 typedef XHashTable<CK_ID, CK_ID> XHashID;
@@ -25,9 +18,9 @@ See Also:CKDependencies
 ****************************************/
 typedef enum CK_DEPENDENCIES_FLAGS
 {
-    CK_DEPENDENCIES_CUSTOM = 0x00000000,	// Dependencies will depends on what options where modified in CKDependencies
+    CK_DEPENDENCIES_CUSTOM = 0x00000000,	// Dependencies will depend on what options where modified in CKDependencies
     CK_DEPENDENCIES_NONE   = 0x00000001,	// No dependencies will be taken into account
-    CK_DEPENDENCIES_FULL   = 0x00000002		// Every dependencies will be taken
+    CK_DEPENDENCIES_FULL   = 0x00000002		// Every dependency will be taken
 } CK_DEPENDENCIES_FLAGS;
 
 /*************************************************
@@ -165,7 +158,7 @@ public:
 
     Remarks:
         You'll need to call this function before calling Copy()
-    for example if you wan't full or custom dependencies to be
+    for example if you want full or custom dependencies to be
     taken into account.
 
     See also: CKDependencies,StopDependencies
@@ -181,7 +174,7 @@ public:
 
     Remarks:
         You'll need to call this function before calling Copy()
-    for example if you wan't full or custom dependencies to be
+    for example if you want full or custom dependencies to be
     taken into account.
 
     See also: CKDependencies, StartDependencies
@@ -230,8 +223,6 @@ public:
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
     struct DynamicSentinel
     {
@@ -283,7 +274,6 @@ protected:
 
     XString m_CopyAppendString;
     XBitArray m_ObjectsClassMask;
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKDEPENDENCIES_H

@@ -1,14 +1,6 @@
-/*************************************************************************/
-/*	File : VxMemoryMappedFile.h											 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef __VxMemoryMappedFile_H__
-#define __VxMemoryMappedFile_H__
+#ifndef VXMEMORYMAPPEDFILE_H
+#define VXMEMORYMAPPEDFILE_H
 
-#include "XUtil.h"
 #include "VxMathDefines.h"
 
 /***********************************************************************
@@ -45,36 +37,36 @@ class VxMemoryMappedFile
 public:
     VX_EXPORT VxMemoryMappedFile(char *pszFileName);
 
-    VX_EXPORT ~VxMemoryMappedFile(void);
+    VX_EXPORT ~VxMemoryMappedFile();
 
     /***********************************************************************
     Summary: Returns a pointer to the mapped memory buffer.
     Remarks: The returned pointer should not be deleted nor should it be
     used for writing purpose.
     ***********************************************************************/
-    VX_EXPORT void *GetBase(void) { return m_pMemoryMappedFileBase; }
+    VX_EXPORT void *GetBase();
 
     /***********************************************************************
     Summary: Returns the file size in bytes.
     ***********************************************************************/
-    VX_EXPORT DWORD GetFileSize(void) { return m_cbFile; }
+    VX_EXPORT XULONG GetFileSize();
 
     /***********************************************************************
     Summary: Returns the file was successfully opened and mapped to a memory buffer.
     ***********************************************************************/
-    VX_EXPORT BOOL IsValid(void) { return VxMMF_NoError == m_errCode; }
+    VX_EXPORT XBOOL IsValid();
 
     /***********************************************************************
     Summary: Returns whether there was an error opening the file.
     ***********************************************************************/
-    VX_EXPORT VxMMF_Error GetErrorType() { return m_errCode; }
+    VX_EXPORT VxMMF_Error GetErrorType();
 
 private:
     GENERIC_HANDLE m_hFile;
     GENERIC_HANDLE m_hFileMapping; // Handle of memory mapped file
     void *m_pMemoryMappedFileBase;
-    DWORD m_cbFile;
+    XULONG m_cbFile;
     VxMMF_Error m_errCode;
 };
 
-#endif
+#endif // VXMEMORYMAPPEDFILE_H

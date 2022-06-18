@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKBehaviorProrotype.h			 		 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBEHAVIORPROTOTYPE_H
-#define CKBEHAVIORPROTOTYPE_H "$Id:$"
+#define CKBEHAVIORPROTOTYPE_H
 
 #include "CKObject.h"
 #include "CKObjectDeclaration.h"
@@ -30,7 +23,7 @@ struct CKPARAMETER_DESC
     CKGUID Guid;   // Guid identifying the type
     int Type;      // In, Out or local
     CKSTRING DefaultValueString;
-    BYTE *DefaultValue;
+    CKBYTE *DefaultValue;
     int DefaultValueSize;
     int Owner;
 
@@ -62,7 +55,7 @@ public:
         Owner = d.Owner;
         if (d.DefaultValue && d.DefaultValueSize)
         {
-            DefaultValue = new BYTE[d.DefaultValueSize];
+            DefaultValue = new CKBYTE[d.DefaultValueSize];
             DefaultValueSize = d.DefaultValueSize;
             memcpy(DefaultValue, d.DefaultValue, DefaultValueSize);
         }
@@ -111,7 +104,7 @@ Remarks:
     using the object declaration. If the prototype is created in memory, the GUID can be set using the CKBehaviorPrototype::SetGuid method.
 
     + A name can be provided for various parts of the behavior. This name is not used for indexing
-    and does not have to be unique. It is provided as a conveniency for display and debugging purposes.
+    and does not have to be unique. It is provided as a convenience for display and debugging purposes.
 
     + A CKBehaviorPrototype is created with CreateCKBehaviorPrototype.
 
@@ -171,8 +164,6 @@ public:
 
 //-------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     //---------------------------------------------------------------------
     // Info Functions {Secret}
@@ -232,8 +223,6 @@ private:
     CKObjectDeclaration *m_SourceObjectDeclaration;
 
     XString m_Name;
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKBEHAVIORPROTOTYPE_H

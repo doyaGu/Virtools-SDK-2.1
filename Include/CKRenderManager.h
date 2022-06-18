@@ -1,15 +1,8 @@
-/*************************************************************************/
-/*	File : CKRenderManager.h											 */
-/*	Author :  Romain Sididris											 */
-/*	Last Modification : 20/09/99										 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKRENDERMANAGER_H
-#define CKRENDERMANAGER_H "$Id:$"
+#define CKRENDERMANAGER_H
 
 #include "CKDefines.h"
+#include "CKBaseManager.h"
 #include "CKVertexBuffer.h"
 
 /*************************************************
@@ -22,8 +15,8 @@ Remarks:
 provides methods to render all of them, to create new ones or to destroy existing contexts.
 
 + At startup the available drivers are enumerated and can be retrieve along with their capabilities.
-There can be more than one driver per video card according to the installed rasterizers (OpenGL,DirectX or other..)
-which can propose themselves several sub drivers (Transform& Lighting, Hardware or Software rasterizers).
+There can be more than one driver per video card according to the installed rasterizer (OpenGL,DirectX or other..)
+which can propose themselves several sub drivers (Transform& Lighting, Hardware or Software rasterizer).
 
 + The unique instance of the RenderManager can accessed through the CKContext::GetRenderManager() method.
 
@@ -71,7 +64,7 @@ public:
         VideoFormat: A VxImageDescEx pointer to be filled with desired pixel format.
     Remarks:
         + Newly created textures uses this format as their default pixel format
-        when loaded in video memory. It can be overriden by setting the desired video format per texture with CKTexture::SetDesiredVideoFormat.
+        when loaded in video memory. It can be overridden by setting the desired video format per texture with CKTexture::SetDesiredVideoFormat.
     See also: SetDesiredTexturesVideoFormat, VxImageDescEx,CKTexture::SetDesiredVideoFormat
     *************************************************/
     virtual void GetDesiredTexturesVideoFormat(VxImageDescEx &VideoFormat) = 0;
@@ -83,7 +76,7 @@ public:
         VideoFormat: A VxImageDescEx pointer containing texture pixel format.
     Remarks:
         + This method sets the default pixel format texture should use in video memory.
-        It can be overriden by setting the desired video format per texture with CKTexture::SetDesiredVideoFormat.
+        It can be overridden by setting the desired video format per texture with CKTexture::SetDesiredVideoFormat.
     See also: VxImageDescEx, GetDesiredTexturesVideoFormat,CKTexture::SetDesiredVideoFormat
     *************************************************/
     virtual void SetDesiredTexturesVideoFormat(VxImageDescEx &VideoFormat) = 0;
@@ -108,7 +101,7 @@ public:
         A pointer to a CKRenderContext or NULL.
     Arguments:
         pt: Screen coordinates from which the render context should be retrieved.
-    Retur value: Pointer to CKRenderContext or NULL if there is not a render context under the given point.
+    Return value: Pointer to CKRenderContext or NULL if there is not a render context under the given point.
     See Also: GetRenderContext,GetRenderContextCount
     *************************************************/
     virtual CKRenderContext *GetRenderContextFromPoint(CKPOINT &pt) = 0;
@@ -125,7 +118,7 @@ public:
     // Rendering
 
     /*************************************************
-    Summary: Renders all the render contextes.
+    Summary: Renders all the render contexts.
 
     *************************************************/
     virtual void Process() = 0;
@@ -157,7 +150,7 @@ public:
         Bpp: Number of bits per pixel for the color buffer(<=0 to have a default bpp).
         Zbpp: Number of bits per pixel for the depth buffer (<=0 to have a default bpp).
         StencilBpp: Number of bits per pixel for the stencil buffer (<=0 to have a default bpp).
-        RefreshRate: Optionnal Refresh rate to use in fullscreen.
+        RefreshRate: Optional Refresh rate to use in fullscreen.
     Return Value: Pointer to the created CKRenderContext.
     Remarks:
         + When creating a fullscreen render context if no valid rect is given the default display mode is set
@@ -213,7 +206,7 @@ public:
 
     Arguments:
         RenderOptionString: A string identifying the render option to set.
-        Value : A interger value for the given option.
+        Value : A integer value for the given option.
     Remarks:
     + The available options (with their default value given in ()) are :
             DisablePerspectiveCorrection(0) : Disables perspective correction. On recent hardware this does not have
@@ -258,7 +251,7 @@ public:
                                 to have a copy of the texture stored in system memory when
                                 all textures are known to fit into video memory.
 
-            SortTransparentObjects(1) : Transparents objects are sorted according
+            SortTransparentObjects(1) : Transparent objects are sorted according
                              to their distance to the camera and their priority.
                              A value of 0 disables the sorting.
 
@@ -277,10 +270,10 @@ public:
 
     + These options are read in the CK2_3D.ini file at startup and can be modified afterwards.
     + These options apply when a render context is created but are not taken into account by created
-    render contextes if changed meanwhile...
+    render contexts if changed meanwhile...
     See Also:CK2_3D.ini
     *************************************************/
-    virtual void SetRenderOptions(CKSTRING RenderOptionString, DWORD Value) = 0;
+    virtual void SetRenderOptions(CKSTRING RenderOptionString, CKDWORD Value) = 0;
 
     /*******************************************************************
     Summary: Returns a description for a given effect
@@ -292,7 +285,7 @@ public:
     Remarks:
     o This method returns a VxEffectDescription structure that gives details about
     a given effect.
-    o Effects provide additionnal functionnalities to take advantage of graphic features such as bump mapping,cube maps etc...
+    o Effects provide additional functionalities to take advantage of graphic features such as bump mapping,cube maps etc...
     o When an effect is enabled on a material (CKMaterial::SetEffect) it may override the default settings of mesh channels or material blend options
     o New effects can be created by providing a callback function (see CKRenderManager::AddEffect)
     o Most of this effect are heavily hardware and device (DX8,DX7,etc..) dependant
@@ -300,14 +293,14 @@ public:
     *******************************************************************/
     virtual const VxEffectDescription &GetEffectDescription(int EffectIndex) = 0;
     /****************************************************************
-    Summary: Returns the number of registred effects.
+    Summary: Returns the number of registered effects.
 
     Return Value:
-        Number of registred effects.
+        Number of registered effects.
     Remarks:
     o This method returns the number of available effects, either provided by render engine or added by users
     with AddEffect
-    o Effects provide additionnal functionnalities to take advantage of graphic features such as bump mapping,cube maps etc...
+    o Effects provide additional functionalities to take advantage of graphic features such as bump mapping,cube maps etc...
     o When an effect is enabled it may override the default settings of mesh channels or material blend options
     o New effects can be created by providing a callback function (see CKRenderManager::AddEffect)
     o Most of this effect are heavily hardware and device (DX8,DX7,etc..) dependant
@@ -315,15 +308,15 @@ public:
     *******************************************************************/
     virtual int GetEffectCount() = 0;
     /****************************************************************
-    Summary: Returns the number of registred effects.
+    Summary: Returns the number of registered effects.
 
     Return Value:
         Index of newly created effect.
     Remarks:
     o This method enables an user to add a given effect to the existing ones. A callback function must be provided that will
-    be called when a material is used. No checks are done on names so it is the application responsability to ensure an effect does not exist yet before adding
+    be called when a material is used. No checks are done on names so it is the application responsibility to ensure an effect does not exist yet before adding
     a new one.
-    o Effects provide additionnal functionnalities to take advantage of graphic features such as bump mapping,cube maps etc...
+    o Effects provide additional functionalities to take advantage of graphic features such as bump mapping,cube maps etc...
     o When an effect is enabled it may override the default settings of mesh channels or material blend options
     o New effects can be created by providing a callback function (see CKRenderManager::AddEffect)
     o Most of this effect are heavily hardware and device (DX8,DX7,etc..) dependant
@@ -334,4 +327,4 @@ public:
     CKRenderManager(CKContext *Context, CKSTRING name) : CKBaseManager(Context, RENDER_MANAGER_GUID, name) {}
 };
 
-#endif
+#endif // CKRENDERMANAGER_H

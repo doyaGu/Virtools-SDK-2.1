@@ -1,18 +1,8 @@
-/*************************************************************************/
-/*	File : CKCurvePoint.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKCURVEPOINT_H) || defined(CK_3DIMPLEMENTATION)
-#define CKCURVEPOINT_H "$Id:$"
+#define CKCURVEPOINT_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CK3dEntity.h"
-
-#undef CK_PURE
-#define CK_PURE = 0
 
 /*************************************************************************
 {filename:CKCurvePoint}
@@ -46,7 +36,7 @@ public:
 
     See also: CKCurve
     ************************************************/
-    virtual CKCurve *GetCurve() CK_PURE;
+    virtual CKCurve *GetCurve() = 0;
 
     //----------------------------------------------
     // TCB Parameters
@@ -57,7 +47,7 @@ public:
 
     See Also: SetBias, SetTension, SetContinuity.
     *************************************************/
-    virtual float GetBias() CK_PURE;
+    virtual float GetBias() = 0;
 
     /*************************************************
     Summary: Sets the Bias of the curve at this point
@@ -67,7 +57,7 @@ public:
     Remarks:
     See Also: GetBias, SetTension, SetContinuity.
     *************************************************/
-    virtual void SetBias(float b) CK_PURE;
+    virtual void SetBias(float b) = 0;
 
     /*************************************************
     Summary: Gets the Tension of the curve at this point
@@ -75,7 +65,7 @@ public:
      Return Value: Tension Value.
     See Also: SetBias, SetTension, SetContinuity.
     *************************************************/
-    virtual float GetTension() CK_PURE;
+    virtual float GetTension() = 0;
 
     /*************************************************
     Summary: Sets the Tension of the curve at this point
@@ -84,7 +74,7 @@ public:
         t: Tension value
     See Also: SetBias, GetTension, SetContinuity.
     *************************************************/
-    virtual void SetTension(float t) CK_PURE;
+    virtual void SetTension(float t) = 0;
 
     /*************************************************
     Summary: Gets the Continuity of the curve at this point
@@ -92,7 +82,7 @@ public:
     Return Value: Continuity value.
     See Also: SetBias, SetTension, SetContinuity.
     *************************************************/
-    virtual float GetContinuity() CK_PURE;
+    virtual float GetContinuity() = 0;
 
     /*************************************************
     Summary: Sets the Continuity of the curve at this point
@@ -101,7 +91,7 @@ public:
         c: Continuity value.
     See Also: SetBias, SetTension, GetContinuity.
     *************************************************/
-    virtual void SetContinuity(float c) CK_PURE;
+    virtual void SetContinuity(float c) = 0;
 
     /*************************************************
     Summary: Checks whether the curve is linear from this point to the next.
@@ -109,7 +99,7 @@ public:
 
     See Also: SetLinear
     *************************************************/
-    virtual CKBOOL IsLinear() CK_PURE;
+    virtual CKBOOL IsLinear() = 0;
 
     /*************************************************
     Summary: Sets the curve to be linear from this point to the next.
@@ -118,7 +108,7 @@ public:
         linear: TRUE to set the curve to linear FALSE otherwise.
     See Also: IsLinear
     *************************************************/
-    virtual void SetLinear(CKBOOL linear = FALSE) CK_PURE;
+    virtual void SetLinear(CKBOOL linear = FALSE) = 0;
 
     /*************************************************
     Summary: Uses TCB data or explicit tangents
@@ -129,7 +119,7 @@ public:
         using TCB parameters ( SetTension,SetContinuity,SetBias) or given explicitly through SetTangents
     See Also:SetTangents,SetTension,SetContinuity,SetBias
     *************************************************/
-    virtual void UseTCB(CKBOOL use = TRUE) CK_PURE;
+    virtual void UseTCB(CKBOOL use = TRUE) = 0;
 
     /************************************************
     Summary: Checks the usage of TCB parameters.
@@ -137,7 +127,7 @@ public:
     Return Value: TRUE to force usage of TCB data, FALSE to use tangents.
     See Also: UseTCB
     ************************************************/
-    virtual CKBOOL IsTCB() CK_PURE;
+    virtual CKBOOL IsTCB() = 0;
 
     //---------------------------------------------
 
@@ -147,7 +137,7 @@ public:
 
     See Also: CKCurve::GetLength
     *************************************************/
-    virtual float GetLength() CK_PURE;
+    virtual float GetLength() = 0;
 
     //----------------------------------------------
     // Tangents
@@ -160,20 +150,20 @@ public:
         out:pointer to VxVector
     See also: SetTangents
     *************************************************/
-    virtual void GetTangents(VxVector *in, VxVector *out) CK_PURE;
+    virtual void GetTangents(VxVector *in, VxVector *out) = 0;
 
     /*************************************************
     Summary: Sets the tangents at this point.
     Arguments:
         in: A pointer to VxVector to the incoming tangent
-        out: A pointer to VxVector to the outgoin tangent
+        out: A pointer to VxVector to the outgoing tangent
     Remarks:
         + Sets the incoming and outgoing tangents to the
           curve at this control point.
 
     See also: GetTangents
     *************************************************/
-    virtual void SetTangents(VxVector *in, VxVector *out) CK_PURE;
+    virtual void SetTangents(VxVector *in, VxVector *out) = 0;
 
     /*************************************************
     Summary: Notifies the curve if any parameter gets modified.
@@ -182,7 +172,7 @@ public:
 
     See also:
     *************************************************/
-    virtual void NotifyUpdate() CK_PURE;
+    virtual void NotifyUpdate() = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -205,4 +195,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKCURVEPOINT_H

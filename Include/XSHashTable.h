@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : XSHashTable.h												 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XSHashTable_H_
-#define _XSHashTable_H_
+#ifndef XSHASHTABLE_H
+#define XSHASHTABLE_H
 
 #include "XArray.h"
 #include "XHashFun.h"
@@ -283,7 +276,7 @@ public:
     XSHashTablePair(XSHashTableIt<T, K, H> it, int n) : m_Iterator(it), m_New(n){};
 
     XSHashTableIt<T, K, H> m_Iterator;
-    BOOL m_New;
+    XBOOL m_New;
 };
 
 /************************************************
@@ -332,26 +325,26 @@ public:
     Summary: Constructors.
 
     Input Arguments:
-        initialsize: The default number of buckets
+        initialize: The default number of buckets
         (should be a power of 2, otherwise will be
         converted.)
         l: Load Factor (see Class Description).
         a: hash table to copy.
 
     ************************************************/
-    XSHashTable(int initialsize = 8, float l = 0.75f)
+    XSHashTable(int initialize = 8, float l = 0.75f)
     {
         int dec = -1;
-        while (initialsize)
+        while (initialize)
         {
-            initialsize >>= 1;
+            initialize >>= 1;
             dec++;
         }
         if (dec > -1)
-            initialsize = 1 << dec;
+            initialize = 1 << dec;
         else
-            initialsize = 1; // No 0 size allowed
-        m_Table.Resize(initialsize);
+            initialize = 1; // No 0 size allowed
+        m_Table.Resize(initialize);
 
         if (l <= 0.0)
             l = 0.75f;
@@ -404,7 +397,7 @@ public:
     Summary: Affectation operator.
 
     Remarks:
-        The content of the table is enterely overwritten
+        The content of the table is entirely overwritten
     by the given table.
     ************************************************/
     tTable &operator=(const tTable &a)
@@ -427,7 +420,7 @@ public:
         key: key of the element to insert.
         o: element to insert.
         override: if the key is already present, should
-    the old element be overriden ?
+    the old element be overridden ?
 
     Return Value: TRUE if the value was really inserted,
     else otherwise.
@@ -438,7 +431,7 @@ public:
     TestInsert returns a XHashPair, which allow you to know
     if the element was already present.
     ************************************************/
-    BOOL Insert(const K &key, const T &o, BOOL override)
+    XBOOL Insert(const K &key, const T &o, XBOOL override)
     {
         // Insert x as active
         int index = XFindPos(key);
@@ -520,7 +513,7 @@ public:
         key: key of the element to remove.
         it: iterator on the object to remove.
 
-    Return Value: iterator on the lement next to
+    Return Value: iterator on the element next to
     the one just removed.
 
     ************************************************/
@@ -644,7 +637,7 @@ public:
     otherwise..
 
     ************************************************/
-    BOOL LookUp(const K &key, T &value) const
+    XBOOL LookUp(const K &key, T &value) const
     {
         pEntry e = XFindIndex(key);
         if (e)
@@ -833,4 +826,4 @@ private:
     float m_LoadFactor;
 };
 
-#endif
+#endif // XSHASHTABLE_H

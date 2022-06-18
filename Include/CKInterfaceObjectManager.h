@@ -1,13 +1,5 @@
-/*************************************************************************/
-/*	File : CKInterfaceObjectManager.h									 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Base Class for Virtools Managers									 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKINTERFACE_H
-#define CKINTERFACE_H "$Id:$"
+#define CKINTERFACE_H
 
 #include "CKObject.h"
 
@@ -41,6 +33,11 @@ public:
     static CKInterfaceObjectManager *CreateInstance(CKContext *Context);
     static void ReleaseInstance(CKContext *iContext, CKInterfaceObjectManager *);
     static CK_ID m_ClassID;
+
+private:
+    int m_Count;
+    CKStateChunk *m_Chunks;
+    CKGUID m_Guid;
 };
 
-#endif
+#endif // CKINTERFACE_H

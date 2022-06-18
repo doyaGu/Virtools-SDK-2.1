@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKSceneObjectDesc.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSCENEOBJECTDESC_H
-#define CKSCENEOBJECTDESC_H "$Id:$"
+#define CKSCENEOBJECTDESC_H
 
 #include "CKObject.h"
 
@@ -30,20 +23,20 @@ public:
     void Clear();
     void Init(CKObject *obj = NULL);
 
-    BOOL ActiveAtStart() { return m_Flags & CK_SCENEOBJECT_START_ACTIVATE; }
-    BOOL DeActiveAtStart() { return m_Flags & CK_SCENEOBJECT_START_DEACTIVATE; }
-    BOOL NothingAtStart() { return m_Flags & CK_SCENEOBJECT_START_LEAVE; }
-    BOOL ResetAtStart() { return m_Flags & CK_SCENEOBJECT_START_RESET; }
-    BOOL IsActive() { return m_Flags & CK_SCENEOBJECT_ACTIVE; }
+    CKDWORD ActiveAtStart() { return m_Flags & CK_SCENEOBJECT_START_ACTIVATE; }
+    CKDWORD DeActiveAtStart() { return m_Flags & CK_SCENEOBJECT_START_DEACTIVATE; }
+    CKDWORD NothingAtStart() { return m_Flags & CK_SCENEOBJECT_START_LEAVE; }
+    CKDWORD ResetAtStart() { return m_Flags & CK_SCENEOBJECT_START_RESET; }
+    CKDWORD IsActive() { return m_Flags & CK_SCENEOBJECT_ACTIVE; }
 
 public:
     CK_ID m_Object;
     CKStateChunk *m_InitialValue;
     union
     {
-        DWORD m_Global;
-        DWORD m_Flags;
+        CKDWORD m_Global;
+        CKDWORD m_Flags;
     };
 };
 
-#endif
+#endif // CKSCENEOBJECTDESC_H

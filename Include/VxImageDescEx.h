@@ -1,7 +1,6 @@
 #ifndef VXIMAGEDESCEX_H
 #define VXIMAGEDESCEX_H
 
-#include "XUtil.h"
 #include "VxMathDefines.h"
 
 /****************************************************************
@@ -10,7 +9,7 @@ Name: VxImageDescEx
 Summary: Enhanced Image description
 
 Remarks:
-The VxImageDescEx holds basically an VxImageDesc with additionnal support for
+The VxImageDescEx holds basically an VxImageDesc with additional support for
 Colormap, Image pointer and is ready for future enhancements.
 
 
@@ -18,7 +17,7 @@ Colormap, Image pointer and is ready for future enhancements.
 typedef struct VxImageDescEx
 {
     int Size;    // Size of the structure
-    DWORD Flags; // Reserved for special formats (such as compressed ) 0 otherwise
+    XULONG Flags; // Reserved for special formats (such as compressed ) 0 otherwise
 
     int Width;  // Width in pixel of the image
     int Height; // Height in pixel of the image
@@ -30,44 +29,45 @@ typedef struct VxImageDescEx
     int BitsPerPixel; // Number of bits per pixel
     union
     {
-        DWORD RedMask;    // Mask for Red component
-        DWORD BumpDuMask; // Mask for Bump Du component
+        XULONG RedMask;    // Mask for Red component
+        XULONG BumpDuMask; // Mask for Bump Du component
     };
     union
     {
-        DWORD GreenMask;  // Mask for Green component
-        DWORD BumpDvMask; // Mask for Bump Dv component
+        XULONG GreenMask;  // Mask for Green component
+        XULONG BumpDvMask; // Mask for Bump Dv component
     };
     union
     {
-        DWORD BlueMask;    // Mask for Blue component
-        DWORD BumpLumMask; // Mask for Luminance component
+        XULONG BlueMask;    // Mask for Blue component
+        XULONG BumpLumMask; // Mask for Luminance component
     };
-    DWORD AlphaMask; // Mask for Alpha component
+    XULONG AlphaMask; // Mask for Alpha component
 
     short BytesPerColorEntry; // ColorMap Stride
     short ColorMapEntries;    // If other than 0 image is palletized
 
-    BYTE *ColorMap; // Palette colors
-    BYTE *Image;    // Image
+    XBYTE *ColorMap; // Palette colors
+    XBYTE *Image;    // Image
 
 public:
     VxImageDescEx()
     {
         Size = sizeof(VxImageDescEx);
-        memset((BYTE *)this + 4, 0, Size - 4);
+        memset((XBYTE *)this + 4, 0, Size - 4);
     }
 
     void Set(const VxImageDescEx &desc)
     {
         Size = sizeof(VxImageDescEx);
         if (desc.Size < Size)
-            memset((BYTE *)this + 4, 0, Size - 4);
+            memset((XBYTE *)this + 4, 0, Size - 4);
         if (desc.Size > Size)
             return;
-        memcpy((BYTE *)this + 4, (BYTE *)&desc + 4, desc.Size - 4);
+        memcpy((XBYTE *)this + 4, (XBYTE *)&desc + 4, desc.Size - 4);
     }
-    BOOL HasAlpha()
+
+    XBOOL HasAlpha()
     {
         return ((AlphaMask != 0) || (Flags >= _DXT1));
     }
@@ -94,4 +94,4 @@ public:
 
 } VxImageDescEx;
 
-#endif
+#endif // VXIMAGEDESCEX_H

@@ -1,14 +1,6 @@
-/*************************************************************************/
-/*	File : VxSharedLibrary.h											 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXSHAREDLIBRARY_H
-#define VXSHAREDLIBRARY_H "$Id:$"
+#define VXSHAREDLIBRARY_H
 
-#include "XUtil.h"
 #include "VxMathDefines.h"
 
 /***********************************************************************
@@ -46,10 +38,10 @@ public:
     VX_EXPORT void ReleaseLibrary();
 
     // Retrieves a function pointer from the library
-    VX_EXPORT void *GetFunctionPtr(char *FuntioncName);
+    VX_EXPORT void *GetFunctionPtr(char *FunctionName);
 
 protected:
     INSTANCE_HANDLE m_LibraryHandle;
 };
 
-#endif
+#endif // VXSHAREDLIBRARY_H

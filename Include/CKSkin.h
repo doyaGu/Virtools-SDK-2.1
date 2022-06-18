@@ -1,14 +1,8 @@
-/*************************************************************************/
-/*	File : CKSkin.h														 */
-/*	Author :Romain Sididris												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSKIN_H
-#define CKSKIN_H "$Id:$"
+#define CKSKIN_H
 
 #include "CKDefines.h"
+#include "VxVector.h"
 
 /******************************************************
 Summary: Bone information in a Skin
@@ -74,6 +68,7 @@ public:
     See Also:GetBoneCount,SetBone,GetBone,GetWeight
     **********************************************/
     virtual void SetBoneCount(int BoneCount) = 0;
+
     /*********************************************
     Summary: Gets the number of bones that influence this vertex.
     Return Value:
@@ -81,6 +76,7 @@ public:
     See Also:SetBoneCount,SetBone,GetBone,GetWeight
     **********************************************/
     virtual int GetBoneCount() = 0;
+
     /*********************************************
     Summary: Gets the index of the n-th bone that influences this vertex.
     Arguments:
@@ -91,6 +87,7 @@ public:
     See Also:GetBoneCount,SetBone,GetWeight,CKSkin::GetBoneData.
     **********************************************/
     virtual int GetBone(int n) = 0;
+
     /*********************************************
     Summary: Sets the index of the n-th bone that influences this vertex.
     Arguments:
@@ -109,6 +106,7 @@ public:
     See Also:GetBoneCount,GetBone,SetWeight
     **********************************************/
     virtual float GetWeight(int n) = 0;
+
     /*********************************************
     Summary: Sets the influence of the n-th bone.
     Arguments:
@@ -125,6 +123,7 @@ public:
     See Also:SetInitialPos,CKBoneData::SetBoneInitialInverseMatrix
     **********************************************/
     virtual VxVector &GetInitialPos() = 0;
+
     /*********************************************
     Summary: Gets the original position of this vertex.
     Arguments:
@@ -147,7 +146,7 @@ Summary : Skin
 
 Remarks:
 
-+ In a standard mesh the vertices are all transformed by the same 3d Entity world matrice
++ In a standard mesh the vertices are all transformed by the same 3d Entity world matrices
 to be rendered. Skinning is the technique of having different vertices of a mesh be
 transformed by multiple transform matrices each of these matrices being given a different influence (weight).
 
@@ -176,6 +175,7 @@ public:
     See Also:CK3dEntity::CreateSkin
     **********************************************/
     virtual void SetObjectInitMatrix(const VxMatrix &Mat) = 0;
+
     /*********************************************
     Summary: Sets the number of bones in the skin.
 
@@ -186,6 +186,7 @@ public:
     See Also:SetVertexCount,GetBoneCount,GetBoneData
     **********************************************/
     virtual void SetBoneCount(int BoneCount) = 0;
+
     /*********************************************
     Summary: Sets the number of vertices in the skin.
 
@@ -196,6 +197,7 @@ public:
     See Also:GetVertexCount,GetBoneCount,GetVertexData
     **********************************************/
     virtual void SetVertexCount(int Count) = 0;
+
     /*********************************************
     Summary: Gets the number of bones in the skin.
 
@@ -206,6 +208,7 @@ public:
     See Also:SetVertexCount,SetBoneCount,GetBoneData
     **********************************************/
     virtual int GetBoneCount() = 0;
+
     /*********************************************
     Summary: Gets the number of vertices in the skin.
 
@@ -229,7 +232,7 @@ public:
     virtual void ConstructBoneTransfoMatrices(CKContext *context) = 0;
 
     /*********************************************
-    Summary: Computes the tranformed vertices positions.
+    Summary: Computes the transformed vertices positions.
 
     Arguments:
         VertexCount: Number of vertices to be computed.
@@ -241,7 +244,7 @@ public:
         + ConstructBoneTransfoMatrices must have been called before evaluating the vertices transformed positions.
     See Also:ConstructBoneTransfoMatrices
     **********************************************/
-    virtual CKBOOL CalcPoints(int VertexCount, BYTE *VertexPtr, CKDWORD VStride) = 0;
+    virtual CKBOOL CalcPoints(int VertexCount, CKBYTE *VertexPtr, CKDWORD VStride) = 0;
 
     /*********************************************
     Summary: Gets description of the n-th bone.
@@ -249,10 +252,11 @@ public:
     Arguments:
         BoneIdx: Index of the bone which description should be returned
     Return Value:
-        A pointer to CKSkinBoneData that contains the bone information (CK3dEntity,orginal orientation..).
+        A pointer to CKSkinBoneData that contains the bone information (CK3dEntity,original orientation..).
     See Also:CKSkinBoneData,SetBoneCount,GetBoneCount
     **********************************************/
     virtual CKSkinBoneData *GetBoneData(int BoneIdx) = 0;
+
     /*********************************************
     Summary: Gets description of the n-th vertex.
 
@@ -263,6 +267,7 @@ public:
     See Also:CKSkinVertexData,SetVertexCount,GetVertexCount
     **********************************************/
     virtual CKSkinVertexData *GetVertexData(int VertexIdx) = 0;
+
     /*********************************************
     Summary: Changes the order of the vertices.
 
@@ -299,7 +304,7 @@ public:
     virtual VxVector &GetNormal(int Index) = 0;
 
     /*********************************************
-    Summary: Computes the tranformed vertices positions and Normals.
+    Summary: Computes the transformed vertices positions and Normals.
 
     Return Value:
         TRUE if successful.
@@ -315,7 +320,7 @@ public:
         + ConstructBoneTransfoMatrices must have been called before evaluating the vertices transformed positions.
     See Also:ConstructBoneTransfoMatrices
     **********************************************/
-    virtual CKBOOL CalcPoints(int VertexCount, BYTE *VertexPtr, CKDWORD VStride, BYTE *NormalPtr, CKDWORD NStride) = 0;
+    virtual CKBOOL CalcPoints(int VertexCount, CKBYTE *VertexPtr, CKDWORD VStride, CKBYTE *NormalPtr, CKDWORD NStride) = 0;
 };
 
-#endif
+#endif // CKSKIN_H

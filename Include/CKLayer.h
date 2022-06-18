@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKLayer.h													 */
-/*	Author :  Cabrita Francisco											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef CKLayer_H
-#define CKLayer_H "$Id:$"
+#ifndef CKLAYER_H
+#define CKLAYER_H
 
 #include "CKObject.h"
 #include "CKSquare.h"
@@ -21,7 +14,7 @@
 Summary: Grid layer class.
 
 Remarks:
-    + A CKlayer is only used to store an array of value for a given
+    + A CKLayer is only used to store an array of value for a given
     layer type in a grid.
 
 {image:layer}
@@ -34,8 +27,6 @@ Remarks:
 
     + Layer data is stored in an array[length][width] of CKSquare where CKSquare is defined as
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
         class CKSquare {
               union{
                 int     ival;
@@ -44,9 +35,6 @@ Remarks:
                 void    *ptr;
               };
         };
-
-{html:</td></tr></table>}
-
 
     + The Class Identifier of a Layer is CKCID_LAYER
 
@@ -89,13 +77,11 @@ public:
         val: A pointer to the value to set.
     Remarks:
     + The SetValue function does not perform any check about the coordinates validity so
-    it is the application responsabilty to ensure x and y are valid coordinates or
+    it is the application responsibility to ensure x and y are valid coordinates or
     use SetValue2 which will be slower.
     + val is supposed to be a pointer to a CKSquare, int, float or any 4 byte data...
     + The usual usage is to store integer value.
-    + The content of iVal is used immediatly and is not needed anymore afterwards.
-
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
+    + The content of iVal is used immediately and is not needed anymore afterwards.
 
                 for (int y = 0; y < Height; y++) {
                     for (int x = 0; x < Width; x++) {
@@ -104,8 +90,6 @@ public:
                         layer->SetValue(x,y,&valueToSet);
                     }
                 }
-
-    {html:</td></tr></table>}
 
     See also: GetValue, SetValue2, GetValue2, SetSquareArray, GetSquareArray
     ************************************************/
@@ -120,16 +104,12 @@ public:
         val: a pointer to the variable that will get the value
     Remarks:
     + The GetValue function does not perform any check about the coordinates validity so
-    it is the application responsabilty to ensure x and y are valid coordinates or
+    it is the application responsibility to ensure x and y are valid coordinates or
     use GetValue2 which will be slower.
     + val is supposed to be a pointer to a CKSquare, int, float or any 4 byte data...
 
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
                 int valueToGet;
                 layer->GetValue(x,y,&valueToGet);
-
-    {html:</td></tr></table>}
 
     See also: SetValue, GetValue2, SetValue2, SetSquareArray, GetSquareArray
 
@@ -143,11 +123,9 @@ public:
     /************************************************
     Summary: Direct Access to the layer squares Array
 
-    Return Value: The adress of the CKSquare array.
+    Return Value: The address of the CKSquare array.
     Remarks:
     Layer data is stored in an array[length][width] of CKSquare where CKSquare is defined as
-
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
             class CKSquare {
                   union{
@@ -158,11 +136,7 @@ public:
                   };
             };
 
-    {html:</td></tr></table>}
-
     The example shown in SetValue method can be coded more efficiently using this method.
-
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
                 for (int x = 0; x < Width; x++) {
                     for (int y = 0; y < Height; y++) {
@@ -184,7 +158,6 @@ public:
                     }
                 }
 
-    {html:</td></tr></table>}
     See also: SetSquareArray, GetValue, GetValue2, SetValue, SetValue2
     ************************************************/
     virtual CKSquare *GetSquareArray() = 0;
@@ -233,4 +206,4 @@ public:
     CKLayer(CKContext *Context, CKSTRING name = NULL) : CKObject(Context, name) {}
 };
 
-#endif
+#endif // CKLAYER_H

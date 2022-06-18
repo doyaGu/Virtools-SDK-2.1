@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : VxOBB.h														 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VxOBB_H
 #define VxOBB_H
 
@@ -133,4 +126,4 @@ public:
     VxVector m_Extents;
 };
 
-#endif
+#endif // VxOBB_H

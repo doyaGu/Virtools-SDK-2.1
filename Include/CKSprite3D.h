@@ -1,18 +1,8 @@
-/*************************************************************************/
-/*	File : CKSprite3d.h													 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKSPRITE3D_H) || defined(CK_3DIMPLEMENTATION)
-#define CKSPRITE3D_H "$Id:$"
+#define CKSPRITE3D_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CK3dEntity.h"
-
-#undef CK_PURE
-#define CK_PURE = 0
 
 /****************************************************************************
 {filename:CKSprite3D}
@@ -48,7 +38,7 @@ public:
 
     See also: GetMaterial,CKMaterial,CKTexture,Using Materials
     ************************************************/
-    virtual void SetMaterial(CKMaterial *Mat) CK_PURE;
+    virtual void SetMaterial(CKMaterial *Mat) = 0;
 
     /************************************************
     Summary: Returns the material used by the sprite for rendering.
@@ -59,7 +49,7 @@ public:
 
     See also: SetMaterial,CKMaterial,CKTexture
     ************************************************/
-    virtual CKMaterial *GetMaterial() CK_PURE;
+    virtual CKMaterial *GetMaterial() = 0;
 
     /************************************************
     Summary: Sets the size of the rectangular shape of the sprite.
@@ -70,7 +60,7 @@ public:
 
     See also: GetOffset, GetSize
     ************************************************/
-    virtual void SetSize(Vx2DVector &vect) CK_PURE;
+    virtual void SetSize(Vx2DVector &vect) = 0;
 
     /************************************************
     Summary: Gets the size of the rectangular shape of the sprite.
@@ -81,7 +71,7 @@ public:
 
     See also: SetSize
     ************************************************/
-    virtual void GetSize(Vx2DVector &vect) CK_PURE;
+    virtual void GetSize(Vx2DVector &vect) = 0;
 
     /************************************************
     Summary: Sets the offset between the 3dEntity center and the center of the rectangular shape of the sprite.
@@ -95,7 +85,7 @@ public:
 
     See also: GetOffset,SetSize,GetSize
     ************************************************/
-    virtual void SetOffset(Vx2DVector &vect) CK_PURE;
+    virtual void SetOffset(Vx2DVector &vect) = 0;
 
     /************************************************
     Summary: Returns the offset between the 3dEntity center and the center of the rectangular shape of the sprite.
@@ -109,7 +99,7 @@ public:
 
     See also: GetOffset,SetSize,GetSize
     ************************************************/
-    virtual void GetOffset(Vx2DVector &vect) CK_PURE;
+    virtual void GetOffset(Vx2DVector &vect) = 0;
 
     /************************************************
     Summary: Sets the texture mapping of the Sprite3D.
@@ -120,7 +110,7 @@ public:
 
     See also: GetUVMapping
     ************************************************/
-    virtual void SetUVMapping(VxRect &rect) CK_PURE;
+    virtual void SetUVMapping(VxRect &rect) = 0;
 
     /************************************************
     Summary: Returns the texture mapping of the Sprite3D.
@@ -131,7 +121,7 @@ public:
 
     See also: GetUVMapping
     ************************************************/
-    virtual void GetUVMapping(VxRect &rect) CK_PURE;
+    virtual void GetUVMapping(VxRect &rect) = 0;
 
     /************************************************
     Summary: Sets the orientation mode of the Sprite3D.
@@ -144,7 +134,7 @@ public:
 
     See also: VXSPRITE3D_TYPE,GetMode
     ************************************************/
-    virtual void SetMode(VXSPRITE3D_TYPE Mode) CK_PURE;
+    virtual void SetMode(VXSPRITE3D_TYPE Mode) = 0;
 
     /************************************************
     Summary: Gets the orientation mode of the Sprite3D.
@@ -153,7 +143,7 @@ public:
 
     See also: VXSPRITE3D_TYPE, SetMode
     ************************************************/
-    virtual VXSPRITE3D_TYPE GetMode() CK_PURE;
+    virtual VXSPRITE3D_TYPE GetMode() = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -176,4 +166,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKSPRITE3D_H

@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKDebugContext.h			 			 						 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKDEBUGCONTEXT_H
-#define CKDEBUGCONTEXT_H "$Id:$"
+#define CKDEBUGCONTEXT_H
 
 #include "CKObjectArray.h"
 
@@ -57,4 +50,4 @@ public:
     }
 };
 
-#endif
+#endif // CKDEBUGCONTEXT_H

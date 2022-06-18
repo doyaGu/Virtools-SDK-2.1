@@ -1,19 +1,8 @@
-/*************************************************************************/
-/*	File : CKCharacter.h 			 				 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKCHARACTER_H) || defined(CK_3DIMPLEMENTATION)
-
-#define CKCHARACTER_H "$Id:$"
+#define CKCHARACTER_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CK3dEntity.h"
-
-#undef CK_PURE
-#define CK_PURE = 0
 
 /*************************************************
 {filename:CKCharacter}
@@ -23,32 +12,32 @@ Summary: Representation of character
 
 Remarks:
 {Image:Character}
-+ A CKCharacter is defined as an articulated hierarchical set of bodyparts.A character must be a hierarchy of object (CKBodyPart) with an unique root object giving position and orientation
-(optionnal for orientation).
++ A CKCharacter is defined as an articulated hierarchical set of body-parts.A character must be a hierarchy of object (CKBodyPart) with an unique root object giving position and orientation
+(optional for orientation).
 
 + A character may have an object called Floor referencer which is used (if present)
 by behaviors to make the characters detect floors. This object should be a child of
 the root and contain the keywords ""Pas"","Foot" or "FloorRef" in its name to be automatically recognized
 otherwise use SetFloorReferenceObject to precise a custom object.
 
-+ It can have animations attached and provides default functionnalities to
-handle these animations and their transitions. This behavior can be overriden by calling
++ It can have animations attached and provides default functionalities to
+handle these animations and their transitions. This behavior can be override by calling
 SetAutomaticProcess(FALSE). The processing of animations on characters occurs each frame before the
 processing of behaviors. The automatic processing of animation plays the active animation until its
 a new animation is set to be played using SetNextActiveAnimation, when a new animation becomes active
 any kind of transitions can be made (smooth,to the start of the next animation,break,etc...)
 
 + In addition to the active animation, secondary animations may be played concurrently.
-If there are bodyparts that are used by both animations the secondary animations have
+If there are body-parts that are used by both animations the secondary animations have
 priority on the currently active animation.
 
-+ The objects making a character are called Bodyparts (CKBodyPart which derives from CK3dObject). While names
-may be pure conveniency with other objects, Bodyparts name are used by loaders to detect to which particuliar object
-an animation should be attributed. If there is a bodypart that should not be modify by the character animation (for
++ The objects making a character are called Body-parts (CKBodyPart which derives from CK3dObject). While names
+may be pure convenience with other objects, Body-parts name are used by loaders to detect to which particular object
+an animation should be attributed. If there is a body-part that should not be modify by the character animation (for
 procedural animation of the head for example), it can be disabled by using CK3dEntity::IgnoreAnimations()
 
 + As a child class of CKBeObject and CK3dEntity, CKCharacter inherits all their methods for
-placement and behaviors gestion.
+placement and behaviors gestation.
 
 + The class id of CKCharacter is CKCID_CHARACTER.
 
@@ -63,24 +52,24 @@ public:
     // BodyParts
 
     /************************************************
-    Summary: Adds a bodypart to this character.
+    Summary: Adds a body-part to this character.
     Arguments:
         part : A pointer to the CKBodyPart to be added.
     Return Value: CK_OK if successful or CKERR_ALREADYPRESENT if part is already a member of this character.
 
     See also: RemoveBodyPart,GetRootBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKERROR AddBodyPart(CKBodyPart *part) CK_PURE;
+    virtual CKERROR AddBodyPart(CKBodyPart *part) = 0;
 
     /************************************************
-    Summary: Removes a bodypart from this character.
+    Summary: Removes a body-part from this character.
     Arguments:
         part : A pointer to the CKBodyPart to be removed
     Return Value: CK_OK if successful,CKERR_INVALIDPARAMETER otherwise.
 
     See also: AddBodyPart,GetRootBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKERROR RemoveBodyPart(CKBodyPart *part) CK_PURE;
+    virtual CKERROR RemoveBodyPart(CKBodyPart *part) = 0;
 
     /************************************************
     Summary: Gets the root body part.
@@ -91,40 +80,40 @@ public:
 
     See also: AddBodyPart,RemoveBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKBodyPart *GetRootBodyPart() CK_PURE;
+    virtual CKBodyPart *GetRootBodyPart() = 0;
 
     /************************************************
-    Summary: Forces the character to use a specific bodypart as its RootBodyPart
+    Summary: Forces the character to use a specific body-part as its RootBodyPart
     Arguments:
         part:A pointer to a CKBodyPart that should be set as the root body part.
     Return Value: CK_OK if successful, error code otherwise.
     Remarks:
-    + When adding animations and bodyparts to a character the root bodypart is
+    + When adding animations and body-parts to a character the root body-part is
     automatically detected
     + A character must always have only one root object which will
     be used for the movement of the character.
 
     See also: GetRootBodyPart,AddBodyPart,RemoveBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKERROR SetRootBodyPart(CKBodyPart *part) CK_PURE;
+    virtual CKERROR SetRootBodyPart(CKBodyPart *part) = 0;
 
     /************************************************
-    Summary: Gets a bodypart at a given index.
+    Summary: Gets a body-part at a given index.
     Arguments:
-        index : Index of the bodypart to be obtained.
-    Return Value: A pointer to the indexth bodypart of the character.
+        index : Index of the body-part to be obtained.
+    Return Value: A pointer to the index body-part of the character.
 
     See also: GetRootBodyPart,AddBodyPart,RemoveBodyPart,GetBodyPartCount
     ************************************************/
-    virtual CKBodyPart *GetBodyPart(int index) CK_PURE;
+    virtual CKBodyPart *GetBodyPart(int index) = 0;
 
     /************************************************
-    Summary: Gets the number of bodyparts of this character.
-    Return Value: The number of bodyparts.
+    Summary: Gets the number of body-parts of this character.
+    Return Value: The number of body-parts.
 
     See also: GetRootBodyPart,AddBodyPart,RemoveBodyPart,GetBodyPart
     ************************************************/
-    virtual int GetBodyPartCount() CK_PURE;
+    virtual int GetBodyPartCount() = 0;
 
     //-----------------------------------------------------
     // Animations
@@ -137,7 +126,7 @@ public:
 
     See also: RemoveAnimation,GetAnimation,GetAnimationCount
     *******************************************************/
-    virtual CKERROR AddAnimation(CKAnimation *anim) CK_PURE;
+    virtual CKERROR AddAnimation(CKAnimation *anim) = 0;
 
     /*******************************************************
     Summary: Removes an animation from the character
@@ -147,7 +136,7 @@ public:
 
     See also: AddAnimation,GetAnimation,GetAnimationCount
     *******************************************************/
-    virtual CKERROR RemoveAnimation(CKAnimation *anim) CK_PURE;
+    virtual CKERROR RemoveAnimation(CKAnimation *anim) = 0;
 
     /************************************************
     Summary: Gets a specific animation given its index.
@@ -157,7 +146,7 @@ public:
 
     See also: AddAnimation,GetAnimation,GetAnimationCount
     ************************************************/
-    virtual CKAnimation *GetAnimation(int index) CK_PURE;
+    virtual CKAnimation *GetAnimation(int index) = 0;
 
     /************************************************
     Summary: Gets the number of animations in this character.
@@ -165,7 +154,7 @@ public:
 
     See also: RemoveAnimation,GetAnimation,GetAnimationCount
     ************************************************/
-    virtual int GetAnimationCount() CK_PURE;
+    virtual int GetAnimationCount() = 0;
 
     /************************************************
     Summary: Gets the animation used to make transitions.
@@ -177,7 +166,7 @@ public:
 
     See also: AddAnimation,RemoveAnimation,GetAnimation,GetAnimationCount,GetWarperParameters
     ************************************************/
-    virtual CKAnimation *GetWarper() CK_PURE;
+    virtual CKAnimation *GetWarper() = 0;
 
     //-----------------------------------------------------
     // Playing Animations
@@ -188,7 +177,7 @@ public:
 
     See also: SetActiveAnimation,SetNextActiveAnimation
     ************************************************/
-    virtual CKAnimation *GetActiveAnimation() CK_PURE;
+    virtual CKAnimation *GetActiveAnimation() = 0;
 
     /************************************************
     Summary: Gets the animation that will be played next.
@@ -196,7 +185,7 @@ public:
 
     See also: GetActiveAnimation,SetActiveAnimation,SetNextActiveAnimation
     ************************************************/
-    virtual CKAnimation *GetNextActiveAnimation() CK_PURE;
+    virtual CKAnimation *GetNextActiveAnimation() = 0;
 
     /************************************************
     Summary: Forces the current active animation
@@ -210,7 +199,7 @@ public:
         any transition.
     See also: GetActiveAnimation,GetNextActiveAnimation,SetNextActiveAnimation
     ************************************************/
-    virtual CKERROR SetActiveAnimation(CKAnimation *anim) CK_PURE;
+    virtual CKERROR SetActiveAnimation(CKAnimation *anim) = 0;
 
     /*************************************************
     Summary: Sets the next animation to be played by the character
@@ -226,27 +215,27 @@ public:
     Depending on transitionmode value, this function may :
 
     + Create a transition animation between current position and next animation which will be played before playing anim.
-    + Set anim as Active Animation immediatly (break).
+    + Set anim as Active Animation immediately (break).
     + Continue playing current animation in loop.
 
     if transitionmode is CK_TRANSITION_FROMANIMATION then the transition mode will be taken from the
     animation parameters (set with CKAnimation::SetTransitionMode
-    The UnlimittedController building block in the Character catagory is good sample to see the different usage of transition mode.
+    The UnlimittedController building block in the Character category is good sample to see the different usage of transition mode.
     Examples:
-    // If the current active animation is anim then the function returns immediatly otherwise
+    // If the current active animation is anim then the function returns immediately otherwise
     // if the current active animation can be stopped then a transition animation will be created
     // which will be 5 frames long then anim will be played from the frame to which the positions of
-    // the character and its bodyparts is the closest match to the current ones.
+    // the character and its body-parts is the closest match to the current ones.
         SetNextActiveAnimation(anim,CK_TRANSITION_LOOPIFEQUAL|CK_TRANSITION_USEVELOCITY|CK_TRANSITION_WARPBEST,5.0f);
 
-    // If the current active animation is anim then the function returns immediatly otherwise
+    // If the current active animation is anim then the function returns immediately otherwise
     // if the current active animation can be stopped then a transition animation will be created
     // which will be 5 frames long then anim will be played from the start.
         SetNextActiveAnimation(anim,CK_TRANSITION_LOOPIFEQUAL|CK_TRANSITION_USEVELOCITY|CK_TRANSITION_WARPSTART,5.0f);
 
     See also: GetActiveAnimation,SetActiveAnimation,CK_ANIMATION_TRANSITION_MODE
     *************************************************/
-    virtual CKERROR SetNextActiveAnimation(CKAnimation *anim, CKDWORD transitionmode, float warplength = 0.0f) CK_PURE;
+    virtual CKERROR SetNextActiveAnimation(CKAnimation *anim, CKDWORD transitionmode, float warplength = 0.0f) = 0;
 
     //-----------------------------------------------------
     // animation processing
@@ -261,7 +250,7 @@ public:
 
     See also: SetAutomaticProcess, SetActiveAnimation, SetNextActiveAnimation
     ************************************************/
-    virtual void ProcessAnimation(float deltat = 1.0f) CK_PURE;
+    virtual void ProcessAnimation(float deltat = 1.0f) = 0;
 
     /************************************************
     Summary: Sets whether character animations are processed by the engine.
@@ -271,7 +260,7 @@ public:
 
     See also: IsAutomaticProcess, ProcessAnimation
     ************************************************/
-    virtual void SetAutomaticProcess(CKBOOL process = TRUE) CK_PURE;
+    virtual void SetAutomaticProcess(CKBOOL process = TRUE) = 0;
 
     /************************************************
     Summary: Checks whether animations are processed by the engine.
@@ -279,7 +268,7 @@ public:
 
     See also: SetAutomaticProcess, ProcessAnimation
     ************************************************/
-    virtual CKBOOL IsAutomaticProcess() CK_PURE;
+    virtual CKBOOL IsAutomaticProcess() = 0;
 
     /************************************************
     Summary: Gets the velocity vector of the character.
@@ -292,7 +281,7 @@ public:
 
     See Also:CKTimeManager
     ************************************************/
-    virtual void GetEstimatedVelocity(float deltat, VxVector *velocity) CK_PURE;
+    virtual void GetEstimatedVelocity(float deltat, VxVector *velocity) = 0;
 
     //-----------------------------------------------------
     // Secondary Animations
@@ -309,12 +298,12 @@ public:
     Remarks:
         + The secondary animations have priority over primary animations, they force the movement of
         bodyparts that they referenced. Most of the time these animations will be specific to parts of
-        the characters (arms for example) and should not referenced the root bodypart as its the object
+        the characters (arms for example) and should not referenced the root body-part as its the object
         that gives the character movement.
 
     See also: StopSecondaryAnimation
     ************************************************/
-    virtual CKERROR PlaySecondaryAnimation(CKAnimation *anim, float StartingFrame = 0.0f, CK_SECONDARYANIMATION_FLAGS PlayFlags = CKSECONDARYANIMATION_ONESHOT, float warplength = 5.0f, int LoopCount = 0) CK_PURE;
+    virtual CKERROR PlaySecondaryAnimation(CKAnimation *anim, float StartingFrame = 0.0f, CK_SECONDARYANIMATION_FLAGS PlayFlags = CKSECONDARYANIMATION_ONESHOT, float warplength = 5.0f, int LoopCount = 0) = 0;
 
     /************************************************
     Summary: Stops playing a secondary animation.
@@ -326,8 +315,8 @@ public:
 
     See also: PlaySecondaryAnimation
     ************************************************/
-    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, CKBOOL warp = FALSE, float warplength = 5.0f) CK_PURE;
-    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, float warplength = 5.0f) CK_PURE;
+    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, CKBOOL warp = FALSE, float warplength = 5.0f) = 0;
+    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, float warplength = 5.0f) = 0;
 
     /************************************************
     Summary: Gets the number of secondary animations currently playing on this character.
@@ -335,7 +324,7 @@ public:
 
     See also: PlaySecondaryAnimation,GetSecondaryAnimationCount, StopSecondaryAnimation
     ************************************************/
-    virtual int GetSecondaryAnimationsCount() CK_PURE;
+    virtual int GetSecondaryAnimationsCount() = 0;
 
     /************************************************
     Summary: Gets a secondary animation according to its index.
@@ -345,7 +334,7 @@ public:
 
     See also: PlaySecondaryAnimation, GetSecondaryAnimationCount, StopSecondaryAnimation
     ************************************************/
-    virtual CKAnimation *GetSecondaryAnimation(int index) CK_PURE;
+    virtual CKAnimation *GetSecondaryAnimation(int index) = 0;
 
     /************************************************
     Summary: Removes all secondary animations.
@@ -354,18 +343,18 @@ public:
 
     See also: PlaySecondaryAnimation, StopSecondaryAnimation
     ************************************************/
-    virtual void FlushSecondaryAnimations() CK_PURE;
+    virtual void FlushSecondaryAnimations() = 0;
 
     /************************************************
     Summary: Aligns character position and orientation with its root
     Remarks:
         + This method is automatically called when automatic process
         of the animations is on to align the referential of the character
-        with its root bodypart
+        with its root body-part
 
     See also: GetRootBodyPart, ProcessAnimation, SetAutomaticProcess
     ************************************************/
-    virtual void AlignCharacterWithRootPosition() CK_PURE;
+    virtual void AlignCharacterWithRootPosition() = 0;
 
     /************************************************
     Summary: Gets the entity used to represent floor reference.
@@ -376,7 +365,7 @@ public:
 
     See also: GetRootBodyPart, SetFloorReferenceObject.
     ************************************************/
-    virtual CK3dEntity *GetFloorReferenceObject() CK_PURE;
+    virtual CK3dEntity *GetFloorReferenceObject() = 0;
 
     /************************************************
     Summary: Sets the entity used to represent floor reference.
@@ -388,27 +377,27 @@ public:
 
     See also: GetRootBodyPart, GetFloorReferenceObject
     ************************************************/
-    virtual void SetFloorReferenceObject(CK3dEntity *FloorRef) CK_PURE;
+    virtual void SetFloorReferenceObject(CK3dEntity *FloorRef) = 0;
 
     /************************************************
     Summary: Sets the level of detail for animation processing.
     Arguments:
         LOD : A float value between 0..1 giving the animations level of detail.
     Remarks:
-    + A character that is far from the viewpoint does not need all bodyparts
+    + A character that is far from the viewpoint does not need all body-parts
     animations to be processed.
-    + The animations of the bodyparts are sorted according to their importance in (contribution to)
+    + The animations of the body-parts are sorted according to their importance in (contribution to)
     the global animation of the character. You can use this level of detail to remove
-    the processing of the less important bodyparts animations.
+    the processing of the less important body-parts animations.
     + At the minimum level of detail (0) only the root and floor reference object animations
     are processed (character movement) , at the full level of detail (1.0f)
-    all the bodyparts animations are processed.
+    all the body-parts animations are processed.
 
     See also: GetRootBodyPart, GetFloorReferenceObject
     ************************************************/
-    virtual void SetAnimationLevelOfDetail(float LOD) CK_PURE;
+    virtual void SetAnimationLevelOfDetail(float LOD) = 0;
 
-    virtual float GetAnimationLevelOfDetail() CK_PURE;
+    virtual float GetAnimationLevelOfDetail() = 0;
 
     /************************************************
     Summary: Gets the parameters that were used to create the warping animation.
@@ -425,7 +414,7 @@ public:
 
     See also: GetWarper
     ************************************************/
-    virtual void GetWarperParameters(CKDWORD *TransitionMode, CKAnimation **AnimSrc, float *FrameSrc, CKAnimation **AnimDest, float *FrameDest) CK_PURE;
+    virtual void GetWarperParameters(CKDWORD *TransitionMode, CKAnimation **AnimSrc, float *FrameSrc, CKAnimation **AnimDest, float *FrameDest) = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -448,4 +437,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKCHARACTER_H

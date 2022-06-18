@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKPatchMesh.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKPATCHMESH_H) || defined(CK_3DIMPLEMENTATION)
-#define CKPATCHMESH_H "$Id:$"
+#define CKPATCHMESH_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CKMesh.h"
@@ -37,7 +30,7 @@ typedef struct CKPatch
     short int interior[4];	// Can have three or four interior vecs.
     short int edge[4];		// Indices of the 3 or 4 edges of this patches
     CK_ID Material;			// Material CK_ID for this patch. (CKPatchMesh::SetPatchMaterial)
-    VxVector *auxs;			// An array of 9 auxiliary points instancied at runtime for tri patches (used internally DO NOT modify)
+    VxVector *auxs;			// An array of 9 auxiliary points instantiated at runtime for tri patches (used internally DO NOT modify)
 
     CKPatch()
     {
@@ -82,7 +75,7 @@ typedef struct CKTVPatch
 
 typedef enum CK_PATCHMESH_FLAGS
 {
-    CK_PATCHMESH_UPTODATE          = 1,	// Indicates the mesh is uptodate.
+    CK_PATCHMESH_UPTODATE          = 1,	// Indicates the mesh is up to date.
     CK_PATCHMESH_BUILDNORMALS      = 2,	// Flag to indicate normals to be computed.
     CK_PATCHMESH_MATERIALSUPTODATE = 4,	// Flag to indicate patch materials have been changed.
     CK_PATCHMESH_AUTOSMOOTH        = 8,	// Automatically computes vecs and interiors from control point position.
@@ -100,18 +93,15 @@ typedef enum CK_PATCH_FLAGS
     CK_PATCH_QUAD = 4, // Quad Patch.
 } CK_PATCH_FLAGS;
 
-#undef CK_PURE
-#define CK_PURE = 0
-
 /**************************************************************************
 {filename:CKPatchMesh}
-Summary: Representation of the geometry of a 3Dobject using bezier patches.
+Summary: Representation of the geometry of a 3D object using bezier patches.
 
 Remarks:
 + The CKPatchMesh Class derives from the CKMesh class.
 {Image:CKPatch}
 + It is made up of array of bezier patches (triangular or quadrangular) which
-can be tesselated given an iteration count to construct a standard mesh made up of triangles.
+can be tessellated given an iteration count to construct a standard mesh made up of triangles.
 {Image:PatchTess}
 + In the current implementation only the uniform tesselation is supported. It generates
 a list of strip primitives per material for maximum performances.
@@ -133,7 +123,7 @@ public:
         + This method is not implemented
     {Secret}
     *****************************************************************************/
-    virtual CKERROR FromMesh(CKMesh *m) CK_PURE;
+    virtual CKERROR FromMesh(CKMesh *m) = 0;
 
     /**************************************************************************
     Summary: Converts a bezier patch(CKPatchMesh) to a  mesh(CKMesh).
@@ -141,7 +131,7 @@ public:
         + This method is not implemented
     {Secret}
     *****************************************************************************/
-    virtual CKERROR ToMesh(CKMesh *m, int stepcount) CK_PURE;
+    virtual CKERROR ToMesh(CKMesh *m, int stepcount) = 0;
 
     /**************************************************************************
     Summary: Sets the number of iteration steps to be used for tesselation.
@@ -150,7 +140,7 @@ public:
         count: Step count for tesselation
     See also: GetIterationCount
     *****************************************************************************/
-    virtual void SetIterationCount(int count) CK_PURE;
+    virtual void SetIterationCount(int count) = 0;
 
     /**************************************************************************
     Summary: Gets the number of iteration steps used for tesselation.
@@ -159,7 +149,7 @@ public:
         Step count for tesselation.
     See also: SetIterationCount
     *****************************************************************************/
-    virtual int GetIterationCount() CK_PURE;
+    virtual int GetIterationCount() = 0;
 
     //-------------------------------------
     // Mesh building
@@ -173,25 +163,25 @@ public:
     or the tesselation level has changed before rendering.
     See Also: CleanRenderMesh
     ************************************************/
-    virtual void BuildRenderMesh() CK_PURE;
+    virtual void BuildRenderMesh() = 0;
 
-    virtual void CleanRenderMesh() CK_PURE;
+    virtual void CleanRenderMesh() = 0;
 
-    virtual void Clear() CK_PURE;
+    virtual void Clear() = 0;
 
-    virtual void ComputePatchAux(int index) CK_PURE;
+    virtual void ComputePatchAux(int index) = 0;
 
-    virtual void ComputePatchInteriors(int index) CK_PURE;
+    virtual void ComputePatchInteriors(int index) = 0;
 
-    virtual CKDWORD GetPatchFlags() CK_PURE;
+    virtual CKDWORD GetPatchFlags() = 0;
 
-    virtual void SetPatchFlags(CKDWORD Flags) CK_PURE;
+    virtual void SetPatchFlags(CKDWORD Flags) = 0;
 
     //-------------------------------------------
     // Control Points
 
     /************************************************
-    Summary: Sets verts and vecs counts of the patchmesh.
+    Summary: Sets verts and vecs counts of the patch mesh.
 
     Arguments:
         VertCount: Number of verts (corner control points) to be set.
@@ -200,16 +190,16 @@ public:
         + See CKPatch for more details on the difference between verts and vecs.
     See Also: CKPatch,GetVertCount,SetVert,GetVert,SetVec,GetVec
     ************************************************/
-    virtual void SetVertVecCount(int VertCount, int VecCount) CK_PURE;
+    virtual void SetVertVecCount(int VertCount, int VecCount) = 0;
 
     /************************************************
     Summary: Gets verts (corner control points) count of the mesh.
 
     Return Value:
-        Number of verts in the patchmesh.
+        Number of verts in the patch mesh.
     See Also: CKPatch,GetVecCount,SetVert,GetVert,SetVec,GetVec
     ************************************************/
-    virtual int GetVertCount() CK_PURE;
+    virtual int GetVertCount() = 0;
 
     /************************************************
     Summary: Sets a corner control point position.
@@ -219,7 +209,7 @@ public:
         cp:    Position.
     See Also: GetVert, GetVerts,GetVertCount
     ************************************************/
-    virtual void SetVert(int index, VxVector *cp) CK_PURE;
+    virtual void SetVert(int index, VxVector *cp) = 0;
 
     /************************************************
     Summary: Gets a corner control point position.
@@ -229,7 +219,7 @@ public:
         cp:    Position to be filled.
     See Also: SetVert, GetVerts,GetVertCount
     ************************************************/
-    virtual void GetVert(int index, VxVector *cp) CK_PURE;
+    virtual void GetVert(int index, VxVector *cp) = 0;
 
     /************************************************
     Summary: Gets all corner control points
@@ -238,16 +228,16 @@ public:
         A pointer to the list of verts (corner control points).
     See Also: SetVert,GetVert,GetVertCount
     ************************************************/
-    virtual VxVector *GetVerts() CK_PURE;
+    virtual VxVector *GetVerts() = 0;
 
     /************************************************
     Summary: Gets vecs (edge and interior control points) count of the mesh.
 
     Return Value:
-        Number of verts in the patchmesh.
+        Number of verts in the patch mesh.
     See Also: CKPatch,GetVecCount,SetVert,GetVert,SetVec,GetVec
     ************************************************/
-    virtual int GetVecCount() CK_PURE;
+    virtual int GetVecCount() = 0;
 
     /************************************************
     Summary: Sets a edge control point position.
@@ -257,7 +247,7 @@ public:
         cp:    Position.
     See Also: SetVec, GetVecs,GetVecCount
     ************************************************/
-    virtual void SetVec(int index, VxVector *cp) CK_PURE;
+    virtual void SetVec(int index, VxVector *cp) = 0;
 
     /************************************************
     Summary: Gets a edge control point position.
@@ -267,7 +257,7 @@ public:
         cp:    Position to be filled.
     See Also: SetVec, GetVecs,GetVecCount
     ************************************************/
-    virtual void GetVec(int index, VxVector *cp) CK_PURE;
+    virtual void GetVec(int index, VxVector *cp) = 0;
 
     /************************************************
     Summary: Gets all edge and interiors  control points
@@ -276,7 +266,7 @@ public:
         A pointer to the list of vecs (edge and interior control points).
     See Also: SetVec,GetVec,GetVecCount
     ************************************************/
-    virtual VxVector *GetVecs() CK_PURE;
+    virtual VxVector *GetVecs() = 0;
 
     //--------------------------------------------
     // Edges
@@ -288,7 +278,7 @@ public:
         count: Number of edges to be set.
     See Also: GetEdgeCount,SetEdge,GetEdge,GetEdges
     ************************************************/
-    virtual void SetEdgeCount(int count) CK_PURE;
+    virtual void SetEdgeCount(int count) = 0;
 
     /************************************************
     Summary: Returns the number of edges.
@@ -297,7 +287,7 @@ public:
         Number of edges.
     See Also: SetEdgeCount,SetEdge,GetEdge,GetEdges
     ************************************************/
-    virtual int GetEdgeCount() CK_PURE;
+    virtual int GetEdgeCount() = 0;
 
     /************************************************
     Summary: Sets a given edge data.
@@ -307,7 +297,7 @@ public:
         edge:  A pointer to a CKPatchEdge structure containing the edge data.
     See Also: SetEdgeCount,GetEdgeCount,GetEdge,GetEdges,CKPatchEdge
     ************************************************/
-    virtual void SetEdge(int index, CKPatchEdge *edge) CK_PURE;
+    virtual void SetEdge(int index, CKPatchEdge *edge) = 0;
 
     /************************************************
     Summary: Gets a given edge data.
@@ -317,14 +307,14 @@ public:
         edge:  A pointer to a CKPatchEdge structure that will be filled with the edge data.
     See Also: SetEdgeCount,GetEdgeCount,SetEdge,GetEdges,CKPatchEdge
     ************************************************/
-    virtual void GetEdge(int index, CKPatchEdge *edge) CK_PURE;
+    virtual void GetEdge(int index, CKPatchEdge *edge) = 0;
 
     /************************************************
     Summary: Gets a pointer to the list of edges.
 
     See Also: SetEdgeCount,GetEdgeCount,SetEdge,GetEdge,CKPatchEdge
     ************************************************/
-    virtual CKPatchEdge *GetEdges() CK_PURE;
+    virtual CKPatchEdge *GetEdges() = 0;
 
     //---------------------------------------------
     // Patches
@@ -333,10 +323,10 @@ public:
     Summary: Sets the number of patches.
 
     Arguments:
-        count: Number of patches to be set for the patchmesh.
+        count: Number of patches to be set for the patch mesh.
     See Also: GetPatchCount,SetPatch,GetPatch,GetPatches
     ************************************************/
-    virtual void SetPatchCount(int count) CK_PURE;
+    virtual void SetPatchCount(int count) = 0;
 
     /************************************************
     Summary: Gets the number of patches.
@@ -345,7 +335,7 @@ public:
         Number of patches.
     See Also: SetPatchCount,SetPatch,GetPatch,GetPatches
     ************************************************/
-    virtual int GetPatchCount() CK_PURE;
+    virtual int GetPatchCount() = 0;
 
     /************************************************
     Summary: Sets the description of a given patch.
@@ -355,7 +345,7 @@ public:
         p: A pointer to a CKPatch structure containing the description of the patch.
     See Also: CKPatch,SetPatchCount,GetPatch,GetPatches,SetPatchSM,SetPatchMaterial
     ************************************************/
-    virtual void SetPatch(int index, CKPatch *p) CK_PURE;
+    virtual void SetPatch(int index, CKPatch *p) = 0;
 
     /************************************************
     Summary: Gets the description of a given patch.
@@ -365,7 +355,7 @@ public:
         p: A pointer to a CKPatch structure to be filled with the description of the patch.
     See Also: CKPatch,SetPatchCount,SetPatch,GetPatches,SetPatchSM,SetPatchMaterial
     ************************************************/
-    virtual void GetPatch(int index, CKPatch *p) CK_PURE;
+    virtual void GetPatch(int index, CKPatch *p) = 0;
 
     /************************************************
     Summary: Gets the smoothing group of a patch.
@@ -381,7 +371,7 @@ public:
         all patches are smoothed together.
     See Also: SetPatchSM,SetPatch,CKPatch
     ************************************************/
-    virtual CKDWORD GetPatchSM(int index) CK_PURE;
+    virtual CKDWORD GetPatchSM(int index) = 0;
 
     /************************************************
     Summary: Sets the smoothing group for the patch.
@@ -396,7 +386,7 @@ public:
         all patches are smoothed together.
     See Also: GetPatchSM,SetPatch,CKPatch
     ************************************************/
-    virtual void SetPatchSM(int index, CKDWORD smoothing) CK_PURE;
+    virtual void SetPatchSM(int index, CKDWORD smoothing) = 0;
 
     /************************************************
     Summary: Gets the material used on a given patch.
@@ -407,7 +397,7 @@ public:
         Pointer to the material.
     See Also: SetPatchMaterial,CKPatch
     ************************************************/
-    virtual CKMaterial *GetPatchMaterial(int index) CK_PURE;
+    virtual CKMaterial *GetPatchMaterial(int index) = 0;
 
     /************************************************
     Summary: Sets the material used for a given patch.
@@ -417,14 +407,14 @@ public:
         mat: A Pointer to the material to use for this patch.
     See Also: GetPatchMaterial,CKPatch
     ************************************************/
-    virtual void SetPatchMaterial(int index, CKMaterial *mat) CK_PURE;
+    virtual void SetPatchMaterial(int index, CKMaterial *mat) = 0;
 
     /************************************************
     Summary: Gets a pointer to the list of patches.
 
     See Also: CKPatch,SetPatchCount,SetPatch,GetPatch
     ************************************************/
-    virtual CKPatch *GetPatches() CK_PURE;
+    virtual CKPatch *GetPatches() = 0;
 
     //-------------------------------------------
     // Texture Patches
@@ -434,25 +424,25 @@ public:
 
     Arguments:
         count: Number of texture patches to be set.
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     Remarks:
         + The number of texture patches can be 0 (no texturing ) otherwise it must be equal
         to the number of patches.
     See Also: SetPatchCount,GetTVPatchCount
     ************************************************/
-    virtual void SetTVPatchCount(int count, int Channel = -1) CK_PURE;
+    virtual void SetTVPatchCount(int count, int Channel = -1) = 0;
 
     /************************************************
     Summary: Gets the number of texture patches
 
     Arguments:
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     Remarks:
         + The number of texture patches can be 0 (no texturing ) otherwise it must be equal
         to the number of patches.
     See Also: SetPatchCount,SetTVPatchCount
     ************************************************/
-    virtual int GetTVPatchCount(int Channel = -1) CK_PURE;
+    virtual int GetTVPatchCount(int Channel = -1) = 0;
 
     /************************************************
     Summary: Sets the mapping of a given patch.
@@ -460,10 +450,10 @@ public:
     Arguments:
         index: Index of the patch which mapping should be set.
         tvpatch: A pointer to a CKTVPatch structure that contains the indices of the texture coordinates of the corner points of the patch.
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     See Also: GetTVPatch, GetTVPatches,GetTVPatchCount,SetTVPatchCount,SetTVCount
     ************************************************/
-    virtual void SetTVPatch(int index, CKTVPatch *tvpatch, int Channel = -1) CK_PURE;
+    virtual void SetTVPatch(int index, CKTVPatch *tvpatch, int Channel = -1) = 0;
 
     /************************************************
     Summary: Gets the mapping of a given patch.
@@ -471,19 +461,19 @@ public:
     Arguments:
         index: Index of the patch which mapping should be set.
         tvpatch: A pointer to a CKTVPatch structure that will be filled with the indices of the texture coordinates of the corner points of the patch.
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     See Also: SetTVPatch, GetTVPatches,GetTVPatchCount,SetTVPatchCount,SetTVCount
     ************************************************/
-    virtual void GetTVPatch(int index, CKTVPatch *tvpatch, int Channel = -1) CK_PURE;
+    virtual void GetTVPatch(int index, CKTVPatch *tvpatch, int Channel = -1) = 0;
 
     /************************************************
     Summary: Gets a pointer to the list of texture patches.
 
     Arguments:
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     See Also: SetTVPatch, GetTVPatch,GetTVPatchCount,SetTVPatchCount,SetTVCount
     ************************************************/
-    virtual CKTVPatch *GetTVPatches(int Channel = -1) CK_PURE;
+    virtual CKTVPatch *GetTVPatches(int Channel = -1) = 0;
 
     //-----------------------------------------
     // Texture Verts
@@ -493,21 +483,21 @@ public:
 
     Arguments:
         count: Number of texture vertices to be set.
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     See Also: GetTVCount,GetTVPatchCount,SetTV,GetTV,GetTVs
     ************************************************/
-    virtual void SetTVCount(int count, int Channel = -1) CK_PURE;
+    virtual void SetTVCount(int count, int Channel = -1) = 0;
 
     /************************************************
     Summary: Returns the number of the texture coordinates for a given channel.
 
     Arguments:
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     Return Value:
         Number of texture coordinates.
     See Also: SetTVCount,SetTV,GetTV,GetTVs,GetTVPatchCount
     ************************************************/
-    virtual int GetTVCount(int Channel = -1) CK_PURE;
+    virtual int GetTVCount(int Channel = -1) = 0;
 
     /************************************************
     Summary: Sets the texture coordinate values.
@@ -516,10 +506,10 @@ public:
         index: Index of the texture vertex whose value has to be set.
         u: U texture coordinate value.
         v: V texture coordinate value.
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     See Also: GetTV, GetTVs,SetTVCount,SetTVPatch
     ************************************************/
-    virtual void SetTV(int index, float u, float v, int Channel = -1) CK_PURE;
+    virtual void SetTV(int index, float u, float v, int Channel = -1) = 0;
 
     /************************************************
     Summary: Gets the texture coordinate values.
@@ -528,19 +518,19 @@ public:
         index: Index of the texture vertex whose value has to be retrieve.
         u: U texture coordinate value.
         v: V texture coordinate value.
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     See Also: GetTV, GetTVs,SetTVCount,SetTVPatch
     ************************************************/
-    virtual void GetTV(int index, float *u, float *v, int Channel = -1) CK_PURE;
+    virtual void GetTV(int index, float *u, float *v, int Channel = -1) = 0;
 
     /************************************************
     Summary: Gets a pointer to the list of texture coordinates.
 
     Arguments:
-        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additionnal material channel).
+        Channel: Index of the channel (-1 for default texture coordinates or >=0 for an additional material channel).
     See Also: GetTV, SetTV,GetTVCount,GetTVPatchCount
     ************************************************/
-    virtual VxUV *GetTVs(int Channel = -1) CK_PURE;
+    virtual VxUV *GetTVs(int Channel = -1) = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -563,4 +553,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKPATCHMESH_H

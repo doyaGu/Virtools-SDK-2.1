@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKTargetCamera.h			 				 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKTARGETCAMERA_H
-#define CKTARGETCAMERA_H "$Id:$"
+#define CKTARGETCAMERA_H
 
 #include "CKCamera.h"
 
@@ -47,4 +40,4 @@ public:
     }
 };
 
-#endif
+#endif // CKTARGETCAMERA_H

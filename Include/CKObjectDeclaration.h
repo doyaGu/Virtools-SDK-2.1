@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKObjectDeclaration.h										 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKOBJECTDECLARATION_H
-#define CKOBJECTDECLARATION_H "$Id:$"
+#define CKOBJECTDECLARATION_H
 
 #include "CKObject.h"
 
@@ -126,18 +119,12 @@ public:
     category of the plugin manager.
     + To retrieve information about the plugin use :
 
-    {html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
     CKPluginManager::GetPluginDllInfo(CKPLUGIN_BEHAVIOR_DLL,Index);
-
-    {html:</td></tr></table>}
 
     See Also:CKPluginManager
     ****************************************************/
     int GetPluginIndex() { return m_PluginIndex; }
 
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
     //-------------------------------------------------------------------
     //-------------------------------------------------------------------
     // Internal functions
@@ -169,7 +156,6 @@ public:
     XString m_Name;
     int m_PluginIndex;
     XArray<CKGUID> m_ManagersGuid;
-#endif
 };
 
-#endif
+#endif // CKOBJECTDECLARATION_H

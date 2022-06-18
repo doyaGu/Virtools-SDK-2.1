@@ -1,11 +1,11 @@
-/*************************************************************************/
-/*	File : CKTypes.h													 */
-/*																		 */	
-/*	Virtools SDK 														 */	 
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */	
-/*************************************************************************/
 #ifndef CKTYPES_H
-#define CKTYPES_H "$Id:$"
+#define CKTYPES_H
+
+#include "VxDefines.h"
+#include "VxImageDescEx.h"
+#include "VxVector.h"
+#include "XString.h"
+#include "XSArray.h"
 
 /*************************************************
 {filename:CK_CLASSID}
@@ -22,7 +22,7 @@ See also: CKObject::GetClassID,CKIsChildClassOf,Class Identifiers
 typedef long CK_CLASSID;
 
 /*************************************************
-Summary: Unique Identifier for all Objects instanciated in a given CKContext
+Summary: Unique Identifier for all Objects instantiated in a given CKContext
 
 Remarks:
     + Each instance of CKObject and derived classes are automatically given a global unique
@@ -33,7 +33,7 @@ Remarks:
     still exists when used with the CKGetObject function.
 
     + The global ID for an instance remains unique and unchanged through a application session, but there 
-    is no garanty that this ID will be the same when a level is saved and loaded back again.
+    is no guaranty that this ID will be the same when a level is saved and loaded back again.
 See also: CKObject::GetID, CKContext::GetObject
 *************************************************/
 typedef unsigned long CK_ID;
@@ -59,7 +59,7 @@ typedef int CKAttributeCategory;
 //		Class  List											////
 //----------------------------------------------------------////
 
-// Objects and derivated classes
+// Objects and derivative classes
 class CKObject;
     class CKInterfaceObjectManager;
     class CKRenderContext;
@@ -142,7 +142,7 @@ class CKPathManager;
 class CKSceneObjectDesc;
 
 /*******************************************************************************
-Summary: Structure containing informations about a .cmo or .nmo file.
+Summary: Structure containing information about a .cmo or .nmo file.
 
 Remarks:
     + The CKContext::GetFileInfo returns this structure about a given file 
@@ -198,7 +198,7 @@ typedef struct CKStats
 
     float UserProfiles[MAX_USER_PROFILE];
 } CKStats;
-// Warning : Do not insert new values between existing ones CK_PROFILE_CATEGORY direcly refers to this struct by indexes
+// Warning : Do not insert new values between existing ones CK_PROFILE_CATEGORY directly refers to this struct by indexes
 
 
 
@@ -208,7 +208,7 @@ Summary: Render Driver description
 Remarks:
 + The VxDriverDesc contains the description of a render driver. A render engine 
 may provide several drivers according to the installed video cards.
-+ Each driver supports differents pixel formats for the textures (TextureFormats)
++ Each driver supports different pixel formats for the textures (TextureFormats)
 and display modes for fullscreen rendering (Modes).
 + Caps2D & Caps3D members expose the different capabilities of the driver
 to perform 3D and2D rendering (see  Vx2DCapsDesc & Vx3DCapsDesc)
@@ -219,7 +219,7 @@ struct VxDriverDesc
 {
     char DriverDesc[512]; // Driver Description
     char DriverName[512]; // Driver Name
-    BOOL IsHardware;	  // Is Driver Hardware
+    CKBOOL IsHardware;	  // Is Driver Hardware
 
     int DisplayModeCount;
     VxDisplayMode *DisplayModes;		   // Fullscreen display modes supported ( see  VxDisplayMode)
@@ -257,7 +257,7 @@ Summary: Rendering Profiling results.
 
 Remarks:
     + The VxStats structure is updated each frame with the number of primitives
-    drawn and the differents time taken by 
+    drawn and the different time taken by
     is used by CKRenderContext::GetStats to monitor the number of primitives processed.
 
 See Also: CKRenderContext::GetStats
@@ -270,7 +270,7 @@ typedef struct VxStats
     int NbVerticesProcessed;		  // Number of vertices transformed during one frame
     int NbObjectDrawn;				  // Number of objects drawn during one frame
     float SmoothedFps;				  // Frame Per Second average.
-    int RenderStateCacheHit;		  // Number of render state changes that hit the cache  (redondant state)
+    int RenderStateCacheHit;		  // Number of render state changes that hit the cache  (redundant state)
     int RenderStateCacheMiss;		  // Number of render state changes that missed the cache
     float DevicePreCallbacks;		  // Time taken by render context pre render callbacks
     float SceneTraversalTime;		  // Time taken to iterate the hierarchy and perform culling
@@ -278,21 +278,21 @@ typedef struct VxStats
     float ObjectsRenderTime;		  // Time taken to draw 3D Objects
                                       // (this time can be very short (especially with T&L cards) as it does not
                                       // reflect the real rendering time , but time taken to send the commands to the card...
-    float ObjectsCallbacksTime;		  // Time taken by 3D objects pre and post render callbacks
+    float ObjectsCallbacksTime;		  // Time taken by 3D objects pre- and post-render callbacks
     float SkinTime;					  // Time taken to compute skins
     float SpriteTime;				  // Time taken to render 2D Entities
-    float SpriteCallbacksTime;		  // Time taken by 2D entities pre and post render callbacks
+    float SpriteCallbacksTime;		  // Time taken by 2D entities pre- and post-render callbacks
     float DevicePostCallbacks;		  // Time taken by render context post render callbacks
-    float BackToFrontTime;			  // Time taken to perfom the back buffer presentation on screen.
-                                      // It can be longer due to 3d objects asynchornous drawing(see ObjectsRenderTime)
+    float BackToFrontTime;			  // Time taken to perform the back buffer presentation on screen.
+                                      // It can be longer due to 3d objects asynchronous drawing(see ObjectsRenderTime)
     float ClearTime;				  // Time taken by clear back,z,(stencil) buffers
-    DWORD Reserved1;
+    CKDWORD Reserved1;
 } VxStats;
 
 // DO NOT CHANGE THE ORDER of this structure !!!!
 
 /*******************************************************************************
-Summary: Global Unique Identifier Struture.
+Summary: Global Unique Identifier Structure.
 
 Remarks:
 + Guids are used to uniquely identify plugins,operation types, parameter types and behavior prototypes.
@@ -308,7 +308,7 @@ Remarks:
 + Comparison operators are defined so CKGUIDS can be compared with 
 ==,!= ,<,> operators.
 
-See also: Pre-Registred Parameter Types,ParameterOperation Types
+See also: Pre-Registered Parameter Types,ParameterOperation Types
 *******************************************************************************/
 
 struct CKGUID
@@ -383,77 +383,11 @@ public:
     CKBOOL inline IsValid() { return d[0] && d[1]; }
 };
 
-/*
-
-typedef struct CKGUID
-{
-    union
-    {
-        struct
-        {
-            CKDWORD d1, d2;
-        };
-        CKDWORD d[2];
-    };
-
-public:
-    explicit CKGUID(CKDWORD gd1 = 0, CKDWORD gd2 = 0)
-    {
-        d1 = gd1;
-        d2 = gd2;
-    }
-
-    friend CKBOOL operator==(const CKGUID &v1, const CKGUID &v2)
-    {
-        return ((v1.d1 == v2.d1) && (v1.d2 == v2.d2));
-    }
-
-    friend CKBOOL operator!=(const CKGUID &v1, const CKGUID &v2)
-    {
-        return ((v1.d1 != v2.d1) || (v1.d2 != v2.d2));
-    }
-
-    friend CKBOOL operator<(const CKGUID &v1, const CKGUID &v2)
-    {
-        if (v1.d1 < v2.d1)
-            return TRUE;
-        if (v1.d1 == v2.d1)
-            return (v1.d2 < v2.d2);
-        return FALSE;
-    }
-
-    friend CKBOOL operator<=(const CKGUID &v1, const CKGUID &v2)
-    {
-        return (v1.d1 <= v2.d1);
-    }
-
-    friend CKBOOL operator>(const CKGUID &v1, const CKGUID &v2)
-    {
-        if (v1.d1 > v2.d1)
-            return TRUE;
-        if (v1.d1 == v2.d1)
-            return (v1.d2 > v2.d2);
-        return FALSE;
-    }
-
-    friend CKBOOL operator>=(const CKGUID &v1, const CKGUID &v2)
-    {
-        return (v1.d1 >= v2.d1);
-    }
-
-    CKBOOL inline IsValid()
-    {
-        return d1 && d2;
-    }
-} CKGUID;
-
-*/
-
 /******************************************************************
 Summary:  Material special effects
 
 Remarks:
-o Effects provide additionnal functionnalities to take advantage of graphic features such as bump mapping,cube maps etc... 
+o Effects provide additional functionalities to take advantage of graphic features such as bump mapping,cube maps etc...
 o When an effect is enabled on a material (CKMaterial::SetEffect) it may override the default settings of mesh channels or material blend options
 o New effects can be created by providing a callback function (see CKRenderManager::AddEffect)
 o This enumeration provides the list of hardcoded existing effects.
@@ -464,7 +398,7 @@ typedef enum VX_EFFECT
 {
     VXEFFECT_NONE      = 0UL,	// No Effect
     VXEFFECT_TEXGEN    = 1UL,	// Texture coordinate generation using current viewpoint as referential
-    VXEFFECT_TEXGENREF = 2UL,	// texture generation generation with an optionnal referential
+    VXEFFECT_TEXGENREF = 2UL,	// texture generation with an optional referential
     VXEFFECT_BUMPENV   = 3UL,	// Environment Bump Mapping
     VXEFFECT_DP3       = 4UL,	// Dot Product 3 bump mapping
     VXEFFECT_2TEXTURES = 5UL,	// Blend 2 Textures
@@ -493,11 +427,11 @@ class CKRenderContext;
 Summary:  Effect callback return value
 
 Remarks:
-o Effects provide additionnal functionnalities to take advantage of graphic features such as bump mapping,cube maps etc... 
+o Effects provide additional functionalities to take advantage of graphic features such as bump mapping,cube maps etc...
 o When an effect is enabled on a material (CKMaterial::SetEffect) it may override the default settings of mesh channels or material blend options
 o New effects can be created by providing a callback function (see CKRenderManager::AddEffect)
 o The return value of the callback function determines which material settings should be set by the default function
-See also: CKMaterial::SetEffect,CKMaterial::GetEffect,CKRenderManager::AddEffect,VxEffectDescriptio
+See also: CKMaterial::SetEffect,CKMaterial::GetEffect,CKRenderManager::AddEffect,VxEffectDescription
 ******************************************************************/
 typedef enum VX_EFFECTCALLBACK_RETVAL
 {
@@ -523,7 +457,7 @@ typedef VX_EFFECTCALLBACK_RETVAL (*CK_EFFECTCALLBACK)(CKRenderContext *Dev, CKMa
 Summary:  Material special effects
 
 Remarks:
-o Effects provide additionnal functionnalities to take advantage of graphic features such as bump mapping,cube maps etc...
+o Effects provide additional functionalities to take advantage of graphic features such as bump mapping,cube maps etc...
 o When an effect is enabled on a material (CKMaterial::SetEffect) it may override the default settings of mesh channels or material blend options
 o This structure holds a description of an effect to display to the user.
 See also: VX_EFFECT,CKRenderManager::AddEffect,CKRenderManager::GetEffectDescription,CKMaterial::SetEffect,CKMaterial::GetEffect
@@ -533,13 +467,13 @@ typedef struct VxEffectDescription
     VX_EFFECT EffectIndex;		   // Index of this effect ( when using CKRenderManager::AddEffect the return value is the index of the newly added effect) so this member is ignored.
     XString Summary;			   // A short name that will be used for enumeration creation (eg. "Bump Map")
     XString Description;		   // A longer description that will appear in the interface to explain the effect to the user...
-    XString DescImage;			   // A image file that can be use to be displayed in the interface
+    XString DescImage;			   // An image file that can be used to be displayed in the interface
     int MaxTextureCount;		   // Number of textures that can be set on the material (CKMaterial::SetTexture)
     int NeededTextureCoordsCount;  // Number of texture coordinates that must be set on the mesh  for this effect to work (this is directly related to the number of channel you should set on the mesh that will use this effect)
     XString Tex1Description;	   // A short description for texture 1
     XString Tex2Description;	   // A short description for texture 2
     XString Tex3Description;	   // A short description for texture 3
-    CK_EFFECTCALLBACK SetCallback; // A callback function that will be called to setup the effect if NULL the effect is likely to be hardcoded in render engine
+    CK_EFFECTCALLBACK SetCallback; // A callback function that will be called to set up the effect if NULL the effect is likely to be hardcoded in render engine
     void *CallbackArg;			   // Arguments that will be given to the callback function
     CKGUID ParameterType;
     XString ParameterDescription;
@@ -552,7 +486,7 @@ Summary : Structure passed to behavior execution and callback functions
 
 Remarks:
 + The execution function of a behavior is given this structure as a argument
-to have acces to frequently used global objects (context,level,manager,etc...)
+to have access to frequently used global objects (context,level,manager,etc...)
 + the callback function is also passed this structure in which the reason
 for callback is given in CallbackMessage.
 See Also: Writing the Execution Function,Writing the Behavior Callback Function,CKBehavior::SetCallbackFunction
@@ -571,7 +505,7 @@ struct CKBehaviorContext
     CKMessageManager *MessageManager;	   // A Pointer to the MessageManager
     CKAttributeManager *AttributeManager;  // A Pointer to the AttributeManager
     CKTimeManager *TimeManager;			   // A Pointer to the TimeManager
-    CKDWORD CallbackMessage;			   // Specific to behavior callbck function, reason for
+    CKDWORD CallbackMessage;			   // Specific to behavior callback function, reason for
     void *CallbackArg;					   //
 
     CKBehaviorContext()
@@ -600,10 +534,7 @@ typedef enum CK_UICALLBACK_REASON
     CKUIM_PASTEOBJECTS          = 11,	// Paste CK_ID objects
     CKUIM_SCENEADDEDTOLEVEL     = 12,	// Scene ID
     CKUIM_REFRESHBUILDINGBLOCKS = 13,	// param1 = CKGUID*, param2 = count
-    CKUIM_DOMESSAGELOOP         = 14,	// Do a standard loop of windows message processing
-    CKUIM_VSLBREAKNOTIFY        = 15,	// First param is a VSLEditor order, second is data.
-    CKUIM_DUPLICATEOBJECTS      = 16,	// First param is a CKfile being load with duplicate objects.
-    CKUIM_OPENVSLSCRIPTEDITOR   = 17,	// Request to open VSL Script Editor, or focus it
+    CKUIM_DOMESSAGELOOP         = 14,	// Do a standard loop of windows messages processing
 } CK_UICALLBACK_REASON;
 
 typedef struct CKUICallbackStruct
@@ -629,4 +560,4 @@ typedef struct CKUICallbackStruct
     CKDWORD Param3;
 } CKUICallbackStruct;
 
-#endif
+#endif // CKTYPES_H

@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : CKParameterOut.h												 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPARAMETEROUT_H
 #define CKPARAMETEROUT_H
 
@@ -76,8 +69,6 @@ public:
 
 //-------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     //--------------------------------------------
     // Virtual functions
@@ -120,7 +111,6 @@ public:
 
 protected:
     XSObjectPointerArray m_Destinations;
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKPARAMETEROUT_H

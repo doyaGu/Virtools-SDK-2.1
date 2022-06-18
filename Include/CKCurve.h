@@ -1,18 +1,9 @@
-/*************************************************************************/
-/*	File : CKCurve.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKCURVE_H) || defined(CK_3DIMPLEMENTATION)
-#define CKCURVE_H "$Id:$"
+#define CKCURVE_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CK3dEntity.h"
-
-#undef CK_PURE
-#define CK_PURE = 0
+#include "VxColor.h"
 
 /*************************************************
 {filename:CKCurve}
@@ -41,11 +32,11 @@ public:
     Summary: Returns the length of the curve
     Return value: Length of the curve
     Remarks:
-        + The curve length is updated every time a curvepoint moves.
+        + The curve length is updated every time a curve point moves.
 
     See also: SetLength
     ************************************************/
-    virtual float GetLength() CK_PURE;
+    virtual float GetLength() = 0;
 
     //------------------------------
     // Open/Closed Curves
@@ -55,14 +46,14 @@ public:
 
     See also: IsOpen,Close
     ************************************************/
-    virtual void Open() CK_PURE;
+    virtual void Open() = 0;
 
     /************************************************
     Summary: Sets the curve as closed .
 
     See also: IsOpen,Open
     ************************************************/
-    virtual void Close() CK_PURE;
+    virtual void Close() = 0;
 
     /************************************************
     Summary: Checks the curve as opened or closed.
@@ -70,7 +61,7 @@ public:
 
     See also: Close, Open
     ************************************************/
-    virtual CKBOOL IsOpen() CK_PURE;
+    virtual CKBOOL IsOpen() = 0;
 
     //----------------------------------------
     // Get Point position in the world referential
@@ -87,7 +78,7 @@ public:
 
     See also: GetLocalPos
     ************************************************/
-    virtual CKERROR GetPos(float step, VxVector *pos, VxVector *dir = NULL) CK_PURE;
+    virtual CKERROR GetPos(float step, VxVector *pos, VxVector *dir = NULL) = 0;
 
     /************************************************
     Summary: Gets a local position along the curve.
@@ -95,7 +86,7 @@ public:
     Arguments:
         step: A float coefficient between 0 and 1 indicating position along the curve.
         pos: A pointer to a VxVector which will be filled with position on the curve at specified step.
-        dir: A optionnal pointer to a VxVector which will contain the direction of the curve at the specified step.
+        dir: A optional pointer to a VxVector which will contain the direction of the curve at the specified step.
 
     Return Value: CK_OK if successful or an error code otherwise.
     Remarks:
@@ -103,7 +94,7 @@ public:
 
     See also: GetPos
     ************************************************/
-    virtual CKERROR GetLocalPos(float step, VxVector *pos, VxVector *dir = NULL) CK_PURE;
+    virtual CKERROR GetLocalPos(float step, VxVector *pos, VxVector *dir = NULL) = 0;
 
     //---------------------------------------
     // Control points
@@ -119,8 +110,8 @@ public:
 
     See also: SetTangents
     ************************************************/
-    virtual CKERROR GetTangents(int index, VxVector *in, VxVector *out) CK_PURE;
-    virtual CKERROR GetTangents(CKCurvePoint *pt, VxVector *in, VxVector *out) CK_PURE;
+    virtual CKERROR GetTangents(int index, VxVector *in, VxVector *out) = 0;
+    virtual CKERROR GetTangents(CKCurvePoint *pt, VxVector *in, VxVector *out) = 0;
 
     /************************************************
     Summary: Sets tangents to a control point
@@ -134,8 +125,8 @@ public:
 
     See also: GetTangents
     ************************************************/
-    virtual CKERROR SetTangents(int index, VxVector *in, VxVector *out) CK_PURE;
-    virtual CKERROR SetTangents(CKCurvePoint *pt, VxVector *in, VxVector *out) CK_PURE;
+    virtual CKERROR SetTangents(int index, VxVector *in, VxVector *out) = 0;
+    virtual CKERROR SetTangents(CKCurvePoint *pt, VxVector *in, VxVector *out) = 0;
 
     /************************************************
     Summary: Sets the fitting coefficient for the curve.
@@ -147,9 +138,9 @@ public:
 
     See also: GetFittingCoeff
     ************************************************/
-    virtual void SetFittingCoeff(float fit) CK_PURE;
+    virtual void SetFittingCoeff(float fit) = 0;
 
-    virtual float GetFittingCoeff() CK_PURE;
+    virtual float GetFittingCoeff() = 0;
 
     //------------------------------
     // Control points
@@ -163,7 +154,7 @@ public:
 
     See also: RemoveAllControlPoints,InsertControlPoint,AddControlPoint,GetControlPointCount,GetControlPoint
     ************************************************/
-    virtual CKERROR RemoveControlPoint(CKCurvePoint *pt, CKBOOL removeall = FALSE) CK_PURE;
+    virtual CKERROR RemoveControlPoint(CKCurvePoint *pt, CKBOOL removeall = FALSE) = 0;
 
     /************************************************
     Summary: Inserts a control point in the curve.
@@ -174,7 +165,7 @@ public:
 
     See also: RemoveControlPoint,AddControlPoint,GetControlPointCount,GetControlPoint
     ************************************************/
-    virtual CKERROR InsertControlPoint(CKCurvePoint *prev, CKCurvePoint *pt) CK_PURE;
+    virtual CKERROR InsertControlPoint(CKCurvePoint *prev, CKCurvePoint *pt) = 0;
 
     /************************************************
     Summary: Adds a control point to the curve.
@@ -184,7 +175,7 @@ public:
 
     See also: RemoveControlPoint,InsertControlPoint,GetControlPointCount,GetControlPoint
     ************************************************/
-    virtual CKERROR AddControlPoint(CKCurvePoint *pt) CK_PURE;
+    virtual CKERROR AddControlPoint(CKCurvePoint *pt) = 0;
 
     /************************************************
     Summary: Returns the number of control points
@@ -192,17 +183,17 @@ public:
 
     See also: RemoveControlPoint,InsertControlPoint,AddControlPoint,GetControlPoint
     ************************************************/
-    virtual int GetControlPointCount() CK_PURE;
+    virtual int GetControlPointCount() = 0;
 
     /************************************************
     Summary: Gets a control point according to its index.
     Arguments:
-        pos: Index of the cotrol point to retrieve.
+        pos: Index of the control point to retrieve.
     Return Value: A pointer to the CKCurvePoint.
 
     See also: RemoveControlPoint,InsertControlPoint,GetControlPointCount,AddControlPoint
     ************************************************/
-    virtual CKCurvePoint *GetControlPoint(int pos) CK_PURE;
+    virtual CKCurvePoint *GetControlPoint(int pos) = 0;
 
     /************************************************
     Summary: Removes all the control points
@@ -210,13 +201,13 @@ public:
 
     See also: RemoveControlPoint
     ************************************************/
-    virtual CKERROR RemoveAllControlPoints() CK_PURE;
+    virtual CKERROR RemoveAllControlPoints() = 0;
 
     //------------------------------
     // Mesh Representation
 
     /************************************************
-    Summary: Sets the number of segments used to represent the cruve.
+    Summary: Sets the number of segments used to represent the curve.
     Arguments:
         steps: Number of segments.
     Return Value: CK_OK, if successful
@@ -226,9 +217,9 @@ public:
 
     See also: GetStepCount
     ************************************************/
-    virtual CKERROR SetStepCount(int steps) CK_PURE;
+    virtual CKERROR SetStepCount(int steps) = 0;
 
-    virtual int GetStepCount() CK_PURE;
+    virtual int GetStepCount() = 0;
 
     /************************************************
     Summary: Creates a line mesh to represent the curve
@@ -236,9 +227,9 @@ public:
 
     See also: SetStepCount,SetColor
     ************************************************/
-    virtual CKERROR CreateLineMesh() CK_PURE;
+    virtual CKERROR CreateLineMesh() = 0;
 
-    virtual CKERROR UpdateMesh() CK_PURE;
+    virtual CKERROR UpdateMesh() = 0;
 
     /************************************************
     Summary: Gets the color used for the curve mesh.
@@ -246,7 +237,7 @@ public:
 
     See also: SetColor
     ************************************************/
-    virtual VxColor GetColor() CK_PURE;
+    virtual VxColor GetColor() = 0;
 
     /************************************************
     Summary: Sets the color used for the curve mesh.
@@ -256,9 +247,9 @@ public:
 
     See also: GetColor,CreateLineMesh
     ************************************************/
-    virtual void SetColor(const VxColor &Color) CK_PURE;
+    virtual void SetColor(const VxColor &Color) = 0;
 
-    virtual void Update() CK_PURE;
+    virtual void Update() = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -281,4 +272,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKCURVE_H

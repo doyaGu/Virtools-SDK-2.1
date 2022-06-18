@@ -1,17 +1,7 @@
-/*************************************************************************/
-/*	File : VxColor.h													 */
-/*	Author :  Romain SIDIDRIS											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXCOLOR_H
 #define VXCOLOR_H
 
-#include "XUtil.h"
-
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
+#include "VxMathDefines.h"
 
 #define R_SHIFT 16
 #define G_SHIFT 8
@@ -22,8 +12,6 @@
 #define G_MASK 0x0000FF00
 #define B_MASK 0x000000FF
 #define A_MASK 0xFF000000
-
-#endif
 
 struct VxColor;
 
@@ -47,7 +35,7 @@ a color stored in DWORD in 32 bit BGRA format.
 VX_EXPORT unsigned long BGRAFTOCOLOR(const VxColor *col);
 
 /***************************************************
-Summary: Convers 4 integers to a DWORD ARGB color
+Summary: Converts 4 integers to a DWORD ARGB color
 Remarks:
 This macro takes 4 integer R,G,B,A (in the range 0..255) and convert them
 into a color stored in DWORD in 32 bit ARGB format.
@@ -151,6 +139,7 @@ public:
     VxColor(const int _r, const int _g, const int _b);
 
     void Clear();
+
     // Ensure that every component is clamped to [0..1]
     void Check()
     {
@@ -433,4 +422,4 @@ inline unsigned long VxColor::GetRGB() const
     return RGBAFTOCOLOR(this) | A_MASK;
 }
 
-#endif
+#endif // VXCOLOR_H

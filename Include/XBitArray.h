@@ -1,15 +1,7 @@
-/*************************************************************************/
-/*	File : XBitArray.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef XBITARRAY_H
-#define XBITARRAY_H "$Id:$"
+#define XBITARRAY_H
 
 #include "XArray.h"
-#include "VxMath.h"
 
 /************************************************
 {filename:XBitArray}
@@ -23,14 +15,14 @@ Remarks:
 class XBitArray
 {
 public:
-    XBitArray(int initialsize = 1)
+    XBitArray(int initialize = 1)
     {
-        if (initialsize < 1)
-            initialsize = 1;
-        m_Size = (initialsize << 5);
+        if (initialize < 1)
+            initialize = 1;
+        m_Size = (initialize << 5);
         if (m_Size > 32)
         { // we allocate only if > 32
-            m_Data = Allocate(initialsize);
+            m_Data = Allocate(initialize);
             Clear();
         }
         else
@@ -372,7 +364,7 @@ public:
     }
 
     // Summary: Returns TRUE if at least one common bit is set in two arrays
-    BOOL CheckCommon(XBitArray &a)
+    XBOOL CheckCommon(XBitArray &a)
     {
         if (a.m_Size <= 32)
         {
@@ -619,7 +611,7 @@ public:
     }
 
     // Summary: Returns the occupied size in memory in bytes
-    int GetMemoryOccupation(BOOL addstatic = FALSE) const
+    int GetMemoryOccupation(XBOOL addstatic = FALSE) const
     {
         if (m_Size <= 32)
             return addstatic ? sizeof(*this) : 0;
@@ -641,7 +633,7 @@ private:
     // the array itself {secret}
     // If the size is inferior strict to 32
     // the data array is not allocated, we
-    // just use the sapce of the pointer to store the
+    // just use the space of the pointer to store the
     // first bits
     union
     {

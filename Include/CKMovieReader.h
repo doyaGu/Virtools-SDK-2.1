@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKMovieReader.h												 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2001, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _CKMOVIEREADER_H_
-#define _CKMOVIEREADER_H_
+#ifndef CKMOVIEREADER_H
+#define CKMOVIEREADER_H
 
 #include "CKDataReader.h"
 
@@ -35,8 +28,6 @@ can add. This is done by deriving from the CKMovieProperties class.
 + For a example of usage of CKMovieProperties you can refer to
 the AVIReader sample available in the source code directory.
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
         struct CKMovieProperties {
             int					m_Size;			// Size of this structure in byte
             CKGUID  			m_ReaderGuid;	// CKGUID that uniquely identifies the reader that created this properties structure
@@ -44,8 +35,6 @@ the AVIReader sample available in the source code directory.
             VxImageDescEx		m_Format;		// Optionnal Image format
             void*				m_Data;			// Optionnal Image data pointer
         };
-
-{html:</td></tr></table>}
 
 See Also:Creation of Movie Media Plugins,CKMovieReader
 *********************************************/
@@ -58,15 +47,15 @@ struct CKMovieProperties
         m_Data = NULL;
     };
 
-    int m_Size;			 // Size of this structure in byte (should be initialized
-                         // in constructor in derived classes)
+    int m_Size;			 // Size of this structure in byte
+                         // (should be initialized in constructor in derived classes)
     CKGUID m_ReaderGuid; // CKGUID that uniquely identifies the reader that created this properties structure
 
     CKFileExtension m_Ext; // File Extension of the image being described by this structure
 
-    VxImageDescEx m_Format; // Optionnal Image format
+    VxImageDescEx m_Format; // Optional Image format
 
-    void *m_Data; // Optionnal Image data pointer
+    void *m_Data; // Optional Image data pointer
 };
 
 /*******************************************************
@@ -98,7 +87,7 @@ public:
     virtual int GetMovieFrameCount() = 0;
 
     /************************************************
-    Summary: Returns the length in millseconds of the movie.
+    Summary: Returns the length in milliseconds of the movie.
     Remarks:
         + A file must have been opened with OpenFile before this method can be used
     See Also: OpenFile,GetMovieFrameCount
@@ -138,4 +127,4 @@ public:
     virtual CKERROR ReadFrame(int f, CKMovieProperties **ppMovieProperties) = 0;
 };
 
-#endif
+#endif // CKMOVIEREADER_H

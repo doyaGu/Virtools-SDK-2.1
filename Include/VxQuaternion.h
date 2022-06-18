@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : VxQuaternion.h												 */
-/*	Author :  Romain SIDIDRIS											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXQUATERNION_H
 #define VXQUATERNION_H
 
@@ -102,7 +95,7 @@ public:
         w = W;
     }
 
-    VX_EXPORT void FromMatrix(const VxMatrix &Mat, BOOL MatIsUnit = TRUE, BOOL RestoreMat = TRUE);
+    VX_EXPORT void FromMatrix(const VxMatrix &Mat, XBOOL MatIsUnit = TRUE, XBOOL RestoreMat = TRUE);
     VX_EXPORT void ToMatrix(VxMatrix &Mat) const;
     VX_EXPORT void Multiply(const VxQuaternion &Quat);
     VX_EXPORT void FromRotation(const VxVector &Vector, float Angle);
@@ -183,4 +176,4 @@ inline float &VxQuaternion::operator[](int i)
     return *((&x) + i);
 }
 
-#endif
+#endif // VXQUATERNION_H

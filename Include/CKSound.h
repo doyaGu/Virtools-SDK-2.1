@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKSound.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSOUND_H
-#define CKSOUND_H "$Id:$"
+#define CKSOUND_H
 
 #include "CKBeObject.h"
 
@@ -28,8 +21,6 @@ public:
     void SetSaveOptions(CK_SOUND_SAVEOPTIONS Options);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     CKSound(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKSound();
@@ -50,7 +41,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKSound *);
     static CK_CLASSID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKSound *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_SOUND) ? (CKSound *)iO : NULL;
@@ -59,8 +50,6 @@ public:
 protected:
     CKSTRING m_FileName;
     CK_SOUND_SAVEOPTIONS m_SaveOptions;
-
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKSOUND_H

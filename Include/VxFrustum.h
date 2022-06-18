@@ -1,14 +1,6 @@
-/*************************************************************************/
-/*	File : VxFrustum.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXFRUSTUM_H
 #define VXFRUSTUM_H
 
-#include "XUtil.h"
 #include "VxMatrix.h"
 #include "VxPlane.h"
 #include "VxVector.h"
@@ -68,9 +60,9 @@ public:
     const VxPlane &GetUpPlane() const { return m_UpPlane; }
     const VxPlane &GetBottomPlane() const { return m_BottomPlane; }
 
-    DWORD Classify(const VxVector &v) const
+    XULONG Classify(const VxVector &v) const
     {
-        DWORD flags = 0;
+        XULONG flags = 0;
         // Classification of the vertex to the 6 planes
         if (GetNearPlane().Classify(v) > 0.0f)
             flags |= VXCLIP_FRONT; // the vertex is fully off near
@@ -171,7 +163,7 @@ public:
         return -cumul;
     }
 
-    BOOL IsInside(const VxVector &v) const
+    XBOOL IsInside(const VxVector &v) const
     {
         // Classification of the vertex to the 6 planes
         if (GetNearPlane().Classify(v) > 0.0f)
@@ -231,4 +223,4 @@ protected:
     VxPlane m_FarPlane;
 };
 
-#endif
+#endif // VXFRUSTUM_H

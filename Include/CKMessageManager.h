@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKMessageManager.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 1999, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKMESSAGEMANAGER_H
-#define CKMESSAGEMANAGER_H "$Id:$"
+#define CKMESSAGEMANAGER_H
 
 #include "CKDefines.h"
 #include "CKFile.h"
@@ -110,7 +103,7 @@ public:
     CKMessageManager(CKContext *Context);
 
 protected:
-    void AddMessageToObject(CKObject *obj, CKMessage *msg, CKScene *currentscene, BOOL recurse);
+    void AddMessageToObject(CKObject *obj, CKMessage *msg, CKScene *currentscene, CKBOOL recurse);
 
     CKMessage *CreateMessage();
 
@@ -120,4 +113,4 @@ protected:
     XObjectPointerArray m_LastFrameObjects;
 };
 
-#endif
+#endif // CKMESSAGEMANAGER_H

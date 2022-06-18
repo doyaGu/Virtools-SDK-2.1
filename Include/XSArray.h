@@ -1,13 +1,7 @@
-/*************************************************************************/
-/*	File : XSArray.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XSARRAY_H_
-#define _XSARRAY_H_
+#ifndef XSARRAY_H
+#define XSARRAY_H
 
+#include "VxMathDefines.h"
 #include "XUtil.h"
 
 /************************************************
@@ -17,7 +11,7 @@ Summary: Class representation of an array.
 
 Remarks:
     This array behaves exactly like the XArray,
-exept that its size is exactly the number it contains,
+except that its size is exactly the number it contains,
 so it is more slow for adding and removing elements,
 but it occupies less memory.
 
@@ -347,7 +341,7 @@ public:
         if ((m_End - m_Begin) <= 1)
             return;
 
-        BOOL Noswap = TRUE;
+        XBOOL Noswap = TRUE;
         for (T *it1 = m_Begin + 1; it1 < m_End; it1++)
         {
             for (T *it2 = m_End - 1; it2 >= it1; it2--)
@@ -436,7 +430,7 @@ protected:
     }
 
     ///
-    // Allocation and deallocation methods : to be override for alignement purposes
+    // Allocation and deallocation methods : to be overridden for alignment purposes
 
     T *Allocate(int size)
     {
@@ -459,4 +453,4 @@ protected:
     T *m_End;
 };
 
-#endif
+#endif // XSARRAY_H

@@ -1,17 +1,11 @@
-/*************************************************************************/
-/*	File : CKFile.h														 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKFILE_H
-#define CKFILE_H "$Id:$"
+#define CKFILE_H
 
 #include "CKObjectArray.h"
 #include "CKObject.h"
-#include "XClassArray.h"
 #include "CKStateChunk.h"
+#include "XClassArray.h"
+#include "VxMeMoryMappedFile.h"
 
 typedef XArray<int> XIntArray;
 typedef XHashTable<int, CK_ID> XFileObjectsTable;
@@ -74,7 +68,7 @@ typedef struct CKFileObject
     int FileIndex;		   // Position of the object data inside uncompressed file buffer
     CKDWORD SaveFlags;	   // Flags used when this object was saved.
 
-    BOOL CanBeLoad()
+    CKBOOL CanBeLoad()
     {
         return (ObjPtr && Data && (Options != CK_FO_DONTLOADOBJECT));
     }
@@ -110,8 +104,8 @@ public:
     ~CKBufferParser(){};
 
     //----- Read Write method
-    BOOL Write(void *x, int size);
-    BOOL Read(void *x, int size);
+    CKBOOL Write(void *x, int size);
+    CKBOOL Read(void *x, int size);
     char *ReadString();
     int ReadInt();
 
@@ -120,7 +114,7 @@ public:
     void Skip(int Offset);
 
     //------- Is Buffer valid
-    BOOL IsValid();
+    CKBOOL IsValid();
     int Size();
     int CursorPos();
 
@@ -130,17 +124,17 @@ public:
     // Create a CKStateChunk from the Size bytes
     // returns NULL if data was not valid
     CKStateChunk *ExtractChunk(int Size, CKFile *f);
-    void ExtractChunk(int Size, CKFile *f, CKFileChunk *chnk);
+    void ExtractChunk(int Size, CKFile *f, CKFileChunk *chunk);
 
     // Returns the CRC of the next Size bytes
-    DWORD ComputeCRC(int Size, DWORD PrevCRC = 0);
+    CKDWORD ComputeCRC(int Size, CKDWORD PrevCRC = 0);
     // Returns a new BufferParser containing the next size bytes or NULL
     // if Size is <=0
     CKBufferParser *Extract(int Size);
     // Saves the next Size bytes to a file
-    BOOL ExtractFile(char *Filename, int Size);
+    CKBOOL ExtractFile(char *Filename, int Size);
     // Same version but with decoding
-    CKBufferParser *ExtractDecoded(int Size, DWORD Key[4]);
+    CKBufferParser *ExtractDecoded(int Size, CKDWORD Key[4]);
     // Returns a new BufferParser containing the next PackSize bytes
     // unpacked to UnpackSize
     CKBufferParser *UnPack(int UnpackSize, int PackSize);
@@ -155,12 +149,12 @@ public:
 
     //---- Others
     //- Encode the next Size bytes (This does not increment the cursor pointer)
-    void Encode(int Size, DWORD Key[4]);
+    void Encode(int Size, CKDWORD Key[4]);
 
 public:
     void *m_Buffer;
     int m_CursorPos;
-    BOOL m_Valid;
+    CKBOOL m_Valid;
     int m_Size;
 };
 
@@ -222,8 +216,7 @@ public:
     // Dependencies :
     XClassArray<CKFilePluginDependencies> *GetMissingPlugins();
 
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
+    //-------------------------------------------------
 
     CKFile(CKContext *Context);
     ~CKFile();
@@ -233,10 +226,10 @@ protected:
 
     CKERROR ReadFileHeaders(CKBufferParser **ParserPtr);
     CKERROR ReadFileData(CKBufferParser **ParserPtr);
-    void FinishLoading(CKObjectArray *list, DWORD flags);
+    void FinishLoading(CKObjectArray *list, CKDWORD flags);
 
     //-----------------------------------------------
-    // Debug ouput :
+    // Debug output :
     // File statistic on file size and memory taken by each
     // class of objects...
     //---------------------------------------------
@@ -298,8 +291,6 @@ public:
     CKBOOL m_ReadFileDataDone;
     XBitArray m_AlreadyReferencedMask;					// BitArray of IDs already referenced  {secret}
     XObjectPointerArray m_ReferencedObjects;
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKFILE_H

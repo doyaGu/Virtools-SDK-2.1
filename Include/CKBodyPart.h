@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKBodyPart.h				 				 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CKBODYPART_H) || defined(CK_3DIMPLEMENTATION)
-#define CKBODYPART_H "$Id:$"
+#define CKBODYPART_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CK3dObject.h"
@@ -47,24 +40,20 @@ See also: CKBodyPart,CKBodyPart::SetRotationJoint
 *******************************************************/
 typedef struct CKIkJoint
 {
-    DWORD m_Flags;		// CK_IKJOINT_FLAGS
+    CKDWORD m_Flags;		// CK_IKJOINT_FLAGS
     VxVector m_Min;		// Minimum range if rotations are limited
     VxVector m_Max;		// Maximum range if rotations are limited
     VxVector m_Damping; // damping factor for each axis
 } CKIkJoint;
 
-#undef CK_PURE
-
-#define CK_PURE = 0
-
 /*************************************************
-{filename:CKBodypart}
+{filename:CKBodyPart}
 Name: CKBodyPart
 Summary: Class for 3D objects being part of a character.
 
 Remarks:
     + The CKBodyPart class is designed for characters parts. In addition to the virtual
-    base class CK3dObject it provides functions to retrieve the character a bodypart is part of, and
+    base class CK3dObject it provides functions to retrieve the character a body-part is part of, and
     functions to specified the IK joint data.
 
     + The class id of CKBodyPart is CKCID_BODYPART.
@@ -76,57 +65,58 @@ public:
 #endif
 
     /*************************************************
-    Summary: Returns the character to which this bodypart belongs to.
+    Summary: Returns the character to which this body-part belongs to.
     Return Value:
         A pointer to the owner CKCharacter.
     See also: CKCharacter
     *************************************************/
-    virtual CKCharacter *GetCharacter() const CK_PURE;
+    virtual CKCharacter *GetCharacter() const = 0;
 
     /*************************************************
-    Summary: Sets the only animation that can modify this bodypart.
+    Summary: Sets the only animation that can modify this body-part.
 
     Arguments:
         anim: A pointer to the new exclusive CKAnimation or NULL to remove any exclusive animation.
     Remarks:
         + Since a character can have several animations playing at the same moment, some animations
-        may refer to the same bodypart. This function forces one of these animations to be the only one
+        may refer to the same body-part. This function forces one of these animations to be the only one
         that can modify an object.
     See Also:CKAnimation
     *************************************************/
-    virtual void SetExclusiveAnimation(const CKAnimation *anim) CK_PURE;
+    virtual void SetExclusiveAnimation(const CKAnimation *anim) = 0;
 
-    virtual CKAnimation *GetExclusiveAnimation() const CK_PURE;
+    virtual CKAnimation *GetExclusiveAnimation() const = 0;
 
     /*************************************************
     Summary: Gets the IK rotation joint data
     Remarks:
     + The CKIkJoint structure contains the axis activation and limit angles
     used when solving IK along a kinematic chain.
-    + This information is only valid if the bodypart has the flags CK_3DENTITY_IKJOINTVALID
+    + This information is only valid if the body-part has the flags CK_3DENTITY_IKJOINTVALID
     See Also : SetRotationJoint,CKIkJoint,CKKinematicChain,CK3dEntity::GetFlags
     *************************************************/
-    virtual void GetRotationJoint(CKIkJoint *rotjoint) const CK_PURE;
+    virtual void GetRotationJoint(CKIkJoint *rotjoint) const = 0;
 
     /*************************************************
     Summary: Sets the rotation joint IK data
     Remarks:
     + The CKIkJoint structure contains the axis activation and limit angles
     used when solving IK along a kinematic chain.
-    + This information is only used when the bodypart has the flags CK_3DENTITY_IKJOINTVALID
+    + This information is only used when the body-part has the flags CK_3DENTITY_IKJOINTVALID
     See Also : GetRotationJoint,CKIkJoint,CKKinematicChain
     *************************************************/
-    virtual void SetRotationJoint(const CKIkJoint *rotjoint) CK_PURE;
+    virtual void SetRotationJoint(const CKIkJoint *rotjoint) = 0;
+
     /*************************************************
-    Summary: Ensures the bodypart fits its joint limits.
+    Summary: Ensures the body-part fits its joint limits.
     Remarks:
         + If the rotation is valid and angle limits are given, this method ensure
-        the bodypart orientation is inside these limits.
+        the body-part orientation is inside these limits.
     Return Value:
-        CK_OK if succesful, an error code otherwise.
+        CK_OK if successful, an error code otherwise.
     See Also:GetRotationJoint
     *************************************************/
-    virtual CKERROR FitToJoint() CK_PURE;
+    virtual CKERROR FitToJoint() = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -149,4 +139,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CKBODYPART_H

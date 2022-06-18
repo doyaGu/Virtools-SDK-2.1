@@ -1,5 +1,51 @@
-#ifndef _VX_MATH_DEFINES_H_
-#define _VX_MATH_DEFINES_H_
+#ifndef VXMATHDEFINES_H
+#define VXMATHDEFINES_H
+
+#include "VxMathCompiler.h"
+
+#define _QUOTE(x) #x
+
+#define QUOTE(x) _QUOTE(x)
+
+#define __FILE__LINE__ __FILE__ "(" QUOTE(__LINE__) ") : "
+
+#define NOTE(x) message(x)
+
+#define FILE_LINE message(__FILE__LINE__)
+
+#define TODO(x) message(__FILE__LINE__ "\n"               \
+    " ------------------------------------------------\n" \
+    "|  TODO :   " #x "\n"                                \
+    " -------------------------------------------------\n")
+
+#define TOFIX(x) message(__FILE__LINE__ "\n"              \
+    " ------------------------------------------------\n" \
+    "|  TOFIX :  " #x "\n"                                \
+    " -------------------------------------------------\n")
+
+#define todo(x) message(__FILE__LINE__ " TODO :   " #x "\n")
+
+#define tofix(x) message(__FILE__LINE__ " TOFIX:   " #x "\n")
+
+#ifndef XBYTE
+typedef unsigned char XBYTE;
+#endif
+
+#ifndef XBOOL
+typedef int XBOOL;
+#endif
+
+#ifndef XWORD
+typedef unsigned short XWORD;
+#endif
+
+#ifndef XDWORD
+typedef unsigned int XDWORD;
+#endif
+
+#ifndef XULONG
+typedef unsigned long XULONG;
+#endif
 
 #ifndef EPSILON
 #define EPSILON 1.192092896e-07F
@@ -39,15 +85,7 @@
 #define NULL 0
 #endif
 
-#ifdef WIN32
-typedef unsigned long DWORD;
-#endif
-
-typedef int BOOL;
-typedef unsigned char BYTE;
-typedef unsigned short WORD;
-typedef long LONG;
-typedef void *LPVOID;
+typedef int (VX_STDCALL *FUNC_PTR)();
 typedef void *WIN_HANDLE;
 typedef void *INSTANCE_HANDLE;
 typedef void *GENERIC_HANDLE;
@@ -72,8 +110,6 @@ struct VxStridedData;
 
 /************************************************
 Summary: Structure for storage of strided data.
-
-
 ************************************************/
 typedef struct VxStridedDataBase
 {
@@ -88,8 +124,6 @@ typedef struct VxStridedDataBase
 
 /************************************************
 Summary: Structure for storage of strided data.
-
-
 ************************************************/
 typedef struct VxStridedData : public VxStridedDataBase
 {
@@ -227,10 +261,10 @@ typedef enum VX_PIXELFORMAT
     _DXT3            = 21,	// S3/DirectX Texture Compression 3
     _DXT4            = 22,	// S3/DirectX Texture Compression 4
     _DXT5            = 23,	// S3/DirectX Texture Compression 5
-    _16_V8U8         = 24,	// 16-bit Bump Map format format (8 bits per color)
-    _32_V16U16       = 25,	// 32-bit Bump Map format format (16 bits per color)
-    _16_L6V5U5       = 26,	// 16-bit Bump Map format format with luminance
-    _32_X8L8V8U8     = 27,	// 32-bit Bump Map format format with luminance
+    _16_V8U8         = 24,	// 16-bit Bump Map format (8 bits per color)
+    _32_V16U16       = 25,	// 32-bit Bump Map format (16 bits per color)
+    _16_L6V5U5       = 26,	// 16-bit Bump Map format with luminance
+    _32_X8L8V8U8     = 27,	// 32-bit Bump Map format with luminance
 
 // Clut Formats
     _8_ABGR8888_CLUT = 28,  // 8 bits indexed CLUT (ABGR)
@@ -308,7 +342,7 @@ typedef enum ProcessorsFeatures
     PROC_WNI       = 0x04000000,    // Willamette new instructions available
     PROC_SS        = 0x08000000,	// Self snoop
     PROC_HTT       = 0x10000000,	// Hyper Threading Technology
-    PROC_TM        = 0x20000000,	// Thermal Moitoring
+    PROC_TM        = 0x20000000,	// Thermal Monitoring
 } ProcessorsFeatures;
 
-#endif
+#endif // VXMATHDEFINES_H

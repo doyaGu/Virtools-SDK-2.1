@@ -1,21 +1,16 @@
-/*************************************************************************/
-/*	File : CKPluginManager.h		 				 					 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPLUGINMANAGER_H
-#define CKPLUGINMANAGER_H "$Id:$"
+#define CKPLUGINMANAGER_H
 
-#include "XClassArray.h"
-#include "XString.h"
 #include "CKDefines.h"
+#include "CKBaseManager.h"
 #include "CKDataReader.h"
 #include "CKBitmapReader.h"
 #include "CKSoundReader.h"
 #include "CKModelReader.h"
 #include "CKMovieReader.h"
+#include "VxSharedLibrary.h"
+#include "XClassArray.h"
+#include "XString.h"
 
 #define CKPLUGIN_BITMAP       "Bitmap Readers"
 #define CKPLUGIN_SOUND        "Sound Readers"
@@ -43,8 +38,6 @@ Summary: Short description of a DLL that declared plugins
 
 Remarks:
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
         struct CKPluginDll
         {
             XString			m_DllFileName;
@@ -52,14 +45,12 @@ Remarks:
             int				m_PluginInfoCount;
         };
 
-{html:</td></tr></table>}
-
 See Also: CKPluginManager::GetPluginDllInfo
 *************************************************************/
 struct CKPluginDll
 {
     XString m_DllFileName;		   // DLL Path
-    INSTANCE_HANDLE m_DllInstance; // Instance of the Loaded Dll (as HINSTANCE on windows)
+    INSTANCE_HANDLE m_DllInstance; // Instance of the Loaded Dll (as HINSTANCE on Windows)
     int m_PluginInfoCount;		   // Number of plugins declared by this DLL
 
     CKPluginDll()
@@ -116,9 +107,7 @@ struct CKPluginEntryBehaviorsData
 Summary: Plugin Description structure
 
 Remarks:
-    + This structure described a registred Virtools plugin :
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
+    + This structure described a registered Virtools plugin :
 
                 struct  CKPluginEntry
                 {
@@ -133,19 +122,17 @@ Remarks:
                     CKBOOL			m_NeededByFile;
                 }
 
-{html:</td></tr></table>}
-
 See Also:CKPluginManager::GetPluginInfo
 ********************************************************/
 struct CKPluginEntry
 {
     int m_PluginDllIndex;	   // Index of the owner Dll in the list of Dlls
-    int m_PositionInDll;	   // Position of the PluginInfo inside the DLL (when thery are several plugins inside a same DLL)
+    int m_PositionInDll;	   // Position of the PluginInfo inside the DLL (when there are several plugins inside a same DLL)
     CKPluginInfo m_PluginInfo; // Base Info on the plugin (Type, Name,Description)
 
     //--- According to the type of plugin
 
-    CKPluginEntryReadersData *m_ReadersInfo;	 // Reader plugins specific info (optionnal settings + load/save capabilities)
+    CKPluginEntryReadersData *m_ReadersInfo;	 // Reader plugins specific info (optional settings + load/save capabilities)
     CKPluginEntryBehaviorsData *m_BehaviorsInfo; // Behavior plugins specific info (list of declared behavior GUIDS)
 
     CKBOOL m_Active;	   // For manager and Render engines TRUE if a manager was created, for other plugins this value is not used.
@@ -211,10 +198,10 @@ find the available plugins (ParsePlugins or RegisterPlugin).
 + Plugins are sorted by their category, many methods asks to be given a
 category which must be a valid CK_PLUGIN_TYPE identifier or -1 to use all categories.
 
-+ Since a Dll can contain several plugins the plugin manager give acces to either
++ Since a Dll can contain several plugins the plugin manager give access to either
 the list of plugin per category (GetPluginCount,GetPluginInfo) or to the list of Dll
 that were loaded (GetPluginDllCount,GetPluginDllInfo). A plugin is identified by its
-CKPluginEntry which contains its type and other informations along with the index of
+CKPluginEntry which contains its type and other information along with the index of
 the DLL that declared it.
 
 See Also: CKPluginEntry,CKPluginDll,Creating New Plugins
@@ -252,7 +239,7 @@ public:
     CKPluginEntry *GetPluginInfo(int catIdx, int PluginIdx); // Gets the Plugin at index PluginIdx for a category
 
     //---- Bitmap,Sound,Model or Movie Reader Access
-    BOOL SetReaderOptionData(CKContext *context, void *memdata, CKParameterOut *Param, CKFileExtension ext, CKGUID *guid = NULL);
+    CKBOOL SetReaderOptionData(CKContext *context, void *memdata, CKParameterOut *Param, CKFileExtension ext, CKGUID *guid = NULL);
     CKParameterOut *GetReaderOptionData(CKContext *context, void *memdata, CKFileExtension ext, CKGUID *guid = NULL);
 
     CKBitmapReader *GetBitmapReader(CKFileExtension &ext, CKGUID *preferedGUID = NULL);
@@ -273,15 +260,12 @@ public:
 #ifdef CK_LIB
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     //---------------- for additionnal plugins to link statically
     void RegisterPluginInfo(int PositionInDll, CKPluginInfo *info, CKDLL_OBJECTDECLARATIONFUNCTION InfoFct, CKReaderGetReaderFunction GetReaderFunc);
     void RegisterNewStaticLibAsDll(char *Name, int PluginInfoCount);
     void AddRenderEngineRasterizer(CKRST_GETINFO RasterizerInfoFunction) { m_StaticRasterizers.PushBack(RasterizerInfoFunction); }
     const XArray<CKRST_GETINFO> &GetRegistredRasterizers() { return m_StaticRasterizers; }
-#endif // Docjet secret macro
 
 #endif
 
@@ -308,4 +292,4 @@ protected:
     void Init();
 };
 
-#endif
+#endif // CKPLUGINMANAGER_H

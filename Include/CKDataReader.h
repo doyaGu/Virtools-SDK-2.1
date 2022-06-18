@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKDataReader.h												 */
-/*	Author :  Aymeric BARD												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2001, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _CKDATAREADER_H_
-#define _CKDATAREADER_H_
+#ifndef CKDATAREADER_H
+#define CKDATAREADER_H
 
 #include "CKDefines.h"
 
@@ -49,6 +42,7 @@ class CKDataReader
 {
 public:
     virtual ~CKDataReader() {}
+
     /************************************************
     Summary: Destroys the reader.
     Remarks:
@@ -56,6 +50,7 @@ public:
     as it should destroy the reader.
     ************************************************/
     virtual void Release() = 0;
+
     /************************************************
     Summary: Returns a description of the reader.
     Return Value:
@@ -93,10 +88,10 @@ public:
     Remarks:
         A Reader can load or save  data from file,memory or an URL.
     This method returns a combination of CK_DATAREADER_FLAGS which indicates
-    which of these functionnalities are supported.
+    which of these functionalities are supported.
     See Also: CK_DATAREADER_FLAGS
     ************************************************/
     virtual CK_DATAREADER_FLAGS GetFlags() = 0;
 };
 
-#endif
+#endif // CKDATAREADER_H

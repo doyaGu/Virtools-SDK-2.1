@@ -1,20 +1,12 @@
-/*************************************************************************/
-/*	File : CK3dEntity.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #if !defined(CK3DENTITY_H) || defined(CK_3DIMPLEMENTATION)
-#define CK3DENTITY_H "$Id:$"
+#define CK3DENTITY_H
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CKRenderObject.h"
-#include "CKSkin.h"
-/*  #include "CKMesh.h" */
+#include "VxQuaternion.h"
+#include "VxRect.h"
 
-#undef CK_PURE
-#define CK_PURE = 0
+class CKSkin;
 
 #define CKRENDER_UPDATEEXTENTS 0x00000FF
 #define CKRENDER_DONTSETMATRIX 0x0000100
@@ -34,7 +26,7 @@ It also provides management for a set of potential meshes, and animations.
     Adding a 3dEntity to a Level or Scene automatically adds its meshes to the Level/Scene.
 
     + CK3dEntity class provides several functions for specifying position,orientation and scale of
-     the entity plus an acces to local and world matrix.
+     the entity plus an access to local and world matrix.
 
     + A CK3dEntity may have several callback functions called before and after rendering and
     the render function may also be replaced by an user function.
@@ -77,7 +69,8 @@ public:
     Remarks:
     See also: GetChildren,GetChild
     ***********************************************/
-    virtual int GetChildrenCount() const CK_PURE;
+    virtual int GetChildrenCount() const = 0;
+
     /************************************************
     Summary: Returns child entity according to its index in children list
     Arguments:
@@ -87,7 +80,8 @@ public:
 
     See also: GetChildrenCount,GetChildren
     ************************************************/
-    virtual CK3dEntity *GetChild(int pos) const CK_PURE;
+    virtual CK3dEntity *GetChild(int pos) const = 0;
+
     /************************************************
     Summary: Attaches the entity to a new parent in the scene hierarchy.
     Arguments:
@@ -100,14 +94,16 @@ public:
 
     See also: GetParent,AddChild,RemoveChild,GetChild
     ************************************************/
-    virtual CKBOOL SetParent(CK3dEntity *Parent, CKBOOL KeepWorldPos = TRUE) CK_PURE;
+    virtual CKBOOL SetParent(CK3dEntity *Parent, CKBOOL KeepWorldPos = TRUE) = 0;
+
     /*************************************************
     Summary: Returns the parent entity.
     Return Value: A pointer to the parent entity or NULL if this entity is a root of the hierarchy.
 
     See also: AddChildren, RemoveChild, SetParent
     *************************************************/
-    virtual CK3dEntity *GetParent() const CK_PURE;
+    virtual CK3dEntity *GetParent() const = 0;
+
     /************************************************
     Summary: Attaches an entity as child of this entity.
 
@@ -121,7 +117,8 @@ public:
     o This method does the exact same thing than Child->SetParent(this)
     See also: AddChildren, RemoveChild, SetParent, GetParent
     ************************************************/
-    virtual CKBOOL AddChild(CK3dEntity *Child, CKBOOL KeepWorldPos = TRUE) CK_PURE;
+    virtual CKBOOL AddChild(CK3dEntity *Child, CKBOOL KeepWorldPos = TRUE) = 0;
+
     /************************************************
     Summary: Attaches a list of entities as children of this entity.
     Arguments:
@@ -135,7 +132,8 @@ public:
 
     See also: Addchild, RemoveChild, SetParent, GetParent
     ************************************************/
-    virtual CKBOOL AddChildren(const XObjectPointerArray &Children, CKBOOL KeepWorldPos = TRUE) CK_PURE;
+    virtual CKBOOL AddChildren(const XObjectPointerArray &Children, CKBOOL KeepWorldPos = TRUE) = 0;
+
     /************************************************
     Summary: Detaches a child entity from its parent.
     Arguments:
@@ -147,7 +145,8 @@ public:
 
     See also: AddChild, GetChildren, SetParent, GetParent
     ************************************************/
-    virtual CKBOOL RemoveChild(CK3dEntity *Mov) CK_PURE;
+    virtual CKBOOL RemoveChild(CK3dEntity *Mov) = 0;
+
     /*************************************************
     Summary: Compares the hierarchy of two entities.
     Arguments:
@@ -165,7 +164,8 @@ public:
 
     See Also: GetChild,GetChildren,GetParent
     *************************************************/
-    virtual CKBOOL CheckIfSameKindOfHierarchy(CK3dEntity *Mov, CKBOOL SameOrder = FALSE) const CK_PURE;
+    virtual CKBOOL CheckIfSameKindOfHierarchy(CK3dEntity *Mov, CKBOOL SameOrder = FALSE) const = 0;
+
     /************************************************
     Summary: Parses the sub hierarchy of an entity.
     Arguments:
@@ -193,7 +193,7 @@ public:
 
     See also: GetChildrenCount,GetChildren
     ************************************************/
-    virtual CK3dEntity *HierarchyParser(CK3dEntity *current) const CK_PURE;
+    virtual CK3dEntity *HierarchyParser(CK3dEntity *current) const = 0;
 
     //-------------------------------------------------------
     // Flags settings
@@ -208,7 +208,7 @@ public:
     dummy objects,camera or light targets,etc..
     See also: CK_3DENTITY_FLAGS,SetFlags
     *************************************************/
-    virtual CKDWORD GetFlags() const CK_PURE;
+    virtual CKDWORD GetFlags() const = 0;
 
     /*************************************************
     Summary: Sets the entity flags
@@ -220,7 +220,8 @@ public:
     dummy objects,camera or light targets,etc..
     See also: CK_3DENTITY_FLAGS,GetFlags
     *************************************************/
-    virtual void SetFlags(CKDWORD Flags) CK_PURE;
+    virtual void SetFlags(CKDWORD Flags) = 0;
+
     /************************************************
     Summary: Sets if the entity should be pickable
 
@@ -233,7 +234,8 @@ public:
 
     See also: VX_MOVEABLE_FLAGS,CKRenderContext::Pick, IsPickable
     ************************************************/
-    virtual void SetPickable(CKBOOL Pick = TRUE) CK_PURE;
+    virtual void SetPickable(CKBOOL Pick = TRUE) = 0;
+
     /************************************************
     Summary: Returns the state of picking flag
     Return Value: TRUE if pickable, FALSE if not.
@@ -241,7 +243,8 @@ public:
 
     See also: CKRenderContext::Pick, IsPickable
     ************************************************/
-    virtual CKBOOL IsPickable() const CK_PURE;
+    virtual CKBOOL IsPickable() const = 0;
+
     /************************************************
     Summary: Sets visibility flag for additionnal material channels.
     Arguments:
@@ -252,7 +255,8 @@ public:
 
     See also: AreRenderChannelsVisible
     ************************************************/
-    virtual void SetRenderChannels(CKBOOL RenderChannels = TRUE) CK_PURE;
+    virtual void SetRenderChannels(CKBOOL RenderChannels = TRUE) = 0;
+
     /************************************************
     Summary: Returns the state of material channels visibility flag
     Return Value: TRUE if channels are visible, FALSE if not.
@@ -260,7 +264,7 @@ public:
 
     See also: SetRenderChannels
     ************************************************/
-    virtual CKBOOL AreRenderChannelsVisible() const CK_PURE;
+    virtual CKBOOL AreRenderChannelsVisible() const = 0;
 
     /************************************************
     Summary: Checks if the moveable and its associated mesh are in view frustrum.
@@ -280,7 +284,8 @@ public:
 
     See also: IsInViewFrustrumHierarchic,IsAllOutsideFrustrum,IsAllInsideFrustrum
     ************************************************/
-    virtual CKBOOL IsInViewFrustrum(CKRenderContext *Dev, CKDWORD Flags = 0) CK_PURE;
+    virtual CKBOOL IsInViewFrustrum(CKRenderContext *Dev, CKDWORD Flags = 0) = 0;
+
     /************************************************
     Summary: Checks if the moveable and its children are in the view frustrum.
     Arguments:
@@ -292,7 +297,8 @@ public:
 
     See also: IsInViewFrustrum,IsAllOutsideFrustrum,IsAllInsideFrustrum
     ************************************************/
-    virtual CKBOOL IsInViewFrustrumHierarchic(CKRenderContext *Dev) CK_PURE;
+    virtual CKBOOL IsInViewFrustrumHierarchic(CKRenderContext *Dev) = 0;
+
     /*************************************************
     Summary: Excludes this entity from animations.
     Arguments:
@@ -303,9 +309,10 @@ public:
     o This method sets or removes the flag CK_3DENTITY_IGNOREANIMATION
 
     *************************************************/
-    virtual void IgnoreAnimations(CKBOOL ignore = TRUE) CK_PURE;
+    virtual void IgnoreAnimations(CKBOOL ignore = TRUE) = 0;
 
-    virtual CKBOOL AreAnimationIgnored() const CK_PURE;
+    virtual CKBOOL AreAnimationIgnored() const = 0;
+
     /************************************************
     Summary: Returns whether the object is entirely inside the view frustum
     Return Value: TRUE if object is totally visible, FALSE if not.
@@ -315,7 +322,8 @@ public:
 
     See also: IsInViewFrustrum, IsInViewFrustrumHierarchic,Render,IsAllInsideFrustrum
     ************************************************/
-    virtual CKBOOL IsAllInsideFrustrum() const CK_PURE;
+    virtual CKBOOL IsAllInsideFrustrum() const = 0;
+
     /************************************************
     Summary: return whether the object is entirely outside the view frustum
     Return Value: TRUE if object is totally clipped, FALSE if not.
@@ -325,20 +333,22 @@ public:
 
     See also: IsInViewFrustrum, IsInViewFrustrumHierarchic,Render,IsAllInsideFrustrum
     ************************************************/
-    virtual CKBOOL IsAllOutsideFrustrum() const CK_PURE;
+    virtual CKBOOL IsAllOutsideFrustrum() const = 0;
+
     /*************************************************
-    Summary: Makes this entity to be rendered as other transparents objects
+    Summary: Makes this entity to be rendered as other transparent objects
 
     Arguments:
         Trans: A Boolean indicating if it should be rendered as transparent objects.
     Remarks:
-    o Render Engines may execute special processing for transparents object: In most
+    o Render Engines may execute special processing for transparent object: In most
     case they are sorted in Z order before being rendered and are rendered after all
     non-transparent object.
     o This function sets VX_MOVEABLE_RENDERLAST moveable flags.
     See also: VX_MOVEABLE_FLAGS,GetMoveableFlags,SetMoveableFlags,ModifyMoveableFlags
     *************************************************/
-    virtual void SetRenderAsTransparent(CKBOOL Trans = TRUE) CK_PURE;
+    virtual void SetRenderAsTransparent(CKBOOL Trans = TRUE) = 0;
+
     /*************************************************
     Summary: Sets the moveable flags
 
@@ -351,9 +361,10 @@ public:
     o In order to change a flags you should rather use ModifyMoveableFlags
     See also: VX_MOVEABLE_FLAGS,GetMoveableFlags,ModifyMoveableFlags
     *************************************************/
-    virtual CKDWORD GetMoveableFlags() const CK_PURE;
+    virtual CKDWORD GetMoveableFlags() const = 0;
 
-    virtual void SetMoveableFlags(CKDWORD flags) CK_PURE;
+    virtual void SetMoveableFlags(CKDWORD flags) = 0;
+
     /*************************************************
     Summary: Changes the entity flags
     Return Value:
@@ -367,7 +378,7 @@ public:
 
     See also: VX_MOVEABLE_FLAGS,GetMoveableFlags,ModifyMoveableFlags
     *************************************************/
-    virtual CKDWORD ModifyMoveableFlags(CKDWORD Add, CKDWORD Remove) CK_PURE;
+    virtual CKDWORD ModifyMoveableFlags(CKDWORD Add, CKDWORD Remove) = 0;
 
     //-------------------------------------------------------
     // MESHES
@@ -379,7 +390,8 @@ public:
         The mesh that is currently used to render this entity.
     See Also:Using Meshes,SetCurrentMesh,GetMeshCount,GetMesh,AddMesh
     *************************************************/
-    virtual CKMesh *GetCurrentMesh() const CK_PURE;
+    virtual CKMesh *GetCurrentMesh() const = 0;
+
     /*************************************************
     Summary: Sets the current mesh of this entity.
 
@@ -393,7 +405,7 @@ public:
     meshes (temporary representation for example), in which case add_if_not_here can be set to FALSE.
     See Also:Using Meshes,GetCurrentMesh,GetMeshCount,GetMesh,AddMesh
     *************************************************/
-    virtual CKMesh *SetCurrentMesh(CKMesh *m, CKBOOL add_if_not_here = TRUE) CK_PURE;
+    virtual CKMesh *SetCurrentMesh(CKMesh *m, CKBOOL add_if_not_here = TRUE) = 0;
 
     /*************************************************
     Summary: Returns the number of meshes in this entity.
@@ -405,7 +417,8 @@ public:
         Number of meshes on this entity.
     See Also:Using Meshes,GetCurrentMesh,SetCurrentMesh,GetMesh,AddMesh
     *************************************************/
-    virtual int GetMeshCount() const CK_PURE;
+    virtual int GetMeshCount() const = 0;
+
     /*************************************************
     Summary: Returns a potential mesh according to its index.
     Arguments:
@@ -418,7 +431,8 @@ public:
 
     See Also:Using Meshes,GetCurrentMesh,SetCurrentMesh,GetMesh,AddMesh
     *************************************************/
-    virtual CKMesh *GetMesh(int pos) const CK_PURE;
+    virtual CKMesh *GetMesh(int pos) const = 0;
+
     /*************************************************
     Summary: Adds the given mesh to the set of potential meshes
     Arguments:
@@ -431,7 +445,8 @@ public:
 
     See Also:Using Meshes,GetCurrentMesh,SetCurrentMesh,GetMesh,GetMeshCount
     *************************************************/
-    virtual CKERROR AddMesh(CKMesh *mesh) CK_PURE;
+    virtual CKERROR AddMesh(CKMesh *mesh) = 0;
+
     /*************************************************
     Summary: Removes the given mesh from the set of potential meshes
     Arguments:
@@ -444,7 +459,7 @@ public:
 
     See Also:Using Meshes,GetCurrentMesh,SetCurrentMesh,GetMesh,GetMeshCount,AddMesh
     *************************************************/
-    virtual CKERROR RemoveMesh(CKMesh *mesh) CK_PURE;
+    virtual CKERROR RemoveMesh(CKMesh *mesh) = 0;
 
     //-------------------------------------------------------
     // ORIENTATION POSITION SCALE
@@ -466,7 +481,8 @@ public:
     o When KeepChildren is set to TRUE, children entities of this object will keep their current position.
     See also: SetOrientation, GetOrientation
     ************************************************/
-    virtual void LookAt(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void LookAt(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+
     /************************************************
     Summary: Rotates the entity around an axis.
 
@@ -481,8 +497,9 @@ public:
     o When KeepChildren is set to TRUE, children entities of this object will keep their current position.
     See also: SetOrientation, GetOrientation
     ************************************************/
-    virtual void Rotate(const VxVector *Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
-    virtual void Rotate(float X, float Y, float Z, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void Rotate(const VxVector *Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    virtual void Rotate(float X, float Y, float Z, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+
     /************************************************
     Summary: Translates the entity.
     Arguments:
@@ -496,8 +513,8 @@ public:
 
     See also: SetPosition, GetPosition.
     ************************************************/
-    virtual void Translate(const VxVector *Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
-    virtual void Translate(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void Translate(const VxVector *Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    virtual void Translate(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
 
     /************************************************
     Summary: Adds scaling to the entity.
@@ -509,8 +526,9 @@ public:
         + When KeepChildren is set to TRUE, children entities of this object will keep their current position/orientation.
     See also: GetScale, AddScale
     ************************************************/
-    virtual void AddScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
-    virtual void AddScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
+    virtual void AddScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+    virtual void AddScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+
     /************************************************
     Summary: Sets the position of the moveable
 
@@ -524,8 +542,9 @@ public:
     + When KeepChildren is set to TRUE, children entity of this object will keep their current position.
     See also: Translate
     ************************************************/
-    virtual void SetPosition(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
-    virtual void SetPosition(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void SetPosition(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    virtual void SetPosition(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+
     /*************************************************
     Summary: Returns the entity position in a given referential.
     Arguments:
@@ -534,7 +553,8 @@ public:
 
     See Also:SetPosition,GetWorldMatrix
     *************************************************/
-    virtual void GetPosition(VxVector *Pos, CK3dEntity *Ref = NULL) const CK_PURE;
+    virtual void GetPosition(VxVector *Pos, CK3dEntity *Ref = NULL) const = 0;
+
     /************************************************
     Summary: Sets the orientation of the entity.
 
@@ -554,7 +574,8 @@ public:
 
     See also: GetOrientation, Rotate
     ************************************************/
-    virtual void SetOrientation(const VxVector *Dir, const VxVector *Up, const VxVector *Right = NULL, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void SetOrientation(const VxVector *Dir, const VxVector *Up, const VxVector *Right = NULL, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+
     /*************************************************
     Summary: Returns the entity orientation axes.
     Arguments:
@@ -566,7 +587,8 @@ public:
         + All arguments are optionnal and be set to NULL.
 
     *************************************************/
-    virtual void GetOrientation(VxVector *Dir, VxVector *Up, VxVector *Right = NULL, CK3dEntity *Ref = NULL) CK_PURE;
+    virtual void GetOrientation(VxVector *Dir, VxVector *Up, VxVector *Right = NULL, CK3dEntity *Ref = NULL) = 0;
+
     /************************************************
     Summary: Sets the orientation of the entity according to a quaternion.
 
@@ -581,7 +603,8 @@ public:
     otherwise the orientation is relative to the moveable Ref referential.
     See also: VxQuaternion,GetQuaternion,SetOrientation
     ************************************************/
-    virtual void SetQuaternion(const VxQuaternion *Quat, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE, BOOL KeepScale = FALSE) CK_PURE;
+    virtual void SetQuaternion(const VxQuaternion *Quat, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE, CKBOOL KeepScale = FALSE) = 0;
+
     /*************************************************
     Summary: Returns the quaternion giving the entity orientation.
     Arguments:
@@ -593,7 +616,8 @@ public:
 
     See also: VxQuaternion,SetQuaternion,SetOrientation
     *************************************************/
-    virtual void GetQuaternion(VxQuaternion *Quat, CK3dEntity *Ref = NULL) CK_PURE;
+    virtual void GetQuaternion(VxQuaternion *Quat, CK3dEntity *Ref = NULL) = 0;
+
     /************************************************
     Summary: Sets the scale factors of the entity.
     Arguments:
@@ -606,8 +630,9 @@ public:
 
     See also: GetScale, AddScale
     ************************************************/
-    virtual void SetScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
-    virtual void SetScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
+    virtual void SetScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+    virtual void SetScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+
     /*************************************************
     Summary: Returns the scale of this entity.
     Arguments:
@@ -616,7 +641,8 @@ public:
     Remarks:
 
     *************************************************/
-    virtual void GetScale(VxVector *Scale, CKBOOL Local = TRUE) CK_PURE;
+    virtual void GetScale(VxVector *Scale, CKBOOL Local = TRUE) = 0;
+
     /************************************************
     Summary: Construct a new world or local matrix for the entity.
     Arguments:
@@ -632,13 +658,13 @@ public:
 
     See also: SetPosition, SetScale, SetQuaternion
     ************************************************/
-    virtual CKBOOL ConstructWorldMatrix(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat) CK_PURE;
+    virtual CKBOOL ConstructWorldMatrix(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat) = 0;
 
-    virtual CKBOOL ConstructWorldMatrixEx(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat, const VxQuaternion *Shear, float Sign) CK_PURE;
+    virtual CKBOOL ConstructWorldMatrixEx(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat, const VxQuaternion *Shear, float Sign) = 0;
 
-    virtual CKBOOL ConstructLocalMatrix(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat) CK_PURE;
+    virtual CKBOOL ConstructLocalMatrix(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat) = 0;
 
-    virtual CKBOOL ConstructLocalMatrixEx(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat, const VxQuaternion *Shear, float Sign) CK_PURE;
+    virtual CKBOOL ConstructLocalMatrixEx(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat, const VxQuaternion *Shear, float Sign) = 0;
 
     //-------------------------------------------------------
     // RENDERING
@@ -663,10 +689,10 @@ public:
     current world matrix of the entity. It can be used to render this entity using a different matrix.
     See also: CKRenderContext::Render,Understanding the Render Loop,IsInViewFrustrum
     ************************************************/
-    virtual CKBOOL Render(CKRenderContext *Dev, CKDWORD Flags = CKRENDER_UPDATEEXTENTS) CK_PURE;
+    virtual CKBOOL Render(CKRenderContext *Dev, CKDWORD Flags = CKRENDER_UPDATEEXTENTS) = 0;
 
     //-------------------------------------------------------
-    // INFO & MISC ACCES
+    // INFO & MISC ACCESS
 
     /************************************************
     Summary: Checks if the entity is intersected by a given ray or segment.
@@ -678,7 +704,7 @@ public:
         Ref: The referential frame in which Pos1 and Pos2 are specified.
         iOptions: a combination of the CK_RAYINTERSECTION flags.
     Return Value:
-        Returns 0 if not intersection occured or the number of faces intersected otherwise.
+        Returns 0 if not intersection occurred or the number of faces intersected otherwise.
 
     Remarks:
     + Checks for intersection between the ray specified by points Pos1 and Pos2 where Pos1 is
@@ -688,10 +714,11 @@ public:
     + if NULL is given for Desc, then the first intersection found exits the function, returning 1 (and
     not the real number of faces intersected) : This allow faster intersection when only occlusion
     is looking for.
-    + If referential is NULL, the source vectos Pos1 and Pos2 are defined in world coordinates.
+    + If referential is NULL, the source vectors Pos1 and Pos2 are defined in world coordinates.
     See also: VxIntersectionDesc
     ************************************************/
-    virtual int RayIntersection(const VxVector *Pos1, const VxVector *Pos2, VxIntersectionDesc *Desc, CK3dEntity *Ref, CK_RAYINTERSECTION iOptions = CKRAYINTERSECTION_DEFAULT) CK_PURE;
+    virtual int RayIntersection(const VxVector *Pos1, const VxVector *Pos2, VxIntersectionDesc *Desc, CK3dEntity *Ref, CK_RAYINTERSECTION iOptions = CKRAYINTERSECTION_DEFAULT) = 0;
+
     /*************************************************
     Summary: Returns the 2D extents of this entity on screen.
 
@@ -701,7 +728,7 @@ public:
         + Each time a object is rendered, its screen extents are computed, this method does not compute the
         current extents but returns those that were computed the last time the object was rendered.
     *************************************************/
-    virtual void GetRenderExtents(VxRect &rect) const CK_PURE;
+    virtual void GetRenderExtents(VxRect &rect) const = 0;
 
     /****************************************************************************
     Summary: Returns the world matrix of this object as it was last rendering frame.
@@ -715,10 +742,10 @@ public:
         If the flag is not set and this method is called it will return the current world matrix.
     See also: VxMatrix,SetLocalMatrix, SetWorldMatrix, GetWorldMatrix
     ***************************************************************************/
-    virtual const VxMatrix &GetLastFrameMatrix() const CK_PURE;
+    virtual const VxMatrix &GetLastFrameMatrix() const = 0;
 
     //-------------------------------------------------------
-    // MATRIX ACCES
+    // MATRIX ACCESS
 
     /************************************************
     Summary: Sets the local transformation matrix.
@@ -732,7 +759,8 @@ public:
         + When KeepChildren is set to TRUE, this method will not modify children current position/orientation.
     See also: SetWorldMatrix,GetWorldMatrix,GetLocalMatrix,GetInverseWorldMatrix
     ************************************************/
-    virtual void SetLocalMatrix(const VxMatrix &Mat, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void SetLocalMatrix(const VxMatrix &Mat, CKBOOL KeepChildren = FALSE) = 0;
+
     /*************************************************
     Summary: Returns the local transformation matrix.
 
@@ -743,7 +771,8 @@ public:
         matrix is equal to its world matrix.
     See also: SetWorldMatrix,GetWorldMatrix,SetLocalMatrix,GetInverseWorldMatrix
     *************************************************/
-    virtual const VxMatrix &GetLocalMatrix() const CK_PURE;
+    virtual const VxMatrix &GetLocalMatrix() const = 0;
+
     /************************************************
     Summary: Sets the world transformation matrix.
 
@@ -756,7 +785,8 @@ public:
     + When KeepChildren is set to TRUE, this method will not modify children current position/orientation.
     See also: SetLocalMatrix,GetLocalMatrix,GetWorldMatrix,GetInverseWorldMatrix
     ************************************************/
-    virtual void SetWorldMatrix(const VxMatrix &Mat, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void SetWorldMatrix(const VxMatrix &Mat, CKBOOL KeepChildren = FALSE) = 0;
+
     /*************************************************
     Summary: Returns the world transformation matrix.
 
@@ -767,14 +797,15 @@ public:
         matrix is equal to its world matrix.
     See also: SetLocalMatrix,GetLocalMatrix,GetWorldMatrix,GetInverseWorldMatrix
     *************************************************/
-    virtual const VxMatrix &GetWorldMatrix() const CK_PURE;
+    virtual const VxMatrix &GetWorldMatrix() const = 0;
+
     /************************************************
     Summary: Returns the inverse of the world transformation matrix.
 
     Return Value: A reference to the inverse world matrix.
     See also: SetWorldMatrix, GetWorldMatrix, GetLocalMatrix, SetLocalMatrix
     ************************************************/
-    virtual const VxMatrix &GetInverseWorldMatrix() const CK_PURE;
+    virtual const VxMatrix &GetInverseWorldMatrix() const = 0;
 
     //-------------------------------------------------------
     // TRANSFORMATIONS
@@ -792,7 +823,7 @@ public:
     TransformVector transforms a normal vector (only rotation is taken).
     See also: InverseTransform,TransformVector,TransformMany
     ************************************************/
-    virtual void Transform(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const CK_PURE;
+    virtual void Transform(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
 
     /************************************************
     Summary: Transforms a position from another entity coordinates system into this coordinates system.
@@ -807,11 +838,12 @@ public:
     InverseTransformVector transforms a normal vector (only rotation is taken).
     See also: Transform,InverseTransformMany,InverseTransformVector
     ************************************************/
-    virtual void InverseTransform(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const CK_PURE;
+    virtual void InverseTransform(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
 
-    virtual void TransformVector(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const CK_PURE;
+    virtual void TransformVector(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
 
-    virtual void InverseTransformVector(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const CK_PURE;
+    virtual void InverseTransformVector(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
+
     /************************************************
     Summary: Transforms vectors from this coordinates system into another entity coordinates system.
 
@@ -825,7 +857,8 @@ public:
         better performances.
     See also: InverseTransformMany
     ************************************************/
-    virtual void TransformMany(VxVector *Dest, const VxVector *Src, int count, CK3dEntity *Ref = NULL) const CK_PURE;
+    virtual void TransformMany(VxVector *Dest, const VxVector *Src, int count, CK3dEntity *Ref = NULL) const = 0;
+
     /************************************************
     Summary: Transforms vectors from another entity coordinates system into this entity coordinates system.
 
@@ -839,7 +872,7 @@ public:
         better performances.
     See also: TransformMany
     ************************************************/
-    virtual void InverseTransformMany(VxVector *Dest, const VxVector *Src, int count, CK3dEntity *Ref = NULL) const CK_PURE;
+    virtual void InverseTransformMany(VxVector *Dest, const VxVector *Src, int count, CK3dEntity *Ref = NULL) const = 0;
 
     /************************************************
     Summary: Changes the referential (pivot) of the entity without moving the vertices.
@@ -852,7 +885,7 @@ public:
     + This method can be used to change the pivot or referential of an entity without moving its vertices.
     See also: SetRenderCallBack
     ************************************************/
-    virtual void ChangeReferential(CK3dEntity *Ref = NULL) CK_PURE;
+    virtual void ChangeReferential(CK3dEntity *Ref = NULL) = 0;
 
     //------------------------------------------------
     // Places
@@ -866,7 +899,7 @@ public:
         + Places can be used to perfom portal culling to removes hidden entities in a scene.
     See also: Using Portals,CKPlace,CKPlace::AddEntity
     *************************************************/
-    virtual CKPlace *GetReferencePlace() const CK_PURE;
+    virtual CKPlace *GetReferencePlace() const = 0;
 
     //-------------------------------------------------
     // Animations
@@ -884,7 +917,8 @@ public:
     + These animations are often part of a CKKeyedAnimation which control a whole character.
     See also: CKObjectAnimation,GetObjectAnimation,GetObjectAnimationCount,RemoveObjectAnimation
     *************************************************/
-    virtual void AddObjectAnimation(CKObjectAnimation *anim) CK_PURE;
+    virtual void AddObjectAnimation(CKObjectAnimation *anim) = 0;
+
     /*************************************************
     Summary: Removes an animation from the entity
     Arguments:
@@ -895,7 +929,8 @@ public:
 
     See also: CKObjectAnimation,GetObjectAnimation,GetObjectAnimationCount,AddObjectAnimation
     *************************************************/
-    virtual void RemoveObjectAnimation(CKObjectAnimation *anim) CK_PURE;
+    virtual void RemoveObjectAnimation(CKObjectAnimation *anim) = 0;
+
     /*************************************************
     Summary: Returns an animation by its index.
     Arguments:
@@ -905,7 +940,8 @@ public:
 
     See also:CKObjectAnimation,RemoveObjectAnimation,GetObjectAnimationCount,AddObjectAnimation
     *************************************************/
-    virtual CKObjectAnimation *GetObjectAnimation(int index) const CK_PURE;
+    virtual CKObjectAnimation *GetObjectAnimation(int index) const = 0;
+
     /*************************************************
     Summary: Returns the number of object animations on this entity.
 
@@ -913,7 +949,7 @@ public:
         Number of animation on this entity.
     See also:CKObjectAnimation,RemoveObjectAnimation,GetObjectAnimation,AddObjectAnimation
     *************************************************/
-    virtual int GetObjectAnimationCount() const CK_PURE;
+    virtual int GetObjectAnimationCount() const = 0;
 
     //-------------------------------------------------
     // Skin
@@ -930,7 +966,8 @@ public:
 
     See Also:CKSkin,DestroySkin,UpdateSkin,GetSkin
     *************************************************/
-    virtual CKSkin *CreateSkin() CK_PURE;
+    virtual CKSkin *CreateSkin() = 0;
+
     /*************************************************
     Summary: Removes the skin.
 
@@ -938,7 +975,8 @@ public:
         TRUE if successful, FALSE if the skin does not exist.
     See Also:CKSkin,CreateSkin,UpdateSkin,GetSkin
     *************************************************/
-    virtual CKBOOL DestroySkin() CK_PURE;
+    virtual CKBOOL DestroySkin() = 0;
+
     /*************************************************
     Summary: Updates the current mesh according to bones position.
     Return Value:
@@ -949,16 +987,17 @@ public:
 
     See Also:CKSkin,CreateSkin,DestroySkin,GetSkin
     *************************************************/
-    virtual CKBOOL UpdateSkin() CK_PURE;
+    virtual CKBOOL UpdateSkin() = 0;
+
     /*************************************************
     Summary: Returns the current skin applied to this entity.
     Return Value:	 A pointer to the CKSkin
 
     See Also:CKSkin,CreateSkin,DestroySkin,UpdateSkin
     *************************************************/
-    virtual CKSkin *GetSkin() const CK_PURE;
+    virtual CKSkin *GetSkin() const = 0;
 
-    virtual void UpdateBox(CKBOOL World = TRUE) CK_PURE;
+    virtual void UpdateBox(CKBOOL World = TRUE) = 0;
 
     /************************************************
     Summary: Returns the bounding box this entity.
@@ -971,7 +1010,7 @@ public:
 
     See also: VxBbox, GetRadius, GetBaryCenter, GetHierarchicalBox
     ************************************************/
-    virtual const VxBbox &GetBoundingBox(CKBOOL Local = FALSE) CK_PURE;
+    virtual const VxBbox &GetBoundingBox(CKBOOL Local = FALSE) = 0;
 
     /************************************************
     Summary: Specify a user bounding box for the entity.
@@ -988,7 +1027,7 @@ public:
 
     See also: VxBbox, GetRadius, GetBaryCenter, GetHierarchicalBox,GetBoundingBox
     ************************************************/
-    virtual CKBOOL SetBoundingBox(const VxBbox *BBox, CKBOOL Local = FALSE) CK_PURE;
+    virtual CKBOOL SetBoundingBox(const VxBbox *BBox, CKBOOL Local = FALSE) = 0;
 
     /************************************************
     Summary: Returns the hierarchical bounding box of this entity and its children.
@@ -1005,7 +1044,8 @@ public:
 
     See also: VxBbox, GetRadius,GetBoundingBox,GetBaryCenter,SetBoundingBox
     ************************************************/
-    virtual const VxBbox &GetHierarchicalBox(CKBOOL Local = FALSE) CK_PURE;
+    virtual const VxBbox &GetHierarchicalBox(CKBOOL Local = FALSE) = 0;
+
     /************************************************
     Summary: Returns the barycenter of the current mesh of this entity.
     Return Value:
@@ -1017,7 +1057,8 @@ public:
 
     See also: GetRadius, GetBoundingBox, GetHierarchicalBox
     ************************************************/
-    virtual CKBOOL GetBaryCenter(VxVector *Pos) CK_PURE;
+    virtual CKBOOL GetBaryCenter(VxVector *Pos) = 0;
+
     /************************************************
     Summary: Returns the radius of the mesh currently used by this moveable.
 
@@ -1029,7 +1070,7 @@ public:
     NOTE: A Sprite3D returns a 0 radius.
     See also: GetBaryCenter, GetBoundingBox, GetHierarchicalBox
     ************************************************/
-    virtual float GetRadius() CK_PURE;
+    virtual float GetRadius() = 0;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -1052,4 +1093,4 @@ public:
 };
 
 #endif
-#endif
+#endif // CK3DENTITY_H

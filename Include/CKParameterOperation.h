@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKParameterOperation.h										 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPARAMETEROPERATION_H
-#define CKPARAMETEROPERATION_H "$Id:$"
+#define CKPARAMETEROPERATION_H
 
 #include "CKObject.h"
 
@@ -113,8 +106,7 @@ public:
     void Reconstruct(CKSTRING Name, CKGUID opguid, CKGUID ResGuid, CKGUID p1Guid, CKGUID p2Guid);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
+
     CK_PARAMETEROPERATION GetOperationFunction();
 
     //------------------------------------------------
@@ -149,7 +141,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKParameterOperation *);
     static CK_ID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKParameterOperation *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_PARAMETEROPERATION) ? (CKParameterOperation *)iO : NULL;
@@ -163,8 +155,6 @@ protected:
     static CKSTRING m_In1Name;
     static CKSTRING m_In2Name;
     static CKSTRING m_OutName;
-
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKPARAMETEROPERATION_H

@@ -1,7 +1,7 @@
 #ifndef VXTIMEPROFILER_H
 #define VXTIMEPROFILER_H
 
-#include "XUtil.h"
+#include "VxMathDefines.h"
 
 /*************************************************
 {filename:VxTimeProfiler}
@@ -55,7 +55,7 @@ public:
     }
 
 protected:
-    DWORD Times[4];
+    XULONG Times[4];
 };
 
-#endif
+#endif // VXTIMEPROFILER_H

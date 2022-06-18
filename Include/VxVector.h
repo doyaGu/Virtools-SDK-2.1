@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : VxVector.h													 */
-/*	Author :  Romain SIDIDRIS											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXVECTOR_H
 #define VXVECTOR_H
 
@@ -45,7 +38,7 @@ Elements can be accessed with x,y,z value or through the array v.
 ***********************************************************/
 struct VxVector
 {
-#if defined(_LINUX)
+#if !defined(_MSC_VER)
     float x, y, z;
 #else
     union
@@ -281,16 +274,7 @@ See also: Magnitude,VxVector,Vx2DVector
 *************************************************/
 inline const VxVector Normalize(const VxVector &v) { return v * InvMagnitude(v); }
 
-// Necessary for binding in VSL
-#if defined(macintosh) || defined(PSX2)
-
-const VxVector NormalizeVectorNotInlined(const VxVector &v);
-#endif
-
-inline const VxVector Normalize(const VxVector *vect)
-{
-    return Normalize(*vect);
-}
+inline const VxVector Normalize(const VxVector *vect) { return Normalize(*vect); }
 
 /*************************************************
 Name: DotProduct
@@ -368,14 +352,6 @@ VX_EXPORT const VxVector Rotate(const VxMatrix &mat, const VxVector &pt);
 VX_EXPORT const VxVector Rotate(const VxVector &v1, const VxVector &v2, float angle);
 VX_EXPORT const VxVector Rotate(const VxVector *v1, const VxVector *v2, float angle);
 
-// For VSL Binding
-#if defined(macintosh) || defined(PSX2)
-
-VX_EXPORT const VxVector RotateMV(const VxMatrix &mat, const VxVector &pt);
-
-VX_EXPORT const VxVector RotateVVF(const VxVector &v1, const VxVector &v2, float angle);
-#endif
-
 /*******************************************************
 Name: VxCompressedVector
 
@@ -391,7 +367,7 @@ A VxCompressedVector is defined as:
 
 The xa and ya members are polar angles
 
-This representation can be used to store normals or unit vectors using less memory than a conventionnal vector.
+This representation can be used to store normals or unit vectors using less memory than a conventional vector.
 
 
 ***********************************************************/
@@ -494,7 +470,7 @@ public:
     const float &operator[](int i) const;
     float &operator[](int i);
 
-#if defined(_LINUX)
+#if !defined(_MSC_VER)
     operator float *() const
     {
         return (float *)&x;
@@ -607,7 +583,7 @@ public:
         Min.y = -value;
         Min.z = -value;
     }
-    BOOL IsValid() const
+    XBOOL IsValid() const
     {
         if (Min.x > Max.x)
             return FALSE;
@@ -708,9 +684,9 @@ public:
     //		A combination of the culling flags
     //
     //-------------------------------------------------------
-    DWORD Classify(const VxVector &iPoint) const
+    XULONG Classify(const VxVector &iPoint) const
     {
-        DWORD flag = 0;
+        XULONG flag = 0;
         if (iPoint.x < Min.x)
             flag |= VXCLIP_LEFT;
         else if (iPoint.x > Max.x)
@@ -735,9 +711,9 @@ public:
     //		A combination of the culling flags
     //
     //-------------------------------------------------------
-    DWORD Classify(const VxBbox &iBox) const
+    XULONG Classify(const VxBbox &iBox) const
     {
-        DWORD flag = 0;
+        XULONG flag = 0;
         if (iBox.Max.z < Min.z)
             flag |= VXCLIP_BACK;
         else if (iBox.Min.z > Max.z)
@@ -773,7 +749,7 @@ public:
     // Remarks:
     //
     //-------------------------------------------------------
-    VX_EXPORT void ClassifyVertices(const int iVcount, BYTE *iVertices, DWORD iStride, DWORD *oFlags) const;
+    VX_EXPORT void ClassifyVertices(const int iVcount, XBYTE *iVertices, XULONG iStride, XULONG *oFlags) const;
     //-------------------------------------------------------
     // Summary: classify an array of vertices against
     // one axis of the box. An array of dword is filled with
@@ -781,7 +757,7 @@ public:
     // Remarks:
     //
     //-------------------------------------------------------
-    VX_EXPORT void ClassifyVerticesOneAxis(const int iVcount, BYTE *iVertices, DWORD iStride, const int iAxis, DWORD *oFlags) const;
+    VX_EXPORT void ClassifyVerticesOneAxis(const int iVcount, XBYTE *iVertices, XULONG iStride, const int iAxis, XULONG *oFlags) const;
 
     //-------------------------------------------------------
     // Name: Intersect
@@ -811,7 +787,7 @@ public:
     //
     // Return Value: TRUE if v is inside this box, FALSE otherwise
     //-------------------------------------------------------
-    BOOL VectorIn(const VxVector &v) const
+    XBOOL VectorIn(const VxVector &v) const
     {
         if (v.x < Min.x)
             return FALSE;
@@ -836,7 +812,7 @@ public:
     //
     // Return Value: TRUE if b is inside this box, FALSE otherwise
     //-------------------------------------------------------
-    BOOL IsBoxInside(const VxBbox &b) const
+    XBOOL IsBoxInside(const VxBbox &b) const
     {
         if (b.Min.x < Min.x)
             return 0;
@@ -862,11 +838,11 @@ public:
 
     // Transform this box to eight points according to matrix mat
     VX_EXPORT void TransformTo(VxVector *pts, const VxMatrix &Mat) const;
-    // Creates this box from sbox acording to matrix mat
+    // Creates this box from sbox according to matrix mat
     VX_EXPORT void TransformFrom(const VxBbox &sbox, const VxMatrix &Mat);
 } VxBbox;
 
-inline VxVector::VxVector() : x(0), y(0), z(0)
+inline VxVector::VxVector() : z(0)
 {
 }
 
@@ -1334,12 +1310,24 @@ inline void VxVector4::Set(float _x, float _y, float _z)
 
 inline const float &VxVector4::operator[](int i) const
 {
-    return v[i];
+    switch (i) {
+        case 0: return x;
+        case 1: return y;
+        case 2: return z;
+        case 4: return w;
+        default: return x;
+    }
 }
 
 inline float &VxVector4::operator[](int i)
 {
-    return v[i];
+    switch (i) {
+        case 0: return x;
+        case 1: return y;
+        case 2: return z;
+        case 4: return w;
+        default: return x;
+    }
 }
 
 //------------------------------------------------------------------------------------------------------
@@ -1449,4 +1437,4 @@ inline VxCompressedVector &VxCompressedVector::operator=(const VxCompressedVecto
     return *this;
 }
 
-#endif
+#endif // VXVECTOR_H

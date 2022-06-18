@@ -1,14 +1,8 @@
-/*************************************************************************/
-/*	File : CKWaveSound.h												 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKWAVESOUND_H
-#define CKWAVESOUND_H "$Id:$"
+#define CKWAVESOUND_H
 
 #include "CKSound.h"
+#include "CKSoundManager.h"
 
 class CKSoundReader;
 
@@ -21,7 +15,7 @@ Summary: Wave sound.
 Remarks:
 + CKWaveSound provides methods for playing a wave sound file (MP3,Wav,etc..)
 
-+ The sound can be played using 3D , stero , frequency control ,
++ The sound can be played using 3D, stereo, frequency control,
 panning and volume control.
 + Sound file are not loaded but read from disk by a separate thread.
 
@@ -33,9 +27,6 @@ class CKWaveSound : public CKSound
     friend class CKSoundManager;
 
 public:
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
-
     //-----------------------------------------------------
     // Sound Duplication for Instance Playing
     CKSOUNDHANDLE PlayMinion(CKBOOL Background = TRUE, CK3dEntity *Ent = NULL, VxVector *Position = NULL, VxVector *Direction = NULL, float MinDelay = 0.0f);
@@ -70,7 +61,7 @@ public:
 
     //----------------------------------------------------------
     // File Streaming
-    CKERROR SetFileStreaming(CKBOOL Enabled, BOOL RecreateSound = FALSE);
+    CKERROR SetFileStreaming(CKBOOL Enabled, CKBOOL RecreateSound = FALSE);
     CKBOOL GetFileStreaming();
 
     //-----------------------------------------------------
@@ -101,7 +92,7 @@ public:
     void SetPitch(float Rate);
     float GetPitch();
     //----------------------------------------------------------
-    // Sets the gains for multi-channel, non-spatialized sources. -1.0....1.0 default(0.0)
+    // Sets the gains for multichannel, non-specialized sources. -1.0....1.0 default(0.0)
     void SetPan(float Pan);
     float GetPan();
 
@@ -131,6 +122,7 @@ public:
     // Velocity of the Source
     void SetVelocity(VxVector &Pos);
     void GetVelocity(VxVector &Pos);
+
     //----------------------------------------------------------
     // Orientation of the source
     void SetOrientation(VxVector &Dir, VxVector &Up);
@@ -138,7 +130,7 @@ public:
 
     //----------------------------------------------------------
     // Write Data in the sound buffer
-    CKERROR WriteData(BYTE *Buffer, int Buffersize);
+    CKERROR WriteData(CKBYTE *Buffer, int Buffersize);
 
     //----------------------------------------------------------
     // Buffer access
@@ -160,7 +152,7 @@ public:
 
     void SetDataToRead(int Size);
 
-    CKERROR Recreate(BOOL Safe = FALSE);
+    CKERROR Recreate(CKBOOL Safe = FALSE);
     void Release();
 
     CKERROR TryRecreate();
@@ -191,6 +183,7 @@ public:
     virtual void CheckPostDeletion();
 
     virtual int GetMemoryOccupation();
+
     //--------------------------------------------
     // Class Registering
     static CKSTRING GetClassName();
@@ -201,7 +194,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKWaveSound *);
     static CK_CLASSID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKWaveSound *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_WAVESOUND) ? (CKWaveSound *)iO : NULL;
@@ -239,8 +232,6 @@ public:
     // Save Information From Current source
     CKWaveSoundSettings m_2DSetting;
     CKWaveSound3DSettings m_3DSetting;
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKWAVESOUND_H

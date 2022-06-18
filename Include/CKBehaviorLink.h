@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKBehaviorLink.h			 				 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBEHAVIORLINK_H
-#define CKBEHAVIORLINK_H "$Id:$"
+#define CKBEHAVIORLINK_H
 
 #include "CKObject.h"
 
@@ -92,13 +85,12 @@ public:
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
     CKDWORD GetFlags()
     {
         return m_ObjectFlags & CK_OBJECT_BEHAVIORLINKMASK;
     }
+
     void SetFlags(CKDWORD flags)
     {
         m_ObjectFlags &= ~CK_OBJECT_BEHAVIORLINKMASK;
@@ -133,7 +125,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKBehaviorLink *);
     static CK_CLASSID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKBehaviorLink *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_BEHAVIORLINK) ? (CKBehaviorLink *)iO : NULL;
@@ -142,10 +134,12 @@ public:
 protected:
     short int m_ActivationDelay;
     short int m_InitialActivationDelay;
-    CKDWORD m_Flags;
+    CKDWORD m_OldFlags;
     CKBehaviorIO *m_InIO;
     CKBehaviorIO *m_OutIO;
-#endif // Docjet secret macro
+
+    CKDWORD GetOldFlags() { return m_OldFlags; }
+    void SetOldFlags(CKDWORD flags) { m_OldFlags = flags; }
 };
 
-#endif
+#endif // CKBEHAVIORLINK_H

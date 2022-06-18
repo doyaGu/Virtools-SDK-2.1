@@ -1,15 +1,8 @@
-/*************************************************************************/
-/*	File : XArray.h														 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XARRAY_H_
-#define _XARRAY_H_
+#ifndef XARRAY_H
+#define XARRAY_H
 
+#include "VxMathDefines.h"
 #include "XUtil.h"
-#include <string.h>
 
 /************************************************
 {filename:XArray}
@@ -89,7 +82,7 @@ public:
     Summary: Affectation operator.
 
     Remarks:
-        The content of the array is enterely overwritten
+        The content of the array is entirely overwritten
     by the given array.
     ************************************************/
     XArray<T> &operator=(const XArray<T> &a)
@@ -138,7 +131,7 @@ public:
                 m_End += size;
             }
             else
-            { // the new array dosn't fit in
+            { // the new array doesn't fit in
                 T *temp = Allocate(newsize);
 
                 // we recopy the old array
@@ -457,9 +450,9 @@ public:
         return TRUE; // really removed
     }
 
-    BOOL EraseAt(int pos)
+    XBOOL EraseAt(int pos)
     {
-        return (BOOL)Remove(m_Begin + pos);
+        return (XBOOL)Remove(m_Begin + pos);
     }
 
     T *RemoveAt(int pos)
@@ -503,7 +496,7 @@ public:
         return XRemove(t);
     }
 
-    BOOL Erase(const T &o)
+    XBOOL Erase(const T &o)
     {
         T *t = Find(o);
         // we ensure i is in boundary...
@@ -511,7 +504,7 @@ public:
             return FALSE;
 
         // the Call
-        return (BOOL)XRemove(t);
+        return (XBOOL)XRemove(t);
     }
 
     void FastRemove(const T &o)
@@ -627,7 +620,7 @@ public:
         while (t < m_End && *t != o)
             ++t;
 
-        // Some times faster : To Disassemble
+        // Sometimes faster : To Disassemble
         // T* t = m_Begin-1;
         // do ++t; while(*t != o);
 
@@ -885,8 +878,8 @@ protected:
     // Insert {secret}
     void XInsert(T *i, const T &o)
     {
-        assert(i >= m_Begin);
-        assert(i <= m_End);
+        XASSERT(i >= m_Begin);
+        XASSERT(i <= m_End);
 
         // Test For Reallocation
         if (m_End == m_AllocatedEnd)
@@ -933,7 +926,7 @@ protected:
     }
 
     ///
-    // Allocation and deallocation methods : to be override for alignement purposes
+    // Allocation and deallocation methods : to be overridden for alignment purposes
 
     // Allocation {secret}
     T *Allocate(int size)
@@ -961,4 +954,6 @@ protected:
     T *m_AllocatedEnd;
 };
 
-#endif
+typedef XArray<void *> XVoidArray;
+
+#endif // XARRAY_H

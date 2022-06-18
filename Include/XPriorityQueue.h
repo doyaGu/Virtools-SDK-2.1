@@ -1,13 +1,12 @@
 #ifndef XPRIORITYQUEUE_H
 #define XPRIORITYQUEUE_H
 
+#include "XArray.h"
+
 template <class T>
 struct XPriority
 {
-    int operator()(const T &iT) const
-    {
-        return iT;
-    }
+    int operator()(const T &iT) const { return iT; }
 };
 
 /************************************************
@@ -173,4 +172,4 @@ protected:
     XArray<T> m_Cells;
 };
 
-#endif
+#endif // XPRIORITYQUEUE_H

@@ -1,13 +1,5 @@
-/*************************************************************************/
-/*	File : CKVertexBuffer.h												 */
-/*	Author :  Romain Sididris											 */
-/*	Last Modification : 15/07/01										 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2001, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKVERTEXBUFFER_H
-#define CKVERTEXBUFFER_H "$Id:$"
+#define CKVERTEXBUFFER_H
 
 #include "CKDefines.h"
 
@@ -29,7 +21,7 @@ Summary: CKVertexBuffer::Check return flags.
 ******************************************************************/
 typedef enum CKVB_STATE
 {
-    CK_VB_OK     = 0x00000000,	// Vertex buffer format and content are up to date.
+    CK_VB_OK     = 0x00000000,	// Vertex buffer format and content are up-to-date.
     CK_VB_LOST   = 0x00000001,	// Vertex buffer content must be updated.
     CK_VB_FAILED = 0x00000002,	// Vertex buffer can not be created with the given format or vertex count.
 } CKVB_STATE;
@@ -69,6 +61,7 @@ public:
     See Also : Check,Draw
     ***************************************************************************************/
     virtual void Destroy() = 0;
+
     /**************************************************************************************
     Summary: Checks the state of the vertex buffer.
     Return Value

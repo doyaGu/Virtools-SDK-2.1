@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKLevel.h													 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKLEVEL_H
-#define CKLEVEL_H "$Id:$"
+#define CKLEVEL_H
 
 #include "CKBeObject.h"
 
@@ -23,7 +16,7 @@ Remarks:
 to automatically add an object to the rendercontext when it is added to the level.
 
 + A Level automatically creates a scene it owns. This scene is called the Level Scene and is used to
-store the reference of every objects in the composition. This  scene contains additionnal informations about
+store the reference of every objects in the composition. This scene contains additional information about
 objects such as how do they behave at startup or initial conditions.
 
 + The class id of CKLevel is CKCID_LEVEL.
@@ -96,8 +89,6 @@ public:
 #endif
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     CKLevel(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKLevel();
@@ -127,7 +118,7 @@ public:
     static void ReleaseInstance(CKContext *iContext, CKLevel *);
     static CK_CLASSID m_ClassID;
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKLevel *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_LEVEL) ? (CKLevel *)iO : NULL;
@@ -151,8 +142,6 @@ protected:
     CK_SCENEOBJECTACTIVITY_FLAGS m_NextSceneActivityFlags;
     CK_SCENEOBJECTRESET_FLAGS m_NextSceneResetFlags;
     CKBOOL m_IsReseted;
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKLEVEL_H

@@ -1,13 +1,7 @@
-/*************************************************************************/
-/*	File : CK2dCurve.h													 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CK2DCURVE_H
-#define CK2DCURVE_H "$Id:$"
+#define CK2DCURVE_H
 
+#include "CKDefines.h"
 #include "CKObject.h"
 #include "CK2dCurvePoint.h"
 
@@ -59,6 +53,7 @@ public:
     See also: GetY
     *************************************************/
     CKERROR GetPos(float step, Vx2DVector *pos);
+
     /*************************************************
     Summary: Retrieves the Y value corresponding to a given X value
     Arguments:
@@ -86,6 +81,7 @@ public:
         m_ControlPoints.Remove(cpt);
         Update();
     }
+
     /*************************************************
     Summary: Adds a control point.
     Arguments:
@@ -96,6 +92,7 @@ public:
     See also: GetControlPoint,GetControlPointCount,RemoveControlPoint
     *************************************************/
     void AddControlPoint(const Vx2DVector &pos);
+
     /*************************************************
     Summary: Gets the number of control points
     Return Value: The number of control points in the curve
@@ -103,6 +100,7 @@ public:
     See also: GetControlPoint
     *************************************************/
     int GetControlPointCount() { return m_ControlPoints.Size(); }
+
     /*************************************************
     Summary: Returns a specific control point
     Return Value: A pointer to the pos th control point in the curve
@@ -127,6 +125,7 @@ protected:
     float FittingCoef;
 
     void UpdatePointsAndTangents();
+
     int Rindex(int index)
     {
         if (index < 0)
@@ -137,4 +136,4 @@ protected:
     }
 };
 
-#endif
+#endif // CK2DCURVE_H

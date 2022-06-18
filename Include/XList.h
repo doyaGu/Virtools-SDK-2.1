@@ -1,14 +1,7 @@
-/*************************************************************************/
-/*	File : XList.h														 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XLIST_H_
-#define _XLIST_H_
+#ifndef XLIST_H
+#define XLIST_H
 
-#include "XUtil.h"
+#include "VxMathDefines.h"
 
 template <class T>
 class XNode
@@ -23,7 +16,7 @@ public:
 Summary: Iterator on an XList.
 
 Example:
-Usage for itering on a list :
+Usage for iterating on a list :
     for (XListIt<T> it = list.Begin(); it != list.End(); ++it) {
         // Do whatever you want with *it, a reference on a T
     }
@@ -151,7 +144,7 @@ public:
     Summary: Affectation operator.
 
     Remarks:
-        The content of the list is enterely overwritten
+        The content of the list is entirely overwritten
     by the given one.
     ************************************************/
     XList &operator=(const XList<T> &list)
@@ -315,7 +308,7 @@ public:
     Input Arguments:
         o: object to find.
         start: iterator from which begin the search.
-    Return Valuen : An iterator on the object found,
+    Return Value : An iterator on the object found,
     End() if the object wasn't found.
     ************************************************/
     XListIt<T> Find(const T &o) const
@@ -343,7 +336,7 @@ public:
     Return Value: TRUE if the object was found,
     otherwise FALSE.
     ************************************************/
-    BOOL IsHere(const T &o) const
+    XBOOL IsHere(const T &o) const
     {
         XListIt<T> it = Find(o);
         if (it != End())
@@ -359,7 +352,7 @@ public:
     Return Value: TRUE if the object was removed,
     otherwise FALSE.
     ************************************************/
-    BOOL Remove(const T &o)
+    XBOOL Remove(const T &o)
     {
         XListIt<T> it = Find(o);
         if (it == End())
@@ -450,4 +443,4 @@ private:
     int m_Count;
 };
 
-#endif
+#endif // XLIST_H

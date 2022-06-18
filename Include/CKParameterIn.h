@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : CKParameterIn.h												 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKPARAMETERIN_H
 #define CKPARAMETERIN_H
 
@@ -28,8 +21,8 @@ whether in, out or local (which is a subset of out parameters). So data really i
 from the first output parameter found in the chain of input parameters, named thus the Real Source.
 This real source of	data may be accessed through the GetRealSource method.
 
-+ The input paramter may be plugged directly into an output parameter from which it will get its data.
-This parameter is thus called a DirectSource. This souce can be set using the SetDirectSource method and
++ The input parameter may be plugged directly into an output parameter from which it will get its data.
+This parameter is thus called a DirectSource. This source can be set using the SetDirectSource method and
 accessed using GetDirectSource method.
 
 + It may also be plugged into another input parameter coming from the enclosing behavior. This input
@@ -213,7 +206,7 @@ public:
 
     Remarks:
         + The owner of the parameter is the object with
-        wich the parameter will be saved. Typically, the owner
+        which the parameter will be saved. Typically, the owner
         is a parameter operation of a behavior to which it is an input ( or the internal
         behavior if the parameter is exported).
     Return Value:
@@ -224,8 +217,6 @@ public:
     CKObject *GetOwner() { return m_Owner; }
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     CKParameterIn(CKContext *Context, CKSTRING name = NULL, int type = NULL);
     virtual ~CKParameterIn();
@@ -279,8 +270,6 @@ protected:
         CKParameterIn *m_InShared;
     };
     CKParameterTypeDesc *m_ParamType;
-
-#endif // docjet secret macro
 };
 
-#endif
+#endif // CKPARAMETERIN_H

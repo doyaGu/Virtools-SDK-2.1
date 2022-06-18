@@ -1,15 +1,9 @@
-/*************************************************************************/
-/*	File : CKKeyframeData.h							 					 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Definition of base Keyframe Key types and base animation controller	 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKKEYFRAMEDATA_H
-#define CKKEYFRAMEDATA_H "$Id:$"
+#define CKKEYFRAMEDATA_H
 
 #include "CKDefines.h"
+#include "VxVector.h"
+#include "VxQuaternion.h"
 
 /*************************************************************************
 Summary : Base class for animation keys.
@@ -199,10 +193,8 @@ protected:
 Summary : Bezier Position Key
 
 Remarks:
-+ This class defines a Bezier position key which contains incoming and ougoing tangent vectors for the key.
++ This class defines a Bezier position key which contains incoming and outgoing tangent vectors for the key.
 + The key also contain a CKBezierKeyFlags which defines how the incoming and outgoing tangents are computed. For example if the incoming tangent mode is set to BEZIER_KEY_TANGENTS we will use the In vector as incoming tangent otherwise the incoming tangent will be automatically computed according to the given mode.
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
             class CKBezierKeyFlags {
                 CKBEZIERKEY_FLAGS GetInTangentMode();
@@ -220,14 +212,12 @@ Remarks:
                 BEZIER_KEY_TANGENTS		= 0x0020,	// Use tangent value (In or Out)
             } CKBEZIERKEY_FLAGS;
 
-{html:</td></tr></table>}
-
 See Also: CKKey,CKPositionKey,CKTCBPositionKey
 *************************************************************/
 class CKBezierPositionKey : public CKPositionKey
 {
 public:
-    // Summary: Returns the tangents computation mode.
+    // Summary: Returns the tangent computation mode.
     CKBezierKeyFlags &GetFlags() { return Flags; }
     CKBezierPositionKey()
     {
@@ -311,7 +301,7 @@ public:
 };
 
 /****************************************************************
-Summary: List of availables animations controllers
+Summary: List of available animations controllers
 
 Remarks:
 + CKANIMATION_CONTROLLER contains the list of available animation controllers.
@@ -400,7 +390,7 @@ public:
     ******************************************************/
     virtual int AddKey(CKKey *key) = 0;
     /*****************************************************
-    Summary: Retuns a given key
+    Summary: Returns a given key
 
     Arguments:
         index: Index of the key to be returned.
@@ -485,7 +475,7 @@ Summary : Morph controller class.
 
 Remarks:
 A Morph controller contains a list of morph keys (CKMorphKey)
-and perfoms linear interpolation between these keys to
+and performs linear interpolation between these keys to
 get the final result.
 
 See Also:Animation Keys,CKAnimController
@@ -528,4 +518,4 @@ public:
     virtual void SetMorphVertexCount(int count) = 0;
 };
 
-#endif
+#endif // CKKEYFRAMEDATA_H

@@ -1,19 +1,10 @@
-/*************************************************************************/
-/*	File : CKSoundManager.h												 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSOUNDMANAGER_H
-#define CKSOUNDMANAGER_H "$Id:$"
+#define CKSOUNDMANAGER_H
 
 #include "CKBaseManager.h"
+#include "VxVector.h"
 
 typedef void *CKSOUNDHANDLE;
-
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
 struct SoundMinion
 {
@@ -35,12 +26,10 @@ struct SoundMinion
     float m_TimeStamp;
 };
 
-#endif
-
 //
 typedef enum CK_SOUNDMANAGER_CAPS
 {
-    CK_SOUNDMANAGER_ONFLYTYPE              = 0x00000001,	// Allows on the fly type changement
+    CK_SOUNDMANAGER_ONFLYTYPE              = 0x00000001,	// Allows on the fly type changelist
     CK_SOUNDMANAGER_OCCLUSION              = 0x00000002,	// Allows occlusions
     CK_SOUNDMANAGER_REFLECTION             = 0x00000004,	// Allows reflections
     CK_SOUNDMANAGER_ALL                    = 0x00000007,
@@ -78,7 +67,7 @@ typedef enum CK_SOUNDMANAGER_CAPS
 struct CKWaveSoundSettings
 {
     CKWaveSoundSettings() : m_Gain(1.0f), m_Eq(1.0f), m_Pitch(1.0f), m_Priority(0.5f), m_Pan(0.0f) {}
-    // Sets and gets the playback gain of a sourc. 0.....1.0
+    // Sets and gets the playback gain of a source. 0.....1.0
     float m_Gain;
     // Sets the tonal equalization of a source. 0....1.0
     float m_Eq;
@@ -87,7 +76,7 @@ struct CKWaveSoundSettings
     // Sets and gets the playback pitch bend of a source. 0.0....1.0
     float m_Priority;
 
-    // Sets the gains for multi-channel, non-spatialized sources. -1.0....1.0 default(0.0)
+    // Sets the gains for multichannel, non-specialized sources. -1.0....1.0 default(0.0)
     float m_Pan;
 };
 
@@ -148,13 +137,13 @@ struct CKListenerSettings
 //
 struct CKWaveFormat
 {
-    WORD wFormatTag;
-    WORD nChannels;
-    DWORD nSamplesPerSec;
-    DWORD nAvgBytesPerSec;
-    WORD nBlockAlign;
-    WORD wBitsPerSample;
-    WORD cbSize;
+    CKWORD wFormatTag;
+    CKWORD nChannels;
+    CKDWORD nSamplesPerSec;
+    CKDWORD nAvgBytesPerSec;
+    CKWORD nBlockAlign;
+    CKWORD wBitsPerSample;
+    CKWORD cbSize;
 };
 
 /*******************************************************************
@@ -163,7 +152,7 @@ Summary: Sound Engine Manager.
 
 Remarks:
 
-+ The sound manager is implemented by an external plugin.The default implmentation Virtools is made using DirectSound.
++ The sound manager is implemented by an external plugin.The default implementation Virtools is made using DirectSound.
 
 + Sound management is done by the SoundManager which process sounds to play and updates the listener (player ) position and settings.
 
@@ -179,8 +168,7 @@ public:
 
     //-----------------------------------------------------
     // Source Functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
+
     // Creation
     virtual void *CreateSource(CK_WAVESOUND_TYPE flags, CKWaveFormat *wf, CKDWORD bytes, BOOL streamed) = 0;
     virtual void *DuplicateSource(void *source) = 0;
@@ -198,7 +186,7 @@ public:
     }
     virtual CKBOOL IsPlaying(void *source) = 0;
 
-    // PCM Buffer Informations
+    // PCM Buffer Information
     virtual CKERROR SetWaveFormat(void *source, CKWaveFormat &wf) = 0;
     virtual CKERROR GetWaveFormat(void *source, CKWaveFormat &wf) = 0;
     virtual int GetWaveSize(void *source) = 0;
@@ -218,14 +206,13 @@ public:
     //----------------------------------------------------------
     // 3D Settings
     virtual void Update3DSettings(void *source, CK_SOUNDMANAGER_CAPS settingsoptions, CKWaveSound3DSettings &settings, CKBOOL set = TRUE) = 0;
-#endif
 
     /*************************************************
-    Summary: Sets the Listener settings such as global distance factor,doppler effect, rollof or gain.
+    Summary: Sets the Listener settings such as global distance factor,doppler effect, roll of or gain.
 
     Arguments:
-        settingsoptions : flags specifying wich member of the settings parameter must be set or retrieved
-        settings : structure specifyig the new settings.
+        settingsoptions : flags specifying which member of the settings parameter must be set or retrieved
+        settings : structure specifying the new settings.
         set : if true the function sets the listener settings, otherwise it returns the current listener options in the "settings" parameter
 
     Remarks:
@@ -277,8 +264,8 @@ public:
     *************************************************/
     virtual CKDWORD GetStreamedBufferSize();
 
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
+//----------------------------------------------------------
+
     virtual CKBOOL IsInitialized() = 0;
 
     SoundMinion *CreateMinion(CKSOUNDHANDLE source, float minimumdelay = 0.0f);
@@ -302,7 +289,7 @@ protected:
     virtual void InternalPlay(void *source, CKBOOL loop = FALSE) = 0;
 
     // Sound Obstacle Attribute
-    //	int						m_SoundObstacleAttribute;
+    //	int m_SoundObstacleAttribute;
     // Listener Entity
     CK_ID m_ListenerEntity;
     // Streamed Buffers Size
@@ -310,8 +297,6 @@ protected:
     // Minions
     XArray<SoundMinion *> m_Minions;
     VxVector m_OldListenerPos;
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKSOUNDMANAGER_H

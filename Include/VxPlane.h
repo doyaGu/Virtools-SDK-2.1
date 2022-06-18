@@ -1,10 +1,3 @@
-/*************************************************************************/
-/*	File : VxPlane.h													 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef VXPLANE_H
 #define VXPLANE_H
 
@@ -19,7 +12,7 @@ Summary: Class representation of an infinite plane.
 
 Remarks:
     A VxPlane is defined by a normal VxVector and and is used to represents
-    a infinite plane in space (usefull for intersection purposes.)
+    a infinite plane in space (useful for intersection purposes.)
     It can be created with a point in space and normal,an equation or with 3 points.
 
 A VxPlane is defined as:
@@ -112,7 +105,7 @@ public:
 
     Input Arguments:
         box: A box in the referential of the given matrix.
-        max: matrix of the referntial of the box.
+        max: matrix of the referential of the box.
 
     Remarks:
         Classify the box with regards of the plane : a positive value means the box is front of the plane.
@@ -149,7 +142,7 @@ public:
         pt1: the second index of the face.
         pt2: the third index of the face.
 
-    Retun Value: The minimum distance of the face to the plane.
+    Return Value: The minimum distance of the face to the plane.
 
     Remarks:
         Classify the face with regards of the plane : a positive value means the point is front of the plane, a
@@ -260,4 +253,4 @@ inline const VxPlane operator-(const VxPlane &p)
     return VxPlane(-p.m_Normal, -p.m_D);
 }
 
-#endif
+#endif // VXPLANE_H

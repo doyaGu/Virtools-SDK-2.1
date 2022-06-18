@@ -1,11 +1,9 @@
-/*************************************************************************/
-/*	File : CKDefines.h				 				 					 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKDEFINES_H
-#define CKDEFINES_H "$Id:$"
+#define CKDEFINES_H
+
+#include "VxDefines.h"
+#include "CKPathSplitter.h"
+#include "XHashFun.h"
 
 // GetObject,LoadImage and GetClassName are #defined by windows.h which can cause unresolved externals
 // when linking : to avoid this we use the same defines .... :(
@@ -32,7 +30,7 @@
 #else
 #define GetClassName GetClassNameA
 #endif // !UNICODE
-#endif // LoadImage
+#endif // GetClassName
 #endif
 
 //#define NO_OLDERVERSION_COMPATIBILITY
@@ -72,7 +70,7 @@
 #include "XSArray.h"
 
 /*************************************************
-Summary: Returns the Unique Identifier for a CKObject or derivated.
+Summary: Returns the Unique Identifier for a CKObject or derivative.
 
 Remarks:
 + Each object derived from the CKObject class has a unique ID.
@@ -171,7 +169,7 @@ typedef void (*CK_RENDERCALLBACK)(CKRenderContext *context, void *Argument);
 Summary: 3D or 2D entity rendering callback function
 
 Remarks:
-    + Both 2D and 3D entities can have fuctions called before and/or after
+    + Both 2D and 3D entities can have functions called before and/or after
     their rendering occurs.
 See also:CKRenderObject::AddPreRenderCallBack,CKRenderObject::AddPostRenderCallBack
 *********************************************************/
@@ -201,7 +199,7 @@ Summary: Material rendering callback function.
 
 Remarks:
     + A function can be called each time a material is set as current on a rendering context.
-    + If the function returns 0 the material data is set on the rendercontext otherwise it is skipped
+    + If the function returns 0 the material data is set on the render context otherwise it is skipped
     (we suppose the callback function has already set the valid render states...)
 See Also: CKMaterial::SetCallback,CKMaterial::SetAsCurrent,The Virtools Render Loop
 ****************************************************************/
@@ -238,33 +236,29 @@ typedef CK_LOADMODE (*CK_LOADRENAMECALLBACK)(CK_CLASSID Cid, CKSTRING OldName, C
 #define CKM_MAX_BEHAVIOR_CALLBACKS			CKM_BASE + 19
 
 //----------------------------------------------------------//
-//		StateChunk Versionning								//
+//		StateChunk Versioning								//
 //----------------------------------------------------------//
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
 #define CHUNKDATA_OLDVERSION			0	// Before any version was saved
 #define CHUNKDATA_BASEVERSION			1	// First version
-#define CHUNK_WAVESOUND_VERSION2		2	// Changes in wavesound format
-#define CHUNK_WAVESOUND_VERSION3		3	// Changes in wavesound format
+#define CHUNK_WAVESOUND_VERSION2		2	// Changes in wave sound format
+#define CHUNK_WAVESOUND_VERSION3		3	// Changes in wave sound format
 #define CHUNK_MATERIAL_VERSION_ZTEST	4	// Change in material save format
 #define CHUNK_MAJORCHANGE_VERSION		5	// Optimisations on many save functions	
-#define CHUNK_MACCHANGE_VERSION			6	// Misc new Statechunk functions for macintosh (Big-Endian <-> Little Endian conversion )
-#define CHUNK_WAVESOUND_VERSION4		7	// Changes in wavesound format (Added sound length)
-#define CHUNK_SCENECHANGE_VERSION		8	// Changes in sceneObjectDesc format (Remove lasttimevalue)
+#define CHUNK_MACCHANGE_VERSION			6	// Misc new StateChunk functions for macintosh (Big-Endian <-> Little Endian conversion )
+#define CHUNK_WAVESOUND_VERSION4		7	// Changes in wave sound format (Added sound length)
+#define CHUNK_SCENECHANGE_VERSION		8	// Changes in sceneObjectDesc format (Remove last time value)
 #define CHUNK_MESHCHANGE_VERSION		9	// Changes in Mesh save format (primitives)
-#define CHUNK_DEV_2_1				   10	// Changes in wavesound reading of inside, outside angles
+#define CHUNK_DEV_2_1				   10	// Changes in wave sound reading of inside, outside angles
 
 #define CHUNKDATA_CURRENTVERSION CHUNK_DEV_2_1
 
 // This object declaration declares a Behavior Prototype description.
 
 #define CKDLL_BEHAVIORPROTOTYPE 4
-
-#endif // Docjet secret macro
 
 //----------------------------------------------------------//
 //		Class Identifier List								//
@@ -325,8 +319,6 @@ typedef CK_LOADMODE (*CK_LOADRENAMECALLBACK)(CK_CLASSID Cid, CKSTRING OldName, C
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
 //--------- Not CKObject derived classes
 //--------- but reserved class IDs
@@ -383,7 +375,7 @@ struct CKClassDesc
     XBitArray Parents;			  // Bit Mask of parents classes
     XBitArray Children;			  // Bit Mask of children classes
     XBitArray ToBeNotify;		  // Mask for Classes that should warn the objects of this class when they are deleted
-    XBitArray CommonToBeNotify;	  // idem but merged with sub classes masks
+    XBitArray CommonToBeNotify;	  // idem but merged with sub-classes masks
     XSArray<CK_CLASSID> ToNotify; // List of ClassID to notify when an object of this class is deleted (inverse of ToBeNotify)
 
     CKClassDesc()
@@ -401,7 +393,6 @@ struct CKClassDesc
 
 #define CKCID_MAXMAXCLASSID 128
 
-#endif // Docjet secret macro
 /*******************************************************************************
 Summary: Plugin description.
 
@@ -410,8 +401,6 @@ Remarks:
 is created to enable plugin to register new types or create managers they implement.
 + The m_ExitInstanceFct function is called if the DLL that implements this plugin
 is unloaded so that the plugin unregister all the  types it may have registered in m_InitInstanceFct.
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
         struct CKPluginInfo {
             CKGUID				m_GUID;				// Unique Identifier
@@ -425,9 +414,6 @@ is unloaded so that the plugin unregister all the  types it may have registered 
             CK_EXITINSTANCEFCT	m_ExitInstanceFct;	// Exit function
         }
 
-{html:</td></tr></table>}
-
-
 See also: Creating New Plugins,CKPluginManager,CK_PLUGIN_TYPE
 *******************************************************************************/
 struct CKPluginInfo
@@ -437,7 +423,7 @@ struct CKPluginInfo
     XString m_Description;
     XString m_Author;
     XString m_Summary;
-    DWORD m_Version;
+    CKDWORD m_Version;
     CK_INITINSTANCEFCT m_InitInstanceFct;
     CK_PLUGIN_TYPE m_Type;
     CK_EXITINSTANCEFCT m_ExitInstanceFct;
@@ -448,7 +434,7 @@ struct CKPluginInfo
         m_ExitInstanceFct = NULL;
     }
 
-    CKPluginInfo(CKGUID guid, CKFileExtension ext, const char *iDesc, const char *iAuthor, const char *iSummary, DWORD version, CK_INITINSTANCEFCT Initfct, CK_EXITINSTANCEFCT Exitfct, CK_PLUGIN_TYPE type)
+    CKPluginInfo(CKGUID guid, CKFileExtension ext, const char *iDesc, const char *iAuthor, const char *iSummary, CKDWORD version, CK_INITINSTANCEFCT Initfct, CK_EXITINSTANCEFCT Exitfct, CK_PLUGIN_TYPE type)
         : m_GUID(guid), m_Extension(ext), m_Description(iDesc), m_Author(iAuthor), m_Summary(iSummary), m_Version(version), m_InitInstanceFct(Initfct), m_ExitInstanceFct(Exitfct), m_Type(type)
     {
     }
@@ -568,8 +554,6 @@ be given (See Creating New Parameter Types papers for  sample usages )
 
 Callback function prototypes:
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
         typedef CKERROR (*CK_PARAMETERCREATEDEFAULTFUNCTION)(CKParameter*);
         typedef void	(*CK_PARAMETERDELETEFUNCTION)(CKParameter*);
         typedef void	(*CK_PARAMETERCHECKFUNCTION)(CKParameter*);
@@ -578,10 +562,6 @@ Callback function prototypes:
         typedef void	(*CK_PARAMETERSAVELOADFUNCTION)(CKParameter* param,CKStateChunk **chunk,CKBOOL load);
         typedef int		(*CK_PARAMETERSTRINGFUNCTION)(CKParameter* param,CKSTRING ValueString,CKBOOL ReadFromString);
         typedef WIN_HANDLE	(*CK_PARAMETERUICREATORFUNCTION)(CKParameter* param,WIN_HANDLE ParentWindow,CKRECT *rect);
-
-{html:</td></tr></table>}
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
         struct CKParameterTypeDesc {
             CKParameterType		Index;
@@ -605,9 +585,7 @@ Callback function prototypes:
             CKGUID				Saver_Manager;
         };
 
-{html:</td></tr></table>}
-
-See also: Creating New Parameter Types,CKParameterManager::RegisterParameterType,Pre-Registred Parameter Types
+See also: Creating New Parameter Types,CKParameterManager::RegisterParameterType,Pre-Registered Parameter Types
 *************************************************/
 typedef struct CKParameterTypeDesc
 {
@@ -615,13 +593,13 @@ typedef struct CKParameterTypeDesc
     CKParameterType Index;
     // Glocal Unique identifier to identify this type
     CKGUID Guid;
-    // GUID of the parameter type from which this type is derivated
+    // GUID of the parameter type from which this type is derivative
     CKGUID DerivedFrom;
     // Name of this type
     XString TypeName;
     // (used internally)
     int Valid;
-    // Default size (in bytes)	of parameters ofthis type
+    // Default size (in bytes)	of parameters of this type
     int DefaultSize;
     // Creation function called each time a parameter of this type is created.
     CK_PARAMETERCREATEDEFAULTFUNCTION CreateDefaultFunction;
@@ -631,14 +609,14 @@ typedef struct CKParameterTypeDesc
     CK_PARAMETERSAVELOADFUNCTION SaveLoadFunction;
     // Function use to check parameters for object utilisation
     CK_PARAMETERCHECKFUNCTION CheckFunction;
-    // Function use to copy the value from a parameter to another (Optionnal).
+    // Function use to copy the value from a parameter to another (Optional).
     CK_PARAMETERCOPYFUNCTION CopyFunction;
     // Function to convert a parameter to or from a string.
     CK_PARAMETERSTRINGFUNCTION StringFunction;
     // Function called to create the dialog box when editing this type of parameter.
     CK_PARAMETERUICREATORFUNCTION UICreatorFunction;
 
-    // An index to the registred Dlls from which this type was declared (used internally)
+    // An index to the registered Dlls from which this type was declared (used internally)
     CKPluginEntry *CreatorDll;
     // An application reserved DWORD for placing parameter type specific data.
     CKDWORD dwParam;
@@ -674,8 +652,6 @@ typedef struct CKParameterTypeDesc
 //----------------------------------------------------------//
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
 #define CKWM_BASE                 0x600				//
 //------------ Parameter Edit Dialog specific messages
@@ -695,7 +671,6 @@ typedef struct CKParameterTypeDesc
 #define CKWM_STARTPICK            CKWM_BASE + 15	// 
 #define CKWM_ENDPICK              CKWM_BASE + 16	// 
 
-#endif // Docjet secret macro
 //----------------------------------------------------------//
 //			CKGUID HASH Function {Secret}					//
 //----------------------------------------------------------//
@@ -707,4 +682,4 @@ struct XHashFun<CKGUID>
     int operator()(const CKGUID &__s) const { return __s.d1; }
 };
 
-#endif
+#endif // CKDEFINES_H

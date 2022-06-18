@@ -1,14 +1,8 @@
-/*************************************************************************/
-/*	File : CKMaterial.h													 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKMATERIAL_H
-#define CKMATERIAL_H "$Id:$"
+#define CKMATERIAL_H
 
 #include "CKBeObject.h"
+#include "VxColor.h"
 
 /***********************************************************************
 {filename:CKMaterial}
@@ -50,6 +44,7 @@ public:
     See also: SetPower,GetSpecular
     *************************************************/
     virtual float GetPower() = 0;
+
     /*************************************************
     Summary: Sets the specular highlight power.
     Arguments:
@@ -71,6 +66,7 @@ public:
     See also: SetAmbient,SetDiffuse, SetSpecular, SetEmissive
     *************************************************/
     virtual const VxColor &GetAmbient() = 0;
+
     /*************************************************
     Summary: Sets the ambient color of the material
     Arguments:
@@ -88,6 +84,7 @@ public:
     see also: SetAmbient,SetDiffuse, SetSpecular, SetEmissive
     *************************************************/
     virtual const VxColor &GetDiffuse() = 0;
+
     /*************************************************
     Summary: Sets the diffuse color of the material
     Arguments:
@@ -105,6 +102,7 @@ public:
     see also: SetAmbient,SetDiffuse, SetSpecular, SetEmissive,SetPower
     *************************************************/
     virtual const VxColor &GetSpecular() = 0;
+
     /*************************************************
     Summary: Sets the specular color of the material
     Arguments:
@@ -122,6 +120,7 @@ public:
     see also: SetAmbient,SetDiffuse, GetSpecular, GetEmissive
     *************************************************/
     virtual const VxColor &GetEmissive() = 0;
+
     /*************************************************
     Summary: Sets the emissive color of the material
     Arguments:
@@ -408,7 +407,7 @@ public:
     virtual void SetZFunc(VXCMPFUNC ZFunc = VXCMP_LESSEQUAL) = 0;
 
     //--------------------------------------------------------------
-    //  Texture pespective correction
+    //  Texture perspective correction
 
     /*************************************************
     Summary: Checks whether texture perspective correction is enabled.
@@ -472,7 +471,7 @@ public:
     Arguments:
         context: A pointer to the CKRenderContext on which this material should be set as current.
         Lit: TRUE to set the color settings of the material or FALSE if they will not be used (when rendering prelitted primitives for example)
-        TextureStage: For multi-texture monopass rendering index of the texture stage on which this material should be set. Most of the time this value does not need to be set.
+        TextureStage: For multi-texture mono-pass rendering index of the texture stage on which this material should be set. Most of the time this value does not need to be set.
     Return Value:
         TRUE if successful.
 
@@ -494,7 +493,7 @@ public:
 
     See also:CKRenderContext::SetCurrentMaterial,CKTexture::SetAsCurrent,CKRenderContext::SetState
     *************************************************/
-    virtual CKBOOL SetAsCurrent(CKRenderContext *, BOOL Lit = TRUE, int TextureStage = 0) = 0;
+    virtual CKBOOL SetAsCurrent(CKRenderContext *, CKBOOL Lit = TRUE, int TextureStage = 0) = 0;
 
     /*************************************************
     Summary: Checks whether this material has transparency.
@@ -622,4 +621,4 @@ public:
     }
 };
 
-#endif
+#endif // CKMATERIAL_H

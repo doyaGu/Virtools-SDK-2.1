@@ -2,6 +2,8 @@
 #define CKCOLLISION_MANAGER_H
 
 #include "CKBaseManager.h"
+#include "VxVector.h"
+#include "VxMatrix.h"
 
 /************************************************
 Name:ImpactDesc
@@ -47,7 +49,7 @@ For these two attributes, You can precise the geometry precision
 (for now, only Bounding Box and Faces) and if you want to take into account
 the children of the obstacle, the hierarchy flags must be checked.
 
-+You can add this attributes the normal way, by adding the beobject the attribute
++You can add this attributes the normal way, by adding the BeObject the attribute
 or by using the devoted collision manager functions : AddObstacle, AddObstacleByNames
 and remove them the same way.
 You can also iterate among the obstacles with the GetObstacle(fixed/moving)() functions.
@@ -57,8 +59,6 @@ The goal of this function is to find if the given object (which must be marked
 as an obstacle) is in collision with another obstacle. It stops with the first obstacle found
 and can provide several impact information if the user wants them.
 The ImpactDesc is as follow :
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
           typedef struct {
             CK_ID	m_OwnerEntity;  // Child of the object tested or the object itself (can be the body part of a character)
@@ -73,11 +73,10 @@ The ImpactDesc is as follow :
             VxVector m_ImpactNormal; // NOT USED YET
         } ImpactDesc;
 
-{html:</td></tr></table>}
 
     + The collision manager keeps all the objects marked as obstacle in sorted arrays
 which allow it to find quickly which objects are overlapping with another one.
-The DetectCollision() method use this functionnality to restrict the number
+The DetectCollision() method use this functionality to restrict the number
 of complex intersection tests to perform.
 
     + One of the other functions set provided by the collision manager is the RayIntersection set.
@@ -89,34 +88,22 @@ MovingRayIntersection() testing the ray with only the moving obstacles
     + The collision manager gives also access to intersection tests between two entities,
 at different precision level. These functions are :
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
             CKBOOL BoxBoxIntersection(ent1,ent2);
             CKBOOL BoxFaceIntersection(ent1,ent2);
             CKBOOL FaceFaceIntersection(ent1,ent2);
 
-{html:</td></tr></table>}
-
 These three functions operate at single entity level. For hierarchical detection, use :
-
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
 
         IsInCollisionWithHierarchy()
         IsHierarchyInCollisionWithHierarchy()
-
-{html:</td></tr></table>}
 
 which operate on hierarchy. The precision level is given as argument
 (for now, only CKCOLLISION_BOX and CKCOLLISION_FACE)
 
 Finally, the collision manager gives basic geometric tests functions such as :
 
-{html:<table width="90%" border="1" align="center" bordercolorlight="#FFFFFF" bordercolordark="#FFFFFF" bgcolor="#FFFFFF" bordercolor="#FFFFFF"><tr bgcolor="#E6E6E6" bordercolor="#000000"><td>}
-
             FaceFaceIntersection();
             BoxBoxIntersection();
-
-{html:</td></tr></table>}
 
 The unique instance of CollisionManager can be retrieved by calling CKContext::GetManagerByGUID(COLLISION_MANAGER_GUID).
 
@@ -158,7 +145,7 @@ public:
     Return Value:
         Number of object defined as obstacles
     Remarks:
-        This method calls the AddObstacle methodfor each 3dEntity in level that match the substring parameter.
+        This method calls the AddObstacle method for each 3dEntity in level that match the substring parameter.
     See also: AddObstacle,RemoveObstacle,RemoveAllObstacles,IsObstacle
     *************************************************/
     virtual int AddObstaclesByName(CKLevel *level, CKSTRING substring, CKBOOL moving = FALSE, CK_GEOMETRICPRECISION precision = CKCOLLISION_BOX, CKBOOL hiera = FALSE) = 0;
@@ -208,6 +195,7 @@ public:
     See also: GetFixedObstacle,GetMovingObstacleCount
     *************************************************/
     virtual int GetFixedObstacleCount(CKBOOL level = FALSE) = 0;
+
     /*************************************************
     Summary: Return the 'pos'th object declared as fixed obstacle
 
@@ -230,6 +218,7 @@ public:
     See also: GetMovingObstacle,GetFixedObstacleCount
     *************************************************/
     virtual int GetMovingObstacleCount(CKBOOL level = FALSE) = 0;
+
     /*************************************************
     Summary: Return the 'pos'th object declared as moving obstacle
 
@@ -254,7 +243,7 @@ public:
     virtual int GetObstacleCount(CKBOOL level = FALSE) = 0;
 
     /*************************************************
-    Summary: Return the 'pos'th object declared as obstacle, wheter moving or not
+    Summary: Return the 'pos'th object declared as obstacle, whether moving or not
 
     Arguments:
         pos: The index of the obstacle to return.
@@ -269,30 +258,31 @@ public:
     // Collision Detection functions
     //------------------------------
     // all these functions use the defined obstacles, fixed or moving
-    // or the two at once if not precised in the fuction name
+    // or the two at once if not specified in the function name
 
     /*************************************************
     Summary: Check if an entity is in collision with any of the declared obstacles, at the time the function is called.
 
     Arguments:
         ent: the object to be checked (it needs to be defined as an obstacle, probably moving)
-        precis_level: the geometric precision level you want t oforce for the tests. Use CKCOLLISION_NONE if you want the tests
+        precis_level: the geometric precision level you want force for the tests. Use CKCOLLISION_NONE if you want the tests
         to use the precision chosen for each obstacle. Otherwise, you can force the tests to be on bounding boxes for
         everyone by transmitting CKCOLLISION_BOX for example.
         replacementPrecision: an integer that describes the maximum number of tests to be executed to determine
         the nearest safe position to the collision point, testing backwards to the starting point. (By safe
         position, we mean a position with no collision at all. If it can not found anyone, the starting matrix will be given).
         detectionPrecision: an integer that describes the maximum number of tests to be executed to determine
-        if a collision occured starting with the starting point (before the behavioral process begins) and testing forward
+        if a collision occurred starting with the starting point (before the behavioral process begins) and testing forward
         to the current point. The behavior stops testing at the first collision it encounters, then tests for a
         safe position from that point.
-        inmpactFlags: flags determining which information you want to be calculated and returned in the ImpactDesc structure.
+        impactFlags: flags determining which information you want to be calculated and returned in the ImpactDesc structure.
         imp: pointer to an ImpactDesc structure that will be filled with all the information you asked, NULL if you don't need these info.
     Return Value:
-        TRUE if a collision occured, FALSE otherwise.
+        TRUE if a collision occurred, FALSE otherwise.
     See also: ObstacleBetween
     *************************************************/
-    virtual CKBOOL DetectCollision(CK3dEntity *ent, CK_GEOMETRICPRECISION precis_level, int replacementPrecision, int detectionPrecision, CK_IMPACTINFO inmpactFlags, ImpactDesc *imp) = 0;
+    virtual CKBOOL DetectCollision(CK3dEntity *ent, CK_GEOMETRICPRECISION precis_level, int replacementPrecision, int detectionPrecision, CK_IMPACTINFO impactFlags, ImpactDesc *imp) = 0;
+
     /*************************************************
     Summary: Check if an entity, declared as an obstacle, is between two other obstacle objects.
 
@@ -303,7 +293,7 @@ public:
         height : height of the beam traced, added to the top and to the bottom of the base ray
         iFace: FALSE to perform only bounding box tests , TRUE to perform face tests.
         iFirstContact: TRUE to stop the test at the first contact otherwise the contact nearest to pos is returned but it is slower.
-        iIgnoreAlpha: if FALSE, face material and texture is taken into account and a test is perfom to check if the ray pass through a
+        iIgnoreAlpha: if FALSE, face material and texture is taken into account and a test is perform to check if the ray pass through a
         color keyed pixel.
     Output Arguments:
         oDesc: A structure that will be filled with detail about the intersection : position , face, etc...
@@ -338,6 +328,7 @@ public:
     See also: BoxFaceIntersection,FaceFaceIntersection
     *************************************************/
     virtual CKBOOL BoxBoxIntersection(CK3dEntity *ent1, CKBOOL hiera1, CKBOOL local1, CK3dEntity *ent2, CKBOOL hiera2, CKBOOL local2) = 0;
+
     /*************************************************
     Summary: Collision detection between two 3d entities (Box against Faces)
 
@@ -350,6 +341,7 @@ public:
     See also: BoxBoxIntersection,FaceFaceIntersection
     *************************************************/
     virtual CKBOOL BoxFaceIntersection(CK3dEntity *ent1, CKBOOL hiera1, CKBOOL local1, CK3dEntity *ent2) = 0;
+
     /*************************************************
     Summary: Collision detection between two 3d entities (Faces against Faces)
 
@@ -377,6 +369,7 @@ public:
     See also: IsInCollisionWithHierarchy,IsHierarchyInCollisionWithHierarchy
     *************************************************/
     virtual CKBOOL IsInCollision(CK3dEntity *ent, CK_GEOMETRICPRECISION precis_level1, CK3dEntity *ent2, CK_GEOMETRICPRECISION precis_level2) = 0;
+
     /*************************************************
     Summary: Check if an 3dEntity is in collision with another and its hierarchy.
 
@@ -386,13 +379,14 @@ public:
         ent2: second obstacle
         precis_level2: the geometric precision level you want to use for ent2 and its hierarchy.(CKCOLLISION_NONE is not a valid value)
     Return Value:
-        The pointer to the sub-object of entity 2 if the two entites are colliding, NULL otherwise.
+        The pointer to the sub-object of entity 2 if the two entities are colliding, NULL otherwise.
     Remarks:
         Check if two 3dEntities are in collision, the second one considered with all its sub-hierarchy. All the sub objects of
         entity 2 are tested at the same level of precision : precis_level2
     See also: IsInCollision,IsHierarchyInCollisionWithHierarchy
     *************************************************/
     virtual CK3dEntity *IsInCollisionWithHierarchy(CK3dEntity *ent, CK_GEOMETRICPRECISION precis_level1, CK3dEntity *ent2, CK_GEOMETRICPRECISION precis_level2) = 0;
+
     /*************************************************
     Summary: Check if two hierarchies are in collision.
 
@@ -404,7 +398,7 @@ public:
         sub: A pointer to be filled with the children of ent1 that is colliding.
         subob: A pointer to be filled with the children of ent2 that is colliding.
     Return Value:
-        TRUE if the two entites are colliding, FALSE otherwise.
+        TRUE if the two entities are colliding, FALSE otherwise.
     Remarks:
         Check if two 3dEntities are in collision, the two considered with all their sub-hierarchy.
     See also: IsInCollision,IsHierarchyInCollisionWithHierarchy
@@ -414,4 +408,4 @@ public:
     virtual CK3dEntity *ObstacleBetween(const VxVector &pos, const VxVector &endpos, CKBOOL iFace = TRUE, CKBOOL iFirstContact = FALSE, CKBOOL iIgnoreAlpha = FALSE, VxIntersectionDesc *oDesc = NULL) = 0;
 };
 
-#endif
+#endif // CKCOLLISION_MANAGER_H

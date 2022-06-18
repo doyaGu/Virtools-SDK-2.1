@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKRenderObject.h												 */
-/*	Author :  Aymeric BARD												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKRenderObject_H
-#define CKRenderObject_H "$Id:$"
+#define CKRenderObject_H
 
 #include "CKBeObject.h"
 
@@ -34,7 +27,7 @@ public:
     Remarks:
         + To be rendered when calling CKRenderContext::Render a 2D Entity or 3D Entity needs
         to be referenced by the render context. Objects referenced in a scene are automatically
-        placed in a render context when the scene becomes active. But additionnal objects to be rendered
+        placed in a render context when the scene becomes active. But additional objects to be rendered
         but not present in the scene should be added to the render context with CKRenderContext::AddObject
         or rendered manually with CK3dEntity::Render or CK2dEntity::Render
 
@@ -71,7 +64,7 @@ public:
     Summary: Adds a pre-render callback function.
 
     Arguments:
-        Function: A function of type CK_RENDEROBJECT_CALLBACK which will be called before the object is rendereded.
+        Function: A function of type CK_RENDEROBJECT_CALLBACK which will be called before the object is rendered.
         Argument: Argument that will be passed to the function.
         Temp : TRUE if the callback should be removed after being called.
     Return Value: TRUE if successful, FALSE otherwise.
@@ -146,11 +139,11 @@ public:
     CKRenderObject() {}
     CKRenderObject(CKContext *Context, CKSTRING name = NULL) : CKBeObject(Context, name) {}
 
-    // Dynamic Cast method (returns NULL if the object can't be casted)
+    // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKRenderObject *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_RENDEROBJECT) ? (CKRenderObject *)iO : NULL;
     }
 };
 
-#endif
+#endif // CKRenderObject_H

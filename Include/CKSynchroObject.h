@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKSynchroObject.h											 */
-/*	Author :  Romain Sididris											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKSYNCOBJECT_H
-#define CKSYNCOBJECT_H "$Id:$"
+#define CKSYNCOBJECT_H
 
 #include "CKObject.h"
 #include "CKObjectArray.h"
@@ -42,8 +35,7 @@ public:
     CKBeObject *GetRendezVousArrivedObject(int pos);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
+
     CKSynchroObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKSynchroObject();
     virtual CK_CLASSID GetClassID();
@@ -69,7 +61,6 @@ protected:
     int m_MaxWaiters;
     CKObjectArray m_Arrived;
     CKObjectArray m_Passed;
-#endif // Docjet secret macro
 };
 
 /*************************************************
@@ -78,7 +69,7 @@ Name: CKCriticalSectionObject
 Summary: Class managing a critical section mechanism
 
 Remarks:
-    + A CriticalSection enables objects to acces resources using behaviors without risks
+    + A CriticalSection enables objects to access resources using behaviors without risks
     of being executed concurrently. An object ask for the right to use a section through
     EnterCriticalSection and warm that is has finished with LeaveCriticalSection
 
@@ -98,8 +89,7 @@ public:
     CKBOOL LeaveCriticalSection(CKBeObject *asker);
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
+
     CKCriticalSectionObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKCriticalSectionObject();
     virtual CK_CLASSID GetClassID();
@@ -123,7 +113,6 @@ public:
 
 protected:
     CK_ID m_ObjectInSection;
-#endif // Docjet secret macro
 };
 
 /*************************************************
@@ -152,8 +141,6 @@ public:
     void LeaveState();
 
 //-------------------------------------------------------------------
-#ifdef DOCJETDUMMY // Docjet secret macro
-#else
 
     CKStateObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKStateObject();
@@ -176,7 +163,6 @@ public:
 
 protected:
     CKBOOL m_Event;
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKSYNCOBJECT_H

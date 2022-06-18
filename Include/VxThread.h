@@ -2,11 +2,12 @@
 #define VXTHREAD_H
 
 #include "XString.h"
+#include "XHashTable.h"
 #include "VxMutex.h"
 
 #define VXTERROR_TIMEOUT		9	// The timeout of an operation was reached.
 #define VXTERROR_NULLTHREAD		50	// The thread object is null.
-#define VXTERROR_WAIT			51	// An error occured while you try to join (wait for) a thread.
+#define VXTERROR_WAIT			51	// An error occurred while you try to join (wait for) a thread.
 #define VXTERROR_EXITCODE		52	// An error while you try to get the exit code of a tread.
 #define VXT_OK					53	// No error. 
 
@@ -17,7 +18,7 @@ See also: VxThread, VxThread::Join.
 *************************************************/
 typedef enum VXTHREAD_STATE
 {
-    VXTS_INITIALE = 0x00000000L,	// Initiale state of a thread object (at this time the system thread isn't created).
+    VXTS_INITIALE = 0x00000000L,	// Initial state of a thread object (at this time the system thread isn't created).
     VXTS_MAIN     = 0x00000001L,	// The thread is the main thread
     VXTS_CREATED  = 0x00000002L,	// The system thread associated with the current thread object was correctly created.
     VXTS_STARTED  = 0x00000004L,	// The thread has been started.
@@ -52,7 +53,6 @@ Summary: Thread has been terminated with VxThread::Terminate.
 *************************************************/
 const unsigned int VXT_TERMINATEFORCED = 1000001;
 
-//#if !defined(_LINUX) && !defined(macintosh)
 /*************************************************
 Summary: Prototype of a function which will be executed by a VxThread.
 
@@ -65,21 +65,6 @@ Return value:
 See also: VxThread, VxThread::Run, NKERROR.
 *************************************************/
 typedef unsigned int VxThreadFunction(void *args);
-/*#else
-typedef void* (*VxThreadFunction)(void* args);
-#endif*/
-
-/*************************************************
-Summary: Using an opaque interface for thread data
- on Mac and Linux platforms to avoid header dependencies
- with underlying implementation
-*************************************************/
-
-#if defined(_LINUX) || defined(macintosh)
-
-struct CThreadData;
-
-#endif
 
 /*************************************************
 Summary: Represents a system thread.
@@ -102,30 +87,24 @@ public:
     VX_EXPORT VxThread();
     VX_EXPORT virtual ~VxThread();
 
-    VX_EXPORT BOOL CreateThread(VxThreadFunction *func = 0, void *args = 0);
+    VX_EXPORT XBOOL CreateThread(VxThreadFunction *func = 0, void *args = 0);
     VX_EXPORT void SetPriority(unsigned int priority);
     VX_EXPORT void SetName(const char *name);
     VX_EXPORT void Close();
     VX_EXPORT const XString &GetName() const;
     VX_EXPORT unsigned int GetPriority() const;
-    VX_EXPORT BOOL IsCreated() const;
-    VX_EXPORT BOOL IsJoinable() const;
-    VX_EXPORT BOOL IsMainThread() const;
-    VX_EXPORT BOOL IsStarted() const;
+    VX_EXPORT XBOOL IsCreated() const;
+    VX_EXPORT XBOOL IsJoinable() const;
+    VX_EXPORT XBOOL IsMainThread() const;
+    VX_EXPORT XBOOL IsStarted() const;
     VX_EXPORT static VxThread *GetCurrentVxThread();
 
-#if !defined(_LINUX) && !defined(macintosh)
     VX_EXPORT int Wait(unsigned int *status = 0, unsigned int timeout = 0);
     VX_EXPORT const GENERIC_HANDLE GetHandle() const;
-    VX_EXPORT DWORD GetID() const;
-    VX_EXPORT BOOL GetExitCode(unsigned int &status);
-    VX_EXPORT BOOL Terminate(unsigned int *status = 0);
-    VX_EXPORT static DWORD GetCurrentVxThreadId();
-#else
-    // Cast in pthread_t
-    VX_EXPORT const void *GetHandle() const;
-    VX_EXPORT int Wait(void **status = 0, unsigned int timeout = 0);
-#endif
+    VX_EXPORT XULONG GetID() const;
+    VX_EXPORT XBOOL GetExitCode(unsigned int &status);
+    VX_EXPORT XBOOL Terminate(unsigned int *status = 0);
+    VX_EXPORT static XULONG GetCurrentVxThreadId();
 
 protected:
     /*************************************************
@@ -162,26 +141,13 @@ private:
 
     static VxMutex &GetMutex();
 
-#if !defined(_LINUX) && !defined(macintosh)
     static XHashTable<VxThread *, GENERIC_HANDLE> &GetHashThread();
-#endif
 
-#if defined(_LINUX) || defined(PSX2) || defined(macintosh)
-    static void *ThreadFunc(void *args);
-#endif
-
-#if defined(WIN32) || defined(_XBOX)
-    static DWORD __stdcall ThreadFunc(void *args);
-#endif
-
-#if defined(_LINUX) || defined(macintosh)
-    CThreadData *m_ThreadData;
-#else
+    static XULONG __stdcall ThreadFunc(void *args);
 
     GENERIC_HANDLE m_Thread;
 
     unsigned int m_ThreadID;
-#endif
 
     unsigned int m_State;
 
@@ -192,10 +158,6 @@ private:
     void *m_Args;
 
     static VxThread *m_MainThread;
-
-#if defined(_LINUX) || defined(macintosh)
-    static VxMutex m_MutexForHash;
-#endif
 };
 
 #endif // VXTHREAD_H

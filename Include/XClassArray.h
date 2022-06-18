@@ -1,16 +1,10 @@
-/*************************************************************************/
-/*	File : XClassArray.h												 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XCLASSARRAY_H_
-#define _XCLASSARRAY_H_ "$Id:$"
+#ifndef XCLASSARRAY_H
+#define XCLASSARRAY_H
 
+#include "VxMathDefines.h"
 #include "XUtil.h"
 
-#ifdef _WIN32
+#ifdef VX_MSVC
 #pragma warning(disable : 4786)
 #endif
 
@@ -87,7 +81,7 @@ public:
     Summary: Affectation operator.
 
     Remarks:
-        The content of the array is enterely overwritten
+        The content of the array is entirely overwritten
     by the given array.
     ************************************************/
     XClassArray<T> &operator=(const XClassArray<T> &a)
@@ -159,7 +153,7 @@ public:
     Remarks:
         If the size is greater than the reserved size,
     the array is reallocated at the exact needed size.
-    If not, threr is no reallocation at all. Resize(0)
+    If not, three is no reallocation at all. Resize(0)
     is faster than Clear() if you know you will probably
     push some more elements after.
     ************************************************/
@@ -563,7 +557,7 @@ protected:
     }
 
     ///
-    // Allocation and deallocation methods : to be override for alignement purposes
+    // Allocation and deallocation methods : to be overridden for alignment purposes
 
     T *Allocate(int size)
     {
@@ -588,4 +582,4 @@ protected:
     T *m_AllocatedEnd;
 };
 
-#endif
+#endif // XCLASSARRAY_H

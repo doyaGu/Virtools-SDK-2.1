@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKTargetLight.h			 				 					 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKTARGETLIGHT_H
-#define CKTARGETLIGHT_H "$Id:$"
+#define CKTARGETLIGHT_H
 
 #include "CKLight.h"
 
@@ -49,4 +42,4 @@ public:
     }
 };
 
-#endif
+#endif // CKTARGETLIGHT_H

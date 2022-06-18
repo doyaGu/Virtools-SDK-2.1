@@ -1,12 +1,5 @@
-/*************************************************************************/
-/*	File : CKDataArray.h												 */
-/*	Author :  Aymeric BARD												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKDATAARRAY_H
-#define CKDATAARRAY_H "$Id:$"
+#define CKDATAARRAY_H
 
 #include "CKBeObject.h"
 
@@ -61,7 +54,7 @@ Summary: Array that contains a collection of data, each column with a unique typ
 Remarks:
 + There exist four basic types of elements you can put in a data array. These types are defined in CK_ARRAYTYPE.
 + The operations provided with the functions ColumnOperate and ColumnTransform only work with basic numeric types (CKARRAYTYPE_INT and CKARRAYTYPE_FLOAT) and not with a parameter of type "Integer" for example.
-+ The comparaison, as used by the functions Sort,FindLine, TestRow, etc... fully works with basic types (CKARRAYTYPE_INT, CKARRAYTYPE_FLOAT and CKARRAYTYPE_STRING) and works with comparaison type EQUAL or NOTEQUAL with object types (CKARRAYTYPE_OBJECT and CKARRAYTYPE_PARAMETER) (it compares the ID of the object and it does a memcmp on the content of the two compared parameter.)
++ The comparison, as used by the functions Sort,FindLine, TestRow, etc... fully works with basic types (CKARRAYTYPE_INT, CKARRAYTYPE_FLOAT and CKARRAYTYPE_STRING) and works with comparaison type EQUAL or NOTEQUAL with object types (CKARRAYTYPE_OBJECT and CKARRAYTYPE_PARAMETER) (it compares the ID of the object and it does a memcmp on the content of the two compared parameter.)
 + The class id of CKDataArray is CKCID_DATAARRAY.
 
 
@@ -96,7 +89,7 @@ public:
 
     // Elements Functions
 
-    // Get the elemnt pointer of the specified case
+    // Get the element pointer of the specified case
     CKDWORD *GetElement(int i, int c);
     // Use to get an int, a float, a string or an object ID
     CKBOOL GetElementValue(int i, int c, void *value);
@@ -169,7 +162,7 @@ public:
     CKBOOL GetNearest(int c, void *value, int &row);
     // Transform the values by operating them with the given value
     void ColumnTransform(int c, CK_BINARYOPERATOR op, CKDWORD value);
-    // Operate two colums into a third
+    // Operate two columns into a third
     void ColumnsOperate(int c1, CK_BINARYOPERATOR op, int c2, int cr);
 
     // Sort the array on the column, ascending or descending
@@ -193,8 +186,6 @@ public:
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
     //-------------------------------------------------------
     // Virtual functions	{Secret}
@@ -234,9 +225,6 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_DATAARRAY) ? (CKDataArray *)iO : NULL;
     }
-    //--------------------------------------------
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKDATAARRAY_H

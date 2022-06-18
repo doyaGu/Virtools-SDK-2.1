@@ -1,16 +1,8 @@
-/*************************************************************************/
-/*	File : CKBehavior.h			 				 						 */
-/*	Author :  Nicolas Galinotti											 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
 #ifndef CKBEHAVIOR_H
-#define CKBEHAVIOR_H "$Id:$"
+#define CKBEHAVIOR_H
 
-#include "CKObject.h"
+#include "CKSceneObject.h"
 #include "XObjectArray.h"
-#include "XPriorityQueue.h"
 
 struct BehaviorBlockData;
 struct BehaviorGraphData;
@@ -22,7 +14,7 @@ Name: CKBehavior
 Summary: Class for defining behaviors
 
 Remarks:
-    + The CKBehavior class provides functionnalities for defining a behavior as a function or as a graph,
+    + The CKBehavior class provides functionalities for defining a behavior as a function or as a graph,
     to set various parameters about how and when the behavior is activated,
     to link them to other behaviors through CKBehaviorLink instances or to create
     them from CKBehaviorPrototype, for creating CKBehaviorPrototype from a behavior.
@@ -32,12 +24,12 @@ Remarks:
     usually applies to its owner, or to parts of its owner, though it can apply to other
     objects as well. If the behavior is a graph, all of its sub-behaviors inherits the same owner.
 
-    + A Behavior is considered to as a box with inputs/ouputs and input,output and local parameters.
+    + A Behavior is considered to as a box with inputs/outputs and input,output and local parameters.
     Inside this box the behavior may be implemented using a graph of sub-behaviors or using a C++ function,
     depending on which method UseGraph or UseFunction has been specified. For behaviors using a function,
     the function may be defined internally, or in a external code file (dll, or other depending on the OS).
 
-    + If you want to implement the behavior with a C++ funtion without defining a prototype, you should specify the function with the
+    + If you want to implement the behavior with a C++ function without defining a prototype, you should specify the function with the
     SetFunction() method. This function will be called at each process cycle, with one argument:
     the elapsed time since the last call, in milliseconds.
 
@@ -83,7 +75,7 @@ Remarks:
 
     + Outputs of a behavior are linked to inputs or other behaviors through instances of CKBehaviorLink.
     These links have an activation delay, which may be 0. If it is zero, the input gets activated at the same
-    process cycle which may introduce infinite loops. Such Loops are detected at execution time when exceding
+    process cycle which may introduce infinite loops. Such Loops are detected at execution time when exceeding
     the value defined by CKSetBehaviorMaxIteration (Default : 8000)
 
 
@@ -93,7 +85,7 @@ Remarks:
     and CKParameterIn instances are used to get values from the outside.
 
     + Components of a behavior like parameters, I/O may be named, like all objects of CK. This name
-    is only a conveniency and is not mandatory. These names are saved in the state or in the file
+    is only a convenience and is not mandatory. These names are saved in the state or in the file
     with the behavior and may eat up space, so you should use them carefully if this is an issue for
     your application.
 
@@ -310,8 +302,6 @@ public:
 
 //-------------------------------------------------------------------------
 // Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
 
     CKERROR SetOwner(CKBeObject *, CKBOOL callback = TRUE);
     CKERROR SetSubBehaviorOwner(CKBeObject *o, CKBOOL callback = TRUE);
@@ -397,8 +387,6 @@ protected:
     static int BehaviorPrioritySort(const void *elem1, const void *elem2);
 
     void ApplyPatchLoad();
-
-#endif // Docjet secret macro
 };
 
-#endif
+#endif // CKBEHAVIOR_H

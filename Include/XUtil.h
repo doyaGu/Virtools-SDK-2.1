@@ -1,99 +1,16 @@
-/*************************************************************************/
-/*	File : XUtil.h														 */
-/*	Author :  Aymeric Bard												 */
-/*																		 */
-/*	Virtools SDK 														 */
-/*	Copyright (c) Virtools 2000, All Rights Reserved.					 */
-/*************************************************************************/
-#ifndef _XUTIL_H_
-#define _XUTIL_H_
+#ifndef XUTIL_H
+#define XUTIL_H
 
-#include <stdio.h>
+#include "VxMathDefines.h"
+
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
-#if defined(_WIN32) || defined(WIN32) || defined(WINDOWS)
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#undef WIN32_LEAN_AND_MEAN
-#endif
-
-#ifdef _DEBUG
-#define _DEBUG_BREAKPOINT() DebugBreak();
-#else
-#define _DEBUG_BREAKPOINT()
-#endif
-
-#define _QUOTE(x) #x
-
-#define QUOTE(x) _QUOTE(x)
-
-#define __FILE__LINE__ __FILE__ "(" QUOTE(__LINE__) ") : "
-
-#define NOTE(x) message(x)
-
-#define FILE_LINE message(__FILE__LINE__)
-
-#define TODO(x) message(__FILE__LINE__ "\n"               \
-    " ------------------------------------------------\n" \
-    "|  TODO :   " #x "\n"                                \
-    " -------------------------------------------------\n")
-
-#define TOFIX(x) message(__FILE__LINE__ "\n"              \
-    " ------------------------------------------------\n" \
-    "|  TOFIX :  " #x "\n"                                \
-    " -------------------------------------------------\n")
-
-#define todo(x) message(__FILE__LINE__ " TODO :   " #x "\n")
-
-#define tofix(x) message(__FILE__LINE__ " TOFIX:   " #x "\n")
-
-#ifndef XBYTE
-typedef unsigned char XBYTE;
-#endif
-
-#ifndef XBOOL
-typedef int XBOOL;
-#endif
-
-#ifndef XWORD
-typedef unsigned short XWORD;
-#endif
-
-#ifndef XDWORD
-typedef unsigned int XDWORD;
-#endif
-
-#include <cassert>
+#include <assert.h>
 #define XASSERT(a) assert(a)
 
-#ifndef VX_EXPORT
-#ifdef VX_LIB
-#define VX_EXPORT
-#else
-#ifdef VX_API
-#if defined(WIN32) && defined(_MSC_VER)
-#define VX_EXPORT __declspec(dllexport) // VC++ export option  {secret}
-#else
-#define VX_EXPORT
-#endif
-#else
-#if defined(WIN32) && defined(_MSC_VER)
-#define VX_EXPORT __declspec(dllimport) // VC++ export option  {secret}
-#else
-#define VX_EXPORT
-#endif
-#endif
-#endif
-#endif
-
-#ifdef WIN32
-// Summary: Sort function prototype for XArray,XBinaryTree sort operations
-//
 typedef int(__cdecl *VxSortFunc)(const void *elem1, const void *elem2);
-#else
-typedef int (*VxSortFunc)(const void *elem1, const void *elem2);
-#endif
 
 /*************************************************
 Summary: Enables the initialisation of a reference from two values.
@@ -407,7 +324,7 @@ inline int Near2Power(int v)
 }
 
 /*******************************************************************************
-Summary: Global Unique Identifier Struture.
+Summary: Global Unique Identifier Structure.
 
 Remarks: Comparison operators are defined so XGUIDS can be compared with
 ==,!= ,<,> operators.
@@ -467,4 +384,4 @@ public:
     XDWORD d2;
 };
 
-#endif
+#endif // XUTIL_H
