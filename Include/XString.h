@@ -295,26 +295,17 @@ public:
         return Find(iStr) != NOTFOUND;
     }
 
-    // finds a string in the string
-    XBOOL IContains(const XBaseString &iStr) const
-    {
-        return IFind(iStr) != NOTFOUND;
-    }
-
     // finds a character in the string
     VX_EXPORT XWORD Find(char iCar, XWORD iStart = 0) const;
 
     // finds a string in the string
     VX_EXPORT XWORD Find(const XBaseString &iStr, XWORD iStart = 0) const;
 
-    // finds a string in the string
-    VX_EXPORT XWORD IFind(const XBaseString &iStr, XWORD iStart = 0) const;
-
     // finds a character in the string
     VX_EXPORT XWORD RFind(char iCar, XWORD iStart = NOTFOUND) const;
 
     // creates a substring
-    VX_EXPORT XString &Substring(XString &iDest, XWORD iStart, XWORD iLength = 0) const;
+    VX_EXPORT XString Substring(XWORD iStart, XWORD iLength = 0) const;
 
     // crops the string
     VX_EXPORT XString &Crop(XWORD iStart, XWORD iLength);
