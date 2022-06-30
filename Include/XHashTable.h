@@ -12,6 +12,284 @@
 
 const float L = 0.75f;
 
+template <class T, class K, class H, class Eq>
+class XHashTable;
+
+template <class T, class K>
+class XHashTableEntry
+{
+    typedef XHashTableEntry<T, K> *tEntry;
+
+public:
+    XHashTableEntry(const K &k, const T &v) : m_Key(k), m_Data(v), m_Next(0) {}
+    XHashTableEntry(const XHashTableEntry<T, K> &e) : m_Key(e.m_Key), m_Data(e.m_Data), m_Next(0) {}
+    ~XHashTableEntry() {}
+
+    K m_Key;
+    T m_Data;
+    tEntry m_Next;
+};
+
+/************************************************
+Summary: Iterator on a hash table.
+
+Remarks: This iterator is the only way to iterate on
+elements in a hash table. The iteration will be in no
+specific order, not in the insertion order. Here is an example
+of how to use it:
+
+Example:
+
+    XHashTableIt<T,K,H> it = hashtable.Begin();
+    while (it != hashtable.End()) {
+        // access to the key
+        it.GetKey();
+
+        // access to the element
+        *it;
+
+        // next element
+        ++it;
+    }
+
+
+************************************************/
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
+class XHashTableIt {
+    typedef XHashTableEntry <T, K> *tEntry;
+    typedef XHashTableIt<T, K, H, Eq> tIterator;
+    typedef XHashTable <T, K, H, Eq> *tTable;
+
+    friend class XHashTable<T, K, H, Eq>;
+public:
+    /************************************************
+    Summary: Default constructor of the iterator.
+    ************************************************/
+    XHashTableIt() : m_Node(0), m_Table(0) {}
+
+    /************************************************
+    Summary: Copy constructor of the iterator.
+    ************************************************/
+    XHashTableIt(const tIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
+
+    /************************************************
+    Summary: Operator Equal of the iterator.
+    ************************************************/
+    int operator==(const tIterator &it) const { return m_Node == it.m_Node; }
+
+    /************************************************
+    Summary: Operator Not Equal of the iterator.
+    ************************************************/
+    int operator!=(const tIterator &it) const { return m_Node != it.m_Node; }
+
+    /************************************************
+    Summary: Returns a constant reference on the data
+    pointed	by the iterator.
+
+    Remarks:
+        The returned reference is constant, so you can't
+    modify its value. Use the other * operator for this
+    purpose.
+    ************************************************/
+    const T &operator*() const { return (*m_Node).m_Data; }
+
+    /************************************************
+    Summary: Returns a reference on the data pointed
+    by the iterator.
+
+    Remarks:
+        The returned reference is not constant, so you
+    can modify its value.
+    ************************************************/
+    T &operator*() { return (*m_Node).m_Data; }
+
+    /************************************************
+    Summary: Returns a pointer on a T object.
+    ************************************************/
+    operator const T *() const { return &(m_Node->m_Data); }
+
+    /************************************************
+    Summary: Returns a pointer on a T object.
+    ************************************************/
+    operator T *() { return &(m_Node->m_Data); }
+
+    /************************************************
+    Summary: Returns a const reference on the key of
+    the pointed entry.
+    ************************************************/
+    const K &GetKey() const { return m_Node->m_Key; }
+    K &GetKey() { return m_Node->m_Key; }
+
+    /************************************************
+    Summary: Jumps to next entry in the hashtable.
+    ************************************************/
+    tIterator &operator++()
+    { // Prefixe
+        tEntry old = m_Node;
+        // next element of the linked list
+        m_Node = m_Node->m_Next;
+
+        if (!m_Node)
+        {
+            // end of linked list, we have to find next filled bucket
+            // OPTIM : maybe keep the index current : save a %
+            int index = m_Table->Index(old->key);
+            while (!m_Node && ++index < m_Table->m_Table.Size())
+                m_Node = m_Table->m_Table[index];
+        }
+        return *this;
+    }
+
+    /************************************************
+    Summary: Jumps to next entry in the hashtable.
+    ************************************************/
+    tIterator operator++(int)
+    {
+        tIterator tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+    XHashTableIt(tEntry n, tTable t) : m_Node(n), m_Table(t) {}
+
+    tEntry m_Node;
+
+    tTable m_Table;
+};
+
+
+/************************************************
+Summary: Constant Iterator on a hash table.
+
+Remarks: This iterator is the only way to iterate on
+elements in a constant hash table. The iteration will be in no
+specific order, not in the insertion order. Here is an example
+of how to use it:
+
+Example:
+
+    void MyClass::MyMethod() const
+    {
+        XHashTableConstIt<T,K,H> it = m_Hashtable.Begin();
+        while (it != m_Hashtable.End()) {
+            // access to the key
+            it.GetKey();
+
+            // access to the element
+            *it;
+
+            // next element
+            ++it;
+        }
+    }
+
+
+************************************************/
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
+class XHashTableConstIt
+{
+    typedef XHashTableEntry<T, K> *tEntry;
+    typedef XHashTableConstIt<T, K, H, Eq> tConstIterator;
+    typedef XHashTable<T, K, H, Eq> const *tConstTable;
+    friend class XHashTable<T, K, H, Eq>;
+
+public:
+    /************************************************
+    Summary: Default constructor of the iterator.
+    ************************************************/
+    XHashTableConstIt() : m_Node(0), m_Table(0) {}
+
+    /************************************************
+    Summary: Copy constructor of the iterator.
+    ************************************************/
+    XHashTableConstIt(const tConstIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
+
+    /************************************************
+    Summary: Operator Equal of the iterator.
+    ************************************************/
+    int operator==(const tConstIterator &it) const { return m_Node == it.m_Node; }
+
+    /************************************************
+    Summary: Operator Not Equal of the iterator.
+    ************************************************/
+    int operator!=(const tConstIterator &it) const { return m_Node != it.m_Node; }
+
+    /************************************************
+    Summary: Returns a constant reference on the data
+    pointed	by the iterator.
+
+    Remarks:
+        The returned reference is constant, so you can't
+    modify its value. Use the other * operator for this
+    purpose.
+    ************************************************/
+    const T &operator*() const { return (*m_Node).m_Data; }
+
+    /************************************************
+    Summary: Returns a pointer on a T object.
+    ************************************************/
+    operator const T *() const { return &(m_Node->m_Data); }
+
+    /************************************************
+    Summary: Returns a const reference on the key of
+    the pointed entry.
+    ************************************************/
+    const K &GetKey() const { return m_Node->m_Key; }
+
+    /************************************************
+    Summary: Jumps to next entry in the hashtable.
+    ************************************************/
+    tConstIterator &operator++()
+    { // Prefixe
+        tEntry old = m_Node;
+        // next element of the linked list
+        m_Node = m_Node->m_Next;
+
+        if (!m_Node)
+        {
+            // end of linked list, we have to find next filled bucket
+            // OPTIM : maybe keep the index current : save a %
+            int index = m_Table->Index(old->m_Key);
+            while (!m_Node && ++index < m_Table->m_Table.Size())
+                m_Node = m_Table->m_Table[index];
+        }
+        return *this;
+    }
+
+    /************************************************
+    Summary: Jumps to next entry in the hashtable.
+    ************************************************/
+    tConstIterator operator++(int)
+    {
+        tConstIterator tmp = *this;
+        ++*this;
+        return tmp;
+    }
+
+    XHashTableConstIt(tEntry n, tConstTable t) : m_Node(n), m_Table(t) {}
+
+    tEntry m_Node;
+
+    tConstTable m_Table;
+};
+
+/************************************************
+Summary: Struct containing an iterator on an object
+inserted and a BOOL determining if it were really
+inserted (TRUE) or already there (FALSE).
+
+
+************************************************/
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
+class XHashTablePair
+{
+public:
+    XHashTablePair(XHashTableIt<T, K, H, Eq> it, int n) : m_Iterator(it), m_New(n){};
+
+    XHashTableIt<T, K, H, Eq> m_Iterator;
+    XBOOL m_New;
+};
+
 /************************************************
 Summary: Class representation of an Hash Table
 container.
@@ -39,277 +317,21 @@ must be extended and rehashed.
 template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> /*, float L = 0.75f*/>
 class XHashTable
 {
-    // friendship
-    friend class Iterator;
-
     // Types
-
-    struct Entry
-    {
-        K key;
-        T data;
-        Entry *next;
-    };
-
-    typedef Entry *pEntry;
+    typedef XHashTable<T, K, H, Eq> tTable;
+    typedef XHashTableEntry<T, K> *tEntry;
+    typedef XHashTableIt<T, K, H, Eq> tIterator;
+    typedef XHashTableConstIt<T, K, H, Eq> tConstIterator;
+    typedef XHashTablePair<T, K, H, Eq> tPair;
+    // Friendship
+    friend class XHashTableIt<T, K, H, Eq>;
+    // Friendship
+    friend class XHashTableConstIt<T, K, H, Eq>;
 
 public:
-    typedef XHashTable Table;
-    typedef XHashTable *pTable;
-    typedef const XHashTable *pConstTable;
-
-    /************************************************
-    Summary: Iterator on a hash table.
-
-    Remarks: This iterator is the only way to iterate on
-    elements in a hash table. The iteration will be in no
-    specific order, not in the insertion order. Here is an example
-    of how to use it:
-
-    Example:
-
-        XHashTable<T,K,H>::Iterator it = hashtable.Begin();
-        while (it != hashtable.End()) {
-            // access to the key
-            it.GetKey();
-
-            // access to the element
-            *it;
-
-            // next element
-            ++it;
-        }
-
-
-    ************************************************/
-    class Iterator
-    {
-    public:
-        /************************************************
-        Summary: Default constructor of the iterator.
-        ************************************************/
-        Iterator() : m_Node(0), m_Table(0) {}
-
-        /************************************************
-        Summary: Copy constructor of the iterator.
-        ************************************************/
-        Iterator(const Iterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
-
-        /************************************************
-        Summary: Operator Equal of the iterator.
-        ************************************************/
-        int operator==(const Iterator &it) const { return m_Node == it.m_Node; }
-
-        /************************************************
-        Summary: Operator Not Equal of the iterator.
-        ************************************************/
-        int operator!=(const Iterator &it) const { return m_Node != it.m_Node; }
-
-        /************************************************
-        Summary: Returns a constant reference on the data
-        pointed	by the iterator.
-
-        Remarks:
-            The returned reference is constant, so you can't
-        modify its value. Use the other * operator for this
-        purpose.
-        ************************************************/
-        const T &operator*() const { return (*m_Node).data; }
-
-        /************************************************
-        Summary: Returns a reference on the data pointed
-        by the iterator.
-
-        Remarks:
-            The returned reference is not constant, so you
-        can modify its value.
-        ************************************************/
-        T &operator*() { return (*m_Node).data; }
-
-        /************************************************
-        Summary: Returns a pointer on a T object.
-        ************************************************/
-        operator const T *() const { return &(m_Node->data); }
-
-        /************************************************
-        Summary: Returns a pointer on a T object.
-        ************************************************/
-        operator T *() { return &(m_Node->data); }
-
-        /************************************************
-        Summary: Returns a const reference on the key of
-        the pointed entry.
-        ************************************************/
-        const K &GetKey() const { return m_Node->key; }
-        K &GetKey() { return m_Node->key; }
-
-        /************************************************
-        Summary: Jumps to next entry in the hashtable.
-        ************************************************/
-        Iterator &operator++()
-        { // Prefixe
-            pEntry old = m_Node;
-            // next element of the linked list
-            m_Node = m_Node->next;
-
-            if (!m_Node)
-            {
-                // end of linked list, we have to find next filled bucket
-                // OPTIM : maybe keep the index current : save a %
-                int index = m_Table->Index(old->key);
-                while (!m_Node && ++index < m_Table->m_Table.Size())
-                    m_Node = m_Table->m_Table[index];
-            }
-            return *this;
-        }
-
-        /************************************************
-        Summary: Jumps to next entry in the hashtable.
-        ************************************************/
-        Iterator operator++(int)
-        {
-            Iterator tmp = *this;
-            ++*this;
-            return tmp;
-        }
-
-        Iterator(pEntry n, pTable t) : m_Node(n), m_Table(t) {}
-
-        pEntry m_Node;
-
-        pTable m_Table;
-    };
-    friend class Iterator;
-
-    /************************************************
-    Summary: Constant Iterator on a hash table.
-
-    Remarks: This iterator is the only way to iterate on
-    elements in a constant hash table. The iteration will be in no
-    specific order, not in the insertion order. Here is an example
-    of how to use it:
-
-    Example:
-
-        void MyClass::MyMethod() const
-        {
-            XHashTable<T,K,H>::ConstIterator it = m_Hashtable.Begin();
-            while (it != m_Hashtable.End()) {
-                // access to the key
-                it.GetKey();
-
-                // access to the element
-                *it;
-
-                // next element
-                ++it;
-            }
-        }
-
-
-    ************************************************/
-    class ConstIterator
-    {
-        friend class XHashTable;
-
-    public:
-        /************************************************
-        Summary: Default constructor of the iterator.
-        ************************************************/
-        ConstIterator() : m_Node(0), m_Table(0) {}
-
-        /************************************************
-        Summary: Copy constructor of the iterator.
-        ************************************************/
-        ConstIterator(const ConstIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
-
-        /************************************************
-        Summary: Operator Equal of the iterator.
-        ************************************************/
-        int operator==(const ConstIterator &it) const { return m_Node == it.m_Node; }
-
-        /************************************************
-        Summary: Operator Not Equal of the iterator.
-        ************************************************/
-        int operator!=(const ConstIterator &it) const { return m_Node != it.m_Node; }
-
-        /************************************************
-        Summary: Returns a constant reference on the data
-        pointed	by the iterator.
-
-        Remarks:
-            The returned reference is constant, so you can't
-        modify its value. Use the other * operator for this
-        purpose.
-        ************************************************/
-        const T &operator*() const { return (*m_Node).data; }
-
-        /************************************************
-        Summary: Returns a pointer on a T object.
-        ************************************************/
-        operator const T *() const { return &(m_Node->data); }
-
-        /************************************************
-        Summary: Returns a const reference on the key of
-        the pointed entry.
-        ************************************************/
-        const K &GetKey() const { return m_Node->key; }
-
-        /************************************************
-        Summary: Jumps to next entry in the hashtable.
-        ************************************************/
-        ConstIterator &operator++()
-        { // Prefixe
-            pEntry old = m_Node;
-            // next element of the linked list
-            m_Node = m_Node->next;
-
-            if (!m_Node)
-            {
-                // end of linked list, we have to find next filled bucket
-                // OPTIM : maybe keep the index current : save a %
-                int index = m_Table->Index(old->key);
-                while (!m_Node && ++index < m_Table->m_Table.Size())
-                    m_Node = m_Table->m_Table[index];
-            }
-            return *this;
-        }
-
-        /************************************************
-        Summary: Jumps to next entry in the hashtable.
-        ************************************************/
-        ConstIterator operator++(int)
-        {
-            ConstIterator tmp = *this;
-            ++*this;
-            return tmp;
-        }
-
-        ConstIterator(pEntry n, pConstTable t) : m_Node(n), m_Table(t)
-        {
-        }
-
-        pEntry m_Node;
-
-        pConstTable m_Table;
-    };
-    friend class ConstIterator;
-
-    /************************************************
-    Summary: Struct containing an iterator on an object
-    inserted and a BOOL determining if it were really
-    inserted (TRUE) or already there (FALSE).
-
-
-    ************************************************/
-    struct Pair
-    {
-    public:
-        Pair(Iterator it, int n) : m_Iterator(it), m_New(n){};
-
-        Iterator m_Iterator;
-        XBOOL m_New;
-    };
+    typedef XHashTablePair<T, K, H, Eq> Pair;
+    typedef XHashTableIt<T, K, H, Eq> Iterator;
+    typedef XHashTableConstIt<T, K, H, Eq> ConstIterator;
 
     /************************************************
     Summary: Default Constructor.
@@ -336,10 +358,7 @@ public:
     /************************************************
     Summary: Copy Constructor.
     ************************************************/
-    XHashTable(const XHashTable &a)
-    {
-        XCopy(a);
-    }
+    XHashTable(const XHashTable &a) { XCopy(a);}
 
     /************************************************
     Summary: Destructor.
@@ -349,9 +368,7 @@ public:
     you were storing pointers, you need first to iterate
     on the table and call delete on each pointer.
     ************************************************/
-    ~XHashTable()
-    {
-    }
+    ~XHashTable() {}
 
     /************************************************
     Summary: Removes all the elements from the table.
@@ -380,7 +397,7 @@ public:
         iBucketOccupation.Resize(1);
         iBucketOccupation[0] = 0;
 
-        for (pEntry *it = m_Table.Begin(); it != m_Table.End(); it++)
+        for (tEntry *it = m_Table.Begin(); it != m_Table.End(); it++)
         {
             if (!*it)
             { // there is someone there
@@ -390,10 +407,10 @@ public:
             {
                 // count the number of occupant
                 int count = 1;
-                pEntry e = *it;
-                while (e->next)
+                tEntry e = *it;
+                while (e->m_Next)
                 {
-                    e = e->next;
+                    e = e->m_Next;
                     count++;
                 }
 
@@ -420,7 +437,7 @@ public:
         The content of the table is entirely overwritten
     by the given table.
     ************************************************/
-    Table &operator=(const Table &a)
+    tTable &operator=(const tTable &a)
     {
         if (this != &a)
         {
@@ -453,7 +470,7 @@ public:
         int index = Index(key);
 
         // we look for existing key
-        pEntry e = XFind(index, key);
+        tEntry e = XFind(index, key);
         if (!e)
         {
             if (m_Pool.Size() == m_Pool.Allocated())
@@ -470,7 +487,7 @@ public:
         {
             if (!override)
                 return FALSE;
-            e->data = o;
+            e->m_Data = o;
         }
 
         return TRUE;
@@ -482,11 +499,11 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (pEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->next)
         {
-            if (equalFunc(e->key, key))
+            if (equalFunc(e->m_Key, key))
             {
-                e->data = o;
+                e->m_Data = o;
                 return Iterator(e, this);
             }
         }
@@ -502,16 +519,15 @@ public:
         }
     }
 
-    Pair
-    TestInsert(const K &key, const T &o)
+    Pair TestInsert(const K &key, const T &o)
     {
         int index = Index(key);
         Eq equalFunc;
 
         // we look for existing key
-        for (pEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->next)
         {
-            if (equalFunc(e->key, key))
+            if (equalFunc(e->m_Key, key))
             {
                 return Pair(Iterator(e, this), 0);
             }
@@ -535,9 +551,9 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (pEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->next)
         {
-            if (equalFunc(e->key, key))
+            if (equalFunc(e->m_Key, key))
             {
                 return Iterator(e, this);
             }
@@ -571,28 +587,28 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        pEntry old = NULL;
-        for (pEntry e = m_Table[index]; e != 0; e = e->next)
+        tEntry old = NULL;
+        for (tEntry e = m_Table[index]; e != 0; e = e->next)
         {
-            if (equalFunc(e->key, key))
+            if (equalFunc(e->m_Key, key))
             {
                 // This is the element to remove
 
                 // change the pointers to it
                 if (old)
                 {
-                    old->next = e->next;
+                    old->m_Next = e->m_Next;
                 }
                 else
                 {
-                    m_Table[index] = e->next;
+                    m_Table[index] = e->m_Next;
                 }
 
                 // then removed it from the pool
                 m_Pool.FastRemove(e);
                 if (e != m_Pool.End())
                 { // wasn't the last one... we need to remap
-                    RemapEntry(m_Pool.End(), e);
+                    RematEntry(m_Pool.End(), e);
                 }
 
                 break;
@@ -601,27 +617,27 @@ public:
         }
     }
 
-    Iterator Remove(const Iterator &it)
+    Iterator Remove(const tIterator &it)
     {
         int index = Index(it.m_Node->key);
         if (index >= m_Table.Size())
             return Iterator(0, this);
 
         // we look for existing key
-        pEntry old = NULL;
-        for (pEntry e = m_Table[index]; e != 0; e = e->next)
+        tEntry old = NULL;
+        for (tEntry e = m_Table[index]; e != 0; e = e->next)
         {
             if (e == it.m_Node)
             {
                 // This is the element to remove
                 if (old)
                 {
-                    old->next = e->next;
-                    old = old->next;
+                    old->m_Next = e->m_Next;
+                    old = old->m_Next;
                 }
                 else
                 {
-                    m_Table[index] = e->next;
+                    m_Table[index] = e->m_Next;
                     old = m_Table[index];
                 }
 
@@ -629,7 +645,7 @@ public:
                 m_Pool.FastRemove(e);
                 if (e != m_Pool.End())
                 { // wasn't the last one... we need to remap
-                    RemapEntry(m_Pool.End(), e);
+                    RematEntry(m_Pool.End(), e);
                     if (old == m_Pool.End())
                         old = e;
                 }
@@ -665,7 +681,7 @@ public:
         int index = Index(key);
 
         // we look for existing key
-        pEntry e = XFind(index, key);
+        tEntry e = XFind(index, key);
         if (!e)
         {
             if (m_Pool.Size() == m_Pool.Allocated())
@@ -679,7 +695,7 @@ public:
             }
         }
 
-        return e->data;
+        return e->m_Data;
     }
 
     /************************************************
@@ -724,9 +740,9 @@ public:
     ************************************************/
     T *FindPtr(const K &key) const
     {
-        pEntry e = XFindIndex(key);
+        tEntry e = XFindIndex(key);
         if (e)
-            return &e->data;
+            return &e->m_Data;
         else
             return 0;
     }
@@ -744,10 +760,10 @@ public:
     ************************************************/
     XBOOL LookUp(const K &key, T &value) const
     {
-        pEntry e = XFindIndex(key);
+        tEntry e = XFindIndex(key);
         if (e)
         {
-            value = e->data;
+            value = e->m_Data;
             return TRUE;
         }
         else
@@ -786,7 +802,7 @@ public:
     ************************************************/
     Iterator Begin()
     {
-        for (pEntry *it = m_Table.Begin(); it != m_Table.End(); it++)
+        for (tEntry *it = m_Table.Begin(); it != m_Table.End(); it++)
         {
             if (*it)
                 return Iterator(*it, this);
@@ -796,7 +812,7 @@ public:
 
     ConstIterator Begin() const
     {
-        for (pEntry *it = m_Table.Begin(); it != m_Table.End(); it++)
+        for (tEntry *it = m_Table.Begin(); it != m_Table.End(); it++)
         {
             if (*it)
                 return ConstIterator(*it, this);
@@ -847,7 +863,7 @@ public:
     int GetMemoryOccupation(XBOOL addstatic = FALSE) const
     {
         return m_Table.GetMemoryOccupation(addstatic) +
-               m_Pool.Allocated() * sizeof(Entry) +
+               m_Pool.Allocated() * sizeof(tEntry) +
                (addstatic ? sizeof(*this) : 0);
     }
 
@@ -876,36 +892,36 @@ private:
     ///
     // Methods
 
-    pEntry *GetFirstBucket() const { return m_Table.Begin(); }
+    tEntry *GetFirstBucket() const { return m_Table.Begin(); }
 
     void Rehash(int iSize)
     {
         int oldsize = m_Table.Size();
 
         // we create a new pool
-        XClassArray<Entry> pool((int)(iSize * L));
+        XClassArray<tEntry> pool((int)(iSize * L));
         pool = m_Pool;
 
         // Temporary table
-        XSArray<pEntry> tmp;
+        XSArray<tEntry> tmp;
         tmp.Resize(iSize);
         tmp.Fill(0);
 
         for (int index = 0; index < oldsize; ++index)
         {
-            Entry *first = m_Table[index];
+            tEntry *first = m_Table[index];
             while (first)
             {
                 H hashfun;
                 int newindex = XIndex(hashfun(first->key), iSize);
 
-                Entry *newe = pool.Begin() + (first - m_Pool.Begin());
+                tEntry *newe = pool.Begin() + (first - m_Pool.Begin());
 
                 // insert new entry in new table
-                newe->next = tmp[newindex];
+                newe->m_Next = tmp[newindex];
                 tmp[newindex] = newe;
 
-                first = first->next;
+                first = first->m_Next;
             }
         }
         m_Table.Swap(tmp);
@@ -934,29 +950,29 @@ private:
         }
 
         // remap the addresses in the entries
-        for (Entry *e = m_Pool.Begin(); e != m_Pool.End(); ++e)
+        for (tEntry *e = m_Pool.Begin(); e != m_Pool.End(); ++e)
         {
-            if (e->next)
+            if (e->m_Next)
             {
-                e->next = m_Pool.Begin() + (e->next - a.m_Pool.Begin());
+                e->m_Next = m_Pool.Begin() + (e->m_Next - a.m_Pool.Begin());
             }
         }
     }
 
-    pEntry XFindIndex(const K &key) const
+    tEntry XFindIndex(const K &key) const
     {
         int index = Index(key);
         return XFind(index, key);
     }
 
-    pEntry XFind(int index, const K &key) const
+    tEntry XFind(int index, const K &key) const
     {
         Eq equalFunc;
 
         // we look for existing key
-        for (pEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
         {
-            if (equalFunc(e->key, key))
+            if (equalFunc(e->m_Key, key))
             {
                 return e;
             }
@@ -964,26 +980,26 @@ private:
         return NULL;
     }
 
-    pEntry XInsert(int index, const K &key, const T &o)
+    tEntry XInsert(int index, const K &key, const T &o)
     {
-        Entry *newe = GetFreeEntry();
-        newe->key = key;
-        newe->data = o;
-        newe->next = m_Table[index];
+        tEntry *newe = GetFreeEntry();
+        newe->m_Key = key;
+        newe->m_Data = o;
+        newe->m_Next = m_Table[index];
         m_Table[index] = newe;
         return newe;
     }
 
-    pEntry GetFreeEntry()
+    tEntry GetFreeEntry()
     {
         // We consider when we arrive here that we have space
         m_Pool.Resize(m_Pool.Size() + 1);
         return (m_Pool.End() - 1);
     }
 
-    void RemapEntry(pEntry iOld, pEntry iNew)
+    void RematEntry(tEntry iOld, tEntry iNew)
     {
-        int index = Index(iNew->key);
+        int index = Index(iNew->m_Key);
         XASSERT(m_Table[index]);
 
         if (m_Table[index] == iOld)
@@ -992,11 +1008,11 @@ private:
         }
         else
         {
-            for (pEntry n = m_Table[index]; n->next != NULL; n = n->next)
+            for (tEntry n = m_Table[index]; n->next != NULL; n = n->m_Next)
             {
-                if (n->next == iOld)
+                if (n->m_Next == iOld)
                 { // found one
-                    n->next = iNew;
+                    n->m_Next = iNew;
                     break; // only one can match
                 }
             }
@@ -1007,9 +1023,9 @@ private:
     // Members
 
     // the hash table data {secret}
-    XArray<pEntry> m_Table;
+    XArray<tEntry> m_Table;
     // the entry pool {secret}
-    XClassArray<Entry> m_Pool;
+    XClassArray<tEntry> m_Pool;
 };
 
 #endif // XHASHTABLE_H
