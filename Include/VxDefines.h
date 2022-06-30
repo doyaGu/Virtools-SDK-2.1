@@ -78,27 +78,6 @@ public:
 };
 
 /**************************************************************
-Summary: Rasterizer Events .
-
-Remarks:
-Rasterizer contexts used as render devices can be destroyed and recreated
-at runtime.
-According to implementation  (DirectX , OpenGL,etc.) some events can occur
-such as LostDevice with DirectX that you might need to handle when directly using
-DirectX objects in a manager.
-See Also: CKBaseManager::OnRasterizerEvent
-****************************************************************/
-typedef enum CKRST_EVENTS
-{
-    CKRST_EVENT_CREATE   = 0x00000001UL,  // Rasterizer context (device) has just been created
-    CKRST_EVENT_DESTROY  = 0x00000002UL,  // Rasterizer context (device) is being destroyed
-    CKRST_EVENT_LOST     = 0x00000003UL,  // Device was lost
-    CKRST_EVENT_RESET    = 0x00000004UL,  // Device was reset
-    CKRST_EVENT_RESIZING = 0x00000008UL,  // Device is about to be resized
-    CKRST_EVENT_RESIZED  = 0x00000010UL,  // Device was resized
-} CKRST_EVENTS;
-
-/**************************************************************
 Summary: Vertex format and draw primitive options.
 
 Remarks:
@@ -793,8 +772,6 @@ enum VXTEXCOORD_GEN
     VXTEXCOORD_MASK         = 0x3
 };
 
-#ifndef _XBOX
-
 // {filename:VXWRAP_MODE}
 // Summary : Texture coordinates wrapping mode
 //
@@ -806,19 +783,6 @@ typedef enum VXWRAP_MODE
     VXWRAP_T    = 0x00000008UL, //	Texture coordinates wrapping among t texture coordinates
     VXWRAP_MASK = 0x000FUL      //
 } VXWRAP_MODE;
-
-#else
-
-typedef enum VXWRAP_MODE
-{
-    VXWRAP_U    = 0x00000010UL, //	Texture coordinates wrapping among u texture coordinates
-    VXWRAP_V    = 0x00001000UL, //	Texture coordinates wrapping among v texture coordinates
-    VXWRAP_S    = 0x00100000UL, //	Texture coordinates wrapping among s texture coordinates
-    VXWRAP_T    = 0x01000000UL, //	Texture coordinates wrapping among t texture coordinates
-    VXWRAP_MASK = 0x01101010UL  //
-} VXWRAP_MODE;
-
-#endif
 
 typedef enum VXBLENDOP
 {
@@ -845,10 +809,10 @@ typedef enum VXVERTEXBLENDFLAGS
 Summary: Rendering states.
 
 Remarks:
-    + Through VXRENDERSTATETYPE , one can specify various mode for rendering, most of the time this settings are
+    + Through VXRENDERSTATETYPE, one can specify various mode for rendering, most of the time this settings are
     automatically set by render engine according to textures, objects and materials properties. Using SetState
     enable to override the default behavior especially in render callbacks.
-    + Each time a mesh,sprite3d or 2dEntity is drawn, it automatically sets the appropriate render
+    + Each time a mesh, sprite3d or 2dEntity is drawn, it automatically sets the appropriate render
     states for its rendering according to the material used (See CKMaterial::SetAsCurrent).
 
 See Also: CKRenderContext, CKRenderContext::SetState
@@ -1043,13 +1007,13 @@ See Also: VxDriverDesc,Vx3DCapsDesc,CKMaterial::SetTextureMinMode,CKMaterial::Se
 ****************************************************************/
 typedef enum CKRST_TFILTERCAPS
 {
-    CKRST_TFILTERCAPS_NEAREST = 0x00000001UL,          // Point sampling supported
-    CKRST_TFILTERCAPS_LINEAR = 0x00000002UL,           // Bilinear filtering supported
-    CKRST_TFILTERCAPS_MIPNEAREST = 0x00000004UL,       // Mipmapping supported with point sampling
-    CKRST_TFILTERCAPS_MIPLINEAR = 0x00000008UL,        // Mipmapping supported with bilinear filtering
-    CKRST_TFILTERCAPS_LINEARMIPNEAREST = 0x00000010UL, // Bilinear interpolation between mipmaps with point sampling
-    CKRST_TFILTERCAPS_LINEARMIPLINEAR = 0x00000020UL,  // Trilinear filtering supported
-    CKRST_TFILTERCAPS_ANISOTROPIC = 0x00000400UL       // Anisotropic filtering supported
+    CKRST_TFILTERCAPS_NEAREST          = 0x00000001UL,  // Point sampling supported
+    CKRST_TFILTERCAPS_LINEAR           = 0x00000002UL,  // Bilinear filtering supported
+    CKRST_TFILTERCAPS_MIPNEAREST       = 0x00000004UL,  // Mipmapping supported with point sampling
+    CKRST_TFILTERCAPS_MIPLINEAR        = 0x00000008UL,  // Mipmapping supported with bilinear filtering
+    CKRST_TFILTERCAPS_LINEARMIPNEAREST = 0x00000010UL,  // Bilinear interpolation between mipmaps with point sampling
+    CKRST_TFILTERCAPS_LINEARMIPLINEAR  = 0x00000020UL,  // Trilinear filtering supported
+    CKRST_TFILTERCAPS_ANISOTROPIC      = 0x00000400UL   // Anisotropic filtering supported
 } CKRST_TFILTERCAPS;
 
 /****************************************************************
@@ -1096,14 +1060,14 @@ See Also: VxDriverDesc,Vx3DCapsDesc,VXSTENCILOP,CKRenderManager::GetRenderDriver
 ****************************************************************/
 typedef enum CKRST_STENCILCAPS
 {
-    CKRST_STENCILCAPS_KEEP = 0x00000001UL,    // VXSTENCILOP_KEEP operation is supported
-    CKRST_STENCILCAPS_ZERO = 0x00000002UL,    // VXSTENCILOP_ZERO operation is supported
-    CKRST_STENCILCAPS_REPLACE = 0x00000004UL, // VXSTENCILOP_REPLACE operation is supported
-    CKRST_STENCILCAPS_INCRSAT = 0x00000008UL, // VXSTENCILOP_INCRSAT operation is supported
-    CKRST_STENCILCAPS_DECRSAT = 0x00000010UL, // VXSTENCILOP_DECRSAT operation is supported
-    CKRST_STENCILCAPS_INVERT = 0x00000020UL,  // VXSTENCILOP_INVERT operation is supported
-    CKRST_STENCILCAPS_INCR = 0x00000040UL,    // VXSTENCILOP_INCR operation is supported
-    CKRST_STENCILCAPS_DECR = 0x00000080UL     // VXSTENCILOP_DECR operation is supported
+    CKRST_STENCILCAPS_KEEP    = 0x00000001UL,    // VXSTENCILOP_KEEP operation is supported
+    CKRST_STENCILCAPS_ZERO    = 0x00000002UL,    // VXSTENCILOP_ZERO operation is supported
+    CKRST_STENCILCAPS_REPLACE = 0x00000004UL,    // VXSTENCILOP_REPLACE operation is supported
+    CKRST_STENCILCAPS_INCRSAT = 0x00000008UL,    // VXSTENCILOP_INCRSAT operation is supported
+    CKRST_STENCILCAPS_DECRSAT = 0x00000010UL,    // VXSTENCILOP_DECRSAT operation is supported
+    CKRST_STENCILCAPS_INVERT  = 0x00000020UL,    // VXSTENCILOP_INVERT operation is supported
+    CKRST_STENCILCAPS_INCR    = 0x00000040UL,    // VXSTENCILOP_INCR operation is supported
+    CKRST_STENCILCAPS_DECR    = 0x00000080UL     // VXSTENCILOP_DECR operation is supported
 } CKRST_STENCILCAPS;
 
 /****************************************************************
