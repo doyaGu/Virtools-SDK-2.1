@@ -30,19 +30,6 @@ typedef struct CKPICKRESULT
     CK_ID Sprite;				 // If there was a sprite at the picked coordinates, ID of this sprite
 } CKPICKRESULT;
 
-/*************************************************************
-Summary: Specify the type of overriding when rendering a scene.
-
-See Also: CKRenderContext::SetOverriddenRendering
-**************************************************************/
-enum CK_OVERRIDE_RENDERING
-{
-    CK_OVERRIDE_NONE,		// No Override
-    CK_OVERRIDE_MATERIAL,	// Entity materials are ignored and the material given to CKRenderContext::SetOverriddenRendering is used instead
-    CK_OVERRIDE_USECURRENT, // Entity materials are ignored and the currently set render options are used instead...
-    CK_OVERRIDE_PASS,		// Only the specific pass given to CKRenderContext::SetOverriddenRendering will be used when drawing object with effects.
-};
-
 /*********************************************************************
 Summary: Managing device for rendering
 
