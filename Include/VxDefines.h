@@ -943,31 +943,32 @@ See Also: VxDriverDesc,CKRenderManager::GetRenderDriverDescription
 ****************************************************************/
 typedef struct Vx3DCapsDesc
 {
-    XULONG DevCaps;               // Unused
-    XULONG RenderBpps;            // Supported pixel formats for a 3D device (combination of VxBpps)
-    XULONG ZBufferBpps;           // Supported pixel format for Zbuffer (combination of VxBpps)
-    XULONG StencilBpps;           // Supported pixel format for Stencil buffer (combination of VxBpps)
-    XULONG StencilCaps;           // Stencil Caps CKRST_STENCILCAPS
-    XULONG MinTextureWidth;       // Min Width allowed for a texture
-    XULONG MinTextureHeight;      // Min Height allowed for a texture
-    XULONG MaxTextureWidth;       // Max Width allowed for a texture
-    XULONG MaxTextureHeight;      // Max Height allowed for a texture
-    XULONG MaxClipPlanes;         // Max number of clip planes
-    XULONG VertexCaps;            // Vertex Processing Caps : CKRST_VTXCAPS
-    XULONG MaxActiveLights;       // Max simultaneous active lights
-    XULONG MaxNumberBlendStage;   // Max number of blend Stages
-    XULONG MaxNumberTextureStage; // Max simultaneous textures
-    XULONG MaxTextureRatio;       // Max W/H ratio
+    XULONG DevCaps;                     // Unused
+    XULONG RenderBpps;                  // Supported pixel formats for a 3D device (combination of VxBpps)
+    XULONG ZBufferBpps;                 // Supported pixel format for Zbuffer (combination of VxBpps)
+    XULONG StencilBpps;                 // Supported pixel format for Stencil buffer (combination of VxBpps)
+    XULONG StencilCaps;                 // Stencil Caps CKRST_STENCILCAPS
+    XULONG MinTextureWidth;             // Min Width allowed for a texture
+    XULONG MinTextureHeight;            // Min Height allowed for a texture
+    XULONG MaxTextureWidth;             // Max Width allowed for a texture
+    XULONG MaxTextureHeight;            // Max Height allowed for a texture
+    XULONG MaxClipPlanes;               // Max number of clip planes
+    XULONG VertexCaps;                  // Vertex Processing Caps : CKRST_VTXCAPS
+    XULONG MaxActiveLights;             // Max simultaneous active lights
+    XULONG MaxNumberBlendStage;         // Max number of blend Stages
+    XULONG MaxNumberTextureStage;       // Max simultaneous textures
+    XULONG MaxTextureRatio;             // Max W/H ratio
 
-    XULONG TextureFilterCaps;     // Texture Filtering Caps CKRST_TFILTERCAPS
-    XULONG TextureAddressCaps;    // Texture Addressing Caps CKRST_TADDRESSCAPS
-    XULONG TextureCaps;           // Texture Caps	CKRST_TEXTURECAPS
-    XULONG MiscCaps;              // Misc Caps CKRST_MISCCAPS
-    XULONG AlphaCmpCaps;          // Alpha compare function caps CKRST_CMPCAPS
-    XULONG ZCmpCaps;              // Z compare function caps	CKRST_CMPCAPS
-    XULONG RasterCaps;            // Rasterization Caps CKRST_RASTERCAPS
-    XULONG SrcBlendCaps;          // Source Blend Caps CKRST_BLENDCAPS
-    XULONG DestBlendCaps;         // Destination Blend Caps CKRST_BLENDCAPS
+    XULONG TextureFilterCaps;           // Texture Filtering Caps CKRST_TFILTERCAPS
+    XULONG TextureAddressCaps;          // Texture Addressing Caps CKRST_TADDRESSCAPS
+    XULONG TextureCaps;                 // Texture Caps	CKRST_TEXTURECAPS
+    XULONG MiscCaps;                    // Misc Caps CKRST_MISCCAPS
+    XULONG AlphaCmpCaps;                // Alpha compare function caps CKRST_CMPCAPS
+    XULONG ZCmpCaps;                    // Z compare function caps	CKRST_CMPCAPS
+    XULONG RasterCaps;                  // Rasterization Caps CKRST_RASTERCAPS
+    XULONG SrcBlendCaps;                // Source Blend Caps CKRST_BLENDCAPS
+    XULONG DestBlendCaps;               // Destination Blend Caps CKRST_BLENDCAPS
+    XULONG CKRasterizerSpecificCaps;    // Specific to CKRasterizers CKRST_SPECIFICCAPS
 } Vx3DCapsDesc;
 
 /****************************************************************
