@@ -21,8 +21,9 @@ class XHashTableEntry
     typedef XHashTableEntry<T, K> *tEntry;
 
 public:
-    XHashTableEntry(const K &k, const T &v) : m_Key(k), m_Data(v), m_Next(0) {}
-    XHashTableEntry(const XHashTableEntry<T, K> &e) : m_Key(e.m_Key), m_Data(e.m_Data), m_Next(0) {}
+    XHashTableEntry() : m_Key(0), m_Data(0), m_Next(NULL) {}
+    XHashTableEntry(const K &k, const T &v) : m_Key(k), m_Data(v), m_Next(NULL) {}
+    XHashTableEntry(const XHashTableEntry<T, K> &e) : m_Key(e.m_Key), m_Data(e.m_Data), m_Next(NULL) {}
     ~XHashTableEntry() {}
 
     K m_Key;
@@ -133,7 +134,7 @@ public:
         {
             // end of linked list, we have to find next filled bucket
             // OPTIM : maybe keep the index current : save a %
-            int index = m_Table->Index(old->key);
+            int index = m_Table->Index(old->m_Key);
             while (!m_Node && ++index < m_Table->m_Table.Size())
                 m_Node = m_Table->m_Table[index];
         }
@@ -329,6 +330,7 @@ class XHashTable
     friend class XHashTableConstIt<T, K, H, Eq>;
 
 public:
+    typedef XHashTableEntry<T, K> Entry;
     typedef XHashTablePair<T, K, H, Eq> Pair;
     typedef XHashTableIt<T, K, H, Eq> Iterator;
     typedef XHashTableConstIt<T, K, H, Eq> ConstIterator;
@@ -499,7 +501,7 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (tEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -525,7 +527,7 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (tEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -551,7 +553,7 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (tEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -588,7 +590,7 @@ public:
 
         // we look for existing key
         tEntry old = NULL;
-        for (tEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -619,13 +621,13 @@ public:
 
     Iterator Remove(const tIterator &it)
     {
-        int index = Index(it.m_Node->key);
+        int index = Index(it.m_Node->m_Key);
         if (index >= m_Table.Size())
             return Iterator(0, this);
 
         // we look for existing key
         tEntry old = NULL;
-        for (tEntry e = m_Table[index]; e != 0; e = e->next)
+        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
         {
             if (e == it.m_Node)
             {
@@ -1008,7 +1010,7 @@ private:
         }
         else
         {
-            for (tEntry n = m_Table[index]; n->next != NULL; n = n->m_Next)
+            for (tEntry n = m_Table[index]; n->m_Next != NULL; n = n->m_Next)
             {
                 if (n->m_Next == iOld)
                 { // found one
@@ -1025,7 +1027,7 @@ private:
     // the hash table data {secret}
     XArray<tEntry> m_Table;
     // the entry pool {secret}
-    XClassArray<tEntry> m_Pool;
+    XClassArray<Entry> m_Pool;
 };
 
 #endif // XHASHTABLE_H
