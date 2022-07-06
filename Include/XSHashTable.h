@@ -2,6 +2,7 @@
 #define XSHASHTABLE_H
 
 #include "XArray.h"
+#include "XClassArray.h"
 #include "XHashFun.h"
 
 template <class T, class K, class H, class Eq>
