@@ -170,7 +170,7 @@ public:
     // Source Functions
 
     // Creation
-    virtual void *CreateSource(CK_WAVESOUND_TYPE flags, CKWaveFormat *wf, CKDWORD bytes, BOOL streamed) = 0;
+    virtual void *CreateSource(CK_WAVESOUND_TYPE flags, CKWaveFormat *wf, CKDWORD bytes, CKBOOL streamed) = 0;
     virtual void *DuplicateSource(void *source) = 0;
     virtual void ReleaseSource(void *source) = 0;
 
