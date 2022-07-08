@@ -33,7 +33,6 @@ See also: CKContext::GetManagerByGuid,
 *************************************************************************/
 class CKInputManager : public CKBaseManager
 {
-
 public:
     //*****************************************************
     // Keyboard Access
@@ -108,7 +107,7 @@ public:
 
     See Also: GetKeyFromName
     ************************************************/
-    virtual void GetKeyName(CKDWORD iKey, XString &oKeyName) = 0;
+    virtual void GetKeyName(CKDWORD iKey, CKSTRING oKeyName) = 0;
 
     /************************************************
     Summary: Gets a key code from a key name.
@@ -120,7 +119,7 @@ public:
 
     See Also: GetKeyName
     ************************************************/
-    virtual CKDWORD GetKeyFromName(XString &iKeyName) = 0;
+    virtual CKDWORD GetKeyFromName(CKSTRING iKeyName) = 0;
 
     /************************************************
     Summary: Retrieve the current state of the whole keyboard.
@@ -379,6 +378,9 @@ public:
     See Also: ShowCursor
     ************************************************/
     virtual CKBOOL GetCursorVisibility() = 0;
+
+    //--------------------------------------------------------
+    ////               Private Part
 
     CKInputManager(CKContext *Context, CKSTRING name) : CKBaseManager(Context, INPUT_MANAGER_GUID, name) {}
 
