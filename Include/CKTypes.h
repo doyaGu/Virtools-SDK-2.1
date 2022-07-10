@@ -42,18 +42,19 @@ typedef unsigned long CK_ID;
 //		Type Definition										////
 //----------------------------------------------------------////
 
-typedef char* CKSTRING;			
-typedef char CKCHAR;			
-typedef int CKBOOL;				
-typedef unsigned char CKBYTE;	
-typedef unsigned long CKDWORD; 	
-typedef unsigned short CKWORD;		
-typedef long CKERROR;			
-typedef int CKParameterType;	
-typedef int CKOperationType;	
-typedef int CKMessageType;		
-typedef int CKAttributeType;	
-typedef int CKAttributeCategory;	
+typedef char* CKSTRING;
+typedef char CKCHAR;
+typedef int CKBOOL;
+typedef unsigned char CKBYTE;
+typedef unsigned int CKUINT;
+typedef unsigned long CKDWORD;
+typedef unsigned short CKWORD;
+typedef long CKERROR;
+typedef int CKParameterType;
+typedef int CKOperationType;
+typedef int CKMessageType;
+typedef int CKAttributeType;
+typedef int CKAttributeCategory;
 
 //----------------------------------------------------------////
 //		Class  List											////
