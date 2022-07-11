@@ -20,10 +20,7 @@
 class XFixedSizeAllocator
 {
 public:
-	enum
-	{
-		DEFAULT_CHUNK_SIZE = 4096
-	};
+	enum { DEFAULT_CHUNK_SIZE = 4096 };
 
 	VX_EXPORT XFixedSizeAllocator(const int iBlockSize, const int iPageSize = DEFAULT_CHUNK_SIZE);
 	VX_EXPORT ~XFixedSizeAllocator();
@@ -68,33 +65,32 @@ private:
 		void CallDtor(T *iDummy, size_t iBlockSize, unsigned int iBlockCount)
 		{
 			// everything is clear -> nothing to do
-			if (m_BlockAvailables == iBlockCount)
+			if (m_BlockAvailable == iBlockCount)
 				return;
 
-			// else we have some cleaning todo
-
-			if (!m_BlockAvailables)
-			{ // we need to clean everything
-
-				{ // we call the dtor of the used blocks
+			// else we have some cleaning to do
+			if (!m_BlockAvailable)
+			{
+                // we need to clean everything
+				{
+                    // we call the dtor of the used blocks
 					for (unsigned int i = 0; i < iBlockCount; ++i)
 					{
-
 						unsigned char *p = m_Data + i * iBlockSize;
 						((T *)p)->~T();
 					}
 				}
 			}
 			else
-			{ // only some are used
-
+			{
+                // only some are used
 				XBitArray freeBlocks;
 
-				{ // we mark the objects used
+				{
+                    // we mark the objects used
 					int freeb = m_FirstAvailableBlock;
-					for (unsigned int i = 0; i < m_BlockAvailables - 1; ++i)
+					for (unsigned int i = 0; i < m_BlockAvailable - 1; ++i)
 					{
-
 						freeBlocks.Set(freeb);
 
 						unsigned char *p = m_Data + freeb * iBlockSize;
@@ -103,10 +99,10 @@ private:
 					freeBlocks.Set(freeb);
 				}
 
-				{ // we call the dtor of the used blocks
+				{
+                    // we call the dtor of the used blocks
 					for (unsigned int i = 0; i < iBlockCount; ++i)
 					{
-
 						if (freeBlocks.IsSet(i))
 							continue;
 
@@ -125,7 +121,7 @@ private:
 
 		unsigned char *m_Data;
 		unsigned int m_FirstAvailableBlock;
-		unsigned int m_BlockAvailables;
+		unsigned int m_BlockAvailable;
 		unsigned int m_BlockCount;
 	};
 
