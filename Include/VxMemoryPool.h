@@ -52,13 +52,13 @@ public:
         {
             VxDeleteAligned(m_Memory);
 
-            m_Memory = (XULONG *)VxNewAligned(ByteCount, 16);
+            m_Memory = (XBYTE *)VxNewAligned(ByteCount, 16);
             Allocated = ByteCount;
         }
     }
 
 protected:
-    XULONG *m_Memory;
+    XBYTE *m_Memory;
 
     size_t Allocated;
 };
