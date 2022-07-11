@@ -932,7 +932,7 @@ protected:
     T *Allocate(int size)
     {
         if (size)
-            return (T *)new T[size];
+            return (T *)mynew(sizeof(T) * size);
         else
             return 0;
     }
@@ -940,7 +940,7 @@ protected:
     // Free {secret}
     void Free()
     {
-        delete[] m_Begin;
+        mydelete(m_Begin);
     }
 
     ///
