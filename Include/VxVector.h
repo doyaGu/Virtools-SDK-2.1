@@ -842,7 +842,7 @@ public:
     VX_EXPORT void TransformFrom(const VxBbox &sbox, const VxMatrix &Mat);
 } VxBbox;
 
-inline VxVector::VxVector() : z(0)
+inline VxVector::VxVector() : x(0), y(0), z(0)
 {
 }
 
