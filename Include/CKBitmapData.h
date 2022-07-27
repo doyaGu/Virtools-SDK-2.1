@@ -436,23 +436,6 @@ public:
     }
 
     /*************************************************
-    Summary: Sets the system memory caching option.
-    Arguments:
-        iOptions: System Caching Options.
-    Remarks:
-    The system memory caching option specify whether a copy of the image must
-    be kept for textures and sprites and in which format this copy should be kept...
-
-    See Also: SetSaveFormat,CK_BITMAP_SYSTEMCACHING
-    *************************************************/
-    void SetSystemCaching(CK_BITMAP_SYSTEMCACHING iOptions);
-
-    CK_BITMAP_SYSTEMCACHING GetSystemCaching()
-    {
-        return m_SystemCaching;
-    }
-
-    /*************************************************
     Summary: Sets the saving options.
     Arguments:
         Options: Save Options.
@@ -544,33 +527,6 @@ public:
     *************************************************/
     CKBOOL HasOriginalFile();
 
-    /************************************************
-    Summary: Sets the desired surface pixel format in video memory.
-
-    Arguments:
-        pf: A VX_PIXELFORMAT giving the desired pixel format.
-    Remarks:
-        + As its name indicates theis method only sets a "desired"
-        video memory pixel format. The render engine will try to use
-        this format is possible otherwise should find the nearest appropriate pixel
-        format.
-        + Newly created textures use the desired format given in CKRenderManager::SetDesiredTexturesVideoFormat
-    See Also:GetVideoPixelFormat,GetDesiredVideoFormat,CKRenderManager::SetDesiredTexturesVideoFormat
-    ************************************************/
-    void SetDesiredVideoFormat(VX_PIXELFORMAT pf);
-
-    /************************************************
-    Summary: Returns the desired pixel format in video memory.
-
-    Return Value:
-        Desired pixel format for this texture in video memory.
-    See Also:GetVideoPixelFormat,SetDesiredVideoFormat,CKRenderManager::SetDesiredTexturesVideoFormat
-    ************************************************/
-    VX_PIXELFORMAT GetDesiredVideoFormat()
-    {
-        return m_DesiredVideoFormat;
-    }
-
     /*******************************************************
     Summary: Resizes all slots.
 
@@ -645,9 +601,6 @@ public:
     // TODO : Useless when in player mode
     CKBitmapProperties *m_SaveProperties;
     CK_BITMAP_SAVEOPTIONS m_SaveOptions;
-    CK_BITMAP_SYSTEMCACHING m_SystemCaching;
-    VX_PIXELFORMAT m_DesiredVideoFormat;
-    VX_PIXELFORMAT m_RealVideoFormat;
 
     void SetAlphaForTransparentColor(const VxImageDescEx &desc);
     void SetBorderColorForClamp(const VxImageDescEx &desc);
