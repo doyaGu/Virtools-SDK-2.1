@@ -4,6 +4,7 @@
 #include "CKSceneObject.h"
 #include "XObjectArray.h"
 #include "XBitArray.h"
+#include "XNHashTable.h"
 
 struct CKFileObject;
 
@@ -24,7 +25,7 @@ struct CKAttributeVal
     CK_ID Parameter;			// ID of the associated parameter
 };
 
-typedef XHashTable<CK_ID, CK_ID> XAttributeList;
+typedef XNHashTable<CK_ID, CK_ID> XAttributeList;
 
 /*************************************************
 {filename:CKBeObject}
@@ -164,10 +165,10 @@ protected:
     XBitArray m_Groups;
     XObjectPointerArray *m_ScriptArray;
     XVoidArray *m_LastFrameMessages;
-    unsigned short m_Waiting;
-    signed short m_Priority;
+    unsigned int m_Waiting;
+    int m_Priority;
     float m_LastExecutionTime;
-    XAttributeList *m_Attributes;
+    XAttributeList m_Attributes;
 
     void SortScripts();
     void RemoveFromAllGroups();
