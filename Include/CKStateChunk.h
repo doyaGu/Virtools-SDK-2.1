@@ -200,7 +200,6 @@ public:
 
     //----------------------------------------------------------
     // Compression function
-
     void Pack(int CompressionLevel);
     CKBOOL UnPack(int DestSize);
 
@@ -328,6 +327,8 @@ public:
     CKBOOL ReadRawBitmapHeader(VxImageDescEx &desc);
     CKBOOL ReadRawBitmapData(VxImageDescEx &desc);
 
+    CKStateChunk();
+    CKStateChunk(const CKStateChunk &);
     CKStateChunk(CK_CLASSID Cid, CKFile *f);
 };
 

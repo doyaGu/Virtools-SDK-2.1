@@ -73,23 +73,18 @@ public:
 
 protected:
     VxConfigurationSection *CreateSubSection(VxConfigurationSection *root, char *sname, XBOOL usedot) const;
-
     VxConfigurationSection *GetSubSection(VxConfigurationSection *root, char *sname, XBOOL usedot) const;
 
     XBOOL ManageSection(char *line, VxConfigurationSection **current, XString &error);
-
     XBOOL ManageEntry(char *line, VxConfigurationSection *current, XString &error);
 
     VxConfigurationSection *m_Root;
-
     VxConfigurationSection *m_DefaultRoot;
-
     unsigned short m_Indent;
 };
 
 class VxConfigurationSection
 {
-
     friend class VxConfiguration;
 
 public:
@@ -128,17 +123,13 @@ protected:
     VxConfigurationSection(char *name, VxConfigurationSection *parent);
 
     VxConfigurationSection *m_Parent;
-
     XString m_Name;
-
     XHashTable<VxConfigurationEntry *, XString> m_Entries;
-
     XHashTable<VxConfigurationSection *, XString> m_SubSections;
 };
 
 class VxConfigurationEntry
 {
-
     friend class VxConfigurationSection;
 
 public:
@@ -159,17 +150,12 @@ public:
 
 protected:
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, const char *value);
-
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, int value);
-
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, unsigned int value);
-
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, float value);
 
     XString m_Name;
-
     VxConfigurationSection *m_Parent;
-
     XString m_Value;
 };
 
@@ -190,10 +176,8 @@ public:
     VX_EXPORT void OpenSection(char *iSection, Mode iOpeningMode);
     VX_EXPORT void CloseSection(char *iSection);
 
-    /*
-        void	WriteEntry(const char* iKey, void* iData = NULL, int iSize = 0)
-        int		ReadEntry(char* iKey, void* oData,int oSize)
-    */
+//    void WriteEntry(const char* iKey, void* iData = NULL, int iSize = 0);
+//    int ReadEntry(char* iKey, void* oData,int oSize);
     VX_EXPORT void WriteStringEntry(const char *iKey, const char *iValue);
     VX_EXPORT int ReadStringEntry(char *iKey, char *oData);
 

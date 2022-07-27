@@ -103,7 +103,7 @@ public:
 
     Arguments:
         iKey: The key code we want the name, in the CKKEYBOARD enumeration.
-        oKeyName: XString filled with the key name.
+        oKeyName: CKSTRING filled with the key name.
 
     See Also: GetKeyFromName
     ************************************************/

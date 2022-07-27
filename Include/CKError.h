@@ -39,7 +39,7 @@ CKSTRING CKErrorToString(CKERROR err);
 
 #define CKERR_OUTOFMEMORY							-6
 
-// The function  is not yet implemented
+// The function is not yet implemented
 
 #define CKERR_NOTIMPLEMENTED						-7
 
