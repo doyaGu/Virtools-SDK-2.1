@@ -482,6 +482,10 @@ public:
     See also: SetOrientation, GetOrientation
     ************************************************/
     virtual void LookAt(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    void LookAt(const VxVector &Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
+    {
+        LookAt(&Pos, Ref, KeepChildren);
+    }
 
     /************************************************
     Summary: Rotates the entity around an axis.
@@ -498,6 +502,11 @@ public:
     See also: SetOrientation, GetOrientation
     ************************************************/
     virtual void Rotate(const VxVector *Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    void Rotate(const VxVector &Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
+    {
+        Rotate(&Axis, Angle, Ref, KeepChildren);
+    }
+
     virtual void Rotate(float X, float Y, float Z, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
 
     /************************************************
@@ -514,6 +523,11 @@ public:
     See also: SetPosition, GetPosition.
     ************************************************/
     virtual void Translate(const VxVector *Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    void Translate(const VxVector &Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
+    {
+        Translate(&Vect, Ref, KeepChildren);
+    }
+
     virtual void Translate(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
 
     /************************************************
@@ -527,6 +541,10 @@ public:
     See also: GetScale, AddScale
     ************************************************/
     virtual void AddScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+    void AddScale(const VxVector &Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE)
+    {
+        AddScale(&Scale, KeepChildren, Local);
+    }
     virtual void AddScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
 
     /************************************************
@@ -543,6 +561,10 @@ public:
     See also: Translate
     ************************************************/
     virtual void SetPosition(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    void SetPosition(const VxVector &Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
+    {
+        SetPosition(&Pos, Ref, KeepChildren);
+    }
     virtual void SetPosition(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
 
     /*************************************************
@@ -575,6 +597,10 @@ public:
     See also: GetOrientation, Rotate
     ************************************************/
     virtual void SetOrientation(const VxVector *Dir, const VxVector *Up, const VxVector *Right = NULL, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    void SetOrientation(const VxVector &Dir, const VxVector &Up, const VxVector *Right = NULL, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
+    {
+        SetOrientation(&Dir, &Up, Right, Ref, KeepChildren);
+    }
 
     /*************************************************
     Summary: Returns the entity orientation axes.
@@ -604,6 +630,10 @@ public:
     See also: VxQuaternion,GetQuaternion,SetOrientation
     ************************************************/
     virtual void SetQuaternion(const VxQuaternion *Quat, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE, CKBOOL KeepScale = FALSE) = 0;
+    void SetQuaternion(const VxQuaternion &Quat, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE, CKBOOL KeepScale = FALSE)
+    {
+        SetQuaternion(&Quat, Ref, KeepChildren, KeepScale);
+    }
 
     /*************************************************
     Summary: Returns the quaternion giving the entity orientation.
@@ -631,6 +661,10 @@ public:
     See also: GetScale, AddScale
     ************************************************/
     virtual void SetScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+    void SetScale(const VxVector &Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE)
+    {
+        SetScale(&Scale, KeepChildren, Local);
+    }
     virtual void SetScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
 
     /*************************************************
@@ -659,12 +693,28 @@ public:
     See also: SetPosition, SetScale, SetQuaternion
     ************************************************/
     virtual CKBOOL ConstructWorldMatrix(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat) = 0;
+    CKBOOL ConstructWorldMatrix(const VxVector &Pos, const VxVector &Scale, const VxQuaternion &Quat)
+    {
+        return ConstructWorldMatrix(&Pos, &Scale, &Quat);
+    }
 
     virtual CKBOOL ConstructWorldMatrixEx(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat, const VxQuaternion *Shear, float Sign) = 0;
+    CKBOOL ConstructWorldMatrixEx(const VxVector &Pos, const VxVector &Scale, const VxQuaternion &Quat, const VxQuaternion &Shear, float Sign)
+    {
+        return ConstructWorldMatrixEx(&Pos, &Scale, &Quat, &Shear, Sign);
+    }
 
     virtual CKBOOL ConstructLocalMatrix(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat) = 0;
+    CKBOOL ConstructLocalMatrix(const VxVector &Pos, const VxVector &Scale, const VxQuaternion &Quat)
+    {
+        return ConstructLocalMatrix(&Pos, &Scale, &Quat);
+    }
 
     virtual CKBOOL ConstructLocalMatrixEx(const VxVector *Pos, const VxVector *Scale, const VxQuaternion *Quat, const VxQuaternion *Shear, float Sign) = 0;
+    CKBOOL ConstructLocalMatrixEx(const VxVector &Pos, const VxVector &Scale, const VxQuaternion &Quat, const VxQuaternion &Shear, float Sign)
+    {
+        return ConstructLocalMatrixEx(&Pos, &Scale, &Quat, &Shear, Sign);
+    }
 
     //-------------------------------------------------------
     // RENDERING
@@ -718,6 +768,10 @@ public:
     See also: VxIntersectionDesc
     ************************************************/
     virtual int RayIntersection(const VxVector *Pos1, const VxVector *Pos2, VxIntersectionDesc *Desc, CK3dEntity *Ref, CK_RAYINTERSECTION iOptions = CKRAYINTERSECTION_DEFAULT) = 0;
+    int RayIntersection(const VxVector &Pos1, const VxVector &Pos2, VxIntersectionDesc *Desc, CK3dEntity *Ref, CK_RAYINTERSECTION iOptions = CKRAYINTERSECTION_DEFAULT)
+    {
+        return RayIntersection(&Pos1, &Pos2, Desc, Ref, iOptions);
+    }
 
     /*************************************************
     Summary: Returns the 2D extents of this entity on screen.
@@ -824,6 +878,10 @@ public:
     See also: InverseTransform,TransformVector,TransformMany
     ************************************************/
     virtual void Transform(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
+    void Transform(VxVector *Dest, const VxVector &Src, CK3dEntity *Ref = NULL) const
+    {
+        return Transform(Dest, &Src, Ref);
+    }
 
     /************************************************
     Summary: Transforms a position from another entity coordinates system into this coordinates system.
@@ -839,10 +897,22 @@ public:
     See also: Transform,InverseTransformMany,InverseTransformVector
     ************************************************/
     virtual void InverseTransform(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
+    void InverseTransform(VxVector *Dest, const VxVector &Src, CK3dEntity *Ref = NULL) const
+    {
+        InverseTransform(Dest, &Src, Ref);
+    }
 
     virtual void TransformVector(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
+    void TransformVector(VxVector *Dest, const VxVector &Src, CK3dEntity *Ref = NULL) const
+    {
+        TransformVector(Dest, &Src, Ref);
+    }
 
     virtual void InverseTransformVector(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
+    void InverseTransformVector(VxVector *Dest, const VxVector &Src, CK3dEntity *Ref = NULL) const
+    {
+        InverseTransformVector(Dest, &Src, Ref);
+    }
 
     /************************************************
     Summary: Transforms vectors from this coordinates system into another entity coordinates system.
@@ -858,6 +928,10 @@ public:
     See also: InverseTransformMany
     ************************************************/
     virtual void TransformMany(VxVector *Dest, const VxVector *Src, int count, CK3dEntity *Ref = NULL) const = 0;
+    void TransformMany(VxVector *Dest, const VxVector &Src, int count, CK3dEntity *Ref = NULL) const
+    {
+        TransformMany(Dest, &Src, count, Ref);
+    }
 
     /************************************************
     Summary: Transforms vectors from another entity coordinates system into this entity coordinates system.
@@ -873,6 +947,10 @@ public:
     See also: TransformMany
     ************************************************/
     virtual void InverseTransformMany(VxVector *Dest, const VxVector *Src, int count, CK3dEntity *Ref = NULL) const = 0;
+    void InverseTransformMany(VxVector *Dest, const VxVector &Src, int count, CK3dEntity *Ref = NULL) const
+    {
+        InverseTransformMany(Dest, &Src, count, Ref);
+    }
 
     /************************************************
     Summary: Changes the referential (pivot) of the entity without moving the vertices.
@@ -1028,6 +1106,10 @@ public:
     See also: VxBbox, GetRadius, GetBaryCenter, GetHierarchicalBox,GetBoundingBox
     ************************************************/
     virtual CKBOOL SetBoundingBox(const VxBbox *BBox, CKBOOL Local = FALSE) = 0;
+    CKBOOL SetBoundingBox(const VxBbox &BBox, CKBOOL Local = FALSE)
+    {
+        return SetBoundingBox(&BBox, Local);
+    }
 
     /************************************************
     Summary: Returns the hierarchical bounding box of this entity and its children.
