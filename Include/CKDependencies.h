@@ -2,11 +2,11 @@
 #define CKDEPENDENCIES_H
 
 #include "XSArray.h"
-#include "XHashTable.h"
+#include "XNHashTable.h"
 #include "XObjectArray.h"
 #include "CKDependenciesConstants.h"
 
-typedef XHashTable<CK_ID, CK_ID> XHashID;
+typedef XNHashTable<CK_ID, CK_ID> XHashID;
 typedef XHashID::Iterator XHashItID;
 typedef XHashID::ConstIterator XHashItCID;
 typedef XHashID::Pair XHashPairID;
@@ -92,14 +92,11 @@ class CKDependenciesContext
     friend class CKUIManager;
 
 public:
-    CKDependenciesContext(CKContext *context) : m_Dependencies(NULL),
-                                                m_MapID(256),
+    CKDependenciesContext(CKContext *context) : m_CKContext(context),
+                                                m_Dependencies(NULL),
                                                 m_Mode(CK_DEPENDENCIES_BUILD),
-                                                m_CKContext(context),
-                                                m_CreationMode(CK_OBJECTCREATION_NONAMECHECK),
-                                                m_DynamicStack(0)
+                                                m_CreationMode(CK_OBJECTCREATION_NONAMECHECK)
     {
-        //	m_CallerStack.Reserve(32);
     }
 
     // Objects Access
@@ -224,23 +221,9 @@ public:
 //-------------------------------------------------------------------------
 // Internal functions
 
-    struct DynamicSentinel
-    {
-        DynamicSentinel(CKDependenciesContext *iDepContext) : dc(iDepContext)
-        {
-            if (dc)
-                ++dc->m_DynamicStack;
-        }
-        ~DynamicSentinel()
-        {
-            if (dc)
-                --dc->m_DynamicStack;
-        }
-        CKDependenciesContext *dc;
-    };
-    friend struct DynamicSentinel;
+    XObjectPointerArray m_DynamicObjects;
 
-    DynamicSentinel StackPrepareDependencies(CKObject *iMySelf, CKBOOL iCaller);
+    void FinishPrepareDependencies(CKObject *iMySelf, CK_ID Cid);
 
     // the context
     CKContext *m_CKContext;
@@ -268,9 +251,6 @@ protected:
 
     CKDWORD m_Mode;
     CKDWORD m_CreationMode;
-
-    // dynamic objects currently prepared
-    int m_DynamicStack;
 
     XString m_CopyAppendString;
     XBitArray m_ObjectsClassMask;
