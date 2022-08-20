@@ -6,6 +6,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4996)
+#endif
+
 /***********************************************************************
 Summary: Utility class for filenames extraction
 
@@ -124,5 +129,9 @@ struct CKFileExtension
     // Members secret
     char m_Data[4];
 };
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif // CKPATHSPLITTER_H

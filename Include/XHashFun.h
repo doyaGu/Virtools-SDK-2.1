@@ -7,6 +7,11 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable:4996)
+#endif
+
 /************************************************
 Summary: A series of comparison function
 
@@ -146,5 +151,9 @@ struct XHashFunXStringI
 {
     int operator()(const XString &__s) const { return XHashStringI(__s.CStr()); }
 };
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 
 #endif // XHASHFUN_H
