@@ -4,8 +4,27 @@
 #include "CKSceneObject.h"
 #include "XObjectArray.h"
 
-struct BehaviorBlockData;
-struct BehaviorGraphData;
+struct BehaviorBlockData
+{
+  CKGUID m_Guid;
+  CKBEHAVIORFCT m_Function;
+  CKBEHAVIORCALLBACKFCT m_Callback;
+  CKDWORD m_CallbackMask;
+  void *m_CallbackArg;
+  CKDWORD m_Version;
+};
+
+struct BehaviorGraphData
+{
+  XObjectPointerArray m_Operations;
+  XObjectPointerArray m_SubBehaviors;
+  XObjectPointerArray m_SubBehaviorLinks;
+  XObjectPointerArray m_Links;
+  CKBehavior **m_BehaviorIterators;
+  CKWORD m_BehaviorIteratorCount;
+  CKWORD m_BehaviorIteratorIndex;
+};
+
 
 /**************************************************************************
 {filename:CKBehavior}
