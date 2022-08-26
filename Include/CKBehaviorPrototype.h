@@ -213,11 +213,11 @@ private:
     int m_InParameterCount;
     int m_LocalParameterCount;
     int m_OutParameterCount;
-    CKBEHAVIORIO_DESC *m_InIOList;
-    CKBEHAVIORIO_DESC *m_OutIOList;
-    CKPARAMETER_DESC *m_InParameterList;
-    CKPARAMETER_DESC *m_OutParameterList;
-    CKPARAMETER_DESC *m_LocalParameterList;
+    CKBEHAVIORIO_DESC **m_InIOList;
+    CKBEHAVIORIO_DESC **m_OutIOList;
+    CKPARAMETER_DESC **m_InParameterList;
+    CKPARAMETER_DESC **m_OutParameterList;
+    CKPARAMETER_DESC **m_LocalParameterList;
     CK_BEHAVIOR_TYPE m_BehaviorType;
     void *m_CallBackParam;
     CKObjectDeclaration *m_SourceObjectDeclaration;
