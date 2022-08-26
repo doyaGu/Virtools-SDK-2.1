@@ -302,7 +302,7 @@ typedef CK_LOADMODE (*CK_LOADRENAMECALLBACK)(CK_CLASSID Cid, CKSTRING OldName, C
                 #define  CKCID_CAMERA			34
                     #define  CKCID_TARGETCAMERA	35
                 #define  CKCID_LIGHT			38
-                    #define  CKCID_TARGETLIGHT	3
+                    #define  CKCID_TARGETLIGHT	39
                 #define  CKCID_CHARACTER		40
                 #define  CKCID_3DOBJECT			41
                     #define  CKCID_BODYPART		42
