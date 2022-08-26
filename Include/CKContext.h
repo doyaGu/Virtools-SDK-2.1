@@ -163,6 +163,7 @@ public:
 
     //-------------------------------------------------------
     // Utils
+    CKSTRING GetStringBuffer(int size);
     CKGUID GetSecureGuid();
     CKDWORD GetStartOptions();
     WIN_HANDLE GetMainWindow();
