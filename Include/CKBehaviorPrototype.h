@@ -172,11 +172,11 @@ public:
     int GetInParameterCount() { return m_InParameterCount; }
     int GetOutParameterCount() { return m_OutParameterCount; }
     int GetLocalParameterCount() { return m_LocalParameterCount; }
-    const CKBEHAVIORIO_DESC *GetInIOList() { return m_InIOList; }
-    const CKBEHAVIORIO_DESC *GetOutIOList() { return m_OutIOList; }
-    const CKPARAMETER_DESC *GetInParameterList() { return m_InParameterList; }
-    const CKPARAMETER_DESC *GetOutParameterList() { return m_OutParameterList; }
-    const CKPARAMETER_DESC *GetLocalParameterList() { return m_LocalParameterList; }
+    CKBEHAVIORIO_DESC **GetInIOList() { return m_InIOList; }
+    CKBEHAVIORIO_DESC **GetOutIOList() { return m_OutIOList; }
+    CKPARAMETER_DESC **GetInParameterList() { return m_InParameterList; }
+    CKPARAMETER_DESC **GetOutParameterList() { return m_OutParameterList; }
+    CKPARAMETER_DESC **GetLocalParameterList() { return m_LocalParameterList; }
 
     CKObjectDeclaration *GetSoureObjectDeclaration();
 
