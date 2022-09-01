@@ -880,7 +880,7 @@ public:
     virtual void Transform(VxVector *Dest, const VxVector *Src, CK3dEntity *Ref = NULL) const = 0;
     void Transform(VxVector *Dest, const VxVector &Src, CK3dEntity *Ref = NULL) const
     {
-        return Transform(Dest, &Src, Ref);
+        Transform(Dest, &Src, Ref);
     }
 
     /************************************************
