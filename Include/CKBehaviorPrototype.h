@@ -11,7 +11,7 @@
 
 #ifdef STRINGDUPLICATION
 #define MAKESTRING(a) CKStrdup(a)
-#define DELETESTRING(a) CKStrdelete(a)
+#define DELETESTRING(a) CKDeletePointer(a)
 #else
 #define MAKESTRING(a) a
 #define DELETESTRING(a)
@@ -40,8 +40,8 @@ public:
     }
     ~CKPARAMETER_DESC()
     {
-        // CKStrdelete(Name);
-        // CKStrdelete(DefaultValueString);
+        // CKDeletePointer(Name);
+        // CKDeletePointer(DefaultValueString);
         delete[] DefaultValue;
     }
     CKPARAMETER_DESC &operator=(const CKPARAMETER_DESC &d)
@@ -77,7 +77,7 @@ public:
     // Dtor
     ~CKBEHAVIORIO_DESC()
     {
-        // CKStrdelete(Name);
+        // CKDeletePointer(Name);
     }
 };
 

@@ -288,7 +288,7 @@ public:
 
     CKStateChunk *ReadSubChunk(CK_READSUBCHUNK_FLAGS Flags = CK_RSC_DEFAULT);
     int ReadBuffer(void **buffer);	  // returns the size in bytes of the allocated buffer (// Use CKDeletePointer to delete allocated pointer)
-    int ReadString(CKSTRING *str);	  // returns the length of the string including the terminating null character (// Use CKStrdelete to delete allocated string)
+    int ReadString(CKSTRING *str);	  // returns the length of the string including the terminating null character (// Use CKDeletePointer to delete allocated string)
     XString ReadString();			  // returns the length of the string including the terminating null character
     int ReadString(XString &oString); // returns the length of the string including the terminating null character
 
