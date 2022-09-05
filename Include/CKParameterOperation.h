@@ -152,6 +152,9 @@ protected:
     CKParameterIn *m_In2;
     CKParameterOut *m_Out;
     CKBehavior *m_Owner;
+    CKGUID m_OperationGuid;
+    CK_PARAMETEROPERATION m_OperationFunction;
+    CKBOOL m_HasOperationFunction;
     static CKSTRING m_In1Name;
     static CKSTRING m_In2Name;
     static CKSTRING m_OutName;
