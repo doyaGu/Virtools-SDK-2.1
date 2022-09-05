@@ -21,7 +21,7 @@
 #define CKGUIDREF CKGUID &
 #endif
 
-typedef XHashTable<int, CKGUID> XHashGuidToType;
+typedef XNHashTable<int, CKGUID> XHashGuidToType;
 
 /***********************************************************
 Summary: Helper class to access a parameter of type structure.

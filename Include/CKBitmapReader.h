@@ -169,16 +169,6 @@ public:
     See Also:SaveMemory
     ************************************************/
     virtual void ReleaseMemory(void *memory) = 0;
-
-    /************************************************
-    Summary: Loads a bitmap file from a VxStream.
-    Return Value:
-        Returns 0 if successful,an error code (CK_BITMAPREADER_ERROR) otherwise.
-    Remarks:
-        + Reads an image from the iStream  and fill up the ppBitmapProperties with a pointer to the properties of the read image.
-    See Also:ReadFile
-    ************************************************/
-    // virtual int ReadStream(VxStream& iStream,CKBitmapProperties** oBitmapProperties) {return CKBITMAPERROR_UNSUPPORTEDFUNCTION;}
 };
 
 #endif // CKBITMAPREADER_H

@@ -384,6 +384,8 @@ public:
 
     CKInputManager(CKContext *Context, CKSTRING name) : CKBaseManager(Context, INPUT_MANAGER_GUID, name) {}
 
+    CKInputManager(CKContext *Context, CKGUID guid, CKSTRING name) : CKBaseManager(Context, guid, name) {}
+
     virtual ~CKInputManager() {}
 
     virtual VXCURSOR_POINTER GetSystemCursor() = 0;

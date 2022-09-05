@@ -378,6 +378,7 @@ protected:
     VxTimeProfiler m_BehChrono;
     VxTimeProfiler m_FpsChrono;
     VxTimeProfiler m_StartupChrono;
+    VxTimeProfiler m_CurrentChrono;
 
     float m_DeltaTimeFree;
 };
