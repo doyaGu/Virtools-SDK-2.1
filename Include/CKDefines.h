@@ -68,6 +68,7 @@
 #include "XBitArray.h"
 #include "XString.h"
 #include "XSArray.h"
+#include "XArray.h"
 
 /*************************************************
 Summary: Returns the Unique Identifier for a CKObject or derivative.
