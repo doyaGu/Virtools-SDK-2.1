@@ -1,7 +1,7 @@
 #ifndef XBITARRAY_H
 #define XBITARRAY_H
 
-#include "XArray.h"
+#include "XUtil.h"
 
 /************************************************
 {filename:XBitArray}
@@ -17,37 +17,23 @@ class XBitArray
 public:
     XBitArray(int initialize = 1)
     {
-        if (initialize < 1)
-            initialize = 1;
+        if (initialize < 1) initialize = 1;
         m_Size = (initialize << 5);
-        if (m_Size > 32)
-        { // we allocate only if > 32
-            m_Data = Allocate(initialize);
-            Clear();
-        }
-        else
-        {
-            m_Flags = 0;
-        }
+        m_Data = Allocate(initialize);
+        Clear();
     }
 
     ~XBitArray()
     {
-        if (m_Size > 32)
-            Free();
+        Free();
     }
 
     // copy Ctor
     XBitArray(const XBitArray &a)
     {
         m_Size = a.m_Size;
-        if (m_Size <= 32)
-            m_Flags = a.m_Flags;
-        else
-        {
-            m_Data = Allocate(m_Size >> 5);
-            memcpy(m_Data, a.m_Data, m_Size >> 3);
-        }
+        m_Data = Allocate(m_Size >> 5);
+        memcpy(m_Data, a.m_Data, m_Size >> 3);
     }
 
     // operator =
@@ -57,26 +43,14 @@ public:
         {
             if (m_Size != a.m_Size)
             {
-                if (m_Size > 32)
-                    Free();
-
+                Free();
                 m_Size = a.m_Size;
-                if (m_Size > 32)
-                { // we allocate only if > 32
-                    m_Data = Allocate(m_Size >> 5);
-                    memcpy(m_Data, a.m_Data, m_Size >> 3);
-                }
-                else
-                {
-                    m_Flags = a.m_Flags;
-                }
+                m_Data = Allocate(m_Size >> 5);
+                memcpy(m_Data, a.m_Data, m_Size >> 3);
             }
             else
             {
-                if (m_Size > 32)
-                    memcpy(m_Data, a.m_Data, m_Size >> 3);
-                else
-                    m_Flags = a.m_Flags;
+                memcpy(m_Data, a.m_Data, m_Size >> 3);
             }
         }
         return *this;
@@ -86,22 +60,17 @@ public:
     void CheckSize(int n)
     {
         while (n >= m_Size)
-        { // m_Size >= 32, always
-
+        {
             int size = (m_Size >> 5);
             XDWORD *temp = Allocate(size + size);
 
             // Copy the old bits
-            if (m_Size > 32)
-                memcpy(temp, m_Data, size * sizeof(XDWORD));
-            else
-                *temp = m_Flags;
+            memcpy(temp, m_Data, size * sizeof(XDWORD));
 
             // Clear the new bits
             memset(temp + size, 0, size * sizeof(XDWORD));
 
-            if (m_Size > 32) // we free only if we were allocated
-                Free();
+            Free();
 
             m_Data = temp;
             m_Size += m_Size;
@@ -112,26 +81,19 @@ public:
     {
         if (m_Size < a.m_Size)
         {
-            if (a.m_Size > 32)
-            {
-                int size = a.m_Size >> 5;
-                int oldsize = m_Size >> 5;
-                XDWORD *temp = Allocate(size);
-                // Copy the old bits
-                if (m_Size > 32)
-                    memcpy(temp, m_Data, oldsize * sizeof(XDWORD));
-                else
-                    *temp = m_Flags;
+            int size = a.m_Size >> 5;
+            int oldsize = m_Size >> 5;
+            XDWORD *temp = Allocate(size);
+            // Copy the old bits
+            memcpy(temp, m_Data, oldsize * sizeof(XDWORD));
 
-                // Clear the new bits
-                memset(temp + oldsize, 0, (size - oldsize) * sizeof(XDWORD));
+            // Clear the new bits
+            memset(temp + oldsize, 0, (size - oldsize) * sizeof(XDWORD));
 
-                if (m_Size > 32) // we free only if we were allocated
-                    Free();
+            Free();
 
-                m_Data = temp;
-                m_Size = a.m_Size;
-            }
+            m_Data = temp;
+            m_Size = a.m_Size;
         }
     }
 
@@ -140,9 +102,6 @@ public:
     {
         if (n >= m_Size)
             return 0; // Out of range
-        if (m_Size <= 32)
-            return (m_Flags & (1 << n)); // Not allocated
-
         return (m_Data[n >> 5] & (1 << (n & 31))); // Allocated after the first DWORD
     }
 
@@ -171,17 +130,11 @@ public:
     {
         if (n < m_Size)
         {
-            if (m_Size <= 32)
-            { // Only one dword long
-                m_Flags |= (1 << n);
-            }
-            else
-            { // more than one dword
-                m_Data[n >> 5] |= 1 << (n & 31);
-            }
+            m_Data[n >> 5] |= 1 << (n & 31);
         }
         else
-        { // we have to reallocate
+        {
+            // we have to reallocate
             CheckSize(n);
             m_Data[n >> 5] |= 1 << (n & 31);
         }
@@ -192,28 +145,17 @@ public:
     {
         if (n < m_Size)
         {
-            if (m_Size <= 32)
-            { // Only one dword long
-                int mask = 1 << n;
+            int pos = n >> 5;
+            int mask = 1 << (n & 31);
 
-                if (m_Flags & mask)
-                    return 0;
-                m_Flags |= mask;
-                return 1;
-            }
-            else
-            { // more than one dword
-                int pos = n >> 5;
-                int mask = 1 << (n & 31);
-
-                if (m_Data[pos] & mask)
-                    return 0;
-                m_Data[pos] |= mask;
-                return 1;
-            }
+            if (m_Data[pos] & mask)
+                return 0;
+            m_Data[pos] |= mask;
+            return 1;
         }
         else
-        { // we have to reallocate
+        {
+            // we have to reallocate
             CheckSize(n);
             m_Data[n >> 5] |= 1 << (n & 31);
             return 1;
@@ -225,14 +167,7 @@ public:
     {
         if (n < m_Size)
         {
-            if (m_Size <= 32)
-            {
-                m_Flags &= ~(1 << n);
-            }
-            else
-            {
-                m_Data[n >> 5] &= ~(1 << (n & 31));
-            }
+            m_Data[n >> 5] &= ~(1 << (n & 31));
         }
     }
 
@@ -241,27 +176,14 @@ public:
     {
         if (n < m_Size)
         {
-            if (m_Size <= 32)
+            int pos = n >> 5;
+            int mask = 1 << (n & 31);
+            if (m_Data[pos] & mask)
             {
-                int mask = 1 << n;
-                if (m_Flags & mask)
-                {
-                    m_Flags &= ~mask;
-                    return 1;
-                }
-                return 0;
+                m_Data[pos] &= ~mask;
+                return 1;
             }
-            else
-            {
-                int pos = n >> 5;
-                int mask = 1 << (n & 31);
-                if (m_Data[pos] & mask)
-                {
-                    m_Data[pos] &= ~mask;
-                    return 1;
-                }
-                return 0;
-            }
+            return 0;
         }
         else
             return 0;
@@ -276,10 +198,7 @@ public:
     // Summary: Resets the array
     void Clear()
     {
-        if (m_Size <= 32)
-            m_Flags = 0;
-        else
-            memset(m_Data, 0, (m_Size >> 3));
+        memset(m_Data, 0, (m_Size >> 3));
     }
 
     // Summary: Sets all bits of the array to 1
@@ -287,78 +206,34 @@ public:
     // used bits
     void Fill()
     {
-        if (m_Size <= 32)
-            m_Flags = 0xffffffff;
-        else
-            memset(m_Data, 0xff, (m_Size >> 3));
+        memset(m_Data, 0xff, (m_Size >> 3));
     }
 
     // Summary: Performs a binary AND with another array
     void And(XBitArray &a)
     {
-        if (a.m_Size <= 32)
+        int size = a.m_Size >> 5;
+        int i = 0;
+        for (; i < size; ++i)
         {
-            if (m_Size <= 32)
-                m_Flags &= a.m_Flags;
-            else
-            {
-                m_Data[0] &= a.m_Flags;
-
-                // clear the remaining bytes
-                int rsize = m_Size >> 5;
-                for (int i = 1; i < rsize; ++i)
-                {
-                    m_Data[i] = 0;
-                }
-            }
+            m_Data[i] &= a.m_Data[i];
         }
-        else
+        // clear the remaining bytes
+        int rsize = m_Size >> 5;
+        for (; i < rsize; ++i)
         {
-            if (m_Size <= 32)
-                m_Flags &= a.m_Data[0];
-            else
-            {
-                int size = a.m_Size >> 5;
-                int i = 0;
-                for (; i < size; ++i)
-                {
-                    m_Data[i] &= a.m_Data[i];
-                }
-                // clear the remaining bytes
-                int rsize = m_Size >> 5;
-                for (; i < rsize; ++i)
-                {
-                    m_Data[i] = 0;
-                }
-            }
+            m_Data[i] = 0;
         }
     }
 
     // Summary: subtract bits from another bitarray
     XBitArray &operator-=(XBitArray &a)
     {
-        if (a.m_Size <= 32)
+        int size = a.m_Size >> 5;
+        int i = 0;
+        for (; i < size; ++i)
         {
-            if (m_Size <= 32)
-                m_Flags &= ~a.m_Flags;
-            else
-            {
-                m_Data[0] &= ~a.m_Flags;
-            }
-        }
-        else
-        {
-            if (m_Size <= 32)
-                m_Flags &= ~a.m_Data[0];
-            else
-            {
-                int size = a.m_Size >> 5;
-                int i = 0;
-                for (; i < size; ++i)
-                {
-                    m_Data[i] &= ~a.m_Data[i];
-                }
-            }
+            m_Data[i] &= ~a.m_Data[i];
         }
         return *this;
     }
@@ -366,28 +241,12 @@ public:
     // Summary: Returns TRUE if at least one common bit is set in two arrays
     XBOOL CheckCommon(XBitArray &a)
     {
-        if (a.m_Size <= 32)
+        int size = a.m_Size >> 5;
+        for (int i = 0; i < size; ++i)
         {
-            if (m_Size <= 32)
-                return (m_Flags & a.m_Flags);
-            else
-                return (m_Data[0] & a.m_Flags);
+            if (m_Data[i] & a.m_Data[i])
+                return TRUE;
         }
-        else
-        {
-            if (m_Size <= 32)
-                return (m_Flags & a.m_Data[0]);
-            else
-            {
-                int size = a.m_Size >> 5;
-                for (int i = 0; i < size; ++i)
-                {
-                    if (m_Data[i] & a.m_Data[i])
-                        return TRUE;
-                }
-            }
-        }
-
         return FALSE;
     }
 
@@ -395,26 +254,10 @@ public:
     void Or(XBitArray &a)
     {
         CheckSameSize(a);
-
-        if (a.m_Size <= 32)
+        int size = a.m_Size >> 5;
+        for (int i = 0; i < size; ++i)
         {
-            if (m_Size <= 32)
-                m_Flags |= a.m_Flags;
-            else
-                m_Data[0] |= a.m_Flags;
-        }
-        else
-        {
-            if (m_Size <= 32)
-                m_Flags |= a.m_Data[0];
-            else
-            {
-                int size = a.m_Size >> 5;
-                for (int i = 0; i < size; ++i)
-                {
-                    m_Data[i] |= a.m_Data[i];
-                }
-            }
+            m_Data[i] |= a.m_Data[i];
         }
     }
 
@@ -422,43 +265,20 @@ public:
     void XOr(XBitArray &a)
     {
         CheckSameSize(a);
-
-        if (a.m_Size <= 32)
+        int size = a.m_Size >> 5;
+        for (int i = 0; i < size; ++i)
         {
-            if (m_Size <= 32)
-                m_Flags ^= a.m_Flags;
-            else
-                m_Data[0] ^= a.m_Flags;
-        }
-        else
-        {
-            if (m_Size <= 32)
-                m_Flags ^= a.m_Data[0];
-            else
-            {
-                int size = a.m_Size >> 5;
-                for (int i = 0; i < size; ++i)
-                {
-                    m_Data[i] ^= a.m_Data[i];
-                }
-            }
+            m_Data[i] ^= a.m_Data[i];
         }
     }
 
     // Summary: Inverts all bits value in the array
     void Invert()
     {
-        if (m_Size <= 32)
+        int size = m_Size >> 5;
+        for (int i = 0; i < size; ++i)
         {
-            m_Flags = ~m_Flags;
-        }
-        else
-        {
-            int size = m_Size >> 5;
-            for (int i = 0; i < size; ++i)
-            {
-                m_Data[i] = ~m_Data[i];
-            }
+            m_Data[i] = ~m_Data[i];
         }
     }
 
@@ -466,28 +286,15 @@ public:
     int BitSet()
     {
         int set = 0;
-        if (m_Size <= 32)
+        int size = m_Size >> 5;
+        for (int i = 0; i < size; ++i)
         {
             int mask = 1;
             for (int j = 0; j < 32; ++j)
             {
-                if (m_Flags & mask)
+                if (m_Data[i] & mask)
                     ++set;
                 mask <<= 1;
-            }
-        }
-        else
-        {
-            int size = m_Size >> 5;
-            for (int i = 0; i < size; ++i)
-            {
-                int mask = 1;
-                for (int j = 0; j < 32; ++j)
-                {
-                    if (m_Data[i] & mask)
-                        ++set;
-                    mask <<= 1;
-                }
             }
         }
         return set;
@@ -498,36 +305,19 @@ public:
     {
         int set = 0;
         int pos = 0;
-        if (m_Size <= 32)
+        int size = m_Size >> 5;
+        for (int i = 0; i < size; ++i)
         {
             int mask = 1;
             for (int j = 0; j < 32; ++j, ++pos)
             {
-                if (m_Flags & mask)
+                if (m_Data[i] & mask)
                 {
                     if (set == n)
                         return pos;
                     ++set;
                 }
                 mask <<= 1;
-            }
-        }
-        else
-        {
-            int size = m_Size >> 5;
-            for (int i = 0; i < size; ++i)
-            {
-                int mask = 1;
-                for (int j = 0; j < 32; ++j, ++pos)
-                {
-                    if (m_Data[i] & mask)
-                    {
-                        if (set == n)
-                            return pos;
-                        ++set;
-                    }
-                    mask <<= 1;
-                }
             }
         }
         return -1;
@@ -538,36 +328,19 @@ public:
     {
         int unset = 0;
         int pos = 0;
-        if (m_Size <= 32)
+        int size = m_Size >> 5;
+        for (int i = 0; i < size; ++i)
         {
             int mask = 1;
             for (int j = 0; j < 32; ++j, ++pos)
             {
-                if (!(m_Flags & mask))
+                if (!(m_Data[i] & mask))
                 {
                     if (unset == n)
                         return pos;
                     ++unset;
                 }
                 mask <<= 1;
-            }
-        }
-        else
-        {
-            int size = m_Size >> 5;
-            for (int i = 0; i < size; ++i)
-            {
-                int mask = 1;
-                for (int j = 0; j < 32; ++j, ++pos)
-                {
-                    if (!(m_Data[i] & mask))
-                    {
-                        if (unset == n)
-                            return pos;
-                        ++unset;
-                    }
-                    mask <<= 1;
-                }
             }
         }
         // We haven't found an unsetted bit yet : we reallocate
@@ -580,29 +353,15 @@ public:
         if (buffer)
         {
             int count = 0;
-            if (m_Size <= 32)
+            for (int i = 0; i < (m_Size >> 5); i++)
             {
                 for (int j = 0; j < 32; j++)
                 {
-                    if (m_Flags & (1 << j))
+                    if (m_Data[i] & (1 << j))
                         buffer[count] = '1';
                     else
                         buffer[count] = '0';
                     count++;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < (m_Size >> 5); i++)
-                {
-                    for (int j = 0; j < 32; j++)
-                    {
-                        if (m_Data[i] & (1 << j))
-                            buffer[count] = '1';
-                        else
-                            buffer[count] = '0';
-                        count++;
-                    }
                 }
             }
             buffer[m_Size] = 0;
@@ -613,33 +372,22 @@ public:
     // Summary: Returns the occupied size in memory in bytes
     int GetMemoryOccupation(XBOOL addstatic = FALSE) const
     {
-        if (m_Size <= 32)
-            return addstatic ? sizeof(*this) : 0;
-        else
-            return (m_Size >> 5) * sizeof(XDWORD) + (addstatic ? sizeof(*this) : 0);
+        return (m_Size >> 5) * sizeof(XDWORD) + (addstatic ? sizeof(*this) : 0);
     }
 
 private:
     XDWORD *Allocate(int size)
     {
-        return new XDWORD[size];
+        return (XDWORD *)mynew(sizeof(XDWORD) * size);
     }
 
     void Free()
     {
-        delete[] m_Data;
+        mydelete(m_Data);
     }
 
     // the array itself {secret}
-    // If the size is inferior strict to 32
-    // the data array is not allocated, we
-    // just use the space of the pointer to store the
-    // first bits
-    union
-    {
-        XDWORD *m_Data;
-        XDWORD m_Flags;
-    };
+    XDWORD *m_Data;
     // real size already allocated {secret}
     int m_Size;
 };
