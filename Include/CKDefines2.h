@@ -552,7 +552,7 @@ typedef enum CK_STATESAVEFLAGS_PROTOTYPE
 // Behavior
 typedef enum CK_STATESAVEFLAGS_BEHAVIOR
 {
-    CK_STATESAVE_BEHAVIORRESERVED0      = 0x00000010,   // Reserved for internal use
+    CK_STATESAVE_BEHAVIORINTERFACE      = 0x00000010,   // Save interface data
     CK_STATESAVE_BEHAVIORNEWDATA        = 0x00000020,   // not used
     CK_STATESAVE_BEHAVIORFLAGS          = 0x00000040,   // not used
     CK_STATESAVE_BEHAVIORCOMPATIBLECID  = 0x00000080,   // not used
