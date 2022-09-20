@@ -7,7 +7,24 @@
 #include "VxDefines.h"
 #include "VxVector.h"
 
-struct ChunkIteratorData;
+struct ChunkIteratorData
+{
+    int ChunkVersion;
+    int Data;
+    int ChunkSize;
+    CKBOOL Flag;
+    int *Ids;
+    int IdCount;
+    int *Chunks;
+    int ChunkCount;
+    int *Managers;
+    int ManagerCount;
+    CKGUID ManagerGuid;
+    int *ConversionTable;
+    int NbEntries;
+    CKDependenciesContext *DepContext;
+    CKContext *Context;
+};
 typedef int (*ChunkIterateFct)(ChunkIteratorData *It);
 
 #define CHUNK_VERSIONBASE 0
@@ -59,72 +76,14 @@ enum CHUNK_OPTIONS
 class ChunkParser
 {
 public:
-    CKDWORD CurrentPos;
-    CKDWORD PrevIdentifierPos;
+    int CurrentPos;
+    int DataSize;
+    int PrevIdentifierPos;
     virtual CKBOOL IsReader() { return FALSE; }
     virtual CKBOOL IsWriter() { return FALSE; }
 
 public:
     virtual ~ChunkParser() {}
-};
-
-//---------------------------------------------------------
-// When reading the content of a chunk this class
-// keep track of the current read position
-class ChunkReader : public ChunkParser
-{
-public:
-    virtual CKBOOL IsReader() { return TRUE; }
-    virtual CKBOOL IsWriter() { return FALSE; }
-    // These methods do not check that allocated size is correct
-    inline CKDWORD Read();
-    inline void Read(CKWORD &a, CKWORD &b);
-    inline void Read(CKDWORD *v, int DwordCount);
-    inline void Read_NoEndian(CKDWORD *v, int DwordCount);
-
-public:
-    CKDWORD *Data;
-    CKDWORD DataSize;
-    int *Ids;
-    CKDWORD IdsSize;
-    int *Chunks;
-    CKDWORD ChunksSize;
-    int *Managers;
-    CKDWORD ManagersSize;
-
-public:
-    ChunkReader(CKStateChunk *chnk = NULL) { Init(chnk); }
-    void Init(CKStateChunk *chnk);
-};
-
-//---------------------------------------------------------
-// When writing the content of a chunk this class
-// keep track of the current write position
-// along with the list of positions IDs, Sub-Chunks and "Manager" Ints
-// have been written
-class ChunkWriter : public ChunkParser
-{
-public:
-    virtual CKBOOL IsReader() { return FALSE; }
-    virtual CKBOOL IsWriter() { return TRUE; }
-
-    CKDWORD &operator[](int i) { return Data[i]; }
-    // These methods do not check that allocated size is correct
-    inline void Write(CKDWORD v);
-    inline void Write(CKWORD a, CKWORD b);
-    inline void Write(CKDWORD *v, int DwordCount);
-    inline void Write_NoEndian(CKDWORD *v, int DwordCount);
-
-public:
-    CKDWORD DataSize;
-    XArray<CKDWORD> Data;
-    IntListStruct IDList;
-    IntListStruct ChunkList;
-    IntListStruct ManagerList;
-
-public:
-    ChunkWriter(CKStateChunk *chnk = NULL);
-    void WriteToChunk(CKStateChunk *chnk);
 };
 
 class CKFileChunk;
@@ -162,8 +121,7 @@ See also: Using State Chunks, CKSaveObjectState, CKReadObjectState, DeleteCKStat
 class CKStateChunk
 {
     friend class CKFile;
-    friend class ChunkReader;
-    friend class ChunkWriter;
+    friend class ChunkParser;
     friend class CKFileChunk;
 
 public:
@@ -171,12 +129,13 @@ public:
     // Initialization function
     void StartRead();
     void StartWrite();
+    void CheckSize(int size);
     void CloseChunk();
 
     void Clear();
     void UpdateDataSize();
     CK_CLASSID GetChunkClassID();
-    void Clone(CKStateChunk *);
+    void Clone(CKStateChunk *chunk);
 
     //----------------------------------------------------------
     // Versions Functions
@@ -189,8 +148,8 @@ public:
     // Parsing Functions
     // Identifiers must be unique within a chunk
     void WriteIdentifier(CKDWORD id);
-    CKBOOL SeekIdentifier(CKDWORD identifier);
     CKDWORD ReadIdentifier();
+    CKBOOL SeekIdentifier(CKDWORD identifier);
     int SeekIdentifierAndReturnSize(CKDWORD identifier); // Return size until next identifier
 
     int GetCurrentPos();
@@ -200,6 +159,7 @@ public:
 
     //----------------------------------------------------------
     // Compression function
+    CKDWORD ComputeCRC(CKDWORD adler);
     void Pack(int CompressionLevel);
     CKBOOL UnPack(int DestSize);
 
@@ -259,7 +219,7 @@ public:
     int ReadManagerIntSequence();
 
     CK_ID ReadObjectID();			   // Returns an object ID
-    CKObject *ReadObject(CKContext *); // same with a pointer
+    CKObject *ReadObject(CKContext *context); // same with a pointer
 
     CKBYTE ReadByte();
     CKWORD ReadWord();
@@ -289,8 +249,6 @@ public:
     CKStateChunk *ReadSubChunk(CK_READSUBCHUNK_FLAGS Flags = CK_RSC_DEFAULT);
     int ReadBuffer(void **buffer);	  // returns the size in bytes of the allocated buffer (// Use CKDeletePointer to delete allocated pointer)
     int ReadString(CKSTRING *str);	  // returns the length of the string including the terminating null character (// Use CKDeletePointer to delete allocated string)
-    XString ReadString();			  // returns the length of the string including the terminating null character
-    int ReadString(XString &oString); // returns the length of the string including the terminating null character
 
     //----------------------------------------------------------
     // Bitmaps functions
@@ -328,15 +286,31 @@ public:
     CKBOOL ReadRawBitmapData(VxImageDescEx &desc);
 
     CKStateChunk();
-    CKStateChunk(const CKStateChunk &);
+    CKStateChunk(CKStateChunk *chunk);
     CKStateChunk(CK_CLASSID Cid, CKFile *f);
+
+private:
+    int m_ChunkClassID;
+    int m_ChunkSize;
+    int *m_Data;
+    short int m_DataVersion;
+    short int m_ChunkVersion;
+    ChunkParser *m_ChunkParser;
+    IntListStruct *m_Ids;
+    IntListStruct *m_Chunks;
+    IntListStruct *m_Managers;
+    CKFile *m_File;
+    CKBOOL m_Flag;
+
+    static XObjectPointerArray m_TempXOPA;
+    static XObjectArray m_TempXOA;
 };
 
 class CKFileChunk
 {
 public:
     CKStateChunk chunk;
-    ChunkReader reader;
+    ChunkParser parser;
     void InitFromBuffer(void *Buffer, CKFile *f);
 };
 
