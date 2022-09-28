@@ -41,11 +41,11 @@
 
 // Current Version of CK Engine (Day/Month/Year)
 
-#define CKVERSION 0x05082002
+#define CKVERSION 0x13022002
 
 // Current Version of Dev
 
-#define DEVVERSION 0x02050000
+#define DEVVERSION 0x02010000
 
 #define VIRTOOLS_GUID CKGUID(0x56495254, 0x4f4f4c53)
 
