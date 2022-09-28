@@ -4,11 +4,6 @@
 #include "CKObject.h"
 #include "CKObjectDeclaration.h"
 
-//-------------------------------------------------------------------------
-// Internal functions
-#ifdef DOCJETDUMMY // DOCJET secret macro
-#else
-
 #ifdef STRINGDUPLICATION
 #define MAKESTRING(a) CKStrdup(a)
 #define DELETESTRING(a) CKDeletePointer(a)
@@ -80,8 +75,6 @@ public:
         // CKDeletePointer(Name);
     }
 };
-
-#endif // Docjet secret macro
 
 /*************************************************
 Summary: Class describing the prototype of a behavior
