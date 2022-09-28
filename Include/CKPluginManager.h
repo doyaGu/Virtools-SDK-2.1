@@ -21,18 +21,6 @@
 #define CKPLUGIN_MOVIE        "Movie Readers"
 #define CKPLUGIN_EXTENSIONS   "Extensions"
 
-#ifdef CK_LIB
-/*******************************************
-+ There is only one function a rasterizer Dll is supposed
-to export :"CKRasterizerGetInfo", it will be used by the render engine
-to retrieve information about the plugin :
-{secret}
-******************************************/
-struct CKRasterizerInfo;
-
-typedef void (*CKRST_GETINFO)(CKRasterizerInfo *);
-#endif
-
 /********************************************************
 Summary: Short description of a DLL that declared plugins
 
@@ -256,18 +244,6 @@ public:
     void InitializePlugins(CKContext *context);
     void ComputeDependenciesList(CKFile *file);
     void MarkComponentAsNeeded(CKGUID Component, int catIdx);
-
-#ifdef CK_LIB
-
-//-------------------------------------------------------------------
-
-    //---------------- for additionnal plugins to link statically
-    void RegisterPluginInfo(int PositionInDll, CKPluginInfo *info, CKDLL_OBJECTDECLARATIONFUNCTION InfoFct, CKReaderGetReaderFunction GetReaderFunc);
-    void RegisterNewStaticLibAsDll(char *Name, int PluginInfoCount);
-    void AddRenderEngineRasterizer(CKRST_GETINFO RasterizerInfoFunction) { m_StaticRasterizers.PushBack(RasterizerInfoFunction); }
-    const XArray<CKRST_GETINFO> &GetRegistredRasterizers() { return m_StaticRasterizers; }
-
-#endif
 
 protected:
     //--- Utils
