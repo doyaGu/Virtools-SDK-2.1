@@ -76,7 +76,6 @@ public:
     CKERROR Pause();
     CKERROR Reset();
     CKBOOL IsPlaying();
-    CKBOOL IsInBreak();
     CKBOOL IsReseted();
     // Runtime mode
     CKERROR Process();
