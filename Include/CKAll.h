@@ -6,6 +6,7 @@
 #include "CKGlobals.h"
 #include "CKBaseManager.h"
 #include "CKContext.h"
+#include "CKTimeProfiler.h"
 #include "CKInterfaceObjectManager.h"
 
 // Managers
