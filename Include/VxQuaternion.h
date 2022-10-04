@@ -99,7 +99,6 @@ public:
     VX_EXPORT void ToMatrix(VxMatrix &Mat) const;
     VX_EXPORT void Multiply(const VxQuaternion &Quat);
     VX_EXPORT void FromRotation(const VxVector &Vector, float Angle);
-    VX_EXPORT void ToRotation(VxVector &Vector, float &Angle);
     VX_EXPORT void FromEulerAngles(float eax, float eay, float eaz);
     VX_EXPORT void ToEulerAngles(float *eax, float *eay, float *eaz) const;
     VX_EXPORT void Normalize();
