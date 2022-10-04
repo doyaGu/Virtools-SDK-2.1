@@ -511,12 +511,14 @@ public:
         }
 
         if (m_Pool.Size() == m_Pool.Allocated())
-        { // Need Rehash
+        {
+            // Need Rehash
             Rehash(m_Table.Size() * 2);
             return Insert(key, o);
         }
         else
-        { // No
+        {
+            // No
             return Iterator(XInsert(index, key, o), this);
         }
     }
@@ -901,23 +903,23 @@ private:
         int oldsize = m_Table.Size();
 
         // we create a new pool
-        XClassArray<tEntry> pool((int)(iSize * L));
+        XClassArray<Entry> pool((int)(iSize * L));
         pool = m_Pool;
 
         // Temporary table
-        XSArray<tEntry> tmp;
+        XArray<tEntry> tmp;
         tmp.Resize(iSize);
         tmp.Fill(0);
 
         for (int index = 0; index < oldsize; ++index)
         {
-            tEntry *first = m_Table[index];
+            tEntry first = m_Table[index];
             while (first)
             {
                 H hashfun;
-                int newindex = XIndex(hashfun(first->key), iSize);
+                int newindex = XIndex(hashfun(first->m_Key), iSize);
 
-                tEntry *newe = pool.Begin() + (first - m_Pool.Begin());
+                Entry *newe = pool.Begin() + (first - m_Pool.Begin());
 
                 // insert new entry in new table
                 newe->m_Next = tmp[newindex];
@@ -952,7 +954,7 @@ private:
         }
 
         // remap the addresses in the entries
-        for (tEntry *e = m_Pool.Begin(); e != m_Pool.End(); ++e)
+        for (Entry *e = m_Pool.Begin(); e != m_Pool.End(); ++e)
         {
             if (e->m_Next)
             {
@@ -984,7 +986,7 @@ private:
 
     tEntry XInsert(int index, const K &key, const T &o)
     {
-        tEntry *newe = GetFreeEntry();
+        tEntry newe = GetFreeEntry();
         newe->m_Key = key;
         newe->m_Data = o;
         newe->m_Next = m_Table[index];
