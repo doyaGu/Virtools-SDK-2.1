@@ -26,10 +26,10 @@ public:
         m_Memory = NULL;
     }
     // Constructs the class allocating the buffer to ByteCount bytes.
-    VxMemoryPool(size_t ByteCount = 0)
+    VxMemoryPool(int ByteCount = 0)
     {
         m_Memory = NULL;
-        Allocated = 0;
+        m_Allocated = 0;
         Allocate(ByteCount);
     }
 
@@ -40,27 +40,27 @@ public:
     }
 
     // Returns allocated size of this memory pool.
-    size_t AllocatedSize() const
+    int AllocatedSize() const
     {
-        return Allocated;
+        return m_Allocated;
     }
 
     // Allocates the number of bytes if not yet allocated.
-    void Allocate(size_t ByteCount)
+    void Allocate(int ByteCount)
     {
-        if (Allocated < ByteCount)
+        if (m_Allocated < ByteCount)
         {
             VxDeleteAligned(m_Memory);
 
             m_Memory = (XBYTE *)VxNewAligned(ByteCount, 16);
-            Allocated = ByteCount;
+            m_Allocated = ByteCount;
         }
     }
 
 protected:
     XBYTE *m_Memory;
 
-    size_t Allocated;
+    int m_Allocated;
 };
 
 #endif // VXMEMORYPOOL_H
