@@ -932,7 +932,7 @@ protected:
     T *Allocate(int size)
     {
         if (size)
-            return (T *)mynew(sizeof(T) * size);
+            return (T *)VxNew(sizeof(T) * size);
         else
             return 0;
     }
@@ -940,7 +940,7 @@ protected:
     // Free {secret}
     void Free()
     {
-        mydelete(m_Begin);
+        VxDelete(m_Begin);
     }
 
     ///

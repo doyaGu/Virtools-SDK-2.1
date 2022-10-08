@@ -283,12 +283,12 @@ inline float XFabs(float a)
 
 //------ Memory Management
 
-#define VxNew(a) (new unsigned char[a])
-#define VxDelete(a) (delete[](unsigned char *) a)
-
 VX_EXPORT void *mynew(unsigned int n);
 VX_EXPORT void *mynewr(unsigned int,char const *,int);
 VX_EXPORT void mydelete(void *a);
+
+#define VxNew(a) (mynew(a))
+#define VxDelete(a) (mydelete(a))
 
 inline int LowestBitMask(int v)
 {

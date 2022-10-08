@@ -378,12 +378,12 @@ public:
 private:
     XDWORD *Allocate(int size)
     {
-        return (XDWORD *)mynew(sizeof(XDWORD) * size);
+        return (XDWORD *)VxNew(sizeof(XDWORD) * size);
     }
 
     void Free()
     {
-        mydelete(m_Data);
+        VxDelete(m_Data);
     }
 
     // the array itself {secret}
