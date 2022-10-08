@@ -50,11 +50,6 @@ void VxDetectProcessor();
 //------ Interpolation
 VX_EXPORT void InterpolateFloatArray(void *Res, void *array1, void *array2, float factor, int count);
 VX_EXPORT void InterpolateVectorArray(void *Res, void *Inarray1, void *Inarray2, float factor, int count, XULONG StrideRes, XULONG StrideIn);
-VX_EXPORT void MultiplyVectorArray(void *Res, void *Inarray1, const VxVector &factor, int count, XULONG StrideRes, XULONG StrideIn);
-VX_EXPORT void MultiplyVector2Array(void *Res, void *Inarray1, const Vx2DVector &factor, int count, XULONG StrideRes, XULONG StrideIn);
-VX_EXPORT void MultiplyVector4Array(void *Res, void *Inarray1, const VxVector4 &factor, int count, XULONG StrideRes, XULONG StrideIn);
-VX_EXPORT void MultiplyAddVectorArray(void *Res, void *Inarray1, const VxVector &factor, const VxVector &offset, int count, XULONG StrideRes, XULONG StrideIn);
-VX_EXPORT void MultiplyAddVector4Array(void *Res, void *Inarray1, const VxVector4 &factor, const VxVector4 &offset, int count, XULONG StrideRes, XULONG StrideIn);
 VX_EXPORT XBOOL VxTransformBox2D(const VxMatrix &World_ProjectionMat, const VxBbox &box, VxRect *ScreenSize, VxRect *Extents, VXCLIP_FLAGS &OrClipFlags, VXCLIP_FLAGS &AndClipFlags);
 VX_EXPORT void VxProjectBoxZExtents(const VxMatrix &World_ProjectionMat, const VxBbox &box, float &ZhMin, float &ZhMax);
 
@@ -102,9 +97,5 @@ VX_EXPORT XBOOL VxPtInRect(CKRECT *rect, CKPOINT *pt);
 
 // Summary: Compute best Fit Box for a set of points
 VX_EXPORT XBOOL VxComputeBestFitBBox(const XBYTE *Points, const XULONG Stride, const int Count, VxMatrix &BBoxMatrix, const float AdditionnalBorder);
-
-// Path Conversion
-VX_EXPORT void VxAddDirectorySeparator(XString &path);
-VX_EXPORT void VxConvertPathToSystemPath(XString &path);
 
 #endif // VXMATH_H
