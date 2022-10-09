@@ -857,7 +857,7 @@ typedef enum VXRENDERSTATETYPE
     VXRENDERSTATE_WRAP0               = 128,    // Wrap flags for 1st texture coord set (VXWRAP_MODE)
     VXRENDERSTATE_WRAP1               = 129,    // Wrap flags for 2nd texture coord set (VXWRAP_MODE)
     VXRENDERSTATE_WRAP2               = 130,    // Wrap flags for 3rd texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP3               = 131,    //	Wrap flags for 4th texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP3               = 131,    // Wrap flags for 4th texture coord set (VXWRAP_MODE)
     VXRENDERSTATE_WRAP4               = 132,    // Wrap flags for 5th texture coord set (VXWRAP_MODE)
     VXRENDERSTATE_WRAP5               = 133,    // Wrap flags for 6th texture coord set (VXWRAP_MODE)
     VXRENDERSTATE_WRAP6               = 134,    // Wrap flags for 7th texture coord set (VXWRAP_MODE)
