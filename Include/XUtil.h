@@ -290,6 +290,10 @@ VX_EXPORT void mydelete(void *a);
 #define VxNew(a) (mynew(a))
 #define VxDelete(a) (mydelete(a))
 
+//---- Aligned memory allocation
+VX_EXPORT void *VxNewAligned(int size, int align);
+VX_EXPORT void VxDeleteAligned(void *ptr);
+
 inline int LowestBitMask(int v)
 {
     return ((v & -v));

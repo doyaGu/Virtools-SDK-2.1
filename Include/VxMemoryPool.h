@@ -1,11 +1,7 @@
 #ifndef VXMEMORYPOOL_H
 #define VXMEMORYPOOL_H
 
-#include "VxMathDefines.h"
-
-//---- Aligned memory allocation
-VX_EXPORT void *VxNewAligned(int size, int align);
-VX_EXPORT void VxDeleteAligned(void *ptr);
+#include "XUtil.h"
 
 /****************************************************************
 Summary: Memory buffer class.
