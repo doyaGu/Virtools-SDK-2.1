@@ -150,6 +150,9 @@ public:
     const T &operator[](unsigned int iCount) const { return *(T *)(m_Ptr + iCount * m_Stride); }
     T &operator[](unsigned int iCount) { return *(T *)(m_Ptr + iCount * m_Stride); }
 
+    const T &operator[](unsigned long iCount) const { return *(T *)(m_Ptr + iCount * m_Stride); }
+    T &operator[](unsigned long iCount) { return *(T *)(m_Ptr + iCount * m_Stride); }
+
     /************************************************
     Summary: Go to the next element.
     ************************************************/
