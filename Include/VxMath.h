@@ -65,17 +65,61 @@ VX_EXPORT void VxDoBlitUpsideDown(const VxImageDescEx &src_desc, const VxImageDe
 VX_EXPORT void VxDoAlphaBlit(const VxImageDescEx &dst_desc, XBYTE AlphaValue);
 VX_EXPORT void VxDoAlphaBlit(const VxImageDescEx &dst_desc, XBYTE *AlphaValues);
 
-VX_EXPORT void VxGetBitCounts(const VxImageDescEx &desc, XULONG &Rbits, XULONG &Gbits, XULONG &Bbits, XULONG &Abits);
-VX_EXPORT void VxGetBitShifts(const VxImageDescEx &desc, XULONG &Rshift, XULONG &Gshift, XULONG &Bshift, XULONG &Ashift);
+static inline XULONG GetBitCount(XULONG dwMask)
+{
+    XULONG count = 0;
+    if (dwMask != 0)
+    {
+        if ((dwMask & 1) == 0)
+        {
+            do
+                dwMask >>= 1;
+            while ((dwMask & 1) == 0);
+        }
+        do
+        {
+            dwMask >>= 1;
+            ++count;
+        } while ((dwMask & 1) != 0);
+    }
+    return count;
+}
+
+static inline XULONG GetBitShift(XULONG dwMask)
+{
+    XULONG shift = 0;
+    if (dwMask != 0 && (dwMask & 1) == 0)
+    {
+        do
+        {
+            dwMask >>= 1;
+            ++shift;
+        } while ((dwMask & 1) == 0);
+    }
+    return shift;
+}
+
+static inline void VxGetBitCounts(const VxImageDescEx &desc, XULONG &Rbits, XULONG &Gbits, XULONG &Bbits, XULONG &Abits)
+{
+    Abits = GetBitCount(desc.AlphaMask);
+    Rbits = GetBitCount(desc.RedMask);
+    Gbits = GetBitCount(desc.GreenMask);
+    Bbits = GetBitCount(desc.BlueMask);
+}
+
+static inline void VxGetBitShifts(const VxImageDescEx &desc, XULONG &Rshift, XULONG &Gshift, XULONG &Bshift, XULONG &Ashift)
+{
+    Ashift = GetBitShift(desc.AlphaMask);
+    Rshift = GetBitShift(desc.RedMask);
+    Gshift = GetBitShift(desc.GreenMask);
+    Bshift = GetBitShift(desc.BlueMask);
+}
 
 VX_EXPORT void VxGenerateMipMap(const VxImageDescEx &src_desc, XBYTE *DestBuffer);
 VX_EXPORT void VxResizeImage32(const VxImageDescEx &src_desc, const VxImageDescEx &dst_desc);
 
 VX_EXPORT XBOOL VxConvertToNormalMap(const VxImageDescEx &image, XULONG ColorMask);
 VX_EXPORT XBOOL VxConvertToBumpMap(const VxImageDescEx &image);
-
-VX_EXPORT XULONG GetBitCount(XULONG dwMask);
-VX_EXPORT XULONG GetBitShift(XULONG dwMask);
 
 VX_EXPORT VX_PIXELFORMAT VxImageDesc2PixelFormat(const VxImageDescEx &desc);
 VX_EXPORT void VxPixelFormat2ImageDesc(VX_PIXELFORMAT Pf, VxImageDescEx &desc);
@@ -93,7 +137,13 @@ VX_EXPORT XULONG GetProcessorFeatures();
 VX_EXPORT void ModifyProcessorFeatures(XULONG Add, XULONG Remove);
 VX_EXPORT ProcessorsType GetProcessorType();
 
-VX_EXPORT XBOOL VxPtInRect(CKRECT *rect, CKPOINT *pt);
+static inline XBOOL VxPtInRect(CKRECT *rect, CKPOINT *pt)
+{
+    return pt->x >= rect->left &&
+           pt->x <= rect->right &&
+           pt->y <= rect->bottom &&
+           pt->y >= rect->top;
+}
 
 // Summary: Compute best Fit Box for a set of points
 VX_EXPORT XBOOL VxComputeBestFitBBox(const XBYTE *Points, const XULONG Stride, const int Count, VxMatrix &BBoxMatrix, const float AdditionnalBorder);
