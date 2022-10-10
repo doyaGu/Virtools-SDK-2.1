@@ -37,7 +37,11 @@ public:
     VxRay(const VxVector &start, const VxVector &dir, int *dummy) : m_Origin(start), m_Direction(dir) {}
 
     // Transform the ray into the other referential
-    VX_EXPORT void Transform(VxRay &dest, const VxMatrix &mat);
+    void Transform(VxRay &dest, const VxMatrix &mat)
+    {
+        Vx3DMultiplyMatrixVector(&dest.m_Origin, mat, &m_Origin);
+        Vx3DRotateVector(&dest.m_Direction, mat, &m_Direction);
+    }
 
     /************************************************
     Summary: Interpolates a vector along the ray.
