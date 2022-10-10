@@ -6,25 +6,24 @@
 
 struct BehaviorBlockData
 {
-  CKGUID m_Guid;
-  CKBEHAVIORFCT m_Function;
-  CKBEHAVIORCALLBACKFCT m_Callback;
-  CKDWORD m_CallbackMask;
-  void *m_CallbackArg;
-  CKDWORD m_Version;
+    CKGUID m_Guid;
+    CKBEHAVIORFCT m_Function;
+    CKBEHAVIORCALLBACKFCT m_Callback;
+    CKDWORD m_CallbackMask;
+    void *m_CallbackArg;
+    CKDWORD m_Version;
 };
 
 struct BehaviorGraphData
 {
-  XObjectPointerArray m_Operations;
-  XObjectPointerArray m_SubBehaviors;
-  XObjectPointerArray m_SubBehaviorLinks;
-  XObjectPointerArray m_Links;
-  CKBehavior **m_BehaviorIterators;
-  CKWORD m_BehaviorIteratorCount;
-  CKWORD m_BehaviorIteratorIndex;
+    XObjectPointerArray m_Operations;
+    XObjectPointerArray m_SubBehaviors;
+    XObjectPointerArray m_SubBehaviorLinks;
+    XObjectPointerArray m_Links;
+    CKBehavior **m_BehaviorIterators;
+    CKWORD m_BehaviorIteratorCount;
+    CKWORD m_BehaviorIteratorIndex;
 };
-
 
 /**************************************************************************
 {filename:CKBehavior}
@@ -233,6 +232,7 @@ public:
     CKERROR ExportInputParameter(CKParameterIn *p);
     CKParameterIn *CreateInputParameter(CKSTRING name, CKParameterType type);
     CKParameterIn *CreateInputParameter(CKSTRING name, CKGUID guid);
+    CKParameterIn *InsertInputParameter(int pos, CKSTRING name, CKParameterType type);
     void AddInputParameter(CKParameterIn *in);
     int GetInputParameterPosition(CKParameterIn *);
     CKParameterIn *GetInputParameter(int pos);
@@ -250,6 +250,7 @@ public:
     CKERROR ExportOutputParameter(CKParameterOut *p);
     CKParameterOut *CreateOutputParameter(CKSTRING name, CKParameterType type);
     CKParameterOut *CreateOutputParameter(CKSTRING name, CKGUID guid);
+    CKParameterOut *InsertOutputParameter(int pos, CKSTRING name, CKParameterType type);
     CKParameterOut *GetOutputParameter(int pos);
     int GetOutputParameterPosition(CKParameterOut *);
     CKParameterOut *ReplaceOutputParameter(int pos, CKParameterOut *p);
@@ -319,8 +320,8 @@ public:
     //------- Profiling ---------------------
     float GetLastExecutionTime();
 
-//-------------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------------
+    // Internal functions
 
     CKERROR SetOwner(CKBeObject *, CKBOOL callback = TRUE);
     CKERROR SetSubBehaviorOwner(CKBeObject *o, CKBOOL callback = TRUE);
