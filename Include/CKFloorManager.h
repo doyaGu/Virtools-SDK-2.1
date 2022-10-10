@@ -47,12 +47,12 @@ public:
         m_DownNormal.Set(0, 0, 0);
         m_DownDistance = -100000000.0f;
     }
-    CK_ID m_UpFloor;	 // CK_ID of the 3dEntity above the point
-    int m_UpFaceIndex;	 // Index of the face above the point.
+    CK_ID m_UpFloor;     // CK_ID of the 3dEntity above the point
+    int m_UpFaceIndex;   // Index of the face above the point.
     VxVector m_UpNormal; // Normal vector
-    float m_UpDistance;	 // Distance from point to upper floor.
+    float m_UpDistance;  // Distance from point to upper floor.
 
-    CK_ID m_DownFloor;	   // CK_ID of the 3dEntity below the point
+    CK_ID m_DownFloor;     // CK_ID of the 3dEntity below the point
     int m_DownFaceIndex;   // Index of the face below the point.
     VxVector m_DownNormal; // Normal vector
     float m_DownDistance;  // Distance from point to lower floor.

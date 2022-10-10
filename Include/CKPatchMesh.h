@@ -23,14 +23,14 @@ See Also: CKPatchMesh,CKPatchEdge,CKTVPatch
 ****************************************************************************/
 typedef struct CKPatch
 {
-    CKDWORD type;			// CK_PATCH_FLAGS ( 3 for a tri patch , 4 for a quad patch)
+    CKDWORD type;           // CK_PATCH_FLAGS ( 3 for a tri patch , 4 for a quad patch)
     CKDWORD SmoothingGroup; // Smoothing group of this patch,
-    short int v[4];			// 3 or 4 indices of the corner verts.
-    short int vec[8];		// 6 or 8 indices of the edge vecs.
-    short int interior[4];	// Can have three or four interior vecs.
-    short int edge[4];		// Indices of the 3 or 4 edges of this patches
-    CK_ID Material;			// Material CK_ID for this patch. (CKPatchMesh::SetPatchMaterial)
-    VxVector *auxs;			// An array of 9 auxiliary points instantiated at runtime for tri patches (used internally DO NOT modify)
+    short int v[4];         // 3 or 4 indices of the corner verts.
+    short int vec[8];       // 6 or 8 indices of the edge vecs.
+    short int interior[4];  // Can have three or four interior vecs.
+    short int edge[4];      // Indices of the 3 or 4 edges of this patches
+    CK_ID Material;         // Material CK_ID for this patch. (CKPatchMesh::SetPatchMaterial)
+    VxVector *auxs;         // An array of 9 auxiliary points instantiated at runtime for tri patches (used internally DO NOT modify)
 
     CKPatch()
     {
@@ -52,10 +52,10 @@ See Also: CKPatchMesh,CKPatch,CKTVPatch.
 ****************************************************************************/
 typedef struct CKPatchEdge
 {
-    short int v1;	  // Index of first corner vert
+    short int v1;     // Index of first corner vert
     short int vec12;  // First vec between v1 and v2
     short int vec21;  // Second vec between v1 and v2
-    short int v2;	  // Index of second corner vert
+    short int v2;     // Index of second corner vert
     short int patch1; // Index of first patch
     short int patch2; // Index of second patch
 } CKPatchEdge;

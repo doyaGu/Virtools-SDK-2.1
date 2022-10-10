@@ -22,12 +22,12 @@ See also: CKRenderContext::Pick
 *********************************************************************/
 typedef struct CKPICKRESULT
 {
-    VxVector IntersectionPoint;	 // Intersection Point in the Object referential coordinates
+    VxVector IntersectionPoint;  // Intersection Point in the Object referential coordinates
     VxVector IntersectionNormal; // Normal  at the Intersection Point
-    float TexU, TexV;			 // Textures coordinates
-    float Distance;				 // Distance from Viewpoint to the intersection point
-    int FaceIndex;				 // Index of the face where the intersection occurred
-    CK_ID Sprite;				 // If there was a sprite at the picked coordinates, ID of this sprite
+    float TexU, TexV;            // Textures coordinates
+    float Distance;              // Distance from Viewpoint to the intersection point
+    int FaceIndex;               // Index of the face where the intersection occurred
+    CK_ID Sprite;                // If there was a sprite at the picked coordinates, ID of this sprite
 } CKPICKRESULT;
 
 /*********************************************************************

@@ -67,8 +67,8 @@ public:
     CKParameter *GetDestination(int pos);
     void RemoveAllDestinations();
 
-//-------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------
+    // Internal functions
 
     //--------------------------------------------
     // Virtual functions

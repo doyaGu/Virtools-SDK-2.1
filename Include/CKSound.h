@@ -20,7 +20,7 @@ public:
     CK_SOUND_SAVEOPTIONS GetSaveOptions();
     void SetSaveOptions(CK_SOUND_SAVEOPTIONS Options);
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKSound(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKSound();

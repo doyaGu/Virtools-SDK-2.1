@@ -37,9 +37,9 @@ See Also: CKPluginManager::GetPluginDllInfo
 *************************************************************/
 struct CKPluginDll
 {
-    XString m_DllFileName;		   // DLL Path
+    XString m_DllFileName;         // DLL Path
     INSTANCE_HANDLE m_DllInstance; // Instance of the Loaded Dll (as HINSTANCE on Windows)
-    int m_PluginInfoCount;		   // Number of plugins declared by this DLL
+    int m_PluginInfoCount;         // Number of plugins declared by this DLL
 
     CKPluginDll()
     {
@@ -69,9 +69,9 @@ typedef CKDataReader *(*CKReaderGetReaderFunction)(int);
 //
 struct CKPluginEntryReadersData
 {
-    CKGUID m_SettingsParameterGuid;			  // Parameter type for options
-    int m_OptionCount;						  // Number of options for the reader
-    CK_DATAREADER_FLAGS m_ReaderFlags;		  // Reader Save/Load options
+    CKGUID m_SettingsParameterGuid;           // Parameter type for options
+    int m_OptionCount;                        // Number of options for the reader
+    CK_DATAREADER_FLAGS m_ReaderFlags;        // Reader Save/Load options
     CKReaderGetReaderFunction m_GetReaderFct; // A pointer to the function that will create a reader.
 
     CKPluginEntryReadersData()
@@ -114,16 +114,16 @@ See Also:CKPluginManager::GetPluginInfo
 ********************************************************/
 struct CKPluginEntry
 {
-    int m_PluginDllIndex;	   // Index of the owner Dll in the list of Dlls
-    int m_PositionInDll;	   // Position of the PluginInfo inside the DLL (when there are several plugins inside a same DLL)
+    int m_PluginDllIndex;      // Index of the owner Dll in the list of Dlls
+    int m_PositionInDll;       // Position of the PluginInfo inside the DLL (when there are several plugins inside a same DLL)
     CKPluginInfo m_PluginInfo; // Base Info on the plugin (Type, Name,Description)
 
     //--- According to the type of plugin
 
-    CKPluginEntryReadersData *m_ReadersInfo;	 // Reader plugins specific info (optional settings + load/save capabilities)
+    CKPluginEntryReadersData *m_ReadersInfo;     // Reader plugins specific info (optional settings + load/save capabilities)
     CKPluginEntryBehaviorsData *m_BehaviorsInfo; // Behavior plugins specific info (list of declared behavior GUIDS)
 
-    CKBOOL m_Active;	   // For manager and Render engines TRUE if a manager was created, for other plugins this value is not used.
+    CKBOOL m_Active;       // For manager and Render engines TRUE if a manager was created, for other plugins this value is not used.
     int m_IndexInCategory; // Index of this entry in its category
     CKBOOL m_NeededByFile; // When saving a file TRUE if at least one object needs this plugin
 
@@ -208,22 +208,22 @@ public:
     CKPluginEntry *FindComponent(CKGUID Component, int catIdx = -1); // Search for behaviors,managers,readers,etc.. to see if they exists
 
     //---- Category Functions
-    int AddCategory(CKSTRING cat);						  // Adds a category, category name must be unique {secret}
-    CKERROR RemoveCategory(int catIdx);					  // Removes a category, category name must be unique	 {secret}
-    int GetCategoryCount();								  // Gets the number of categories
-    CKSTRING GetCategoryName(int catIdx);				  // Gets the category name at specified index
-    int GetCategoryIndex(CKSTRING cat);					  // Gets the category Index in List
+    int AddCategory(CKSTRING cat);                        // Adds a category, category name must be unique {secret}
+    CKERROR RemoveCategory(int catIdx);                   // Removes a category, category name must be unique	 {secret}
+    int GetCategoryCount();                               // Gets the number of categories
+    CKSTRING GetCategoryName(int catIdx);                 // Gets the category name at specified index
+    int GetCategoryIndex(CKSTRING cat);                   // Gets the category Index in List
     CKERROR RenameCategory(int catIdx, CKSTRING newName); // Renames a category  {secret}
 
     //---- PluginDll Functions
-    int GetPluginDllCount();											 // Gets the Plugin count
-    CKPluginDll *GetPluginDllInfo(int PluginDllIdx);					 // Gets the Plugin at index
+    int GetPluginDllCount();                                             // Gets the Plugin count
+    CKPluginDll *GetPluginDllInfo(int PluginDllIdx);                     // Gets the Plugin at index
     CKPluginDll *GetPluginDllInfo(CKSTRING PluginName, int *idx = NULL); // Search for a Plugin by name
     CKERROR UnLoadPluginDll(int PluginDllIdx);
     CKERROR ReLoadPluginDll(int PluginDllIdx);
 
     //---- Plugin Functions
-    int GetPluginCount(int catIdx);							 // Gets the Plugin count for a category
+    int GetPluginCount(int catIdx);                          // Gets the Plugin count for a category
     CKPluginEntry *GetPluginInfo(int catIdx, int PluginIdx); // Gets the Plugin at index PluginIdx for a category
 
     //---- Bitmap,Sound,Model or Movie Reader Access
@@ -237,7 +237,7 @@ public:
 
     //---- Model and Virtools Loading access {secret}
     CKERROR Load(CKContext *context, CKSTRING FileName, CKObjectArray *liste, CK_LOAD_FLAGS LoadFlags, CKCharacter *carac = NULL, CKGUID *Readerguid = NULL); //  {secret}
-    CKERROR Save(CKContext *context, CKSTRING FileName, CKObjectArray *liste, CKDWORD SaveFlags, CKGUID *Readerguid = NULL);								  //  {secret}
+    CKERROR Save(CKContext *context, CKSTRING FileName, CKObjectArray *liste, CKDWORD SaveFlags, CKGUID *Readerguid = NULL);                                  //  {secret}
 
     //---- Init {secret}
     void ReleaseAllPlugins();

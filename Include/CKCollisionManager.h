@@ -20,17 +20,17 @@ See Also: CollisionManager,CollisionManager::DetectCollision
 ************************************************/
 struct ImpactDesc
 {
-    CK_ID m_OwnerEntity;		  // Child (if any) of the object tested that actually is in collision (can be the body part of a character)
-    CK_ID m_ObstacleTouched;	  // Object with an attribute obstacle touched
-    CK_ID m_SubObstacleTouched;	  // Child of the object touched that actually is in collision
-    int m_TouchedVertex;		  // Nearest Vertex of the obstacle when the collision occurs
-    int m_TouchingVertex;		  // Nearest Vertex of the tested object when the collision occurs
-    int m_TouchedFace;			  // Nearest Face of the obstacle when the collision occurs
-    int m_TouchingFace;			  // Nearest Face of the tested object when the collision occurs
+    CK_ID m_OwnerEntity;          // Child (if any) of the object tested that actually is in collision (can be the body part of a character)
+    CK_ID m_ObstacleTouched;      // Object with an attribute obstacle touched
+    CK_ID m_SubObstacleTouched;   // Child of the object touched that actually is in collision
+    int m_TouchedVertex;          // Nearest Vertex of the obstacle when the collision occurs
+    int m_TouchingVertex;         // Nearest Vertex of the tested object when the collision occurs
+    int m_TouchedFace;            // Nearest Face of the obstacle when the collision occurs
+    int m_TouchingFace;           // Nearest Face of the tested object when the collision occurs
     VxMatrix m_ImpactWorldMatrix; // World Matrix of the tested object before the collision occurs (the matrix of the previous frame if it can't find anything better.)
-    VxVector m_ImpactPoint;		  // Not Used Yet
-    VxVector m_ImpactNormal;	  // Not Used Yet
-    CK_ID m_Entity;				  // object tested that actually is in collision
+    VxVector m_ImpactPoint;       // Not Used Yet
+    VxVector m_ImpactNormal;      // Not Used Yet
+    CK_ID m_Entity;               // object tested that actually is in collision
 };
 
 /*************************************************

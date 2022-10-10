@@ -105,7 +105,7 @@ public:
     CKGUID GetOperationGuid();
     void Reconstruct(CKSTRING Name, CKGUID opguid, CKGUID ResGuid, CKGUID p1Guid, CKGUID p2Guid);
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CK_PARAMETEROPERATION GetOperationFunction();
 

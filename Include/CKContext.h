@@ -228,7 +228,6 @@ public:
     void SetVirtoolsVersion(CK_VIRTOOLS_VERSION ver, CKDWORD Build);
     int GetPVInformation();
     CKBOOL IsInDynamicCreationMode();
-
 };
 
 #endif // CKCONTEXT_H

@@ -34,7 +34,7 @@ public:
     int GetRendezVousNumberOfArrivedObjects();
     CKBeObject *GetRendezVousArrivedObject(int pos);
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKSynchroObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKSynchroObject();
@@ -88,7 +88,7 @@ public:
     CKBOOL EnterCriticalSection(CKBeObject *asker);
     CKBOOL LeaveCriticalSection(CKBeObject *asker);
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKCriticalSectionObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKCriticalSectionObject();
@@ -140,7 +140,7 @@ public:
     void EnterState();
     void LeaveState();
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKStateObject(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKStateObject();

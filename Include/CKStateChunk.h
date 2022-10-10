@@ -218,7 +218,7 @@ public:
     int StartManagerReadSequence(CKGUID *guid); // Starts reading a sequence that was written using StartManagerSequence functions ,return value is the count
     int ReadManagerIntSequence();
 
-    CK_ID ReadObjectID();			   // Returns an object ID
+    CK_ID ReadObjectID();                     // Returns an object ID
     CKObject *ReadObject(CKContext *context); // same with a pointer
 
     CKBYTE ReadByte();
@@ -238,17 +238,17 @@ public:
     void ReadObjectArray(CKObjectArray *array);
     CKObjectArray *ReadObjectArray();
 
-    void ReadAndFillBuffer(void *buffer);			// fills buffer (must be allocated )
+    void ReadAndFillBuffer(void *buffer);           // fills buffer (must be allocated )
     void ReadAndFillBuffer(int size, void *buffer); // fills buffer with known size (must be allocated )
 
-    void ReadAndFillBuffer_LEndian(void *buffer);			  // fills buffer (must be allocated )
-    void ReadAndFillBuffer_LEndian(int size, void *buffer);	  // fills buffer with known size (must be allocated )
-    void ReadAndFillBuffer_LEndian16(void *buffer);			  // fills buffer (must be allocated )
+    void ReadAndFillBuffer_LEndian(void *buffer);             // fills buffer (must be allocated )
+    void ReadAndFillBuffer_LEndian(int size, void *buffer);   // fills buffer with known size (must be allocated )
+    void ReadAndFillBuffer_LEndian16(void *buffer);           // fills buffer (must be allocated )
     void ReadAndFillBuffer_LEndian16(int size, void *buffer); // fills buffer with known size (must be allocated )
 
     CKStateChunk *ReadSubChunk(CK_READSUBCHUNK_FLAGS Flags = CK_RSC_DEFAULT);
-    int ReadBuffer(void **buffer);	  // returns the size in bytes of the allocated buffer (// Use CKDeletePointer to delete allocated pointer)
-    int ReadString(CKSTRING *str);	  // returns the length of the string including the terminating null character (// Use CKDeletePointer to delete allocated string)
+    int ReadBuffer(void **buffer); // returns the size in bytes of the allocated buffer (// Use CKDeletePointer to delete allocated pointer)
+    int ReadString(CKSTRING *str); // returns the length of the string including the terminating null character (// Use CKDeletePointer to delete allocated string)
 
     //----------------------------------------------------------
     // Bitmaps functions
@@ -279,8 +279,8 @@ public:
     CKBYTE *ReadRawBitmap(VxImageDescEx &desc);
     void WriteRawBitmap(const VxImageDescEx &desc);
 
-//--------------------------------------------------------
-////               Private Part
+    //--------------------------------------------------------
+    ////               Private Part
 
     CKBOOL ReadRawBitmapHeader(VxImageDescEx &desc);
     CKBOOL ReadRawBitmapData(VxImageDescEx &desc);

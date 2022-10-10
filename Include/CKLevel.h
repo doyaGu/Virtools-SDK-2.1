@@ -88,7 +88,7 @@ public:
     virtual void ApplyPatchForOlderVersion(int NbObject, CKFileObject *FileObjects);
 #endif
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKLevel(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKLevel();

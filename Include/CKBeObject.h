@@ -22,7 +22,7 @@ See also: CKBeObject::GetAttributeList,CKAttributeManager
 struct CKAttributeVal
 {
     CKAttributeType AttribType; // Type of Attribute
-    CK_ID Parameter;			// ID of the associated parameter
+    CK_ID Parameter;            // ID of the associated parameter
 };
 
 typedef XNHashTable<CK_ID, CK_ID> XAttributeList;
@@ -115,8 +115,8 @@ public:
     // Profiling
     float GetLastExecutionTime();
 
-//-------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------
+    // Internal functions
 
     virtual void ApplyPatchForOlderVersion(int NbObject, CKFileObject *FileObjects);
     CKBeObject() {}

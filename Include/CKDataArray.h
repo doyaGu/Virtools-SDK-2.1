@@ -184,8 +184,8 @@ public:
     // Create a group from elements matching a value
     void CreateGroup(int mc, CK_COMPOPERATOR op, CKDWORD key, int size, CKGroup *group, int ec = 0);
 
-//-------------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------------
+    // Internal functions
 
     //-------------------------------------------------------
     // Virtual functions	{Secret}

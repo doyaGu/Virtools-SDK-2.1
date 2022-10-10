@@ -34,7 +34,7 @@ public:
     int GetSceneInCount();
     CKScene *GetSceneIn(int index);
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKSceneObject() {}
     CKSceneObject(CKContext *Context, CKSTRING name = NULL);

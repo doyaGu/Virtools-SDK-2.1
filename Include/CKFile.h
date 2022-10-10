@@ -47,8 +47,8 @@ typedef struct CKFileObject
     // Options that will be used to create this object...
     enum CK_FO_OPTIONS
     {
-        CK_FO_DEFAULT = 0,	  // Default behavior : a new object will be created with the name stored in CKFileObject
-        CK_FO_RENAMEOBJECT,	  // Renaming : a new object will be created with the name stored in CKFileObject + a integer value XXX to ensure its uniqueness
+        CK_FO_DEFAULT = 0,    // Default behavior : a new object will be created with the name stored in CKFileObject
+        CK_FO_RENAMEOBJECT,   // Renaming : a new object will be created with the name stored in CKFileObject + a integer value XXX to ensure its uniqueness
         CK_FO_REPLACEOBJECT,  // Do not create a new object, instead use an existing one which CK_ID is given by CreatedObject
                               // to load the chunk on
         CK_FO_DONTLOADOBJECT, // Object chunk will not be read either because it is a reference
@@ -56,17 +56,17 @@ typedef struct CKFileObject
                               // and the user choose to keep the existing one.
     };
 
-    CK_ID Object;		   // ID of the object being load/saved (as it will be/was saved in the file)
+    CK_ID Object;          // ID of the object being load/saved (as it will be/was saved in the file)
     CK_ID CreatedObject;   // ID of the object being created
     CK_CLASSID ObjectCid;  // Class Identifier of the object
-    CKObject *ObjPtr;	   // A pointer to the object itself (as CreatedObject when loading)
-    CKSTRING Name;		   // Name of the Object
-    CKStateChunk *Data;	   // A CKStateChunk that contains object information
-    int PostPackSize;	   // When compressed chunk by chunk : size of Data after compression
-    int PrePackSize;	   // When compressed chunk by chunk : size of Data before compression
+    CKObject *ObjPtr;      // A pointer to the object itself (as CreatedObject when loading)
+    CKSTRING Name;         // Name of the Object
+    CKStateChunk *Data;    // A CKStateChunk that contains object information
+    int PostPackSize;      // When compressed chunk by chunk : size of Data after compression
+    int PrePackSize;       // When compressed chunk by chunk : size of Data before compression
     CK_FO_OPTIONS Options; // When loading an object it may be renamed , use to replace another object
-    int FileIndex;		   // Position of the object data inside uncompressed file buffer
-    CKDWORD SaveFlags;	   // Flags used when this object was saved.
+    int FileIndex;         // Position of the object data inside uncompressed file buffer
+    CKDWORD SaveFlags;     // Flags used when this object was saved.
 
     CKBOOL CanBeLoad()
     {
@@ -273,23 +273,23 @@ protected:
     void CheckDuplicateNames();
 
 public:
-    int m_SaveIDMax;									// Maximum CK_ID found when saving or loading objects  {secret}
-    XArray<CKFileObject> m_FileObjects;					// List of objects being saved / loaded   {secret}
-    XArray<CKFileManagerData> m_ManagersData;			// Manager Data loaded  {secret}
+    int m_SaveIDMax;                                    // Maximum CK_ID found when saving or loading objects  {secret}
+    XArray<CKFileObject> m_FileObjects;                 // List of objects being saved / loaded   {secret}
+    XArray<CKFileManagerData> m_ManagersData;           // Manager Data loaded  {secret}
     XClassArray<CKFilePluginDependencies> m_PluginsDep; // Plugins dependencies for this file  {secret}
-    XClassArray<XIntArray> m_IndexByClassId;			// List of index in the m_FileObjects table sorted by ClassID  {secret}
-    XClassArray<XString> m_IncludedFiles;				// List of files that should be inserted in the CMO file.  {secret}
-    CKFileInfo m_FileInfo;								// Headers summary  {secret}
+    XClassArray<XIntArray> m_IndexByClassId;            // List of index in the m_FileObjects table sorted by ClassID  {secret}
+    XClassArray<XString> m_IncludedFiles;               // List of files that should be inserted in the CMO file.  {secret}
+    CKFileInfo m_FileInfo;                              // Headers summary  {secret}
     CKBOOL m_SceneSaved;
-    XBitArray m_AlreadySavedMask;						// BitArray of IDs already saved  {secret}
-    CKDWORD m_Flags;									// Flags used to save file {secret}
-    CKSTRING m_FileName;								// Current file name  {secret}
-    CKContext *m_Context;								// CKContext on which file is loaded/Saved  {secret}
+    XBitArray m_AlreadySavedMask; // BitArray of IDs already saved  {secret}
+    CKDWORD m_Flags;              // Flags used to save file {secret}
+    CKSTRING m_FileName;          // Current file name  {secret}
+    CKContext *m_Context;         // CKContext on which file is loaded/Saved  {secret}
     CKBufferParser *m_Parser;
     VxMemoryMappedFile *m_MappedFile;
     XFileObjectsTable m_ObjectsHashTable;
     CKBOOL m_ReadFileDataDone;
-    XBitArray m_AlreadyReferencedMask;					// BitArray of IDs already referenced  {secret}
+    XBitArray m_AlreadyReferencedMask; // BitArray of IDs already referenced  {secret}
     XObjectPointerArray m_ReferencedObjects;
 };
 

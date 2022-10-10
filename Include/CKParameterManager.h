@@ -114,10 +114,10 @@ See also: CKParameterManager::GetAvailableOperationsDesc
 *************************************************/
 typedef struct CKOperationDesc
 {
-    CKGUID OpGuid;			   // Operation GUID
-    CKGUID P1Guid;			   // Input Parameter 1 GUID
-    CKGUID P2Guid;			   // Input Parameter 2 GUID
-    CKGUID ResGuid;			   // Output Parameter GUID
+    CKGUID OpGuid;             // Operation GUID
+    CKGUID P1Guid;             // Input Parameter 1 GUID
+    CKGUID P2Guid;             // Input Parameter 2 GUID
+    CKGUID ResGuid;            // Output Parameter GUID
     CK_PARAMETEROPERATION Fct; // Function to call to process the operation.
 } CKOperationDesc;
 

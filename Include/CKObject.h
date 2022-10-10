@@ -199,8 +199,8 @@ public:
         m_ObjectFlags &= ~remove;
     }
 
-//--------------------------------------------------------
-////               Private Part
+    //--------------------------------------------------------
+    ////               Private Part
 
     CKObject() {}
     CKObject(CKContext *Context, CKSTRING name = NULL);

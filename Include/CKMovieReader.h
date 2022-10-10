@@ -47,7 +47,7 @@ struct CKMovieProperties
         m_Data = NULL;
     };
 
-    int m_Size;			 // Size of this structure in byte
+    int m_Size;          // Size of this structure in byte
                          // (should be initialized in constructor in derived classes)
     CKGUID m_ReaderGuid; // CKGUID that uniquely identifies the reader that created this properties structure
 

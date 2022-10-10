@@ -43,8 +43,8 @@ public:
     int GetBehaviorMaxIteration();
     void SetBehaviorMaxIteration(int n);
 
-//-------------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------------
+    // Internal functions
 
     virtual CKStateChunk *SaveData(CKFile *SavedFile);
     virtual CKERROR LoadData(CKStateChunk *chunk, CKFile *LoadedFile);

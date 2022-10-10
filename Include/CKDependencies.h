@@ -218,8 +218,8 @@ public:
 
     CKBOOL ContainClassID(CK_CLASSID Cid);
 
-//-------------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------------
+    // Internal functions
 
     XObjectPointerArray m_DynamicObjects;
 

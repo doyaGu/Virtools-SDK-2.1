@@ -40,9 +40,9 @@ See also: CKBodyPart,CKBodyPart::SetRotationJoint
 *******************************************************/
 typedef struct CKIkJoint
 {
-    CKDWORD m_Flags;		// CK_IKJOINT_FLAGS
-    VxVector m_Min;		// Minimum range if rotations are limited
-    VxVector m_Max;		// Maximum range if rotations are limited
+    CKDWORD m_Flags;    // CK_IKJOINT_FLAGS
+    VxVector m_Min;     // Minimum range if rotations are limited
+    VxVector m_Max;     // Maximum range if rotations are limited
     VxVector m_Damping; // damping factor for each axis
 } CKIkJoint;
 

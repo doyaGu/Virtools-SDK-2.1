@@ -36,7 +36,7 @@ public:
     virtual void *GetWriteDataPtr();
     virtual CKERROR SetStringValue(CKSTRING Value);
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     //---------------------------------------
     // Virtual functions

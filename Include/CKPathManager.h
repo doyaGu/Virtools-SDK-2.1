@@ -16,8 +16,8 @@ See Also: CKPathManager
 typedef enum CK_PATHMANAGER_CATEGORY
 {
     BITMAP_PATH_IDX = 0, // Category index for bitmaps paths
-    DATA_PATH_IDX = 1,	 // Category index for data paths
-    SOUND_PATH_IDX = 2	 // Category index for sounds paths
+    DATA_PATH_IDX   = 1, // Category index for data paths
+    SOUND_PATH_IDX  = 2	 // Category index for sounds paths
 } CK_PATHMANAGER_CATEGORY;
 
 typedef XClassArray<XString> CKPATHENTRYVECTOR;

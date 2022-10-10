@@ -60,10 +60,10 @@ public:
     virtual void SetOwner(CKObject *o);
     CKObject *GetOwner();
 
-//--------------------------------------------
-// Disabled parameters in behaviors
+    //--------------------------------------------
+    // Disabled parameters in behaviors
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     void Enable(CKBOOL act = TRUE);
     CKBOOL IsEnabled();

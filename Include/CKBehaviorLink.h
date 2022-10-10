@@ -83,8 +83,8 @@ public:
 
     int GetInitialActivationDelay() { return m_InitialActivationDelay; }
 
-//-------------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------------
+    // Internal functions
 
     CKDWORD GetFlags()
     {

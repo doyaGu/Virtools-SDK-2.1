@@ -216,7 +216,7 @@ public:
     ********************************************/
     CKObject *GetOwner() { return m_Owner; }
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKParameterIn(CKContext *Context, CKSTRING name = NULL, int type = NULL);
     virtual ~CKParameterIn();

@@ -325,8 +325,8 @@ public:
 
     void ResetChronos(CKBOOL RenderChrono, CKBOOL BehavioralChrono);
 
-//-------------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------------
+    // Internal functions
 
     virtual CKERROR PreProcess();
     virtual CKERROR OnCKPlay();

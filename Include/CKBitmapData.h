@@ -16,7 +16,7 @@ class CKBitmapSlot
 {
 public:
     CKDWORD *m_DataBuffer; // Image Data
-    XString m_FileName;	 // Image Filename
+    XString m_FileName;    // Image Filename
 public:
     CKBitmapSlot()
     {
@@ -570,8 +570,8 @@ public:
         return m_BitmapFlags & CKBITMAPDATA_DYNAMIC;
     }
 
-//-------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------
+    // Internal functions
 
     CKBOOL ToRestore()
     {

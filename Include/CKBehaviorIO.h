@@ -76,8 +76,8 @@ public:
     *************************************************/
     CKBehavior *GetOwner() { return m_OwnerBehavior; }
 
-//-------------------------------------------------------------------------
-// Internal functions
+    //-------------------------------------------------------------------------
+    // Internal functions
 
     void SetOwner(CKBehavior *b)
     {

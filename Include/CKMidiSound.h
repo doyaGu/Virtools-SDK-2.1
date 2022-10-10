@@ -34,7 +34,7 @@ public:
     CKBOOL IsPlaying();
     CKBOOL IsPaused();
 
-//-------------------------------------------------------------------
+    //-------------------------------------------------------------------
 
     CKMidiSound(CKContext *Context, CKSTRING name = NULL);
     virtual ~CKMidiSound();
