@@ -6,7 +6,6 @@
 
 class CKInterfaceManager : public CKBaseManager
 {
-
 public:
     virtual CK_PARAMETERUICREATORFUNCTION GetEditorFunctionForParameterType(CKParameterTypeDesc *param);
     virtual int CallBehaviorEditionFunction(CKBehavior *beh, void *arg);
