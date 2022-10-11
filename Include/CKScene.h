@@ -209,6 +209,26 @@ public:
     CKERROR ComputeObjectList(CKObjectArray *array, CK_CLASSID cid, CKBOOL derived = TRUE);
     void AddObject(CKSceneObject *o);
     void RemoveObject(CKSceneObject *o);
+
+protected:
+    int m_SceneGlobalIndex;
+    CKSODHash m_SceneObjects;
+    CKDWORD m_EnvironmentSettings;
+    CK_ID m_Level;
+    CKDWORD m_BackgroundColor;
+    CK_ID m_BackgroundTexture;
+    CK_ID m_StartingCamera;
+    CKDWORD m_AmbientLightColor;
+    CKDWORD m_FogColor;
+    VXFOG_MODE m_FogMode;
+    float m_FogStart;
+    float m_FogEnd;
+    float m_FogDensity;
+    int m_AddObjectCount;
+    int m_RemoveObjectCount;
+    XObjectPointerArray m_AddObjectList;
+    XObjectPointerArray m_RemoveObjectList;
+    XObjectPointerArray m_ObjectList;
 };
 
 #endif // CKSCENE_H
