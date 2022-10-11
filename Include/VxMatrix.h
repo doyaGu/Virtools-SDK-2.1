@@ -38,8 +38,6 @@ VX_EXPORT void Vx3DDecomposeMatrix(const VxMatrix &A, VxQuaternion &Quat, VxVect
 VX_EXPORT float Vx3DDecomposeMatrixTotal(const VxMatrix &A, VxQuaternion &Quat, VxVector &Pos, VxVector &Scale, VxQuaternion &URot);
 VX_EXPORT float Vx3DDecomposeMatrixTotalPtr(const VxMatrix &A, VxQuaternion *Quat, VxVector *Pos, VxVector *Scale, VxQuaternion *URot);
 
-VX_EXPORT void VxInverseProject(const VxMatrix &iProjection, const Vx2DVector &i2D, const float iZ, VxVector *o3D);
-
 /*****************************************
 
 {filename:VxMatrix}
@@ -51,7 +49,6 @@ public:
     VxMatrix(float m[4][4]) { memcpy(m_Data, m, sizeof(VxMatrix)); }
 
     VX_EXPORT const static VxMatrix &Identity();
-    VX_EXPORT XBOOL Compare(const VxMatrix &mat) const;
 
     // Matrix construction
     void Clear() { memset(m_Data, 0, sizeof(VxMatrix)); }
