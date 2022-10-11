@@ -284,7 +284,6 @@ inline float XFabs(float a)
 //------ Memory Management
 
 VX_EXPORT void *mynew(unsigned int n);
-VX_EXPORT void *mynewr(unsigned int,char const *,int);
 VX_EXPORT void mydelete(void *a);
 
 #define VxNew(a) (mynew(a))
