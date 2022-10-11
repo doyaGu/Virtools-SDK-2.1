@@ -10,6 +10,7 @@
 #include "CKInterfaceObjectManager.h"
 
 // Managers
+#include "CKObjectManager.h"
 #include "CKParameterManager.h"
 #include "CKTimeManager.h"
 #include "CKMessageManager.h"
