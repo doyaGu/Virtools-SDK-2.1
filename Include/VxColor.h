@@ -1,7 +1,7 @@
 #ifndef VXCOLOR_H
 #define VXCOLOR_H
 
-#include "VxMathDefines.h"
+#include "XUtil.h"
 
 #define R_SHIFT 16
 #define G_SHIFT 8
