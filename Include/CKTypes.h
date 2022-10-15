@@ -28,11 +28,11 @@ Remarks:
     + Each instance of CKObject and derived classes are automatically given a global unique
     ID at creation time. This ID can be accessed through the CKObject::GetID method.
     It is safer, though a bit slower, to reference object through their global ID than through
-    a direct pointer reference. In any case the referenced object may be deleted even though 
-    the client object has a ID for it.The client object should verify that the referenced object 
+    a direct pointer reference. In any case the referenced object may be deleted even though
+    the client object has a ID for it.The client object should verify that the referenced object
     still exists when used with the CKGetObject function.
 
-    + The global ID for an instance remains unique and unchanged through a application session, but there 
+    + The global ID for an instance remains unique and unchanged through a application session, but there
     is no guaranty that this ID will be the same when a level is saved and loaded back again.
 See also: CKObject::GetID, CKContext::GetObject
 *************************************************/
@@ -42,7 +42,7 @@ typedef unsigned long CK_ID;
 //		Type Definition										////
 //----------------------------------------------------------////
 
-typedef char* CKSTRING;
+typedef char *CKSTRING;
 typedef char CKCHAR;
 typedef int CKBOOL;
 typedef unsigned char CKBYTE;
@@ -146,25 +146,25 @@ class CKSceneObjectDesc;
 Summary: Structure containing information about a .cmo or .nmo file.
 
 Remarks:
-    + The CKContext::GetFileInfo returns this structure about a given file 
+    + The CKContext::GetFileInfo returns this structure about a given file
     giving size,compression and version info.
 See also: CKContext::GetFileInfo
 *******************************************************************************/
 typedef struct CKFileInfo
 {
     CKDWORD ProductVersion; // Virtools Version (Dev/Creation). (CK_VIRTOOLS_VERSION)
-    CKDWORD ProductBuild;	// Virtools Build Number.
-    CKDWORD FileWriteMode;	// Options used to save this file. (CK_FILE_WRITEMODE)
-    CKDWORD FileVersion;	// Version of file format when file was saved.
-    CKDWORD CKVersion;		// Version of CK when file was saved.
-    CKDWORD FileSize;		// Size of file in bytes.
-    CKDWORD ObjectCount;	// Number of objects stored in the file.
-    CKDWORD ManagerCount;	// Number of managers which saved data in the file.
-    CKDWORD MaxIDSaved;		// Maximum Object identifier saved
-    CKDWORD Crc;			// Crc of data
-    CKDWORD Hdr1PackSize;	// Reserved
+    CKDWORD ProductBuild;   // Virtools Build Number.
+    CKDWORD FileWriteMode;  // Options used to save this file. (CK_FILE_WRITEMODE)
+    CKDWORD FileVersion;    // Version of file format when file was saved.
+    CKDWORD CKVersion;      // Version of CK when file was saved.
+    CKDWORD FileSize;       // Size of file in bytes.
+    CKDWORD ObjectCount;    // Number of objects stored in the file.
+    CKDWORD ManagerCount;   // Number of managers which saved data in the file.
+    CKDWORD MaxIDSaved;     // Maximum Object identifier saved
+    CKDWORD Crc;            // Crc of data
+    CKDWORD Hdr1PackSize;   // Reserved
     CKDWORD Hdr1UnPackSize; // Reserved
-    CKDWORD DataPackSize;	// Reserved
+    CKDWORD DataPackSize;   // Reserved
     CKDWORD DataUnPackSize; // Reserved
 } CKFileInfo;
 
@@ -174,25 +174,25 @@ typedef struct CKFileInfo
 Summary: Profiling Statistics.
 
 Remarks:
-+ The CKContext::GetProfileStats method can be called in order to retrieve statistic about 
-last frame processing. 
++ The CKContext::GetProfileStats method can be called in order to retrieve statistic about
+last frame processing.
 + Times are store in milliseconds.
 See also: CKContext::EnableProfiling,CKContext::GetProfileStats,CKContext::UserProfileStart,CKContext::UserProfileEnd
 *******************************************************************************/
 typedef struct CKStats
 {
-    float TotalFrameTime;		  // Time elapsed since last frame
+    float TotalFrameTime;         // Time elapsed since last frame
     float EstimatedInterfaceTime; // Estimated time for windows and interface (TotalFrameTime - (ProcessTime+RenderTime))
-    float ProcessTime;			  // Time during last call to CKProcess
-    float RenderTime;			  // Time for rendering last scene
-    float ParametricOperations;	  // Time taken by parametric operations last frame
+    float ProcessTime;            // Time during last call to CKProcess
+    float RenderTime;             // Time for rendering last scene
+    float ParametricOperations;   // Time taken by parametric operations last frame
     float TotalBehaviorExecution; // Total behavior Execution time
-    float AnimationManagement;	  // During Behavior Execution time : Time taken in character animations processing
-    float IKManagement;			  // During Behavior Execution time : Time taken in IK solving
+    float AnimationManagement;    // During Behavior Execution time : Time taken in character animations processing
+    float IKManagement;           // During Behavior Execution time : Time taken in IK solving
     float BehaviorCodeExecution;  // During Behavior Execution time : Time taken in by code execution of behaviors
 
     int ActiveObjectsExecuted; // Number of Objects executed last frame
-    int BehaviorsExecuted;	   // TotalBehaviorExecuted last frame
+    int BehaviorsExecuted;     // TotalBehaviorExecuted last frame
     int BuildingBlockExecuted; // TotalBuildingBlock last frame
     int BehaviorLinksParsed;   // Total number of BehaviorLinks Parsed
     int BehaviorDelayedLinks;  // Total number of BehaviorLinks that have been stored as active in N frame
@@ -201,13 +201,11 @@ typedef struct CKStats
 } CKStats;
 // Warning : Do not insert new values between existing ones CK_PROFILE_CATEGORY directly refers to this struct by indexes
 
-
-
 /****************************************************************
 Summary: Render Driver description
 
 Remarks:
-+ The VxDriverDesc contains the description of a render driver. A render engine 
++ The VxDriverDesc contains the description of a render driver. A render engine
 may provide several drivers according to the installed video cards.
 + Each driver supports different pixel formats for the textures (TextureFormats)
 and display modes for fullscreen rendering (Modes).
@@ -220,10 +218,10 @@ struct VxDriverDesc
 {
     char DriverDesc[512]; // Driver Description
     char DriverName[512]; // Driver Name
-    CKBOOL IsHardware;	  // Is Driver Hardware
+    CKBOOL IsHardware;    // Is Driver Hardware
 
     int DisplayModeCount;
-    VxDisplayMode *DisplayModes;		   // Fullscreen display modes supported ( see  VxDisplayMode)
+    VxDisplayMode *DisplayModes;           // Fullscreen display modes supported ( see  VxDisplayMode)
     XSArray<VxImageDescEx> TextureFormats; // Texture formats supported by the driver (see VxImageDescEx)
 
     Vx2DCapsDesc Caps2D; // 2d Capabilities
@@ -235,22 +233,22 @@ Summary: Intersection description.
 
 Remarks:
 + This structure is filled by the CK3dEntity::RayIntersection and the
-CKRenderContext::Pick to give the details of the intersection between 
+CKRenderContext::Pick to give the details of the intersection between
 a ray and a mesh.
 + Sprite is only relevant as a result of a pick.
-+ The returned distance is the distance between the point of intersection and 
++ The returned distance is the distance between the point of intersection and
 the point of origin of the ray (in the referential given in CK3dEntity::RayIntersection)
 See Also: CK3dEntity::RayIntersection, CKRenderContext::Pick
 *****************************************************/
 struct VxIntersectionDesc
 {
-    CKRenderObject *Object;		 // Object intersected
-    VxVector IntersectionPoint;	 // Intersection point in local coordinates
+    CKRenderObject *Object;      // Object intersected
+    VxVector IntersectionPoint;  // Intersection point in local coordinates
     VxVector IntersectionNormal; // Normal at the intersection point
-    float TexU;					 // U texture coordinate at intersection point
-    float TexV;					 // V texture coordinate at intersection point
-    float Distance;				 // Distance
-    int FaceIndex;				 // Index of the face intersecting with ray or picking
+    float TexU;                  // U texture coordinate at intersection point
+    float TexV;                  // V texture coordinate at intersection point
+    float Distance;              // Distance
+    int FaceIndex;               // Index of the face intersecting with ray or picking
 };
 
 /******************************************************
@@ -265,28 +263,28 @@ See Also: CKRenderContext::GetStats
 *****************************************************/
 typedef struct VxStats
 {
-    int NbTrianglesDrawn;			  // Number of triangle primitives sent to rasterizer during one frame.
-    int NbPointsDrawn;				  // Number of points primitives sent to rasterizer during one frame.
-    int NbLinesDrawn;				  // Number of lines primitives sent to rasterizer during one frame.
-    int NbVerticesProcessed;		  // Number of vertices transformed during one frame
-    int NbObjectDrawn;				  // Number of objects drawn during one frame
-    float SmoothedFps;				  // Frame Per Second average.
-    int RenderStateCacheHit;		  // Number of render state changes that hit the cache  (redundant state)
-    int RenderStateCacheMiss;		  // Number of render state changes that missed the cache
-    float DevicePreCallbacks;		  // Time taken by render context pre render callbacks
-    float SceneTraversalTime;		  // Time taken to iterate the hierarchy and perform culling
+    int NbTrianglesDrawn;             // Number of triangle primitives sent to rasterizer during one frame.
+    int NbPointsDrawn;                // Number of points primitives sent to rasterizer during one frame.
+    int NbLinesDrawn;                 // Number of lines primitives sent to rasterizer during one frame.
+    int NbVerticesProcessed;          // Number of vertices transformed during one frame
+    int NbObjectDrawn;                // Number of objects drawn during one frame
+    float SmoothedFps;                // Frame Per Second average.
+    int RenderStateCacheHit;          // Number of render state changes that hit the cache  (redundant state)
+    int RenderStateCacheMiss;         // Number of render state changes that missed the cache
+    float DevicePreCallbacks;         // Time taken by render context pre render callbacks
+    float SceneTraversalTime;         // Time taken to iterate the hierarchy and perform culling
     float TransparentObjectsSortTime; // Time taken to sort transparent 3d objects
-    float ObjectsRenderTime;		  // Time taken to draw 3D Objects
+    float ObjectsRenderTime;          // Time taken to draw 3D Objects
                                       // (this time can be very short (especially with T&L cards) as it does not
                                       // reflect the real rendering time , but time taken to send the commands to the card...
-    float ObjectsCallbacksTime;		  // Time taken by 3D objects pre- and post-render callbacks
-    float SkinTime;					  // Time taken to compute skins
-    float SpriteTime;				  // Time taken to render 2D Entities
-    float SpriteCallbacksTime;		  // Time taken by 2D entities pre- and post-render callbacks
-    float DevicePostCallbacks;		  // Time taken by render context post render callbacks
-    float BackToFrontTime;			  // Time taken to perform the back buffer presentation on screen.
+    float ObjectsCallbacksTime;       // Time taken by 3D objects pre- and post-render callbacks
+    float SkinTime;                   // Time taken to compute skins
+    float SpriteTime;                 // Time taken to render 2D Entities
+    float SpriteCallbacksTime;        // Time taken by 2D entities pre- and post-render callbacks
+    float DevicePostCallbacks;        // Time taken by render context post render callbacks
+    float BackToFrontTime;            // Time taken to perform the back buffer presentation on screen.
                                       // It can be longer due to 3d objects asynchronous drawing(see ObjectsRenderTime)
-    float ClearTime;				  // Time taken by clear back,z,(stencil) buffers
+    float ClearTime;                  // Time taken by clear back,z,(stencil) buffers
     CKDWORD Reserved1;
 } VxStats;
 
@@ -297,7 +295,7 @@ Summary: Global Unique Identifier Structure.
 
 Remarks:
 + Guids are used to uniquely identify plugins,operation types, parameter types and behavior prototypes.
-+ Its defined as 
++ Its defined as
 
         typedef struct CKGUID {
             union {
@@ -306,7 +304,7 @@ Remarks:
                 };
         };
 
-+ Comparison operators are defined so CKGUIDS can be compared with 
++ Comparison operators are defined so CKGUIDS can be compared with
 ==,!= ,<,> operators.
 
 See also: Pre-Registered Parameter Types,ParameterOperation Types
@@ -392,7 +390,7 @@ o Effects provide additional functionalities to take advantage of graphic featur
 o When an effect is enabled on a material (CKMaterial::SetEffect) it may override the default settings of mesh channels or material blend options
 o New effects can be created by providing a callback function (see CKRenderManager::AddEffect)
 o This enumeration provides the list of hardcoded existing effects.
-o Most of this effect are heavily hardware and device (DX8,DX7,etc..) dependant 
+o Most of this effect are heavily hardware and device (DX8,DX7,etc..) dependant
 See also: CKMaterial::SetEffect,CKMaterial::GetEffect,CKRenderManager::AddEffect
 ******************************************************************/
 typedef enum VX_EFFECT
@@ -409,15 +407,15 @@ typedef enum VX_EFFECT
 
 typedef enum VX_EFFECTTEXGEN
 {
-    VXEFFECT_TGNONE				= 0UL,	// No TexGen
-    VXEFFECT_TGTRANSFORM		= 1UL,	// Normal texture coordinates are used transformed by the referential matrix
-    VXEFFECT_TGREFLECT			= 2UL,	// Use vertex position and normal to compute a reflection vector used as tex coords
-    VXEFFECT_TGCHROME			= 3UL,	// Use vertex normal as tex coords
-    VXEFFECT_TGPLANAR			= 4UL,	// Use vertex position as tex coords
+    VXEFFECT_TGNONE             = 0UL,	// No TexGen
+    VXEFFECT_TGTRANSFORM        = 1UL,	// Normal texture coordinates are used transformed by the referential matrix
+    VXEFFECT_TGREFLECT          = 2UL,	// Use vertex position and normal to compute a reflection vector used as tex coords
+    VXEFFECT_TGCHROME           = 3UL,	// Use vertex normal as tex coords
+    VXEFFECT_TGPLANAR           = 4UL,	// Use vertex position as tex coords
 
-    VXEFFECT_TGCUBEMAP_REFLECT	= 31UL,	// Cube Map : Use vertex position and normal to compute a reflection vector used as tex coords
-    VXEFFECT_TGCUBEMAP_SKYMAP	= 32UL,	// Cube Map : Use vertex position as tex coords
-    VXEFFECT_TGCUBEMAP_NORMALS	= 33UL,	// Cube Map : Use vertex normal as tex coords
+    VXEFFECT_TGCUBEMAP_REFLECT  = 31UL,	// Cube Map : Use vertex position and normal to compute a reflection vector used as tex coords
+    VXEFFECT_TGCUBEMAP_SKYMAP   = 32UL,	// Cube Map : Use vertex position as tex coords
+    VXEFFECT_TGCUBEMAP_NORMALS  = 33UL,	// Cube Map : Use vertex normal as tex coords
     VXEFFECT_TGCUBEMAP_POSITIONS= 34UL,	// Cube Map : Use vertex position a tex coords
 } VX_EFFECTTEXGEN;
 
@@ -436,10 +434,10 @@ See also: CKMaterial::SetEffect,CKMaterial::GetEffect,CKRenderManager::AddEffect
 ******************************************************************/
 typedef enum VX_EFFECTCALLBACK_RETVAL
 {
-    VXEFFECTRETVAL_SKIPNONE		= 0UL,	
-    VXEFFECTRETVAL_SKIPTEXMAT	= 1UL,			// Texture matrix has been set by the callback , material must not set it	   
-    VXEFFECTRETVAL_SKIPALLTEX	= 2UL,			// Texture stages has been set by the callback , material must not set them	   
-    VXEFFECTRETVAL_SKIPALL		= 0xFFFFFFFFUL,	// The Effect has set all the needed render states , no other processing should be done by the material
+    VXEFFECTRETVAL_SKIPNONE     = 0UL,
+    VXEFFECTRETVAL_SKIPTEXMAT   = 1UL,          // Texture matrix has been set by the callback , material must not set it
+    VXEFFECTRETVAL_SKIPALLTEX   = 2UL,          // Texture stages has been set by the callback , material must not set them
+    VXEFFECTRETVAL_SKIPALL      = 0xFFFFFFFFUL, // The Effect has set all the needed render states , no other processing should be done by the material
 } VX_EFFECTCALLBACK_RETVAL;
 
 /****************************************************************
@@ -465,17 +463,17 @@ See also: VX_EFFECT,CKRenderManager::AddEffect,CKRenderManager::GetEffectDescrip
 ******************************************************************/
 typedef struct VxEffectDescription
 {
-    VX_EFFECT EffectIndex;		   // Index of this effect ( when using CKRenderManager::AddEffect the return value is the index of the newly added effect) so this member is ignored.
-    XString Summary;			   // A short name that will be used for enumeration creation (eg. "Bump Map")
-    XString Description;		   // A longer description that will appear in the interface to explain the effect to the user...
-    XString DescImage;			   // An image file that can be used to be displayed in the interface
-    int MaxTextureCount;		   // Number of textures that can be set on the material (CKMaterial::SetTexture)
+    VX_EFFECT EffectIndex;         // Index of this effect ( when using CKRenderManager::AddEffect the return value is the index of the newly added effect) so this member is ignored.
+    XString Summary;               // A short name that will be used for enumeration creation (eg. "Bump Map")
+    XString Description;           // A longer description that will appear in the interface to explain the effect to the user...
+    XString DescImage;             // An image file that can be used to be displayed in the interface
+    int MaxTextureCount;           // Number of textures that can be set on the material (CKMaterial::SetTexture)
     int NeededTextureCoordsCount;  // Number of texture coordinates that must be set on the mesh  for this effect to work (this is directly related to the number of channel you should set on the mesh that will use this effect)
-    XString Tex1Description;	   // A short description for texture 1
-    XString Tex2Description;	   // A short description for texture 2
-    XString Tex3Description;	   // A short description for texture 3
+    XString Tex1Description;       // A short description for texture 1
+    XString Tex2Description;       // A short description for texture 2
+    XString Tex3Description;       // A short description for texture 3
     CK_EFFECTCALLBACK SetCallback; // A callback function that will be called to set up the effect if NULL the effect is likely to be hardcoded in render engine
-    void *CallbackArg;			   // Arguments that will be given to the callback function
+    void *CallbackArg;             // Arguments that will be given to the callback function
     CKGUID ParameterType;
     XString ParameterDescription;
     XString ParameterDefaultValue;
@@ -494,20 +492,20 @@ See Also: Writing the Execution Function,Writing the Behavior Callback Function,
 *******************************************************/
 struct CKBehaviorContext
 {
-    CKBehavior *Behavior;	// Pointer to executed behavior
-    float DeltaTime;		// Last Delta-Time in milliseconds since previous frame.
-    CKContext *Context;		// The CKContext this behavior belongs to.
-    CKLevel *CurrentLevel;	// A Pointer to the current CKLevel
-    CKScene *CurrentScene;	// A Pointer to the current CKScene
+    CKBehavior *Behavior;   // Pointer to executed behavior
+    float DeltaTime;        // Last Delta-Time in milliseconds since previous frame.
+    CKContext *Context;     // The CKContext this behavior belongs to.
+    CKLevel *CurrentLevel;  // A Pointer to the current CKLevel
+    CKScene *CurrentScene;  // A Pointer to the current CKScene
     CKScene *PreviousScene; // A Pointer to the previous CKScene if available
 
     CKRenderContext *CurrentRenderContext; // A Pointer to the main CKRenderContext
     CKParameterManager *ParameterManager;  // A Pointer to the ParameterManager
-    CKMessageManager *MessageManager;	   // A Pointer to the MessageManager
+    CKMessageManager *MessageManager;      // A Pointer to the MessageManager
     CKAttributeManager *AttributeManager;  // A Pointer to the AttributeManager
-    CKTimeManager *TimeManager;			   // A Pointer to the TimeManager
-    CKDWORD CallbackMessage;			   // Specific to behavior callback function, reason for
-    void *CallbackArg;					   //
+    CKTimeManager *TimeManager;            // A Pointer to the TimeManager
+    CKDWORD CallbackMessage;               // Specific to behavior callback function, reason for
+    void *CallbackArg;                     //
 
     CKBehaviorContext()
     {
@@ -522,20 +520,20 @@ class XObjectArray;
 
 typedef enum CK_UICALLBACK_REASON
 {
-    CKUIM_LOADSAVEPROGRESS      = 1,	// NbObjectLoaded,NbObjetsToLoad
-    CKUIM_DEBUGMESSAGESEND      = 2,	// DebugMessageSent
-    CKUIM_OUTTOCONSOLE          = 3,	// DoBeep,ConsoleString
-    CKUIM_OUTTOINFOBAR          = 4,	// ConsoleString
-    CKUIM_SHOWSETUP             = 5,	// Objects
-    CKUIM_SELECT                = 6,	// ObjectID
-    CKUIM_CHOOSEOBJECT          = 7,	// Return value in ObjectID
-    CKUIM_EDITOBJECT            = 8,	// ID of object in Param1 / ObjectID
-    CKUIM_CREATEINTERFACECHUNK  = 9,	// Objects
-    CKUIM_COPYOBJECTS           = 10,	// Copy CK_ID objects
-    CKUIM_PASTEOBJECTS          = 11,	// Paste CK_ID objects
-    CKUIM_SCENEADDEDTOLEVEL     = 12,	// Scene ID
-    CKUIM_REFRESHBUILDINGBLOCKS = 13,	// param1 = CKGUID*, param2 = count
-    CKUIM_DOMESSAGELOOP         = 14,	// Do a standard loop of windows messages processing
+    CKUIM_LOADSAVEPROGRESS      = 1,    // NbObjectLoaded,NbObjetsToLoad
+    CKUIM_DEBUGMESSAGESEND      = 2,    // DebugMessageSent
+    CKUIM_OUTTOCONSOLE          = 3,    // DoBeep,ConsoleString
+    CKUIM_OUTTOINFOBAR          = 4,    // ConsoleString
+    CKUIM_SHOWSETUP             = 5,    // Objects
+    CKUIM_SELECT                = 6,    // ObjectID
+    CKUIM_CHOOSEOBJECT          = 7,    // Return value in ObjectID
+    CKUIM_EDITOBJECT            = 8,    // ID of object in Param1 / ObjectID
+    CKUIM_CREATEINTERFACECHUNK  = 9,    // Objects
+    CKUIM_COPYOBJECTS           = 10,   // Copy CK_ID objects
+    CKUIM_PASTEOBJECTS          = 11,   // Paste CK_ID objects
+    CKUIM_SCENEADDEDTOLEVEL     = 12,   // Scene ID
+    CKUIM_REFRESHBUILDINGBLOCKS = 13,   // param1 = CKGUID*, param2 = count
+    CKUIM_DOMESSAGELOOP         = 14,   // Do a standard loop of windows messages processing
 } CK_UICALLBACK_REASON;
 
 typedef struct CKUICallbackStruct
