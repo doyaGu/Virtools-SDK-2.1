@@ -1,11 +1,9 @@
 #ifndef VXMATHCOMPILER_H
 #define VXMATHCOMPILER_H
 
-// Compiler-specific macros for VxMath.
+#include "VxMathConfig.h"
 
-#ifndef __cplusplus
-#   error "C++ compiler required."
-#endif
+// Compiler-specific macros for VxMath.
 
 #if defined(_MSC_VER)
 #   define VX_MSVC _MSC_VER
@@ -16,11 +14,8 @@
 #if defined(_MSC_VER) // Microsoft Visual C++
 #   if _MSC_VER < 1200 // Visual Studio 6.0
 #       error "Unsupported compiler."
-#   endif
-#   if _MSC_VER >= 1400 // .Net 2005 and higher
-#       ifndef _CRT_SECURE_NO_WARNINGS
-#           define _CRT_SECURE_NO_WARNINGS
-#       endif
+#   elif _MSC_VER >= 1400 // .Net 2005 and higher
+#       pragma warning(disable : 4996)
 #   endif
 #endif
 
