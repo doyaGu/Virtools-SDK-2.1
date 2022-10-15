@@ -65,7 +65,7 @@ VX_EXPORT void VxDoBlitUpsideDown(const VxImageDescEx &src_desc, const VxImageDe
 VX_EXPORT void VxDoAlphaBlit(const VxImageDescEx &dst_desc, XBYTE AlphaValue);
 VX_EXPORT void VxDoAlphaBlit(const VxImageDescEx &dst_desc, XBYTE *AlphaValues);
 
-static inline XULONG GetBitCount(XULONG dwMask)
+inline XULONG GetBitCount(XULONG dwMask)
 {
     XULONG count = 0;
     if (dwMask != 0)
@@ -85,7 +85,7 @@ static inline XULONG GetBitCount(XULONG dwMask)
     return count;
 }
 
-static inline XULONG GetBitShift(XULONG dwMask)
+inline XULONG GetBitShift(XULONG dwMask)
 {
     XULONG shift = 0;
     if (dwMask != 0 && (dwMask & 1) == 0)
@@ -99,7 +99,7 @@ static inline XULONG GetBitShift(XULONG dwMask)
     return shift;
 }
 
-static inline void VxGetBitCounts(const VxImageDescEx &desc, XULONG &Rbits, XULONG &Gbits, XULONG &Bbits, XULONG &Abits)
+inline void VxGetBitCounts(const VxImageDescEx &desc, XULONG &Rbits, XULONG &Gbits, XULONG &Bbits, XULONG &Abits)
 {
     Abits = GetBitCount(desc.AlphaMask);
     Rbits = GetBitCount(desc.RedMask);
@@ -107,7 +107,7 @@ static inline void VxGetBitCounts(const VxImageDescEx &desc, XULONG &Rbits, XULO
     Bbits = GetBitCount(desc.BlueMask);
 }
 
-static inline void VxGetBitShifts(const VxImageDescEx &desc, XULONG &Rshift, XULONG &Gshift, XULONG &Bshift, XULONG &Ashift)
+inline void VxGetBitShifts(const VxImageDescEx &desc, XULONG &Rshift, XULONG &Gshift, XULONG &Bshift, XULONG &Ashift)
 {
     Ashift = GetBitShift(desc.AlphaMask);
     Rshift = GetBitShift(desc.RedMask);
@@ -137,7 +137,7 @@ VX_EXPORT XULONG GetProcessorFeatures();
 VX_EXPORT void ModifyProcessorFeatures(XULONG Add, XULONG Remove);
 VX_EXPORT ProcessorsType GetProcessorType();
 
-static inline XBOOL VxPtInRect(CKRECT *rect, CKPOINT *pt)
+inline XBOOL VxPtInRect(CKRECT *rect, CKPOINT *pt)
 {
     return pt->x >= rect->left &&
            pt->x <= rect->right &&
