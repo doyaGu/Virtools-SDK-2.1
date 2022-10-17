@@ -64,6 +64,14 @@
 #   define END_CDECLS
 #endif
 
+#ifndef VX_NOEXCEPT
+#   if (__cplusplus >= 201103L) || (defined(_MSC_VER) && _MSC_VER >= 1900)
+#       define VX_NOEXCEPT noexcept
+#   else
+#       define VX_NOEXCEPT throw()
+#   endif
+#endif
+
 #ifndef VX_DEPRECATED
 #   if defined(_MSC_VER)
 #       define VX_DEPRECATED deprecated
