@@ -33,22 +33,22 @@ Example:
 
 See also: CKPathMaker
 ***********************************************************************/
-class VX_EXPORT CKPathSplitter
+class CKPathSplitter
 {
 public:
     // Constructs the object from a full path.
-    CKPathSplitter(char *file);
+    VX_EXPORT CKPathSplitter(char *file);
 
-    ~CKPathSplitter();
+    VX_EXPORT ~CKPathSplitter();
 
     // Returns the optional drive letter, followed by a colon (:)
-    char *GetDrive();
+    char *GetDrive() { return m_Drive; }
     // Returns the optional directory path, including trailing slash (\)
-    char *GetDir();
+    char *GetDir() { return m_Dir; }
     // Returns the file name without extension
-    char *GetName();
+    char *GetName() { return m_Fname; }
     // Returns the file extension including period (.)
-    char *GetExtension();
+    char *GetExtension() { return m_Ext; }
 
 protected:
     char m_Drive[_MAX_DRIVE];
@@ -78,13 +78,13 @@ Example:
 
 See also: CKPathSplitter
 ***********************************************************************/
-class VX_EXPORT CKPathMaker
+class CKPathMaker
 {
 public:
     // Constructs the object from an optional Drive letter,Directory,Filename and Extension.
-    CKPathMaker(char *Drive, char *Directory, char *Fname, char *Extension);
+    VX_EXPORT CKPathMaker(char *Drive, char *Directory, char *Fname, char *Extension);
     // Returns the full path.
-    char *GetFileName();
+    char *GetFileName() { return m_FileName; }
 
 protected:
     char m_FileName[_MAX_PATH];
