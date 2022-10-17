@@ -140,4 +140,12 @@
 #   endif
 #endif
 
+#ifndef VX_SELECTANY
+#   if defined(_MSC_VER)
+#       define VX_SELECTANY __declspec(selectany)
+#   elif defined(__GNUC__)
+#       define VX_SELECTANY
+#   endif
+#endif
+
 #endif // VXMATHCOMPILER_H
