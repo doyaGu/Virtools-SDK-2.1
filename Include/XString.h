@@ -206,6 +206,19 @@ public:
         memcpy(m_Buffer, iSrc.m_Buffer, m_Allocated);
     }
 
+#if __cplusplus >= 201103L
+    // Move Ctor
+    XString(XString &&iSrc) VX_NOEXCEPT : XBaseString()
+    {
+        m_Buffer = iSrc.m_Buffer;
+        m_Length = iSrc.m_Length;
+        m_Allocated = iSrc.m_Allocated;
+        iSrc.m_Buffer = NULL;
+        iSrc.m_Length = 0;
+        iSrc.m_Allocated = 0;
+    }
+#endif
+
     // Dtor
     ~XString() { VxDelete(m_Buffer); }
 
@@ -213,7 +226,12 @@ public:
     XString &operator=(const XString &iSrc)
     {
         if (this != &iSrc)
-            Assign(iSrc.m_Buffer, iSrc.m_Length);
+        {
+            XString temp(iSrc);
+            XSwap(m_Buffer, temp.m_Buffer);
+            XSwap(m_Length, temp.m_Length);
+            XSwap(m_Allocated, temp.m_Allocated);
+        }
         return *this;
     }
 
@@ -240,6 +258,24 @@ public:
             Assign(iSrc.m_Buffer, iSrc.m_Length);
         return *this;
     }
+
+#if __cplusplus >= 201103L
+    // operator =
+    XString &operator=(XString &&iSrc) VX_NOEXCEPT
+    {
+        if (this != &iSrc)
+        {
+            VxDelete(m_Buffer);
+            m_Buffer = iSrc.m_Buffer;
+            m_Length = iSrc.m_Length;
+            m_Allocated = iSrc.m_Allocated;
+            iSrc.m_Buffer = NULL;
+            iSrc.m_Length = 0;
+            iSrc.m_Allocated = 0;
+        }
+        return *this;
+    }
+#endif
 
     // Create from a string and a length
     XString &Create(const char *iString, const int iLength = 0)
