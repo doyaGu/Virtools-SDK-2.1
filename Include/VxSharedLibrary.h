@@ -26,16 +26,25 @@ class VxSharedLibrary
 {
 public:
     // Creates an unattached VxLibrary
-    VX_EXPORT VxSharedLibrary();
+    VxSharedLibrary() : m_LibraryHandle(NULL) {}
 
-    // Attaches a existing Library to a VxLibrary
-    VX_EXPORT void Attach(INSTANCE_HANDLE LibraryHandle);
+    // Attaches an existing Library to a VxLibrary
+    void Attach(INSTANCE_HANDLE LibraryHandle)
+    {
+        m_LibraryHandle = LibraryHandle;
+    }
 
     // Loads the shared Library from disk
     VX_EXPORT INSTANCE_HANDLE Load(char *LibraryName);
 
     // Unloads the shared Library
     VX_EXPORT void ReleaseLibrary();
+
+    template <typename T>
+    T GetFunction(const char *func)
+    {
+        return reinterpret_cast<T>(GetFunctionPtr(func));
+    }
 
     // Retrieves a function pointer from the library
     VX_EXPORT void *GetFunctionPtr(char *FunctionName);
