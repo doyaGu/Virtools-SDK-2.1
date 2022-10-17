@@ -143,7 +143,7 @@ private:
 
     static XHashTable<VxThread *, GENERIC_HANDLE> &GetHashThread();
 
-    static XULONG __stdcall ThreadFunc(void *args);
+    static XULONG VX_STDCALL ThreadFunc(void *args);
 
     GENERIC_HANDLE m_Thread;
 
