@@ -149,13 +149,13 @@ public:
         {
             m_Buffer = NULL;
             m_Length = 0;
-            return;
+        } else {
+            m_Length = (iLength > 0) ? iLength : (XWORD)strlen(iString);
+            m_Allocated = m_Length + 1;
+            m_Buffer = (char *)VxNew(sizeof(char) * m_Allocated);
+            strncpy(m_Buffer, iString, m_Length);
+            m_Buffer[m_Length] = '\0';
         }
-
-        m_Length = (iLength > 0) ? iLength : (XWORD)strlen(iString);
-        m_Allocated = m_Length + 1;
-        m_Buffer = (char *)VxNew(sizeof(char) * m_Allocated);
-        strncpy(m_Buffer, iString, m_Length);
     }
 
     // Reserving Ctor
@@ -286,6 +286,7 @@ public:
         {
             m_Length = iLength;
             strncpy(m_Buffer, iString, iLength);
+            m_Buffer[m_Length] = '\0';
         }
         return *this;
     }
@@ -887,7 +888,7 @@ public:
             m_Allocated = iLength + 1;
             char *buf = (char *)VxNew(sizeof(char) * (iLength + 1));
             if (m_Length != 0)
-                strncpy(buf, m_Buffer, m_Length);
+                strncpy(buf, m_Buffer, m_Length + 1);
             VxDelete(m_Buffer);
             m_Buffer = buf;
         }
@@ -948,6 +949,7 @@ protected:
             CheckSize(iLength);
             m_Length = iLength;
             strncpy(m_Buffer, iBuffer, iLength);
+            m_Buffer[m_Length] = '\0';
         }
         else if (m_Buffer)
         {
