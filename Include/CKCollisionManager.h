@@ -404,8 +404,6 @@ public:
     See also: IsInCollision,IsHierarchyInCollisionWithHierarchy
     *************************************************/
     virtual CKBOOL IsHierarchyInCollisionWithHierarchy(CK3dEntity *ent, CK_GEOMETRICPRECISION precis_level1, CK3dEntity *ent2, CK_GEOMETRICPRECISION precis_level2, CK3dEntity **sub, CK3dEntity **subob) = 0;
-
-    virtual CK3dEntity *ObstacleBetween(const VxVector &pos, const VxVector &endpos, CKBOOL iFace = TRUE, CKBOOL iFirstContact = FALSE, CKBOOL iIgnoreAlpha = FALSE, VxIntersectionDesc *oDesc = NULL) = 0;
 };
 
 #endif // CKCOLLISION_MANAGER_H
