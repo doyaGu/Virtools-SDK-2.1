@@ -752,13 +752,13 @@ public:
     {
         if (iString)
         {
-            Assign(iString, strlen(iString));
-        }
-        else
-        {
-            m_Length = 0;
-            if (m_Buffer)
-                m_Buffer[0] = '\0';
+            int len = strlen(iString);
+            if (len != 0)
+            {
+                CheckSize(m_Length + len);
+                strncpy(&m_Buffer[m_Length], iString, len + 1);
+                m_Length += len;
+            }
         }
         return *this;
     }
