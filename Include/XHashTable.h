@@ -21,7 +21,7 @@ class XHashTableEntry
     typedef XHashTableEntry<T, K> *tEntry;
 
 public:
-    XHashTableEntry() : m_Key(0), m_Data(0), m_Next(NULL) {}
+    XHashTableEntry() : m_Key(), m_Data(), m_Next(NULL) {}
     XHashTableEntry(const K &k, const T &v) : m_Key(k), m_Data(v), m_Next(NULL) {}
     XHashTableEntry(const XHashTableEntry<T, K> &e) : m_Key(e.m_Key), m_Data(e.m_Data), m_Next(NULL) {}
     ~XHashTableEntry() {}
