@@ -362,7 +362,7 @@ public:
     virtual CKERROR OnCKPause() { return CK_OK; }
 
     /*************************************************
-    Summary: Called when the process loop is started .
+    Summary: Called when the process loop is started.
 
     Return Value:
         CK_OK if successful or an error code otherwise.
@@ -509,7 +509,7 @@ public:
     virtual CKERROR OnPreRender(CKRenderContext *dev) { return CK_OK; }
 
     /*************************************************
-    Summary: Called after the rendering of the 3D objects .
+    Summary: Called after the rendering of the 3D objects.
 
     Return Value:
         CK_OK if successful or an error code otherwise.
