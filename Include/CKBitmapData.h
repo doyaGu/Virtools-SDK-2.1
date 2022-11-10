@@ -588,7 +588,6 @@ public:
     ~CKBitmapData();
 
 public:
-    CKContext *m_CKContext;
     CKMovieInfo *m_MovieInfo;
     XArray<CKBitmapSlot *> m_Slots;
     int m_Width;
