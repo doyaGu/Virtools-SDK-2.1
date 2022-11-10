@@ -171,7 +171,7 @@ public:
     void WriteDwordAsWords(CKDWORD data);
     void WriteInt(int data);
     void WriteFloat(float data);
-    void WriteString(const char *str);
+    void WriteString(char *str);
     void WriteObjectID(CK_ID obj);
     void WriteObject(CKObject *obj);
     void WriteGuid(CKGUID data);
