@@ -85,6 +85,12 @@ typedef unsigned long XULONG;
 #define NULL 0
 #endif
 
+#ifdef WIN32
+#define ENDIANSWAP16(x)
+#define ENDIANSWAP32(x)		
+#define ENDIANSWAPFLOAT(x)
+#endif
+
 typedef int (VX_STDCALL *FUNC_PTR)();
 typedef void *WIN_HANDLE;
 typedef void *INSTANCE_HANDLE;
