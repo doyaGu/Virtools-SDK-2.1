@@ -22,7 +22,7 @@ typedef enum VXTHREAD_STATE
     VXTS_MAIN     = 0x00000001L,	// The thread is the main thread
     VXTS_CREATED  = 0x00000002L,	// The system thread associated with the current thread object was correctly created.
     VXTS_STARTED  = 0x00000004L,	// The thread has been started.
-    VXTS_JOINABLE = 0x00000008L	// The thread is joinable (it means you can call VxThread::Join). Under Windows thread are always joinable.
+    VXTS_JOINABLE = 0x00000008L	    // The thread is joinable (it means you can call VxThread::Join). Under Windows thread are always joinable.
 } VXTHREAD_STATE;
 
 /*************************************************

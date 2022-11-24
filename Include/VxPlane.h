@@ -151,8 +151,7 @@ public:
     See Also:Distance
     ************************************************/
     // Intersection Box - Plane
-    float
-    ClassifyFace(const VxVector &pt0, const VxVector &pt1, const VxVector &pt2) const
+    float ClassifyFace(const VxVector &pt0, const VxVector &pt1, const VxVector &pt2) const
     {
         float d = Classify(pt0);
         float min = d;

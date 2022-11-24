@@ -13,7 +13,6 @@ typedef enum CKDEBUG_STATE
 
 class CKDebugContext
 {
-
 public:
     float delta;
 
