@@ -40,10 +40,12 @@ public:
     VX_EXPORT int GetNumberOfSubSectionsRecursive() const;
     VX_EXPORT int GetNumberOfEntriesRecursive() const;
 
-    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, const char *evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, int evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, unsigned int evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, float evalue, VxConfigurationEntry **result = 0);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, const char *evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, int evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, long evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, unsigned int evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, unsigned long evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT XBOOL AddEntry(char *parent, char *ename, float evalue, VxConfigurationEntry **result = NULL);
     VX_EXPORT VxConfigurationSection *CreateSubSection(char *parent, char *sname);
 
     VX_EXPORT XBOOL DeleteEntry(char *parent, char *ename);
@@ -53,7 +55,9 @@ public:
 
     VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, const char *evalue);
     VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, int evalue);
+    VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, long evalue);
     VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, unsigned int evalue);
+    VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, unsigned long evalue);
     VX_EXPORT XBOOL AddDefaultEntry(char *parent, char *ename, float evalue);
     VX_EXPORT VxConfigurationSection *CreateDefaultSubSection(char *parent, char *sname);
 
@@ -96,11 +100,12 @@ public:
     VX_EXPORT int GetNumberOfSubSectionsRecursive() const;
     VX_EXPORT int GetNumberOfEntriesRecursive() const;
 
-    VX_EXPORT void AddEntry(char *ename, const char *evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT void AddEntry(char *ename, int evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT void AddEntry(char *ename, long evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT void AddEntry(char *ename, unsigned int evalue, VxConfigurationEntry **result = 0);
-    VX_EXPORT void AddEntry(char *ename, float evalue, VxConfigurationEntry **result = 0);
+    VX_EXPORT void AddEntry(char *ename, const char *evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT void AddEntry(char *ename, int evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT void AddEntry(char *ename, long evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT void AddEntry(char *ename, unsigned int evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT void AddEntry(char *ename, unsigned long evalue, VxConfigurationEntry **result = NULL);
+    VX_EXPORT void AddEntry(char *ename, float evalue, VxConfigurationEntry **result = NULL);
 
     VX_EXPORT VxConfigurationSection *CreateSubSection(char *sname);
 
@@ -139,19 +144,24 @@ public:
     VX_EXPORT void SetValue(int value);
     VX_EXPORT void SetValue(long value);
     VX_EXPORT void SetValue(unsigned int value);
+    VX_EXPORT void SetValue(unsigned long value);
     VX_EXPORT void SetValue(float value);
 
     VX_EXPORT const char *GetName() const;
     VX_EXPORT VxConfigurationSection *GetParent() const;
     VX_EXPORT const char *GetValue() const;
     VX_EXPORT XBOOL GetValueAsInteger(int &value) const;
+    VX_EXPORT XBOOL GetValueAsLong(long &value) const;
     VX_EXPORT XBOOL GetValueAsUnsignedInteger(unsigned int &value) const;
+    VX_EXPORT XBOOL GetValueAsUnsignedLong(unsigned long &value) const;
     VX_EXPORT XBOOL GetValueAsFloat(float &value) const;
 
 protected:
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, const char *value);
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, int value);
+    VxConfigurationEntry(VxConfigurationSection *parent, const char *name, long value);
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, unsigned int value);
+    VxConfigurationEntry(VxConfigurationSection *parent, const char *name, unsigned long value);
     VxConfigurationEntry(VxConfigurationSection *parent, const char *name, float value);
 
     XString m_Name;
