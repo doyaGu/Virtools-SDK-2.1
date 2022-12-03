@@ -65,6 +65,11 @@ public:
         return m_Length;
     }
 
+    XBOOL Empty() const
+    {
+        return m_Length == 0;
+    }
+
     /************************************************
     Summary: Conversion to a const char* (read only).
     ************************************************/
@@ -168,9 +173,9 @@ public:
             return;
         }
 
-        m_Length = iLength - 1;
-        m_Allocated = iLength;
-        m_Buffer = (char *)VxNew(sizeof(char) * iLength);
+        m_Length = 0;
+        m_Allocated = iLength + 1;
+        m_Buffer = (char *)VxNew(sizeof(char) * (iLength + 1));
         memset(m_Buffer, 0, m_Allocated);
     }
 
@@ -206,7 +211,7 @@ public:
         memcpy(m_Buffer, iSrc.m_Buffer, m_Allocated);
     }
 
-#if __cplusplus >= 201103L
+#if VX_HAS_CXX11
     // Move Ctor
     XString(XString &&iSrc) VX_NOEXCEPT : XBaseString()
     {
@@ -259,7 +264,7 @@ public:
         return *this;
     }
 
-#if __cplusplus >= 201103L
+#if VX_HAS_CXX11
     // operator =
     XString &operator=(XString &&iSrc) VX_NOEXCEPT
     {
@@ -379,9 +384,9 @@ public:
     *************************************************/
     int Compare(const XBaseString &iStr) const
     {
-        if (!m_Length)
+        if (m_Length == 0)
             return -iStr.m_Length; // Null strings
-        if (!iStr.m_Length)
+        if (iStr.m_Length == 0)
             return m_Length;
 
         char *s1 = m_Buffer;
@@ -414,9 +419,9 @@ public:
     *************************************************/
     int NCompare(const XBaseString &iStr, const int iN) const
     {
-        if (!m_Length)
+        if (m_Length == 0)
             return -iStr.m_Length; // Null strings
-        if (!iStr.m_Length)
+        if (iStr.m_Length == 0)
             return m_Length;
 
         return strncmp(m_Buffer, iStr.m_Buffer, iN);
@@ -425,9 +430,9 @@ public:
     // Compare the strings (ignore the case).
     int ICompare(const XBaseString &iStr) const
     {
-        if (!m_Length)
+        if (m_Length == 0)
             return -iStr.m_Length; // Null strings
-        if (!iStr.m_Length)
+        if (iStr.m_Length == 0)
             return m_Length;
 
         char *s1 = m_Buffer;
@@ -439,6 +444,27 @@ public:
             c1 = tolower(*(s1++));
             c2 = tolower(*(s2++));
         } while (*s1 != '\0' && (c1 == c2));
+
+        return tolower(*s1) - tolower(*s2);
+    }
+
+    int NICompare(const XBaseString &iStr, const int iN) const
+    {
+        if (m_Length == 0)
+            return -iStr.m_Length; // Null strings
+        if (iStr.m_Length == 0)
+            return m_Length;
+
+        char *s1 = m_Buffer;
+        char *s2 = iStr.m_Buffer;
+
+        int index = 0;
+        char c1, c2;
+        do
+        {
+            c1 = tolower(*(s1++));
+            c2 = tolower(*(s2++));
+        } while (index++ < iN && *s1 != '\0' && (c1 == c2));
 
         return tolower(*s1) - tolower(*s2);
     }
@@ -520,6 +546,44 @@ public:
         return Find(iStr) != NOTFOUND;
     }
 
+    XBOOL StartsWith(const XBaseString &iStr) const
+    {
+        if (m_Length >= iStr.m_Length)
+        {
+            return NCompare(iStr, iStr.m_Length) == 0;
+        }
+        return FALSE;
+    }
+
+    XBOOL IStartsWith(const XBaseString &iStr) const
+    {
+        if (m_Length >= iStr.m_Length)
+        {
+            return NICompare(iStr, iStr.m_Length) == 0;
+        }
+        return FALSE;
+    }
+
+    XBOOL EndsWith(const XBaseString &iStr) const
+    {
+        if (m_Length >= iStr.m_Length)
+        {
+            XString buffer(m_Buffer + (m_Length - iStr.m_Length));
+            return buffer.NCompare(iStr, iStr.m_Length) == 0;
+        }
+        return FALSE;
+    }
+
+    XBOOL IEndsWith(const XBaseString &iStr) const
+    {
+        if (m_Length >= iStr.m_Length)
+        {
+            XString buffer(m_Buffer + (m_Length - iStr.m_Length));
+            return buffer.NICompare(iStr, iStr.m_Length) == 0;
+        }
+        return FALSE;
+    }
+
     // finds a character in the string
     XWORD Find(char iCar, XWORD iStart = 0) const
     {
@@ -529,9 +593,9 @@ public:
             if (str)
                 return str - m_Buffer;
             else
-                return -1;
+                return NOTFOUND;
         }
-        return -1;
+        return NOTFOUND;
     }
 
     // finds a string in the string
@@ -543,9 +607,9 @@ public:
             if (str)
                 return str - m_Buffer;
             else
-                return -1;
+                return NOTFOUND;
         }
-        return -1;
+        return NOTFOUND;
     }
 
     // finds a character in the string
@@ -553,7 +617,7 @@ public:
     {
         if (m_Length != 0)
         {
-            XWORD i = (iStart != NOTFOUND) ? iStart : m_Length;
+            XWORD i = (iStart != NOTFOUND) ? iStart : m_Length - 1;
 
             char ch = m_Buffer[i];
             m_Buffer[i] = '\0';
@@ -562,9 +626,9 @@ public:
             if (buf)
                 return buf - m_Buffer;
             else
-                return -1;
+                return NOTFOUND;
         }
-        return -1;
+        return NOTFOUND;
     }
 
     // creates a substring
@@ -898,10 +962,11 @@ public:
     {
         Reserve(iLength);
         if (iLength != 0)
-            m_Buffer[iLength] = 0;
+            m_Buffer[iLength] = '\0';
         else if (m_Buffer)
-            m_Buffer[0] = 0;
-        m_Length = iLength;
+            m_Buffer[0] = '\0';
+        if (m_Length > iLength)
+            m_Length = iLength;
     }
 
     ///

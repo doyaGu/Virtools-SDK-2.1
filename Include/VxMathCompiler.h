@@ -156,4 +156,12 @@
 #   endif
 #endif
 
+#ifndef VX_HAS_CXX11
+#   if __cplusplus >= 201103L
+#       define VX_HAS_CXX11 1
+#   else
+#       define VX_HAS_CXX11 0
+#   endif
+#endif
+
 #endif // VXMATHCOMPILER_H
