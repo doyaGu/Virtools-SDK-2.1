@@ -621,7 +621,7 @@ public:
 
             char ch = m_Buffer[i];
             m_Buffer[i] = '\0';
-            char *buf = strrchr(&m_Buffer[iStart], iCar);
+            char *buf = strrchr(m_Buffer, iCar);
             m_Buffer[i] = ch;
             if (buf)
                 return buf - m_Buffer;
