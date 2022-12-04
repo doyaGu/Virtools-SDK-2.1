@@ -191,10 +191,6 @@ struct VxDrawPrimitiveData : public VxDrawPrimitiveDataSimple
 {
     void *TexCoordPtrs[CKRST_MAX_STAGES - 1];           // A pointer to texture coordinates  data per stage of textures
     unsigned int TexCoordStrides[CKRST_MAX_STAGES - 1]; // ...
-    void *WeightsPtr;                                   // A pointer to weights for each vertex
-    unsigned int WeightsStride;                         // Amount in bytes between two weights in the WeightsPtr buffer
-    void *MatIndexPtr;                                  // A pointer to matrix indices for each vertex
-    unsigned int MatIndexStride;                        // Amount in bytes between two weights in the MatIndexPtr buffer
 };
 
 /****************************************************************
