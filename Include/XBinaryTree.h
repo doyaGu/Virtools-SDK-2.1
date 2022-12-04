@@ -773,6 +773,7 @@ protected:
         n->color = iColor;
         return n;
     }
+
     // Construction by placement new
     void XConsval(Pointer iP, ConstReference iValue) { new ((void *)iP) T(iValue); }
     void XDestval(Pointer iP) { (iP)->~T(); }
@@ -848,8 +849,8 @@ public:
     const T &operator*() { return (*m_Node).m_Data; }
     //	T* operator*() { return &(m_Node->m_Data); }
 
-    tIterator &operator++()
-    { // Prefixe
+    tIterator &operator++() // Prefixe
+    {
         // TODO
         return *this;
     }
@@ -1013,16 +1014,16 @@ public:
                     delete t;
                 }
             }
-            else
-            { // There's a left child
+            else // There's a left child
+            {
                 // No right Child
-                if (t->m_Right == m_NullNode)
-                { // we reup the left tree in place
+                if (t->m_Right == m_NullNode) // we reup the left tree in place
+                {
                     *parent = t->m_Left;
                     delete t;
                 }
-                else
-                { // we have to put the max of the left tree in place
+                else // we have to put the max of the left tree in place
+                {
                     tNode *left = t->m_Left;
                     parent = &t;
                     while (left->m_Right != m_NullNode)

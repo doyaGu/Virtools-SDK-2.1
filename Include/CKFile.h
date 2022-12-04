@@ -263,15 +263,6 @@ protected:
     //---------------------------------------------
     CKObject *ResolveReference(CKFileObject *Data);
 
-    //-----------------------------------------------
-    // This method check every loaded object name unicity
-    // and is called at the end of OpenFile according
-    // to the load options. It builds a list of
-    // duplicates and store it in m_DuplicateNameFounds
-    // (List of indices in the m_FileObjects table)
-    //---------------------------------------------
-    void CheckDuplicateNames();
-
 public:
     int m_SaveIDMax;                                    // Maximum CK_ID found when saving or loading objects  {secret}
     XArray<CKFileObject> m_FileObjects;                 // List of objects being saved / loaded   {secret}

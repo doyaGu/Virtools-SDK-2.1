@@ -236,9 +236,6 @@ public:
             EnableScreenDump(0) : Pressing CTRL+ALT+F10 dump the content of
                                   the screen,depth and stencil buffer to
                                   the root of the current hard drive....
-            EnableScreenDump(0) : Pressing CTRL+ALT+F10 dump the content of
-                                  the screen,depth and stencil buffer to
-                                  the root of the current hard drive....
 
             EnableDebugMode(0)  : Pressing (CTRL + ALT + F11) starts/stops the debug
                        mode where rendering can be done step by step on each object
