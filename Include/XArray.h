@@ -53,7 +53,7 @@ public:
         }
     }
 
-    // copy Ctor
+    // Copy Ctor
     XArray(const XArray<T> &a)
     {
         // the resize
@@ -64,6 +64,19 @@ public:
         // The copy
         XCopy(m_Begin, a.m_Begin, a.m_End);
     }
+
+#if VX_HAS_CXX11
+    // Move Ctor
+    XArray(XArray<T> &&a) VX_NOEXCEPT
+    {
+        m_Begin = a.m_Begin;
+        m_End = a.m_End;
+        m_AllocatedEnd = a.m_AllocatedEnd;
+        a.m_Begin = NULL;
+        a.m_End = NULL;
+        a.m_AllocatedEnd = NULL;
+    }
+#endif
 
     /************************************************
     Summary: Destructor.
@@ -89,8 +102,8 @@ public:
     {
         if (this != &a)
         {
-            if (Allocated() >= a.Size())
-            { // No need to allocate
+            if (Allocated() >= a.Size()) // No need to allocate
+            {
                 // The copy
                 XCopy(m_Begin, a.m_Begin, a.m_End);
                 m_End = m_Begin + a.Size();
@@ -111,6 +124,23 @@ public:
         return *this;
     }
 
+#if VX_HAS_CXX11
+    XArray<T> &operator=(XArray<T> &&a) VX_NOEXCEPT
+    {
+        if (this != &a)
+        {
+            Free();
+            m_Begin = a.m_Begin;
+            m_End = a.m_End;
+            m_AllocatedEnd = a.m_AllocatedEnd;
+            a.m_Begin = NULL;
+            a.m_End = NULL;
+            a.m_AllocatedEnd = NULL;
+        }
+        return *this;
+    }
+#endif
+
     /************************************************
     Summary: Appends the content of another array.
 
@@ -124,14 +154,14 @@ public:
         {
             int oldsize = Size();
             int newsize = oldsize + size + 1;
-            if (newsize <= Allocated())
-            { // The new array fits in
+            if (newsize <= Allocated()) // The new array fits in
+            {
                 // we recopy the new array
                 XCopy(m_End, a.m_Begin, a.m_End);
                 m_End += size;
             }
-            else
-            { // the new array doesn't fit in
+            else // the new array doesn't fit in
+            {
                 T *temp = Allocate(newsize);
 
                 // we recopy the old array
@@ -373,6 +403,26 @@ public:
         Insert(m_Begin + pos, o);
     }
 
+    // dicchotomic sorted insertion (use the < operator)
+    void InsertSorted(const T &o)
+    {
+        T *begin = m_Begin;
+        T *end = m_End;
+
+        while (begin < end)
+        {
+            T *pivot = begin + ((end - begin) >> 1);
+
+            if (o < *pivot)
+                end = pivot;
+            else
+                begin = pivot + 1;
+        }
+
+        // The Call
+        XInsert(begin, o);
+    }
+
     /************************************************
     Summary: Moves the element n before the element i.
 
@@ -523,6 +573,11 @@ public:
             *iT = *m_End;
     }
 
+    void FastRemoveAt(int pos)
+    {
+        FastRemove(Begin() + pos);
+    }
+
     /************************************************
     Summary: Fills an array with a value.
 
@@ -628,6 +683,39 @@ public:
     }
 
     /************************************************
+    Summary: Dichotomic search : finds an element in an array that is sorted in
+    increasing order.
+
+    Input Arguments:
+    o: element to find.
+
+    Return Value: a pointer on the first object found
+    or End() if the object is not found.
+    ************************************************/
+    T *BinaryFind(const T &o) const
+    {
+        int low = 0;
+        int high = Size() - 1;
+        while (low <= high)
+        {
+            int mid = (low + high) >> 1;
+            if (m_Begin[mid] > o)
+            {
+                high = mid - 1;
+            }
+            else if (m_Begin[mid] < o)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                return m_Begin + mid;
+            }
+        }
+        return NULL;
+    }
+
+    /************************************************
     Summary: Tests for an element presence.
 
     Input Arguments:
@@ -688,6 +776,20 @@ public:
         XSwap(m_Begin, a.m_Begin);
         XSwap(m_End, a.m_End);
         XSwap(m_AllocatedEnd, a.m_AllocatedEnd);
+    }
+
+    void Attach(T *iArray, int iCount)
+    {
+        Clear();
+        m_Begin = iArray;
+        m_End = m_Begin + iCount;
+    }
+
+    void Detach()
+    {
+        m_Begin = 0;
+        m_End = 0;
+        m_AllocatedEnd = 0;
     }
 
     /************************************************
@@ -820,6 +922,7 @@ public:
             Noswap = TRUE;
         }
     }
+    
     /************************************************
     Summary: Sorts an array with a bubble sort.
 

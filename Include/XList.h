@@ -3,10 +3,22 @@
 
 #include "VxMathDefines.h"
 
+#if VX_HAS_CXX11
+#include <algorithm>
+#endif
+
 template <class T>
 class XNode
 {
 public:
+#if VX_HAS_CXX11
+    XNode(XNode<T> &&e) VX_NOEXCEPT : m_Data(std::move(e.m_Data)), m_Next(e.m_Next), m_Prev(e.m_Prev)
+    {
+        e.m_Next = NULL;
+        e.m_Prev = NULL;
+    }
+#endif
+
     T m_Data;
     XNode<T> *m_Next;
     XNode<T> *m_Prev;
@@ -33,6 +45,12 @@ public:
     XListIt() : m_Node(0) {}
     XListIt(XNode<T> *n) : m_Node(n) {}
     XListIt(const XListIt<T> &n) : m_Node(n.m_Node) {}
+#if VX_HAS_CXX11
+    XListIt(XListIt<T> &&n) VX_NOEXCEPT : m_Node(n.m_Node)
+    {
+        n.m_Node = NULL;
+    }
+#endif
 
     // Operators
     int operator==(const XListIt<T> &it) const { return m_Node == it.m_Node; }
@@ -46,17 +64,18 @@ public:
     /************************************************
     Summary: Go to the next element.
     ************************************************/
-    XListIt<T> &operator++()
-    { // Prefixe
+    XListIt<T> &operator++() // Prefixe
+    {
         m_Node = tNode(m_Node->m_Next);
         return *this;
     }
-    XListIt<T> operator++(int)
-    { // PostFixe
+    XListIt<T> operator++(int) // PostFixe
+    {
         XListIt<T> tmp = *this;
         ++*this;
         return tmp;
     }
+
     /************************************************
     Summary: Go to the previous element.
     ************************************************/
@@ -113,6 +132,7 @@ class XList
 
 public:
     typedef XListIt<T> Iterator;
+
     /************************************************
     Summary: Constructors.
 
@@ -140,6 +160,16 @@ public:
         }
     }
 
+#if VX_HAS_CXX11
+    XList(XList<T> &&list) VX_NOEXCEPT
+    {
+        m_Node = list.m_Node;
+        m_Count = list.m_Count;
+        list.m_Node = NULL;
+        list.m_Count = 0;
+    }
+#endif
+
     /************************************************
     Summary: Affectation operator.
 
@@ -149,7 +179,7 @@ public:
     ************************************************/
     XList &operator=(const XList<T> &list)
     {
-        if (&list != this)
+        if (this != &list)
         {
             Clear();
             for (XListIt<T> it = list.Begin(); it != list.End(); ++it)
@@ -159,6 +189,21 @@ public:
         }
         return *this;
     }
+
+#if VX_HAS_CXX11
+    XList &operator=(XList<T> &&list) VX_NOEXCEPT
+    {
+        if (this != &list)
+        {
+            Clear();
+            m_Node = list.m_Node;
+            m_Count = list.m_Count;
+            list.m_Node = NULL;
+            list.m_Count = 0;
+        }
+        return *this;
+    }
+#endif
 
     /************************************************
     Summary: Destructor.

@@ -24,6 +24,12 @@ public:
     XHashTableEntry() : m_Key(), m_Data(), m_Next(NULL) {}
     XHashTableEntry(const K &k, const T &v) : m_Key(k), m_Data(v), m_Next(NULL) {}
     XHashTableEntry(const XHashTableEntry<T, K> &e) : m_Key(e.m_Key), m_Data(e.m_Data), m_Next(NULL) {}
+#if VX_HAS_CXX11
+    XHashTableEntry(XHashTableEntry<T, K> &&e) VX_NOEXCEPT : m_Key(std::move(e.m_Key)), m_Data(std::move(e.m_Data)), m_Next(e.m_Next)
+    {
+        e.m_Next = NULL;
+    }
+#endif
     ~XHashTableEntry() {}
 
     K m_Key;
@@ -56,12 +62,14 @@ Example:
 
 ************************************************/
 template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
-class XHashTableIt {
-    typedef XHashTableEntry <T, K> *tEntry;
+class XHashTableIt
+{
+    typedef XHashTableEntry<T, K> *tEntry;
     typedef XHashTableIt<T, K, H, Eq> tIterator;
-    typedef XHashTable <T, K, H, Eq> *tTable;
+    typedef XHashTable<T, K, H, Eq> *tTable;
 
     friend class XHashTable<T, K, H, Eq>;
+
 public:
     /************************************************
     Summary: Default constructor of the iterator.
@@ -72,6 +80,17 @@ public:
     Summary: Copy constructor of the iterator.
     ************************************************/
     XHashTableIt(const tIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor of the iterator.
+    ************************************************/
+    XHashTableIt(tIterator &&n) VX_NOEXCEPT : m_Node(n.m_Node), m_Table(n.m_Table)
+    {
+        n.m_Node = NULL;
+        n.m_Table = NULL;
+    }
+#endif
 
     /************************************************
     Summary: Operator Equal of the iterator.
@@ -158,7 +177,6 @@ public:
     tTable m_Table;
 };
 
-
 /************************************************
 Summary: Constant Iterator on a hash table.
 
@@ -205,6 +223,17 @@ public:
     ************************************************/
     XHashTableConstIt(const tConstIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
 
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor of the iterator.
+    ************************************************/
+    XHashTableConstIt(tConstIterator &&n) VX_NOEXCEPT : m_Node(n.m_Node), m_Table(n.m_Table)
+    {
+        n.m_Node = NULL;
+        n.m_Table = NULL;
+    }
+#endif
+
     /************************************************
     Summary: Operator Equal of the iterator.
     ************************************************/
@@ -241,7 +270,7 @@ public:
     Summary: Jumps to next entry in the hashtable.
     ************************************************/
     tConstIterator &operator++()
-    { // Prefixe
+    {
         tEntry old = m_Node;
         // next element of the linked list
         m_Node = m_Node->m_Next;
@@ -360,7 +389,14 @@ public:
     /************************************************
     Summary: Copy Constructor.
     ************************************************/
-    XHashTable(const XHashTable &a) { XCopy(a);}
+    XHashTable(const XHashTable &a) { XCopy(a); }
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor.
+    ************************************************/
+    XHashTable(XHashTable &&a) VX_NOEXCEPT { XMove(a); }
+#endif
 
     /************************************************
     Summary: Destructor.
@@ -401,8 +437,8 @@ public:
 
         for (tEntry *it = m_Table.Begin(); it != m_Table.End(); it++)
         {
-            if (!*it)
-            { // there is someone there
+            if (!*it) // there is someone there
+            {
                 iBucketOccupation[0]++;
             }
             else
@@ -417,8 +453,8 @@ public:
                 }
 
                 int oldsize = iBucketOccupation.Size();
-                if (oldsize <= count)
-                { // we need to resize
+                if (oldsize <= count) // we need to resize
+                {
                     iBucketOccupation.Resize(count + 1);
 
                     // and we init to 0
@@ -452,6 +488,20 @@ public:
         return *this;
     }
 
+#if VX_HAS_CXX11
+    tTable &operator=(tTable &&a) VX_NOEXCEPT
+    {
+        if (this != &a)
+        {
+            // We clear the current table
+            Clear();
+            // we then move the content of a
+            XMove(a);
+        }
+        return *this;
+    }
+#endif
+
     /************************************************
     Summary: Inserts an element in the table.
 
@@ -475,13 +525,13 @@ public:
         tEntry e = XFind(index, key);
         if (!e)
         {
-            if (m_Pool.Size() == m_Pool.Allocated())
-            { // Need Rehash
+            if (m_Pool.Size() == m_Pool.Allocated()) // Need Rehash
+            {
                 Rehash(m_Table.Size() * 2);
                 return Insert(key, o, override);
             }
-            else
-            { // No
+            else // No
+            {
                 XInsert(index, key, o);
             }
         }
@@ -563,14 +613,13 @@ public:
             }
         }
 
-        // Need Rehash
-        if (m_Pool.Size() == m_Pool.Allocated())
-        { // Need Rehash
+        if (m_Pool.Size() == m_Pool.Allocated()) // Need Rehash
+        {
             Rehash(m_Table.Size() * 2);
             return InsertUnique(key, o);
         }
-        else
-        { // No
+        else // No
+        {
             return Iterator(XInsert(index, key, o), this);
         }
     }
@@ -610,8 +659,8 @@ public:
 
                 // then removed it from the pool
                 m_Pool.FastRemove(e);
-                if (e != m_Pool.End())
-                { // wasn't the last one... we need to remap
+                if (e != m_Pool.End()) // wasn't the last one... we need to remap
+                {
                     RematEntry(m_Pool.End(), e);
                 }
 
@@ -647,8 +696,8 @@ public:
 
                 // then removed it from the pool
                 m_Pool.FastRemove(e);
-                if (e != m_Pool.End())
-                { // wasn't the last one... we need to remap
+                if (e != m_Pool.End()) // wasn't the last one... we need to remap
+                {
                     RematEntry(m_Pool.End(), e);
                     if (old == m_Pool.End())
                         old = e;
@@ -659,8 +708,8 @@ public:
             old = e;
         }
         // There is an element in the same column, we return it
-        if (!old)
-        { // No element in the same bucket, we parse for the next
+        if (!old) // No element in the same bucket, we parse for the next
+        {
             while (!old && ++index < m_Table.Size())
                 old = m_Table[index];
         }
@@ -688,13 +737,13 @@ public:
         tEntry e = XFind(index, key);
         if (!e)
         {
-            if (m_Pool.Size() == m_Pool.Allocated())
-            { // Need Rehash
+            if (m_Pool.Size() == m_Pool.Allocated()) // Need Rehash
+            {
                 Rehash(m_Table.Size() * 2);
                 return operator[](key);
             }
-            else
-            { // No
+            else // No
+            {
                 e = XInsert(index, key, T());
             }
         }
@@ -963,6 +1012,14 @@ private:
         }
     }
 
+#if VX_HAS_CXX11
+    void XMove(XHashTable &&a)
+    {
+        m_Table = std::move(a.m_Table);
+        m_Pool = std::move(a.m_Pool);
+    }
+#endif
+
     tEntry XFindIndex(const K &key) const
     {
         int index = Index(key);
@@ -1006,16 +1063,16 @@ private:
         int index = Index(iNew->m_Key);
         XASSERT(m_Table[index]);
 
-        if (m_Table[index] == iOld)
-        { // It was the first of the bucket
+        if (m_Table[index] == iOld) // It was the first of the bucket
+        {
             m_Table[index] = iNew;
         }
         else
         {
             for (tEntry n = m_Table[index]; n->m_Next != NULL; n = n->m_Next)
             {
-                if (n->m_Next == iOld)
-                { // found one
+                if (n->m_Next == iOld) // found one
+                {
                     n->m_Next = iNew;
                     break; // only one can match
                 }

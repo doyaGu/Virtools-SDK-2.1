@@ -64,6 +64,18 @@ public:
         XCopy(m_Begin, a.m_Begin, a.m_End);
     }
 
+#if VX_HAS_CXX11
+    XClassArray(XClassArray<T> &&a) VX_NOEXCEPT
+    {
+        m_Begin = a.m_Begin;
+        m_End = a.m_End;
+        m_AllocatedEnd = a.m_AllocatedEnd;
+        a.m_Begin = NULL;
+        a.m_End = NULL;
+        a.m_AllocatedEnd = NULL;
+    }
+#endif
+
     /************************************************
     Summary: Destructor.
 
@@ -109,6 +121,23 @@ public:
 
         return *this;
     }
+
+#if VX_HAS_CXX11
+    XClassArray<T> &operator=(XClassArray<T> &&a) VX_NOEXCEPT
+    {
+        if (this != &a)
+        {
+            Free();
+            m_Begin = a.m_Begin;
+            m_End = a.m_End;
+            m_AllocatedEnd = a.m_AllocatedEnd;
+            a.m_Begin = NULL;
+            a.m_End = NULL;
+            a.m_AllocatedEnd = NULL;
+        }
+        return *this;
+    }
+#endif
 
     /************************************************
     Summary: Removes all the elements from an array.

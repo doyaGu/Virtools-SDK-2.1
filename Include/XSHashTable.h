@@ -5,6 +5,10 @@
 #include "XClassArray.h"
 #include "XHashFun.h"
 
+#if VX_HAS_CXX11
+#include <algorithm>
+#endif
+
 template <class T, class K, class H, class Eq>
 class XSHashTable;
 
@@ -20,6 +24,12 @@ class XSHashTableEntry
 public:
     XSHashTableEntry() : m_Status(STATUS_FREE) {}
     XSHashTableEntry(const XSHashTableEntry<T, K> &e) : m_Key(e.m_Key), m_Data(e.m_Data), m_Status(STATUS_OCCUPIED) {}
+#if VX_HAS_CXX11
+    XSHashTableEntry(XSHashTableEntry<T, K> &&e) VX_NOEXCEPT : m_Key(std::move(e.m_Key)), m_Data(std::move(e.m_Data)), m_Status(e.m_Status)
+    {
+        e.m_Status = STATUS_FREE;
+    }
+#endif
     ~XSHashTableEntry() {}
 
     void Set(const K &key, const T &data)
@@ -71,10 +81,22 @@ public:
     Summary: Default constructor of the iterator.
     ************************************************/
     XSHashTableIt() : m_Node(0), m_Table(0) {}
+
     /************************************************
     Summary: Copy constructor of the iterator.
     ************************************************/
     XSHashTableIt(const tIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor of the iterator.
+    ************************************************/
+    XSHashTableIt(tIterator &&n) VX_NOEXCEPT : m_Node(n.m_Node), m_Table(n.m_Table)
+    {
+        n.m_Node = NULL;
+        n.m_Table = NULL;
+    }
+#endif
 
     /************************************************
     Summary: Operator Equal of the iterator.
@@ -192,10 +214,22 @@ public:
     Summary: Default constructor of the iterator.
     ************************************************/
     XSHashTableConstIt() : m_Node(0), m_Table(0) {}
+
     /************************************************
     Summary: Copy constructor of the iterator.
     ************************************************/
     XSHashTableConstIt(const tConstIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor of the iterator.
+    ************************************************/
+    XSHashTableConstIt(tConstIterator &&n) VX_NOEXCEPT : m_Node(n.m_Node), m_Table(n.m_Table)
+    {
+        n.m_Node = NULL;
+        n.m_Table = NULL;
+    }
+#endif
 
     /************************************************
     Summary: Operator Equal of the iterator.
@@ -359,10 +393,14 @@ public:
     /************************************************
     Summary: Copy Constructor.
     ************************************************/
-    XSHashTable(const XSHashTable &a)
-    {
-        XCopy(a);
-    }
+    XSHashTable(const XSHashTable &a) { XCopy(a); }
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor.
+    ************************************************/
+    XSHashTable(XSHashTable &&a) VX_NOEXCEPT { XMove(a); }
+#endif
 
     /************************************************
     Summary: Destructor.
@@ -372,9 +410,7 @@ public:
     you were storing pointers, you need first to iterate
     on the table and call delete on each pointer.
     ************************************************/
-    ~XSHashTable()
-    {
-    }
+    ~XSHashTable() {}
 
     /************************************************
     Summary: Removes all the elements from the table.
@@ -413,6 +449,20 @@ public:
 
         return *this;
     }
+
+#if VX_HAS_CXX11
+    tTable &operator=(tTable &&a) VX_NOEXCEPT
+    {
+        if (this != &a)
+        {
+            // We clear the current table
+            Clear();
+            // we then move the content of a
+            XMove(a);
+        }
+        return *this;
+    }
+#endif
 
     /************************************************
     Summary: Inserts an element in the table.
@@ -774,11 +824,26 @@ private:
     void XCopy(const XSHashTable &a)
     {
         m_Table = a.m_Table;
-        m_Occupation = a.m_Occupation;
-        m_LoadFactor = a.m_LoadFactor;
         m_Count = a.m_Count;
+        m_Occupation = a.m_Occupation;
         m_Threshold = a.m_Threshold;
+        m_LoadFactor = a.m_LoadFactor;
     }
+
+#if VX_HAS_CXX11
+    void XMove(XSHashTable &&a)
+    {
+        m_Table = std::move(a.m_Table);
+        m_Count = a.m_Count;
+        m_Occupation = a.m_Occupation;
+        m_Threshold = a.m_Threshold;
+        m_LoadFactor = a.m_LoadFactor;
+        a.m_Count = 0;
+        a.m_Occupation = 0;
+        a.m_Threshold = 0;
+        a.m_LoadFactor = 0.0f;
+    }
+#endif
 
     pEntry XFindIndex(const K &key) const
     {

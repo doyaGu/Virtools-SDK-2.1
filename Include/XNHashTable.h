@@ -4,6 +4,10 @@
 #include "XArray.h"
 #include "XHashFun.h"
 
+#if VX_HAS_CXX11
+#include <algorithm>
+#endif
+
 #ifdef VX_MSVC
 #pragma warning(disable : 4786)
 #endif
@@ -19,6 +23,12 @@ class XNHashTableEntry
 public:
     XNHashTableEntry(const K &k, const T &v) : m_Key(k), m_Data(v), m_Next(0) {}
     XNHashTableEntry(const XNHashTableEntry<T, K> &e) : m_Key(e.m_Key), m_Data(e.m_Data), m_Next(0) {}
+#if VX_HAS_CXX11
+    XNHashTableEntry(XNHashTableEntry<T, K> &&e) VX_NOEXCEPT : m_Key(std::move(e.m_Key)), m_Data(std::move(e.m_Data)), m_Next(e.m_Next)
+    {
+        e.m_Next = NULL;
+    }
+#endif
     ~XNHashTableEntry() {}
 
     K m_Key;
@@ -68,6 +78,17 @@ public:
     Summary: Copy constructor of the iterator.
     ************************************************/
     XNHashTableIt(const tIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor of the iterator.
+    ************************************************/
+    XNHashTableIt(tIterator &&n) VX_NOEXCEPT : m_Node(n.m_Node), m_Table(n.m_Table)
+    {
+        n.m_Node = NULL;
+        n.m_Table = NULL;
+    }
+#endif
 
     /************************************************
     Summary: Operator Equal of the iterator.
@@ -198,6 +219,17 @@ public:
     Summary: Copy constructor of the iterator.
     ************************************************/
     XNHashTableConstIt(const tConstIterator &n) : m_Node(n.m_Node), m_Table(n.m_Table) {}
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor of the iterator.
+    ************************************************/
+    XNHashTableConstIt(tConstIterator &&n) VX_NOEXCEPT : m_Node(n.m_Node), m_Table(n.m_Table)
+    {
+        n.m_Node = NULL;
+        n.m_Table = NULL;
+    }
+#endif
 
     /************************************************
     Summary: Operator Equal of the iterator.
@@ -366,10 +398,14 @@ public:
     /************************************************
     Summary: Copy Constructor.
     ************************************************/
-    XNHashTable(const XNHashTable &a)
-    {
-        XCopy(a);
-    }
+    XNHashTable(const XNHashTable &a) { XCopy(a); }
+
+#if VX_HAS_CXX11
+    /************************************************
+    Summary: Move constructor.
+    ************************************************/
+    XNHashTable(XNHashTable &&a) VX_NOEXCEPT { XMove(a); }
+#endif
 
     /************************************************
     Summary: Destructor.
@@ -379,10 +415,7 @@ public:
     you were storing pointers, you need first to iterate
     on the table and call delete on each pointer.
     ************************************************/
-    ~XNHashTable()
-    {
-        Clear();
-    }
+    ~XNHashTable() { Clear(); }
 
     /************************************************
     Summary: Removes all the elements from the table.
@@ -424,6 +457,20 @@ public:
 
         return *this;
     }
+
+#if VX_HAS_CXX11
+    tTable &operator=(tTable &&a) VX_NOEXCEPT
+    {
+        if (this != &a)
+        {
+            // We clear the current table
+            Clear();
+            // we then move the content of a
+            XMove(a);
+        }
+        return *this;
+    }
+#endif
 
     /************************************************
     Summary: Inserts an element in the table.
@@ -905,9 +952,9 @@ private:
     void XCopy(const XNHashTable &a)
     {
         m_Table.Resize(a.m_Table.Size());
-        m_LoadFactor = a.m_LoadFactor;
         m_Count = a.m_Count;
         m_Threshold = a.m_Threshold;
+        m_LoadFactor = a.m_LoadFactor;
 
         tEntry *it2 = a.GetFirstBucket();
         for (tEntry *it = m_Table.Begin(); it != m_Table.End(); ++it, ++it2)
@@ -915,6 +962,19 @@ private:
             *it = XCopyList(*it2);
         }
     }
+
+#if VX_HAS_CXX11
+    void XMove(XNHashTable &&a)
+    {
+        m_Table = std::move(a.m_Table);
+        m_Count = a.m_Count;
+        m_Threshold = a.m_Threshold;
+        m_LoadFactor = a.m_LoadFactor;
+        a.m_Count = 0;
+        a.m_Threshold = 0;
+        a.m_LoadFactor = 0.0f;
+    }
+#endif
 
     tEntry XFindIndex(const K &key) const
     {

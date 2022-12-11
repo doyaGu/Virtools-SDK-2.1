@@ -14,10 +14,36 @@ public:
         Allocate(iWidth, iHeight);
     }
 
+#if VX_HAS_CXX11
+    XMatrix(XMatrix<T> &&m) VX_NOEXCEPT : m_Data(m.m_Data), m_Width(m.m_Width), m_Height(m.m_Height)
+    {
+        m.m_Data = NULL;
+        m.m_Width = 0;
+        m.m_Height = 0;
+    }
+#endif
+
     ~XMatrix()
     {
         delete[] m_Data;
     }
+
+#if VX_HAS_CXX11
+    XMatrix<T> &operator=(XMatrix<T> &&m) VX_NOEXCEPT
+    {
+        if (this != &m)
+        {
+            Clear();
+            m_Data = m.m_Data;
+            m_Width = m.m_Width;
+            m_Height = m.m_Height;
+            m.m_Data = NULL;
+            m.m_Width = 0;
+            m.m_Height = 0;
+        }
+        return *this;
+    }
+#endif
 
     ///
     // Accessors
