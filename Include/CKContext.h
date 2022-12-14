@@ -192,9 +192,6 @@ public:
     CKSTRING GetLastCmoLoaded();
     void SetLastCmoLoaded(CKSTRING str);
 
-    CKSTRING GetLastFileSaved();
-    void SetLastFileSaved(CKSTRING str);
-
     CKERROR GetFileInfo(CKSTRING FileName, CKFileInfo *FileInfo);
     CKERROR GetFileInfo(int BufferSize, void *MemoryBuffer, CKFileInfo *FileInfo);
     CKERROR Save(CKSTRING FileName, CKObjectArray *liste, CKDWORD SaveFlags, CKDependencies *dependencies = NULL, CKGUID *ReaderGuid = NULL);
