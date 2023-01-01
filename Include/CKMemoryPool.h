@@ -7,12 +7,10 @@
 class CKMemoryPool
 {
 public:
-    CKMemoryPool(CKContext *Context, size_t ByteCount = 0);
+    CKMemoryPool(CKContext *context, int size = 0);
     ~CKMemoryPool();
 
-    CKObject &operator=(const CKObject &);
-
-    VxMemoryPool *Mem() const;
+    void *Mem() const;
 
 protected:
     CKContext *m_Context;
