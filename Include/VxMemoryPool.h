@@ -21,12 +21,13 @@ public:
         VxDeleteAligned(m_Memory);
         m_Memory = NULL;
     }
-    // Constructs the class allocating the buffer to ByteCount bytes.
-    VxMemoryPool(int ByteCount = 0)
+
+    // Constructs the class allocating the buffer to size dwords.
+    VxMemoryPool(int size = 0)
     {
         m_Memory = NULL;
         m_Allocated = 0;
-        Allocate(ByteCount);
+        Allocate(size);
     }
 
     // Returns access to the memory buffer.
@@ -41,21 +42,19 @@ public:
         return m_Allocated;
     }
 
-    // Allocates the number of bytes if not yet allocated.
-    void Allocate(int ByteCount)
+    // Allocates the number of dwords if not yet allocated.
+    void Allocate(int size)
     {
-        if (m_Allocated < ByteCount)
+        if (m_Allocated < size)
         {
             VxDeleteAligned(m_Memory);
-
-            m_Memory = (XBYTE *)VxNewAligned(ByteCount, 16);
-            m_Allocated = ByteCount;
+            m_Memory = (XBYTE *)VxNewAligned(size * sizeof(XDWORD), 16);
+            m_Allocated = size;
         }
     }
 
 protected:
     XBYTE *m_Memory;
-
     int m_Allocated;
 };
 
