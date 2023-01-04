@@ -865,8 +865,26 @@ typedef enum VXRENDERSTATETYPE
     VXRENDERSTATE_COLORVERTEX         = 141,    // Enable or disable per-vertex color
     VXRENDERSTATE_LOCALVIEWER         = 142,    // Camera relative specular highlights (TRUE/FALSE)
     VXRENDERSTATE_NORMALIZENORMALS    = 143,    // Enable automatic normalization of vertex normals
+    VXRENDERSTATE_DIFFUSEFROMVERTEX   = 145,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether diffuse color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
+    VXRENDERSTATE_SPECULARFROMVERTEX  = 146,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether specular color is taken from the vertex color (2) or from the currently set material (0)
+    VXRENDERSTATE_AMBIENTFROMVERTEX   = 147,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether ambient color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
+    VXRENDERSTATE_EMISSIVEFROMVERTEX  = 148,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether emissive color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
+
     VXRENDERSTATE_VERTEXBLEND         = 151,    // Enable vertex blending and set the number of matrices to use (VXVERTEXBLENDFLAGS)
     VXRENDERSTATE_SOFTWAREVPROCESSING = 153,    // When using a T&L driver in mixed mode, for the usage of software processing
+
+    VXRENDERSTATE_POINTSIZE           = 154,    // Size of point when drawing point sprites. This value is in screen space units if VXRENDERSTATE_POINTSCALEENABLE is FALSE; otherwise this value is in world space units.
+    VXRENDERSTATE_POINTSIZE_MIN       = 155,    // Specifies the minimum size of point primitives. If below 1 the points drawn will disappear when smaller than a pixel 
+    VXRENDERSTATE_POINTSIZE_MAX       = 166,    // Specifies the maximum size of point primitives. If below 1 the points drawn will disappear when smaller than a pixel 
+    VXRENDERSTATE_POINTSPRITEENABLE   = 156,    // 
+
+    VXRENDERSTATE_POINTSCALEENABLE    = 157,	// If true the size of point will be attenuated according to distance :
+                                                // Size = pointSize * sqrt(1/ (a + b*dist + c * dist*dist)) where dist 
+                                                // is the distance from viewpoint to point.
+    VXRENDERSTATE_POINTSCALE_A        = 158,    // constant attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
+    VXRENDERSTATE_POINTSCALE_B        = 159,    // linear attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
+    VXRENDERSTATE_POINTSCALE_C        = 160,    // quadratic attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
+
     VXRENDERSTATE_CLIPPLANEENABLE     = 152,    // Enable one or more user-defined clipping planes ( DWORD mask of planes)
     VXRENDERSTATE_INDEXVBLENDENABLE   = 167,    // Enable indexed vertex blending (to use with VXRENDERSTATE_VERTEXBLEND)
     VXRENDERSTATE_BLENDOP             = 171,    // Set blending operation VXBLENDOP
@@ -987,11 +1005,21 @@ typedef enum CKRST_SPECIFICCAPS
     CKRST_SPECIFICCAPS_HARDWARETL         = 0x00000040UL,   // Hardware transformations,lighting and rasterization.
     CKRST_SPECIFICCAPS_COPYTEXTURE        = 0x00000080UL,   // Can copy back buffer parts into a texture ? (GL..)
   
-    CKRST_SPECIFICCAPS_DX5                = 0x00000100UL,   // DX 5 implementation (if Family ==  CKRST_DIRECTX)
-    CKRST_SPECIFICCAPS_DX7                = 0x00000200UL,   // DX 7 implementation (if Family ==  CKRST_DIRECTX)
-    CKRST_SPECIFICCAPS_DX8                = 0x00000400UL,   // DX 8.1 implementation (if Family ==  CKRST_DIRECTX)
-  
-    CKRST_SPECIFICCAPS_CANDOINDEXBUFFER   = 0x00010000UL    // Index buffers can be lock to be read or write
+    CKRST_SPECIFICCAPS_DX5                = 0x00000100UL,   // DX 5 implementation (if Family == CKRST_DIRECTX)
+    CKRST_SPECIFICCAPS_DX7                = 0x00000200UL,   // DX 7 implementation (if Family == CKRST_DIRECTX)
+    CKRST_SPECIFICCAPS_DX8                = 0x00000400UL,   // DX 8.1 implementation (if Family == CKRST_DIRECTX)
+    CKRST_SPECIFICCAPS_DX9                = 0x00000800UL,   // DX 9 implementation (if Family == CKRST_DIRECTX)
+
+    CKRST_SPECIFICCAPS_SUPPORTSHADERS     = 0x00001000UL,   // CKShaders are supported by this implementation
+    CKRST_SPECIFICCAPS_POINTSPRITES       = 0x00002000UL,   // Point sprites are supported
+
+    CKRST_SPECIFICCAPS_VERTEXCOLORABGR    = 0x00004000UL,   // OGL implementation : if set, CK2_3D will send colors of Vertex Buffers into the appropriate format
+    CKRST_SPECIFICCAPS_BLENDTEXTEFFECT    = 0x00008000UL,   // OGL implementation : if set, CK2_3D do BlendTexturesEffect (Texture Combine Effect)
+
+    CKRST_SPECIFICCAPS_CANDOINDEXBUFFER   = 0x00010000UL,   // Index buffers can be lock to be read or write
+    CKRST_SPECIFICCAPS_HW_SKINNING        = 0x00020000UL,   // Implementation can perform hardware accelerated skinning
+
+    CKRST_SPECIFICCAPS_AUTGENMIPMAP       = 0x00040000UL,   // Graphics card supports automatic mipmap generation
 } CKRST_SPECIFICCAPS;
 
 /****************************************************************
@@ -1041,10 +1069,14 @@ See Also: VxDriverDesc,Vx3DCapsDesc,CKMaterial::PerspectiveCorrectionEnabled,CKM
 ****************************************************************/
 typedef enum CKRST_TEXTURECAPS
 {
-    CKRST_TEXTURECAPS_PERSPECTIVE = 0x00000001UL, // Perspective correction is supported
-    CKRST_TEXTURECAPS_POW2        = 0x00000002UL, // Texture size must be powers of 2
-    CKRST_TEXTURECAPS_ALPHA       = 0x00000004UL, // Supports texture with alpha values with VXTEXTUREBLEND_DECAL and VXTEXTUREBLEND_MODULATE blending modes.
-    CKRST_TEXTURECAPS_SQUAREONLY  = 0x00000020UL  // Textures must have the same width with height.
+    CKRST_TEXTURECAPS_PERSPECTIVE        = 0x00000001UL,    // Perspective correction is supported
+    CKRST_TEXTURECAPS_POW2               = 0x00000002UL,    // Texture size must be powers of 2
+    CKRST_TEXTURECAPS_ALPHA              = 0x00000004UL,    // Supports texture with alpha values with VXTEXTUREBLEND_DECAL and VXTEXTUREBLEND_MODULATE blending modes.
+    CKRST_TEXTURECAPS_SQUAREONLY         = 0x00000020UL,    // Textures must have the same width with height.
+    CKRST_TEXTURECAPS_CONDITIONALNONPOW2 = 0x00000100UL,    // Device support conditionnal pow2 textures
+    CKRST_TEXTURECAPS_PROJECTED          = 0x00000400UL,    // Device supports the CKRST_TTF_PROJECTED transform flags: If this capability is present, then the projective divide occurs per pixel
+    CKRST_TEXTURECAPS_CUBEMAP            = 0x00000800UL,    // Device can do cube maps
+    CKRST_TEXTURECAPS_VOLUMEMAP          = 0x00002000UL,    // Device can do volume maps.
 } CKRST_TEXTURECAPS;
 
 /****************************************************************
