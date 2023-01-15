@@ -1316,30 +1316,6 @@ public:
     virtual void SetStereoParameters(float EyeSeparation, float FocalLength) = 0;
 
     virtual void GetStereoParameters(float &EyeSeparation, float &FocalLength) = 0;
-
-    /*****************************************************
-    Summary:Sets the viewport to the window
-
-    Arguments:
-        iRect : Rectangle of the viewport to set.
-    Remarks:
-    See also: SetViewRect
-    *****************************************************/
-    virtual void SetViewport(const VxRect &iRect) = 0;
-
-    /*****************************************************
-    Summary:Calculate a 3D point from a 2D Point, located on the
-    near plane of the camera.
-
-    Arguments:
-        i2DPosition: Position in the screen coordinates (or in the viewport).
-        o3DPosition: Position in the viewpoint system coordinates.
-        iScreen: TRUE if the position is given in the screen coordinates,
-        FALSE if it is given in client coordinates.
-    Remarks:
-    See also: SetViewRect
-    *****************************************************/
-    virtual void ScreenToViewpoint(const Vx2DVector &i2DPosition, VxVector *o3DPosition, CKBOOL iScreen = TRUE) = 0;
 };
 
 #endif // CKRENDERCONTEXT_H
