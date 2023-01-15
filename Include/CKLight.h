@@ -4,7 +4,6 @@
 
 #include "CK3dEntity.h"
 #include "VxColor.h"
-#include "VxColor.h"
 
 /*************************************************
 {filename:CKLight}
