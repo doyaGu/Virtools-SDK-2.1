@@ -10,8 +10,8 @@ public:
     ////            Members of a Square                 ////
     ////////////////////////////////////////////////////////
 
-    union
-    { // Value
+    union // Value
+    {
         int ival;
         float fval;
         CKDWORD dval;
