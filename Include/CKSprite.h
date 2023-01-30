@@ -453,17 +453,25 @@ public:
 
     //-------- Expected Video Format ( textures will use global texture format otherwise )
 
-    /*************************************************
-    Summary: Sets the system memory caching option.
-    Arguments:
-        iOptions: System Caching Options.
+    /************************************************
+    Summary: Sets the desired surface pixel format in video memory.
+
+    Input Arguments:
+        pf: A VX_PIXELFORMAT giving the desired pixel format.
     Remarks:
+    + As its name indicates theis method only sets a "desired" video memory pixel format. The render engine will try to use
+    this format is possible otherwise should find the nearest appropriate pixel	format.
+    See Also:GetVideoPixelFormat,GetDesiredVideoFormat,
+    ************************************************/
+    virtual void SetDesiredVideoFormat(VX_PIXELFORMAT pf) = 0;
+    /************************************************
+    Summary: Returns the desired pixel format in video memory.
 
-    See Also: SetSaveFormat,CK_BITMAP_SYSTEMCACHING
-    *************************************************/
-    virtual void SetSystemCaching(CK_BITMAP_SYSTEMCACHING iOptions) = 0;
-
-    virtual CK_BITMAP_SYSTEMCACHING GetSystemCaching() = 0;
+    Return Value:
+        Desired pixel format for this sprite in video memory.
+    See Also:GetVideoPixelFormat,SetDesiredVideoFormat
+    ************************************************/
+    virtual VX_PIXELFORMAT GetDesiredVideoFormat() = 0;
 
     //-------- Save format
 
