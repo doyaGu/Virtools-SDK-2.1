@@ -464,6 +464,7 @@ public:
     See Also:GetVideoPixelFormat,GetDesiredVideoFormat,
     ************************************************/
     virtual void SetDesiredVideoFormat(VX_PIXELFORMAT pf) = 0;
+
     /************************************************
     Summary: Returns the desired pixel format in video memory.
 
