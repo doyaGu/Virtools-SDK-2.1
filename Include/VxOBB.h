@@ -115,7 +115,11 @@ public:
 
     bool operator==(const VxOBB &iBox) const
     {
-        return (m_Extents == iBox.m_Extents) && (m_Center == iBox.m_Center) && (m_Axis[0] == iBox.m_Axis[0]) && (m_Axis[1] == iBox.m_Axis[1]) && (m_Axis[2] == iBox.m_Axis[2]);
+        return (m_Extents == iBox.m_Extents) &&
+               (m_Center == iBox.m_Center) &&
+               (m_Axis[0] == iBox.m_Axis[0]) &&
+               (m_Axis[1] == iBox.m_Axis[1]) &&
+               (m_Axis[2] == iBox.m_Axis[2]);
     }
 
     // Center of the box

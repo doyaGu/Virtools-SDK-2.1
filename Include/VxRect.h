@@ -68,14 +68,10 @@ public:
     VxRect(){};
 
 #if !defined(_MSC_VER)
-    VxRect(Vx2DVector &topleft, Vx2DVector &bottomright) : left(topleft.x), top(topleft.y), right(bottomright.x), bottom(bottomright.y)
-    {
-    }
+    VxRect(Vx2DVector &topleft, Vx2DVector &bottomright) : left(topleft.x), top(topleft.y), right(bottomright.x), bottom(bottomright.y) {}
     VxRect(float l, float t, float r, float b) : left(l), top(t), right(r), bottom(b) {}
 #else
-    VxRect(Vx2DVector &topleft, Vx2DVector &bottomright) : m_TopLeft(topleft), m_BottomRight(bottomright)
-    {
-    }
+    VxRect(Vx2DVector &topleft, Vx2DVector &bottomright) : m_TopLeft(topleft), m_BottomRight(bottomright) {}
     VxRect(float l, float t, float r, float b) : m_TopLeft(l, t), m_BottomRight(r, b) {}
 #endif
 

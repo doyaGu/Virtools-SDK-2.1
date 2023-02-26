@@ -10,9 +10,6 @@ Summary: a reference counting class. You must derive from this
 class to use smart pointers.
 
 Remarks:
-
-
-
 See Also : XP,XSmartPtr
 ************************************************/
 class XRefCount

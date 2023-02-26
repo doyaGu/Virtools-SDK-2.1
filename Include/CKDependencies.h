@@ -18,9 +18,9 @@ See Also:CKDependencies
 ****************************************/
 typedef enum CK_DEPENDENCIES_FLAGS
 {
-    CK_DEPENDENCIES_CUSTOM = 0x00000000,	// Dependencies will depend on what options where modified in CKDependencies
-    CK_DEPENDENCIES_NONE   = 0x00000001,	// No dependencies will be taken into account
-    CK_DEPENDENCIES_FULL   = 0x00000002		// Every dependency will be taken
+    CK_DEPENDENCIES_CUSTOM = 0x00000000, // Dependencies will depend on what options where modified in CKDependencies
+    CK_DEPENDENCIES_NONE   = 0x00000001, // No dependencies will be taken into account
+    CK_DEPENDENCIES_FULL   = 0x00000002  // Every dependency will be taken
 } CK_DEPENDENCIES_FLAGS;
 
 /*************************************************
@@ -92,12 +92,11 @@ class CKDependenciesContext
     friend class CKUIManager;
 
 public:
-    CKDependenciesContext(CKContext *context) : m_CKContext(context),
-                                                m_Dependencies(NULL),
-                                                m_Mode(CK_DEPENDENCIES_BUILD),
-                                                m_CreationMode(CK_OBJECTCREATION_NONAMECHECK)
-    {
-    }
+    CKDependenciesContext(CKContext *context)
+        : m_CKContext(context),
+          m_Dependencies(NULL),
+          m_Mode(CK_DEPENDENCIES_BUILD),
+          m_CreationMode(CK_OBJECTCREATION_NONAMECHECK) {}
 
     // Objects Access
     void AddObjects(CK_ID *ids, int count);

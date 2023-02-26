@@ -6,7 +6,7 @@
 #include "VxMath.h"
 
 #define CKPGUID_FLOORGEOMETRY CKDEFINEGUID(0x7c1930a1, 0x42361a45)
-#define CKPGUID_FLOOR         CKDEFINEGUID(0x7b447672, 0x5798572a)
+#define CKPGUID_FLOOR CKDEFINEGUID(0x7b447672, 0x5798572a)
 
 /************************************************
 Summary: Returned Information about a nearest floor
@@ -34,7 +34,7 @@ class CKFloorPoint
 {
 public:
     CKFloorPoint() : m_UpFloor(0), m_UpFaceIndex(-1), m_UpDistance(100000000.0f),
-                     m_DownFloor(0), m_DownFaceIndex(-1), m_DownDistance(-100000000.0f){};
+                     m_DownFloor(0), m_DownFaceIndex(-1), m_DownDistance(-100000000.0f) {}
 
     void Clear()
     {
