@@ -76,7 +76,7 @@ typedef struct CKFileObject
     void CleanData()
     {
 #ifndef USECHUNKTABLE // No need to delete if memory is taken from a global table...
-        delete Data;
+        CKDeletePointer(Data);
 #endif
         Data = NULL;
     }
