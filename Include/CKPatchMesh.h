@@ -38,7 +38,7 @@ typedef struct CKPatch
         Material = 0;
         auxs = NULL;
     }
-    ~CKPatch() { delete[] auxs; }
+    ~CKPatch() { CKDeletePointer(auxs); }
 } CKPatch;
 
 /***************************************************************************
