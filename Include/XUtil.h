@@ -2,6 +2,7 @@
 #define XUTIL_H
 
 #include "VxMathDefines.h"
+#include "VxMemory.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -280,18 +281,6 @@ inline float XFabs(float a)
     return (float)::fabs((double)a);
     // return *(float*)&( (*(int*)(&a)) & 0xF800);
 }
-
-//------ Memory Management
-
-VX_EXPORT void *mynew(unsigned int n);
-VX_EXPORT void mydelete(void *a);
-
-#define VxNew(a) (mynew(a))
-#define VxDelete(a) (mydelete(a))
-
-//---- Aligned memory allocation
-VX_EXPORT void *VxNewAligned(int size, int align);
-VX_EXPORT void VxDeleteAligned(void *ptr);
 
 inline int LowestBitMask(int v)
 {
