@@ -40,12 +40,6 @@ public:
     // Unloads the shared Library
     VX_EXPORT void ReleaseLibrary();
 
-    template <typename T>
-    T GetFunction(const char *func)
-    {
-        return reinterpret_cast<T>(GetFunctionPtr(func));
-    }
-
     // Retrieves a function pointer from the library
     VX_EXPORT void *GetFunctionPtr(char *FunctionName);
 
