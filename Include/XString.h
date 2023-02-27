@@ -157,7 +157,7 @@ public:
         } else {
             m_Length = (iLength > 0) ? iLength : (XWORD)strlen(iString);
             m_Allocated = m_Length + 1;
-            m_Buffer = (char *)VxNew(sizeof(char) * m_Allocated);
+            m_Buffer = VxNewArray(char, m_Allocated);
             strncpy(m_Buffer, iString, m_Length);
             m_Buffer[m_Length] = '\0';
         }
@@ -175,7 +175,7 @@ public:
 
         m_Length = 0;
         m_Allocated = iLength + 1;
-        m_Buffer = (char *)VxNew(sizeof(char) * (iLength + 1));
+        m_Buffer = VxNewArray(char, (iLength + 1));
         memset(m_Buffer, 0, m_Allocated);
     }
 
@@ -191,7 +191,7 @@ public:
 
         m_Length = iSrc.m_Length;
         m_Allocated = iSrc.m_Length + 1;
-        m_Buffer = (char *)VxNew(sizeof(char) * m_Allocated);
+        m_Buffer = VxNewArray(char, m_Allocated);
         memcpy(m_Buffer, iSrc.m_Buffer, m_Allocated);
     }
 
@@ -207,7 +207,7 @@ public:
 
         m_Length = iSrc.m_Length;
         m_Allocated = iSrc.m_Length + 1;
-        m_Buffer = (char *)VxNew(sizeof(char) * m_Allocated);
+        m_Buffer = VxNewArray(char, m_Allocated);
         memcpy(m_Buffer, iSrc.m_Buffer, m_Allocated);
     }
 
@@ -225,7 +225,7 @@ public:
 #endif
 
     // Dtor
-    ~XString() { VxDelete(m_Buffer); }
+    ~XString() { VxDeleteArray(m_Buffer); }
 
     // operator =
     XString &operator=(const XString &iSrc)
@@ -270,7 +270,7 @@ public:
     {
         if (this != &iSrc)
         {
-            VxDelete(m_Buffer);
+            VxDeleteArray(m_Buffer);
             m_Buffer = iSrc.m_Buffer;
             m_Length = iSrc.m_Length;
             m_Allocated = iSrc.m_Allocated;
@@ -701,7 +701,7 @@ public:
             }
 
             XWORD len = m_Length + count * (iDest.m_Length - iSrc.m_Length);
-            char *buf = (char *)VxNew(sizeof(char) * (len + 1));
+            char *buf = VxNewArray(char, (len + 1));
 
             char *s1 = m_Buffer;
             char *s2 = buf;
@@ -719,7 +719,7 @@ public:
             }
             strncpy(s2, s1, (m_Buffer - s1) + 1);
 
-            VxDelete(m_Buffer);
+            VxDeleteArray(m_Buffer);
             m_Length = len;
             m_Buffer = buf;
             m_Allocated = len + 1;
@@ -950,10 +950,10 @@ public:
         if (iLength + 1 > m_Allocated)
         {
             m_Allocated = iLength + 1;
-            char *buf = (char *)VxNew(sizeof(char) * (iLength + 1));
+            char *buf = VxNewArray(char, (iLength + 1));
             if (m_Length != 0)
                 strncpy(buf, m_Buffer, m_Length + 1);
-            VxDelete(m_Buffer);
+            VxDeleteArray(m_Buffer);
             m_Buffer = buf;
         }
     }
@@ -995,12 +995,12 @@ protected:
         if (iLength + 1 > m_Allocated)
         {
             m_Allocated = iLength + 1;
-            char *buf = (char *)VxNew(sizeof(char) * (iLength + 1));
+            char *buf = VxNewArray(char, (iLength + 1));
             if (m_Length != 0)
                 strncpy(buf, m_Buffer, m_Length + 1);
             else
                 buf[0] = '\0';
-            VxDelete(m_Buffer);
+            VxDeleteArray(m_Buffer);
             m_Buffer = buf;
         }
     }

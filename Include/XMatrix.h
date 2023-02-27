@@ -25,7 +25,7 @@ public:
 
     ~XMatrix()
     {
-        delete[] m_Data;
+        Clear();
     }
 
 #if VX_HAS_CXX11
@@ -69,7 +69,7 @@ public:
     // Free the memory taken by the matrix.
     void Clear()
     {
-        delete[] m_Data;
+        VxDeallocate<T>(m_Data, iWidth * iHeight);
         m_Data = NULL;
         m_Width = 0;
         m_Height = 0;
@@ -104,7 +104,7 @@ private:
         int count = iWidth * iHeight;
         if (count)
         {
-            m_Data = new T[count];
+            m_Data = VxAllocate<T>(count);
             XASSERT(m_Data); // No more free space ???
             m_Width = iWidth;
             m_Height = iHeight;

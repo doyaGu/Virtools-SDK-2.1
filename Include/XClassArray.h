@@ -591,14 +591,18 @@ protected:
     T *Allocate(int size)
     {
         if (size)
-            return new T[size];
+        {
+            return VxAllocate<T>(size);
+        }
         else
-            return 0;
+        {
+            return NULL;
+        }
     }
 
     void Free()
     {
-        delete[] m_Begin;
+        VxDeallocate<T>(m_Begin, (m_AllocatedEnd - m_Begin) / sizeof(T));
     }
 
     ///

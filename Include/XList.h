@@ -2,6 +2,7 @@
 #define XLIST_H
 
 #include "VxMathDefines.h"
+#include "XUtil.h"
 
 #if VX_HAS_CXX11
 #include <algorithm>
@@ -142,7 +143,7 @@ public:
     ************************************************/
     XList()
     {
-        m_Node = new XNode<T>;
+        m_Node = VxNew(XNode<T>);
         m_Node->m_Prev = m_Node;
         m_Node->m_Next = m_Node;
         m_Count = 0;
@@ -150,7 +151,7 @@ public:
 
     XList(const XList<T> &list)
     {
-        m_Node = new XNode<T>;
+        m_Node = VxNew(XNode<T>);
         m_Node->m_Prev = m_Node;
         m_Node->m_Next = m_Node;
         m_Count = 0;
@@ -216,7 +217,7 @@ public:
     ~XList()
     {
         Clear();
-        delete m_Node;
+        VxDelete< XNode<T> >(m_Node);
     }
 
     /************************************************
@@ -230,7 +231,7 @@ public:
         {
             del = tmp;
             tmp = tmp->m_Next;
-            delete del;
+            VxDelete<XNode<T> >(del);
         }
         m_Node->m_Prev = m_Node;
         m_Node->m_Next = m_Node;
@@ -454,7 +455,7 @@ private:
 
     XNode<T> *XInsert(XNode<T> *i, const T &o)
     {
-        XNode<T> *n = new XNode<T>;
+        XNode<T> *n = VxNew(XNode<T>);
         // Data
         n->m_Data = o;
         // Pointers
@@ -474,7 +475,7 @@ private:
         prev->m_Next = next;
         next->m_Prev = prev;
         // we delete the old node
-        delete i;
+        VxDelete<XNode<T> >(i);
         m_Count--;
         // We return the element just after
         return next;

@@ -539,19 +539,19 @@ public:
                 ++m_Count;
             }
         }
-        else
-        { // Occupied
+        else // Occupied
+        {
             return tIterator(&m_Table[index], this);
         }
 
         // Need Rehash
-        if (m_Count >= m_Threshold)
-        { // Yes
+        if (m_Count >= m_Threshold) // Yes
+        {
             Rehash(m_Table.Size() * 2);
             return InsertUnique(key, o);
         }
-        else
-        { // No
+        else // No
+        {
             m_Table[index].Set(key, o);
             return tIterator(&m_Table[index], this);
         }

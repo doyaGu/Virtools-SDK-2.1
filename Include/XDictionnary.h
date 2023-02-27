@@ -2,7 +2,7 @@
 #define XDICTIONNARY_H
 
 #include "XArray.h"
-#include <cassert>
+#include "XUtil.h"
 
 template <class T>
 class XDictionnary
@@ -18,12 +18,12 @@ class XDictionnary
         {
             if (m_Flag & SUFFIX)
             {
-                delete[] Suffix.data;
+                VxDeallocate<T>(Suffix.data, Suffix.count);
                 Suffix.data = NULL;
             }
             else
             {
-                delete[] Children.data;
+                VxDeallocate<T>(Children.data, Children.count);
                 Children.data = NULL;
             }
         }
@@ -68,17 +68,15 @@ class XDictionnary
 
         void FreeChildren()
         {
-            delete[] Children.data;
+            VxDeallocate<T>(Children.data, Children.count);
             Children.data = NULL;
-
             Children.count = 0;
         }
 
         void FreeSuffix()
         {
-            delete[] Suffix.data;
+            VxDeallocate<T>(Suffix.data, Suffix.count);
             Suffix.data = NULL;
-
             Suffix.count = 0;
         }
 
@@ -567,7 +565,7 @@ private:
     // Node Creation
     Node *CreateNode(const T &iSymbol, void *iUserData = NULL)
     {
-        Node *node = new Node;
+        Node *node = VxNew(Node);
         node->m_Flag |= Node::SUFFIX;
 
         node->m_UserData = iUserData;
@@ -598,7 +596,7 @@ private:
             }
         }
 
-        delete iNode;
+        VxDelete<Node>(iNode);
     }
 
     void CreateChildren(Node *iNode)
@@ -609,7 +607,7 @@ private:
             iNode->m_Flag &= ~Node::SUFFIX;
 
             // create the children array
-            Node **children = new Node *[m_SymbolCount];
+            Node **children = VxNewArray(Node *, m_SymbolCount);
             int childrencount = 0;
             memset(children, 0, m_SymbolCount * sizeof(Node *));
 
@@ -622,7 +620,7 @@ private:
                 if (iNode->Suffix.count > 1)
                 {
                     n->Suffix.count = iNode->Suffix.count - 1;
-                    n->Suffix.data = new T[n->Suffix.count];
+                    n->Suffix.data = VxAllocate<T>(n->Suffix.count);
 
                     // recopy the rest of suffix
                     for (int i = 0; i < n->Suffix.count; ++i)
@@ -632,7 +630,7 @@ private:
                 }
 
                 // we delete the old suffixes data
-                delete[] iNode->Suffix.data;
+                VxDeallocate<T>(iNode->Suffix.data, n->Suffix.count);
                 iNode->Suffix.data = NULL;
                 iNode->m_UserData = NULL;
 
@@ -731,7 +729,7 @@ private:
                     nn->m_Flag |= Node::SUFFIX;
 
                     nn->Suffix.count = iCount - (i + 1);
-                    nn->Suffix.data = new T[nn->Suffix.count];
+                    n->Suffix.data = VxAllocate<T>(n->Suffix.count);
 
                     // we fill the suffix
                     for (int j = 0; j < nn->Suffix.count; ++j)

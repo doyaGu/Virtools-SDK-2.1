@@ -458,14 +458,14 @@ protected:
     T *Allocate(int size)
     {
         if (size)
-            return (T *)VxNew(sizeof(T) * size);
+            return VxNewArray(T, size);
         else
             return 0;
     }
 
     void Free()
     {
-        VxDelete(m_Begin);
+        VxDeleteArray(m_Begin);
     }
 
     ///

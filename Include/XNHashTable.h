@@ -582,14 +582,15 @@ public:
         }
 
         // Need Rehash
-        if (m_Count >= m_Threshold)
-        { // Yes
+        if (m_Count >= m_Threshold) // Yes
+        {
             Rehash(m_Table.Size() * 2);
             return InsertUnique(key, o);
         }
-        else
-        { // No
-            tEntry newe = new XNHashTableEntry<T, K>(key, o);
+        else // No
+        {
+            typedef XNHashTableEntry<T, K> Entry;
+            tEntry newe = VxNew(Entry)(key, o);
             newe->m_Next = m_Table[index];
             m_Table[index] = newe;
             m_Count++;
@@ -622,12 +623,12 @@ public:
                 if (old)
                 {
                     old->m_Next = e->m_Next;
-                    delete e;
+                    VxDelete<XNHashTableEntry<T, K> >(e);
                 }
                 else
                 {
                     m_Table[index] = e->m_Next;
-                    delete e;
+                    VxDelete<XNHashTableEntry<T, K> >(e);
                 }
                 --m_Count;
                 break;
@@ -652,13 +653,13 @@ public:
                 if (old)
                 {
                     old->m_Next = e->m_Next;
-                    delete e;
+                    VxDelete<XNHashTableEntry<T, K> >(e);
                     old = old->m_Next;
                 }
                 else
                 {
                     m_Table[index] = e->m_Next;
-                    delete e;
+                    VxDelete<XNHashTableEntry<T, K> >(e);
                     old = m_Table[index];
                 }
                 --m_Count;
@@ -924,7 +925,7 @@ private:
         {
             del = tmp;
             tmp = tmp->m_Next;
-            delete del;
+            VxDelete<XNHashTableEntry<T, K> >(del);
         }
     }
 
@@ -937,7 +938,8 @@ private:
 
         while (tmp != NULL)
         {
-            newone = new XNHashTableEntry<T, K>(*tmp);
+            typedef XNHashTableEntry<T, K> Entry;
+            newone = VxNew(Entry)(*tmp);
             if (oldone)
                 oldone->m_Next = newone;
             else
@@ -999,7 +1001,8 @@ private:
 
     tEntry XInsert(int index, const K &key, const T &o)
     {
-        tEntry newe = new XNHashTableEntry<T, K>(key, o);
+        typedef XNHashTableEntry<T, K> Entry;
+        tEntry newe = VxNew(Entry)(key, o);
         newe->m_Next = m_Table[index];
         m_Table[index] = newe;
         ++m_Count;

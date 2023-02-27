@@ -2,6 +2,7 @@
 #define NTREE_H
 
 #include "XHashFun.h"
+#include "XUtil.h"
 
 /************************************************
 Summary: Class representation of a N tree.
@@ -461,22 +462,22 @@ private:
 
     INode *AllocateInternalNode()
     {
-        return new INode;
+        return VxNew(INode);
     }
 
     Leaf *AllocateLeaf()
     {
-        return new Leaf;
+        return VxNew(Leaf);
     }
 
     void ReleaseInternalNode(INode *iNode)
     {
-        delete iNode;
+        VxDelete<INode>(iNode);
     }
 
     void ReleaseLeaf(Leaf *iLeaf)
     {
-        delete iLeaf;
+        VxDelete<Leaf>(iLeaf);
     }
 
     // Members

@@ -768,7 +768,7 @@ protected:
 
     Node *XBuynode(Node *iParent, Color iColor)
     {
-        Node *n = new Node;
+        Node *n = VxNew(Node);
         n->parent = iParent;
         n->color = iColor;
         return n;
@@ -777,7 +777,7 @@ protected:
     // Construction by placement new
     void XConsval(Pointer iP, ConstReference iValue) { new ((void *)iP) T(iValue); }
     void XDestval(Pointer iP) { (iP)->~T(); }
-    void XFreeNode(Node *iN) { delete iN; }
+    void XFreeNode(Node *iN) { VxDelete<Node>(iN); }
 
     // Null reference
     static Node *m_Nil;
@@ -885,13 +885,13 @@ class XBinaryTree
 public:
     XBinaryTree()
     {
-        m_Root = m_NullNode = new tNode;
+        m_Root = m_NullNode = VxNew(tNode);
     }
 
     ~XBinaryTree()
     {
         XRemove(m_Root);
-        delete m_NullNode;
+        VxDelete<tNode>(iN);
     }
 
     void Clear()
@@ -969,8 +969,7 @@ public:
         // The value wasn't found, we insert it
         if (t == m_NullNode)
         {
-            *parent = new tNode(o, m_NullNode, m_NullNode);
-            ;
+            *parent = VxNew(tNode)(o, m_NullNode, m_NullNode);
             return 1;
         }
         // already in the tree
@@ -1005,13 +1004,13 @@ public:
                 // if it's a leaf ?
                 if (t->m_Right == m_NullNode)
                 {
-                    delete t;
+                    VxDelete<tNode>(iN);
                     *parent = m_NullNode;
                 }
                 else
                 { // we reup the right tree in place
                     *parent = t->m_Right;
-                    delete t;
+                    VxDelete<tNode>(iN);
                 }
             }
             else // There's a left child
@@ -1020,7 +1019,7 @@ public:
                 if (t->m_Right == m_NullNode) // we reup the left tree in place
                 {
                     *parent = t->m_Left;
-                    delete t;
+                    VxDelete<tNode>(iN);
                 }
                 else // we have to put the max of the left tree in place
                 {
@@ -1033,7 +1032,7 @@ public:
                     }
                     *parent = left->m_Left;
                     t->m_Data = left->m_Data;
-                    delete left;
+                    VxDelete<tNode>(iN);
                 }
             }
             return 1;
@@ -1090,7 +1089,7 @@ private:
         {
             XRemove(t->m_Left);
             XRemove(t->m_Right);
-            delete t;
+            VxDelete<tNode>(iN);
         }
     }
 

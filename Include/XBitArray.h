@@ -405,12 +405,12 @@ public:
 private:
     XDWORD *Allocate(int size)
     {
-        return (XDWORD *)VxNew(sizeof(XDWORD) * size);
+        return VxNewArray(XDWORD, size);
     }
 
     void Free()
     {
-        VxDelete(m_Data);
+        VxDeleteArray(m_Data);
     }
 
     // the array itself {secret}

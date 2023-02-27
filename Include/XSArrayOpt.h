@@ -1,6 +1,8 @@
 #ifndef XSARRAY_OPT_H
 #define XSARRAY_OPT_H
 
+#include "VxMemory.h"
+
 #define SZ_ONE_ELEMENT(a) (sizeof(T) == sizeof(T *) && (a <= 1))
 #define SET_DATA(a) ((*(T *)&m_Data) = a)
 
@@ -630,12 +632,12 @@ protected:
 
     void XFree(T *data)
     {
-        free(data);
+        VxFree(data);
     }
 
     void *XAllocate(unsigned int size)
     {
-        return malloc(size);
+        return VxMalloc(size);
     }
 
     // Members
