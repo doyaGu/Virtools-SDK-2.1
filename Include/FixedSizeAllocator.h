@@ -15,6 +15,7 @@
 
 #include <new.h>
 
+#include "XArray.h"
 #include "XBitArray.h"
 
 class XFixedSizeAllocator
