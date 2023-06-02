@@ -2,6 +2,7 @@
 #define VXRAY_H
 
 #include "VxVector.h"
+#include "VxMatrix.h"
 #include "XUtil.h"
 
 /**********************************************************
