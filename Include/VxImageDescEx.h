@@ -3,7 +3,7 @@
 
 #include "VxMathDefines.h"
 
-#include "string.h"
+#include <string.h>
 
 /****************************************************************
 Name: VxImageDescEx
