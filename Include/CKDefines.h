@@ -679,7 +679,6 @@ typedef struct CKParameterTypeDesc
 template <>
 struct XHashFun<CKGUID>
 {
-
     int operator()(const CKGUID &__s) const { return __s.d1; }
 };
 
