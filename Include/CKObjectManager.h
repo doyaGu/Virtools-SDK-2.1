@@ -36,10 +36,10 @@ public:
     CKERROR GetObjectListByType(CK_CLASSID cid, XObjectPointerArray &array, CKBOOL derived);
 
     CKBOOL InLoadSession();
-    void StartLoadSession(int Count);
+    void StartLoadSession(int id);
     void EndLoadSession();
 
-    void RegisterLoadObject(CKObject *iObject, int Count);
+    void RegisterLoadObject(CKObject *iObject, int id);
 
     CK_ID RealId(CK_ID id);
 
@@ -88,6 +88,22 @@ public:
 
     void AddSingleObjectActivity(CKSceneObject *o, CK_ID id);
     int GetSingleObjectActivity(CKSceneObject *o, CK_ID &id);
+
+    int m_ObjectsCount;
+    CKObject **m_ObjectPtrs;
+    XClassArray<XObjectArray> m_ObjectLists;
+    CKDWORD m_LoadSession;
+    CKDWORD m_Count;
+    CKBOOL m_NeedDeleteAllDynamicObjects;
+    CKBOOL m_InLoadSession;
+    CKDWORD m_MaxObjectID;
+    XHashID m_ObjectAppData;
+    XHashID m_SingleObjectActivities;
+    XArray<CKGUID> m_Array;
+    XArray<CKDeferredDeletion *> m_DeferredDeletions[4];
+    XObjectArray m_DynamicObjects;
+    XBitArray m_SceneGlobalIndex;
+    XBitArray m_GroupGlobalIndex;
 };
 
 #endif // CKOBJECTRMANAGER_H
