@@ -282,9 +282,6 @@ public:
     //--------------------------------------------------------
     ////               Private Part
 
-    CKBOOL ReadRawBitmapHeader(VxImageDescEx &desc);
-    CKBOOL ReadRawBitmapData(VxImageDescEx &desc);
-
     CKStateChunk();
     CKStateChunk(CKStateChunk *chunk);
     CKStateChunk(CK_CLASSID Cid, CKFile *f);
