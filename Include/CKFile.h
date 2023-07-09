@@ -101,7 +101,7 @@ class CKBufferParser
 
 public:
     CKBufferParser(void *Buffer, int Size);
-    ~CKBufferParser(){};
+    ~CKBufferParser();
 
     //----- Read Write method
     CKBOOL Write(void *x, int size);
@@ -152,7 +152,7 @@ public:
     void Encode(int Size, CKDWORD Key[4]);
 
 public:
-    void *m_Buffer;
+    char *m_Buffer;
     int m_CursorPos;
     CKBOOL m_Valid;
     int m_Size;
