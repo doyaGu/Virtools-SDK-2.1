@@ -1035,7 +1035,7 @@ protected:
     T *Allocate(int size)
     {
         if (size)
-            return VxNewArray(T, size);
+            return (T *)VxMalloc(sizeof(T) * size);
         else
             return 0;
     }
@@ -1043,7 +1043,7 @@ protected:
     // Free {secret}
     void Free()
     {
-        VxDeleteArray(m_Begin);
+        VxFree(m_Begin);
     }
 
     ///

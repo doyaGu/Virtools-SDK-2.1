@@ -37,7 +37,7 @@ public:
     {
         // CKDeletePointer(Name);
         // CKDeletePointer(DefaultValueString);
-        VxDeleteArray(DefaultValue);
+        delete[] DefaultValue;
     }
     CKPARAMETER_DESC &operator=(const CKPARAMETER_DESC &d)
     {
@@ -50,7 +50,7 @@ public:
         Owner = d.Owner;
         if (d.DefaultValue && d.DefaultValueSize)
         {
-            DefaultValue = VxNewArray(CKBYTE, d.DefaultValueSize);
+            DefaultValue = new CKBYTE[d.DefaultValueSize];
             DefaultValueSize = d.DefaultValueSize;
             memcpy(DefaultValue, d.DefaultValue, DefaultValueSize);
         }

@@ -64,12 +64,4 @@ void VxDeallocate(T *ptr, unsigned int cnt)
     }
 }
 
-#ifndef VxNewArray
-#define VxNewArray(x, cnt) (x *)VxMalloc(sizeof(x) * cnt)
-#endif
-
-#ifndef VxDeleteArray
-#define VxDeleteArray(ptr) VxFree(ptr)
-#endif
-
 #endif // VXMEMORY_H
