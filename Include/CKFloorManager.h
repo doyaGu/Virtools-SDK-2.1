@@ -107,23 +107,6 @@ public:
     virtual CK_FLOORNEAREST GetNearestFloors(const VxVector &iPosition, CKFloorPoint *oFP, CK3dEntity *iExcludeFloor = NULL) = 0;
 
     /************************************************
-    Summary: Constrain a point in the edges of the current floors, with a given radius.
-
-    Arguments:
-        iPosition: a vector in world space to be tested.
-        iRadius: float describing the radius of the object to constrain
-        oPosition: the new position of the vector, in world space, if constraint has been done.
-        iExcludeAttribute: attribute that will exclude a found floor. from the process
-    Return Value:
-        TRUE if the position has been constrained, FALSE otherwise,
-
-    Remarks:
-
-    See Also:GetNearestFloors
-    ************************************************/
-    virtual CKBOOL ConstrainToFloor(const VxVector &iPosition, float iRadius, VxVector *oPosition, CKAttributeType iExcludeAttribute = -1) = 0;
-
-    /************************************************
     Summary: Sets/Gets the angle above which faces are not considered as floors.
 
     Arguments:
