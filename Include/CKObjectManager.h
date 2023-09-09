@@ -90,7 +90,7 @@ public:
     int GetSingleObjectActivity(CKSceneObject *o, CK_ID &id);
 
     int m_ObjectsCount;
-    CKObject **m_ObjectPtrs;
+    CKObject **m_Objects;
     XClassArray<XObjectArray> m_ObjectLists;
     CKDWORD m_LoadSession;
     CKDWORD m_Count;
