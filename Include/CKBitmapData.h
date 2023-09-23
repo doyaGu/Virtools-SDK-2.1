@@ -604,8 +604,8 @@ public:
     void SetAlphaForTransparentColor(const VxImageDescEx &desc);
     void SetBorderColorForClamp(const VxImageDescEx &desc);
     CKBOOL SetSlotImage(int Slot, void *buffer, VxImageDescEx &bdesc);
-    CKBOOL DumpToChunk(CKStateChunk *chnk, CKFile *f, CKDWORD Identifiers[4]);
-    CKBOOL ReadFromChunk(CKStateChunk *chnk, CKFile *f, CKDWORD Identifiers[5]);
+    CKBOOL DumpToChunk(CKStateChunk *chnk, CKContext *ctx, CKFile *f, CKDWORD Identifiers[4]);
+    CKBOOL ReadFromChunk(CKStateChunk *chnk, CKContext *ctx, CKFile *f, CKDWORD Identifiers[5]);
 };
 
 #endif // CKBITMAPDATA_H
