@@ -229,38 +229,23 @@ public:
     *************************************************/
     virtual CKBOOL GetSystemTextureDesc(VxImageDescEx &desc) = 0;
 
-    /************************************************
-    Summary: Creates a set of mipmap level image the user can specify.
+   /*************************************************
+    Summary: Set the desired pixel format of the texture surface in video memory.
 
-    Return Value:
-        TRUE if successful, FALSE otherwise
     Arguments:
-        UserMipmap: TRUE to use user specified images as mipmap FALSE otherwise.
-    Remarks:
-    + The default behavior for a texture is to automatically generate
-    its mipmap level images when loaded on the video card. A user can
-    specify its own images using this method.
-    + To set up the image to use for a particular level use GetMipMapLevelImageBuffer
-    + This method only works for mono-slot textures.
-    See Also:GetUserMipMapLevel
-    ************************************************/
-    virtual CKBOOL SetUserMipMapMode(CKBOOL UserMipmap) = 0;
+        Format: Pixel format of video memory surface (VX_PIXELFORMAT)
+    See Also: GetDesiredVideoFormat
+    *************************************************/
+    virtual void SetDesiredVideoFormat(VX_PIXELFORMAT Format) = 0;
 
-    /************************************************
-    Summary: Gets access to a user mipmap level.
+   /*************************************************
+    Summary: Returns the desired pixel format of the texture surface in video memory.
 
     Return Value:
-        TRUE if successful, FALSE otherwise
-    Remarks:
-    + This method returns a VxImageDescEx structure which contain all details (included surface pointer in .Image member)
-    about a user specified level of mipmap.
-    + This method must be called for every available level of mipmap before the
-    texture is used otherwise once every level of mipmap have been set, you must called
-    FreeVideoMemory to ensure the texture in video memory reflects the changes you made to the
-    mipmaps level...
-    See Also:SetUserMipMapMode
+        Desired pixel format of video memory surface (VX_PIXELFORMAT) or VX_UNKNOWNPF
+    See Also:SetDesiredVideoFormat
     ************************************************/
-    virtual CKBOOL GetUserMipMapLevel(int Level, VxImageDescEx &ResultImage) = 0;
+    virtual VX_PIXELFORMAT GetDesiredVideoFormat() = 0;
 
     /************************************************
     Summary: Gets the texture index of this texture in the rasterizer context.
