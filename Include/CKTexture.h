@@ -215,6 +215,7 @@ public:
     See Also: SetDesiredVideoFormat, GetVideoTextureDesc
     *************************************************/
     virtual VX_PIXELFORMAT GetVideoPixelFormat() = 0;
+
     /*************************************************
     Summary: Gets Image format description
 
@@ -229,7 +230,7 @@ public:
     *************************************************/
     virtual CKBOOL GetSystemTextureDesc(VxImageDescEx &desc) = 0;
 
-   /*************************************************
+    /*************************************************
     Summary: Set the desired pixel format of the texture surface in video memory.
 
     Arguments:
@@ -238,7 +239,7 @@ public:
     *************************************************/
     virtual void SetDesiredVideoFormat(VX_PIXELFORMAT Format) = 0;
 
-   /*************************************************
+    /*************************************************
     Summary: Returns the desired pixel format of the texture surface in video memory.
 
     Return Value:
