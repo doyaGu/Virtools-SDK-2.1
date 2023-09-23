@@ -212,7 +212,7 @@ public:
     Return Value:
         Pixel format of video memory surface (VX_PIXELFORMAT) or VX_UNKNOWNPF
         if the texture is not in video memory.
-    See Also: SetDesiredVideoFormat, GetVideoTextureDesc
+    See Also: SetDesiredVideoFormat,GetVideoTextureDesc
     *************************************************/
     virtual VX_PIXELFORMAT GetVideoPixelFormat() = 0;
 
@@ -249,6 +249,39 @@ public:
     virtual VX_PIXELFORMAT GetDesiredVideoFormat() = 0;
 
     /************************************************
+    Summary: Creates a set of mipmap level image the user can specify.
+
+    Return Value:
+        TRUE if successful, FALSE otherwise
+    Arguments:
+        UserMipmap: TRUE to use user specified images as mipmap FALSE otherwise.
+    Remarks:
+    + The default behavior for a texture is to automatically generate
+    its mipmap level images when loaded on the video card. A user can
+    specify its own images using this method.
+    + To set up the image to use for a particular level use GetMipMapLevelImageBuffer
+    + This method only works for mono-slot textures.
+    See Also:GetUserMipMapLevel
+    ************************************************/
+    virtual CKBOOL SetUserMipMapMode(CKBOOL UserMipmap) = 0;
+
+    /************************************************
+    Summary: Gets access to a user mipmap level.
+
+    Return Value:
+        TRUE if successful, FALSE otherwise
+    Remarks:
+    + This method returns a VxImageDescEx structure which contain all details (included surface pointer in .Image member)
+    about a user specified level of mipmap.
+    + This method must be called for every available level of mipmap before the
+    texture is used otherwise once every level of mipmap have been set, you must called
+    FreeVideoMemory to ensure the texture in video memory reflects the changes you made to the
+    mipmaps level...
+    See Also:SetUserMipMapMode
+    ************************************************/
+    virtual CKBOOL GetUserMipMapLevel(int Level, VxImageDescEx &ResultImage) = 0;
+
+    /************************************************
     Summary: Gets the texture index of this texture in the rasterizer context.
 
     Return Value:
@@ -259,37 +292,9 @@ public:
     + This method returns the index of the texture as stored by the CKRasterizerContext.
     + With the render engine source code you can then access to the driver specific (DX5,7,8,OpenGL)
     data for this texture.
-    See Also:GetRstTextureObject,CKRenderContext::GetRasterizerContext
+    See Also:CKRenderContext::GetRasterizerContext
     ************************************************/
     virtual int GetRstTextureIndex() = 0;
-
-    /************************************************
-    Summary: Transfers the content of the video memory to the system memory copy.
-
-    Return Value:
-        TRUE if successful, FALSE if the texture is not currently in video memory
-    Remarks:
-    + The System Caching mode must be CKBITMAP_PROCEDURAL or CKBITMAP_VIDEOSHADOW
-    for this method to work (that is a system copy must exist)
-    See Also:LockVideoMemory,LockSurfacePtr,
-    ************************************************/
-    virtual CKBOOL VideoToSystemMemory() = 0;
-
-    /************************************************
-    Summary: Gets the texture object of this texture in the rasterizer context.
-
-    Return Value:
-        A pointer to a structure that represents the texture object or NULL if the texture
-        is not yet stored in the rasterizer context.
-    Remarks:
-    + The default implementation of the render engine uses an underlying rasterizer to store
-    and render primitives.
-    + This method returns the object of the texture as stored by the CKRasterizerContext.
-    + With the render engine source code you can then access to the driver specific (DX5,7,8,OpenGL)
-    data for this texture by casting the returned pointer in the appropriate structure (CKDX8TextureDesc,	.
-    See Also:GetRstTextureIndex,CKRenderContext::GetRasterizerContext
-    ************************************************/
-    virtual void *GetRstTextureObject() = 0;
 
     CKTexture(CKContext *Context, CKSTRING name = NULL) : CKBeObject(Context, name), CKBitmapData(Context) {}
 
