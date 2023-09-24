@@ -191,7 +191,6 @@ public:
     static CKSTRING GetDependencies(int i, int Mode);
     static void Register();
     static CKWaveSound *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKWaveSound *);
     static CK_CLASSID m_ClassID;
 
     // Dynamic Cast method (returns NULL if the object can't be cast)

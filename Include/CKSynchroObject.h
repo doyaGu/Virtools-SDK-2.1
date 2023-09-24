@@ -54,7 +54,6 @@ public:
     static CKSTRING GetDependencies(int i, int mode);
     static void Register();
     static CKSynchroObject *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKSynchroObject *);
     static CK_CLASSID m_ClassID;
 
 protected:
@@ -108,7 +107,6 @@ public:
     static CKSTRING GetDependencies(int i, int mode);
     static void Register();
     static CKCriticalSectionObject *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKCriticalSectionObject *);
     static CK_CLASSID m_ClassID;
 
 protected:
@@ -158,7 +156,6 @@ public:
     static CKSTRING GetDependencies(int i, int mode);
     static void Register();
     static CKStateObject *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKStateObject *);
     static CK_CLASSID m_ClassID;
 
 protected:

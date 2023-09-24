@@ -122,7 +122,6 @@ public:
     static CKSTRING GetDependencies(int i, int mode);
     static void Register();
     static CKBehaviorLink *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKBehaviorLink *);
     static CK_CLASSID m_ClassID;
 
     // Dynamic Cast method (returns NULL if the object can't be cast)

@@ -31,7 +31,6 @@ public:
     static CKSTRING GetDependencies(int i, int mode);
     static void Register();
     static CKInterfaceObjectManager *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKInterfaceObjectManager *);
     static CK_ID m_ClassID;
 
 private:

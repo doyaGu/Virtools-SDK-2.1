@@ -244,7 +244,6 @@ public:
     static CKSTRING GetDependencies(int i, int mode);
     static void Register();
     static CKParameterIn *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKParameterIn *);
     static CK_CLASSID m_ClassID;
 
     // Dynamic Cast method (returns NULL if the object can't be casted)

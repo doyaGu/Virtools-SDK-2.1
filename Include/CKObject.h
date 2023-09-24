@@ -232,7 +232,6 @@ public:
     static CKSTRING GetDependencies(int i, int mode);
     static void Register();
     static CKObject *CreateInstance(CKContext *Context);
-    static void ReleaseInstance(CKContext *iContext, CKObject *);
     static CK_CLASSID m_ClassID;
     static CKObject *Cast(CKObject *iO)
     {
