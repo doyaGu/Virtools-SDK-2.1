@@ -501,13 +501,13 @@ public:
     o When KeepChildren is set to TRUE, children entities of this object will keep their current position.
     See also: SetOrientation, GetOrientation
     ************************************************/
-    virtual void Rotate(const VxVector *Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+    virtual void Rotate(float X, float Y, float Z, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+
+    virtual void Rotate(const VxVector *Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
     void Rotate(const VxVector &Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
     {
         Rotate(&Axis, Angle, Ref, KeepChildren);
     }
-
-    virtual void Rotate(float X, float Y, float Z, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
 
     /************************************************
     Summary: Translates the entity.
@@ -522,13 +522,13 @@ public:
 
     See also: SetPosition, GetPosition.
     ************************************************/
+    virtual void Translate(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+
     virtual void Translate(const VxVector *Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
     void Translate(const VxVector &Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
     {
         Translate(&Vect, Ref, KeepChildren);
     }
-
-    virtual void Translate(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
 
     /************************************************
     Summary: Adds scaling to the entity.
@@ -540,12 +540,13 @@ public:
         + When KeepChildren is set to TRUE, children entities of this object will keep their current position/orientation.
     See also: GetScale, AddScale
     ************************************************/
+    virtual void AddScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+
     virtual void AddScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
     void AddScale(const VxVector &Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE)
     {
         AddScale(&Scale, KeepChildren, Local);
     }
-    virtual void AddScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
 
     /************************************************
     Summary: Sets the position of the moveable
@@ -560,12 +561,13 @@ public:
     + When KeepChildren is set to TRUE, children entity of this object will keep their current position.
     See also: Translate
     ************************************************/
+    virtual void SetPosition(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
+
     virtual void SetPosition(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
     void SetPosition(const VxVector &Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
     {
         SetPosition(&Pos, Ref, KeepChildren);
     }
-    virtual void SetPosition(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) = 0;
 
     /*************************************************
     Summary: Returns the entity position in a given referential.
@@ -660,12 +662,13 @@ public:
 
     See also: GetScale, AddScale
     ************************************************/
+    virtual void SetScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
+
     virtual void SetScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
     void SetScale(const VxVector &Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE)
     {
         SetScale(&Scale, KeepChildren, Local);
     }
-    virtual void SetScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) = 0;
 
     /*************************************************
     Summary: Returns the scale of this entity.
