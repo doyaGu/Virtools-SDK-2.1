@@ -1,4 +1,13 @@
 #if !defined(CKSPRITE_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #define CKSPRITE_H
 #ifndef CK_3DIMPLEMENTATION
 
@@ -44,7 +53,7 @@ public:
     the method returns FALSE.
     See Also:LoadImage,SaveImage
     *************************************************/
-    virtual CKBOOL Create(int Width, int Height, int BPP = 32, int Slot = 0) = 0;
+    virtual CKBOOL Create(int Width, int Height, int BPP = 32, int Slot = 0) CK_PURE;
 
     /*************************************************
     Summary: Loads a image slot from a file.
@@ -59,7 +68,7 @@ public:
         readers support BMP,TGA,JPG,PNG and GIF format
     See also: SaveImage
     *************************************************/
-    virtual CKBOOL LoadImage(CKSTRING Name, int Slot = 0) = 0;
+    virtual CKBOOL LoadImage(CKSTRING Name, int Slot = 0) CK_PURE;
 
     /************************************************
     Summary: Saves an image slot to a file.
@@ -75,7 +84,7 @@ public:
 
     See also: CreateImage,CKBitmapReader
     ************************************************/
-    virtual CKBOOL SaveImage(CKSTRING Name, int Slot = 0, CKBOOL CKUseFormat = FALSE) = 0;
+    virtual CKBOOL SaveImage(CKSTRING Name, int Slot = 0, CKBOOL CKUseFormat = FALSE) CK_PURE;
 
     //-------------------------------------------------------------
     // Movie Loading
@@ -94,7 +103,7 @@ public:
         reader support AVI files.
     See also: LoadImage,Create
     ************************************************/
-    virtual CKBOOL LoadMovie(CKSTRING Name, int width = 0, int height = 0, int Bpp = 16) = 0;
+    virtual CKBOOL LoadMovie(CKSTRING Name, int width = 0, int height = 0, int Bpp = 16) CK_PURE;
 
     /*************************************************
     Summary: Returns the name of the movie file used by this sprite.
@@ -103,7 +112,7 @@ public:
         A pointer to the name of the file which was used to load this sprite or NULL if this sprite is not a movie.
     See also: LoadMovie,GetMovieReader
     *************************************************/
-    virtual CKSTRING GetMovieFileName() = 0;
+    virtual CKSTRING GetMovieFileName() CK_PURE;
 
     /*************************************************
     Summary: Returns the movie reader used to decompress the current movie.
@@ -113,7 +122,7 @@ public:
 
     See also: LoadMovie,GetMovieFileName,CKMovieReader
     *************************************************/
-    virtual CKMovieReader *GetMovieReader() = 0;
+    virtual CKMovieReader *GetMovieReader() CK_PURE;
 
     //-------------------------------------------------------------
     // SURFACE PTR ACCESS
@@ -134,7 +143,7 @@ public:
 
     See also: ReleaseSurfacePtr,SetPixel,GetPixel
     *************************************************/
-    virtual CKBYTE *LockSurfacePtr(int Slot = -1) = 0;
+    virtual CKBYTE *LockSurfacePtr(int Slot = -1) CK_PURE;
 
     /*************************************************
     Summary: Marks a slot as modified.
@@ -147,7 +156,7 @@ public:
 
     See also: LockSurfacePtr,SetPixel
     *************************************************/
-    virtual CKBOOL ReleaseSurfacePtr(int Slot = -1) = 0;
+    virtual CKBOOL ReleaseSurfacePtr(int Slot = -1) CK_PURE;
 
     //-------------------------------------------------------------
     // Bitmap filenames information
@@ -160,7 +169,7 @@ public:
 
     See also: SetSlotFileName
     *************************************************/
-    virtual CKSTRING GetSlotFileName(int Slot) = 0;
+    virtual CKSTRING GetSlotFileName(int Slot) CK_PURE;
 
     /*************************************************
     Summary: Sets the name of the file used to load an image slot.
@@ -171,7 +180,7 @@ public:
 
     See also: GetSlotFileName
     *************************************************/
-    virtual CKBOOL SetSlotFileName(int Slot, CKSTRING Filename) = 0;
+    virtual CKBOOL SetSlotFileName(int Slot, CKSTRING Filename) CK_PURE;
 
     //--------------------------------------------------------------
     // Bitmap storage information
@@ -182,7 +191,7 @@ public:
 
     See Also: GetBytesPerLine,GetHeight,GetBitsPerPixel
     *************************************************/
-    virtual int GetWidth() = 0;
+    virtual int GetWidth() CK_PURE;
 
     /*************************************************
     Summary: Gets the image height
@@ -190,19 +199,19 @@ public:
 
     See Also: GetBytesPerLine,GetWidth,GetBitsPerPixel
     *************************************************/
-    virtual int GetHeight() = 0;
+    virtual int GetHeight() CK_PURE;
 
-    virtual int GetBitsPerPixel() = 0;
+    virtual int GetBitsPerPixel() CK_PURE;
 
-    virtual int GetBytesPerLine() = 0;
+    virtual int GetBytesPerLine() CK_PURE;
 
-    virtual int GetRedMask() = 0;
+    virtual int GetRedMask() CK_PURE;
 
-    virtual int GetGreenMask() = 0;
+    virtual int GetGreenMask() CK_PURE;
 
-    virtual int GetBlueMask() = 0;
+    virtual int GetBlueMask() CK_PURE;
 
-    virtual int GetAlphaMask() = 0;
+    virtual int GetAlphaMask() CK_PURE;
 
     //-------------------------------------------------------------
     // Image slot count
@@ -214,7 +223,7 @@ public:
 
     See also: SetSlotCount,GetCurrentSlot,SetCurrentSlot
     ************************************************/
-    virtual int GetSlotCount() = 0;
+    virtual int GetSlotCount() CK_PURE;
 
     /************************************************
     Summary: Sets the number of slot (images) in this sprite.
@@ -225,7 +234,7 @@ public:
 
     See also: GetSlotCount,GetCurrentSlot,SetCurrentSlot
     ************************************************/
-    virtual CKBOOL SetSlotCount(int Count) = 0;
+    virtual CKBOOL SetSlotCount(int Count) CK_PURE;
 
     /************************************************
     Summary: Sets the current active image.
@@ -236,7 +245,7 @@ public:
         TRUE if successful, FALSE otherwise.
     See also: GetSlotCount,SetSlotCount,GetCurrentSlot
     *****************************************************/
-    virtual CKBOOL SetCurrentSlot(int Slot) = 0;
+    virtual CKBOOL SetCurrentSlot(int Slot) CK_PURE;
 
     /************************************************
     Summary: Returns current slot index.
@@ -244,7 +253,7 @@ public:
     Return Value: Current image slot index.
     See Also:GetSlotCount,SetSlotCount,SetCurrentSlot
     ************************************************/
-    virtual int GetCurrentSlot() = 0;
+    virtual int GetCurrentSlot() CK_PURE;
 
     /************************************************
     Summary: Removes an image.
@@ -255,7 +264,7 @@ public:
         Slot: Index of the image to remove.
     See also: GetSlotCount,GetCurrentSlot,SetCurrentSlot
     ************************************************/
-    virtual CKBOOL ReleaseSlot(int Slot) = 0;
+    virtual CKBOOL ReleaseSlot(int Slot) CK_PURE;
 
     /************************************************
     Summary: Deletes all the images.
@@ -264,7 +273,7 @@ public:
         TRUE if successful, FALSE otherwise.
     See also: GetSlotCount,GetCurrentSlot,SetCurrentSlot
     ************************************************/
-    virtual CKBOOL ReleaseAllSlots() = 0;
+    virtual CKBOOL ReleaseAllSlots() CK_PURE;
 
     //-------------------------------------------------------------
     // ACCESS TO SYSTEM MEMORY SURFACE
@@ -285,7 +294,7 @@ public:
 
     See Also:LockSurfacePtr,GetPixel,ReleaseSurfacePtr
     *************************************************/
-    virtual CKBOOL SetPixel(int x, int y, CKDWORD col, int slot = -1) = 0;
+    virtual CKBOOL SetPixel(int x, int y, CKDWORD col, int slot = -1) CK_PURE;
 
     /*************************************************
     Summary: Gets the color of a pixel.
@@ -300,7 +309,7 @@ public:
 
     See Also:LockSurfacePtr,SetPixel
     *************************************************/
-    virtual CKDWORD GetPixel(int x, int y, int slot = -1) = 0;
+    virtual CKDWORD GetPixel(int x, int y, int slot = -1) CK_PURE;
 
     //-------------------------------------------------------------
     // TRANSPARENCY
@@ -314,7 +323,7 @@ public:
 
     See also: SetTranparentColor,SetTransparent
     ************************************************/
-    virtual CKDWORD GetTransparentColor() = 0;
+    virtual CKDWORD GetTransparentColor() CK_PURE;
 
     /************************************************
     Summary: Sets the transparent color.
@@ -328,7 +337,7 @@ public:
 
     See also: GetTranparentColor,SetTransparent
     ************************************************/
-    virtual void SetTransparentColor(CKDWORD Color) = 0;
+    virtual void SetTransparentColor(CKDWORD Color) CK_PURE;
 
     /************************************************
     Summary: Enables or disables the color key transparency.
@@ -342,7 +351,7 @@ public:
 
     See also: IsTransparent,SetTranparentColor
     ************************************************/
-    virtual void SetTransparent(CKBOOL Transparency) = 0;
+    virtual void SetTransparent(CKBOOL Transparency) CK_PURE;
 
     /************************************************
     Summary: Returns whether color keyed transparency is enabled.
@@ -354,7 +363,7 @@ public:
 
     See also: IsTransparent
     ************************************************/
-    virtual CKBOOL IsTransparent() = 0;
+    virtual CKBOOL IsTransparent() CK_PURE;
 
     //-------------------------------------------------------------
     // VIDEO MEMORY MANAGEMENT
@@ -369,7 +378,7 @@ public:
         the content of the system memory data to video memory otherwise it fails.
     See also: SystemToVideoMemory
     ************************************************/
-    virtual CKBOOL Restore(CKBOOL Clamp = FALSE) = 0;
+    virtual CKBOOL Restore(CKBOOL Clamp = FALSE) CK_PURE;
 
     /*************************************************
     Summary: Allocates and copies the sprite image from system to video memory.
@@ -388,7 +397,7 @@ public:
     will be stored into video memory.
     See also: FreeVideoMemory,Restore
     ************************************************/
-    virtual CKBOOL SystemToVideoMemory(CKRenderContext *Dev, CKBOOL Clamping = FALSE) = 0;
+    virtual CKBOOL SystemToVideoMemory(CKRenderContext *Dev, CKBOOL Clamping = FALSE) CK_PURE;
 
     /*************************************************
     Summary: Frees the sprite video memory.
@@ -402,7 +411,7 @@ public:
     to flush sprites that have not been used for a long time.
     See also: SystemToVideoMemory
     ************************************************/
-    virtual CKBOOL FreeVideoMemory() = 0;
+    virtual CKBOOL FreeVideoMemory() CK_PURE;
 
     /*************************************************
     Summary: Returns whether the sprite is present in video memory
@@ -411,9 +420,9 @@ public:
         TRUE if the sprite is in video memory FALSE otherwise.
     See also: SystemToVideoMemory
     *************************************************/
-    virtual CKBOOL IsInVideoMemory() = 0;
+    virtual CKBOOL IsInVideoMemory() CK_PURE;
 
-    virtual CKBOOL CopyContext(CKRenderContext *ctx, VxRect *Src, VxRect *Dest) = 0;
+    virtual CKBOOL CopyContext(CKRenderContext *ctx, VxRect *Src, VxRect *Dest) CK_PURE;
 
     //-------------------------------------------------------------
 
@@ -426,7 +435,7 @@ public:
         FALSE if the sprite is not in video memory or invalid, TRUE otherwise.
     See Also: GetVideoPixelFormat,SetDesiredVideoFormat
     *************************************************/
-    virtual CKBOOL GetVideoTextureDesc(VxImageDescEx &desc) = 0;
+    virtual CKBOOL GetVideoTextureDesc(VxImageDescEx &desc) CK_PURE;
 
     /*************************************************
     Summary: Returns the pixel format of the sprite surface in video memory.
@@ -436,7 +445,7 @@ public:
         if the sprite is not in video memory.
     See Also: SetDesiredVideoFormat, GetVideoTextureDesc
     *************************************************/
-    virtual VX_PIXELFORMAT GetVideoPixelFormat() = 0;
+    virtual VX_PIXELFORMAT GetVideoPixelFormat() CK_PURE;
 
     /*************************************************
     Summary: Gets Image format description
@@ -449,7 +458,7 @@ public:
     + The desc parameter will be filled with the size,pitch,bpp and mask information on how the sprite is stored in system memory.
     See Also: GetVideoPixelFormat,SetDesiredVideoFormat
     *************************************************/
-    virtual CKBOOL GetSystemTextureDesc(VxImageDescEx &desc) = 0;
+    virtual CKBOOL GetSystemTextureDesc(VxImageDescEx &desc) CK_PURE;
 
     //-------- Expected Video Format ( textures will use global texture format otherwise )
 
@@ -463,7 +472,7 @@ public:
     this format is possible otherwise should find the nearest appropriate pixel	format.
     See Also:GetVideoPixelFormat,GetDesiredVideoFormat,
     ************************************************/
-    virtual void SetDesiredVideoFormat(VX_PIXELFORMAT pf) = 0;
+    virtual void SetDesiredVideoFormat(VX_PIXELFORMAT pf) CK_PURE;
 
     /************************************************
     Summary: Returns the desired pixel format in video memory.
@@ -472,11 +481,11 @@ public:
         Desired pixel format for this sprite in video memory.
     See Also:GetVideoPixelFormat,SetDesiredVideoFormat
     ************************************************/
-    virtual VX_PIXELFORMAT GetDesiredVideoFormat() = 0;
+    virtual VX_PIXELFORMAT GetDesiredVideoFormat() CK_PURE;
 
     //-------- Save format
 
-    virtual CK_BITMAP_SAVEOPTIONS GetSaveOptions() = 0;
+    virtual CK_BITMAP_SAVEOPTIONS GetSaveOptions() CK_PURE;
 
     /*************************************************
     Summary: Sets the saving options.
@@ -489,9 +498,9 @@ public:
     enumeration exposes the available options.
     See Also: SetSaveFormat,CK_BITMAP_SAVEOPTIONS
     *************************************************/
-    virtual void SetSaveOptions(CK_BITMAP_SAVEOPTIONS Options) = 0;
+    virtual void SetSaveOptions(CK_BITMAP_SAVEOPTIONS Options) CK_PURE;
 
-    virtual CKBitmapProperties *GetSaveFormat() = 0;
+    virtual CKBitmapProperties *GetSaveFormat() CK_PURE;
     /*************************************************
     Summary: Sets the saving format.
     Arguments:
@@ -504,7 +513,7 @@ public:
 
     See Also: SetSaveOptions,CKBitmapProperties,CKBitmapReader
     *************************************************/
-    virtual void SetSaveFormat(CKBitmapProperties *format) = 0;
+    virtual void SetSaveFormat(CKBitmapProperties *format) CK_PURE;
 
     /*************************************************
     Summary: Sets pick threshold value.
@@ -521,11 +530,11 @@ public:
 
     See Also: CKRenderContext::Pick
     *************************************************/
-    virtual void SetPickThreshold(int pt) = 0;
+    virtual void SetPickThreshold(int pt) CK_PURE;
 
-    virtual int GetPickThreshold() = 0;
+    virtual int GetPickThreshold() CK_PURE;
 
-    virtual CKBOOL ToRestore() = 0;
+    virtual CKBOOL ToRestore() CK_PURE;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -543,9 +552,8 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_SPRITE) ? (CKSprite *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKSPRITE_H

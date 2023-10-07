@@ -1,4 +1,13 @@
 #if !defined(CKKEYEDANIMATION_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #define CKKEYEDANIMATION_H
 #ifndef CK_3DIMPLEMENTATION
 
@@ -35,7 +44,7 @@ public:
         CK_OK if successful, error code otherwise.
     See also: CKObjectAnimation,CKCharacter
     *************************************************/
-    virtual CKERROR AddAnimation(CKObjectAnimation *anim) = 0;
+    virtual CKERROR AddAnimation(CKObjectAnimation *anim) CK_PURE;
 
     /*************************************************
     Summary: Removes an Object Animation.
@@ -45,7 +54,7 @@ public:
         CK_OK if successful, error code otherwise.
     See also: AddAnimation,GetAnimationCount,GetAnimation
     *************************************************/
-    virtual CKERROR RemoveAnimation(CKObjectAnimation *anim) = 0;
+    virtual CKERROR RemoveAnimation(CKObjectAnimation *anim) CK_PURE;
 
     /*************************************************
     Summary: Gets the number of Object Animations.
@@ -53,7 +62,7 @@ public:
         Number of ObjectAnimations that are currently available.
     See also: GetAnimation,AddAnimation
     *************************************************/
-    virtual int GetAnimationCount() = 0;
+    virtual int GetAnimationCount() CK_PURE;
 
     /*************************************************
     Summary: Retrieves an ObjectAnimation entry from its index or entity.
@@ -67,23 +76,22 @@ public:
         and Scale.
     See also: GetAnimationCount,AddAnimation
     *************************************************/
-    virtual CKObjectAnimation *GetAnimation(CK3dEntity *ent) = 0;
-    virtual CKObjectAnimation *GetAnimation(int index) = 0;
+    virtual CKObjectAnimation *GetAnimation(CK3dEntity *ent) CK_PURE;
+    virtual CKObjectAnimation *GetAnimation(int index) CK_PURE;
 
     /*************************************************
     Summary: Removes all ObjectAnimations.
     See also: RemoveAnimation
     *************************************************/
-    virtual void Clear() = 0;
+    virtual void Clear() CK_PURE;
 
     // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKKeyedAnimation *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_KEYEDANIMATION) ? (CKKeyedAnimation *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKKEYEDANIMATION_H

@@ -1,4 +1,13 @@
 #if !defined(CKPLACE_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #define CKPLACE_H
 #ifndef CK_3DIMPLEMENTATION
 
@@ -36,9 +45,9 @@ public:
     //-----------------------------------------------------
     // Camera
 
-    virtual CKCamera *GetDefaultCamera() = 0;
+    virtual CKCamera *GetDefaultCamera() CK_PURE;
 
-    virtual void SetDefaultCamera(CKCamera *cam) = 0;
+    virtual void SetDefaultCamera(CKCamera *cam) CK_PURE;
 
     //-----------------------------------------------------
     // Portals
@@ -57,7 +66,7 @@ public:
     the camera is in this place.
     See Also:RemovePortal,GetPortalCount,GetPortal,ViewportClip
     *********************************************************/
-    virtual void AddPortal(CKPlace *place, CK3dEntity *portal) = 0;
+    virtual void AddPortal(CKPlace *place, CK3dEntity *portal) CK_PURE;
     /********************************************************
     Summary: Removes a portal.
 
@@ -66,7 +75,7 @@ public:
         portal: A pointer to the CK3DEntity that represents the portal extents.
     See Also:AddPortal,GetPortalCount,GetPortal,ViewportClip
     *********************************************************/
-    virtual void RemovePortal(CKPlace *place, CK3dEntity *portal) = 0;
+    virtual void RemovePortal(CKPlace *place, CK3dEntity *portal) CK_PURE;
     /********************************************************
     Summary: Returns the number of portals in this place.
 
@@ -74,7 +83,7 @@ public:
         Number of portals in this place.
     See Also:AddPortal,GetPortalCount,GetPortal,ViewportClip
     *********************************************************/
-    virtual int GetPortalCount() = 0;
+    virtual int GetPortalCount() CK_PURE;
     /************************************************
     Summary: Returns the place seen by a given portal.
     Arguments:
@@ -85,7 +94,7 @@ public:
 
     See Also:AddPortal,GetPortalCount,ViewportClip
     ************************************************/
-    virtual CKPlace *GetPortal(int i, CK3dEntity **portal) = 0;
+    virtual CKPlace *GetPortal(int i, CK3dEntity **portal) CK_PURE;
     /************************************************
     Summary: Clipping rectangle.
     Return Value:
@@ -97,7 +106,7 @@ public:
     places are clipped to this portal.
     See Also:AddPortal,GetPortalCount,GetPortal
     ************************************************/
-    virtual VxRect &ViewportClip() = 0;
+    virtual VxRect &ViewportClip() CK_PURE;
     /************************************************
     Summary: Automatically computes a matrix standing for the portal boundaries
     between place1 and place2.
@@ -117,7 +126,7 @@ public:
     wrap up the common vertices between Place1 and Place2.
     See Also:AddPortal
     ************************************************/
-    virtual CKBOOL ComputeBestFitBBox(CKPlace *p2, VxMatrix &BBoxMatrix) = 0;
+    virtual CKBOOL ComputeBestFitBBox(CKPlace *p2, VxMatrix &BBoxMatrix) CK_PURE;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -135,9 +144,8 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_PLACE) ? (CKPlace *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKPLACE_H

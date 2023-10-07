@@ -1,4 +1,13 @@
 #if !defined(CKLIGHT_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #define CKLIGHT_H
 #ifndef CK_3DIMPLEMENTATION
 
@@ -39,7 +48,7 @@ public:
 
     See also: GetColor
     ************************************************/
-    virtual void SetColor(const VxColor &c) = 0;
+    virtual void SetColor(const VxColor &c) CK_PURE;
     /************************************************
     Summary: Returns the light color.
 
@@ -47,7 +56,7 @@ public:
         A VxColor reference to the color of the light
     See also: SetColor
     ************************************************/
-    virtual const VxColor &GetColor() = 0;
+    virtual const VxColor &GetColor() CK_PURE;
 
     /************************************************
     Summary: Sets the light constant attenuation.
@@ -57,7 +66,7 @@ public:
 
     See also: SetLinearAttenuation,SetQuadraticAttenuation
     ************************************************/
-    virtual void SetConstantAttenuation(float Value) = 0;
+    virtual void SetConstantAttenuation(float Value) CK_PURE;
     /************************************************
     Summary: Sets the light linear attenuation.
     Arguments:
@@ -66,7 +75,7 @@ public:
 
     See also: SetLinearAttenuation,SetQuadraticAttenuation
     ************************************************/
-    virtual void SetLinearAttenuation(float Value) = 0;
+    virtual void SetLinearAttenuation(float Value) CK_PURE;
     /************************************************
     Summary: Sets the light quadratic attenuation.
     Arguments:
@@ -75,7 +84,7 @@ public:
 
     See also: SetConstantAttenuation,SetLinearAttenuation
     ************************************************/
-    virtual void SetQuadraticAttenuation(float Value) = 0;
+    virtual void SetQuadraticAttenuation(float Value) CK_PURE;
     /************************************************
     Summary: Gets the light constant attenuation factor.
     Return Value: Constant attenuation factor.
@@ -83,7 +92,7 @@ public:
 
     See also: SetConstantAttenuation,GetLinearAttenuation,GetQuadraticAttenuation
     ************************************************/
-    virtual float GetConstantAttenuation() = 0;
+    virtual float GetConstantAttenuation() CK_PURE;
     /************************************************
     Summary: Gets the light linear attenuation factor.
     Return Value: Linear attenuation factor.
@@ -91,7 +100,7 @@ public:
 
     See also: SetLinearAttenuation,GetQuadraticAttenuation
     ************************************************/
-    virtual float GetLinearAttenuation() = 0;
+    virtual float GetLinearAttenuation() CK_PURE;
     /************************************************
     Summary: Gets the light Quadratic attenuation factor.
     Return Value: Quadratic attenuation factor.
@@ -99,7 +108,7 @@ public:
 
     See also: GetLinearAttenuation,SetQuadraticAttenuation
     ************************************************/
-    virtual float GetQuadraticAttenuation() = 0;
+    virtual float GetQuadraticAttenuation() CK_PURE;
 
     //---------------------------------------------------------
     // TYPE
@@ -111,7 +120,7 @@ public:
 
     See also: SetType, RCKLight
     ************************************************/
-    virtual VXLIGHT_TYPE GetType() = 0;
+    virtual VXLIGHT_TYPE GetType() CK_PURE;
     /************************************************
     Summary: Sets the type of a light (point,spot,directional)
     Arguments:
@@ -120,7 +129,7 @@ public:
 
     See also: GetType
     ************************************************/
-    virtual void SetType(VXLIGHT_TYPE Type) = 0;
+    virtual void SetType(VXLIGHT_TYPE Type) CK_PURE;
 
     //--------------------------------------------------------
     // RANGE
@@ -134,7 +143,7 @@ public:
 
     See also: SetRange
     ************************************************/
-    virtual float GetRange() = 0;
+    virtual float GetRange() CK_PURE;
     /************************************************
     Summary: Sets the light range.
     Arguments:
@@ -145,7 +154,7 @@ public:
 
     See also: GetRange
     ************************************************/
-    virtual void SetRange(float Value) = 0;
+    virtual void SetRange(float Value) CK_PURE;
 
     //--------------------------------------------------------
     // SPOTLIGHT OPTIONS
@@ -157,7 +166,7 @@ public:
 
     See also: SetHotSpot, GetFallOff,GetFallOffShape
     ************************************************/
-    virtual float GetHotSpot() = 0;
+    virtual float GetHotSpot() CK_PURE;
 
     /************************************************
     Summary: Gets the angle of the outer cone for a spot.
@@ -166,7 +175,7 @@ public:
 
     See also: SetFallOff, GetHotSpot,GetFallOffShape
     ************************************************/
-    virtual float GetFallOff() = 0;
+    virtual float GetFallOff() CK_PURE;
 
     /************************************************
     Summary: Sets the angle of the inner cone for a spot.
@@ -176,7 +185,7 @@ public:
 
     See also: GetHotSpot, SetFallOffShape,SetFallOff
     ************************************************/
-    virtual void SetHotSpot(float Value) = 0;
+    virtual void SetHotSpot(float Value) CK_PURE;
 
     /************************************************
     Summary: Sets the angle of the outer cone for a spot.
@@ -186,7 +195,7 @@ public:
 
     See also: GetFallOff,SetFallOffShape,SetHotSpot
     ************************************************/
-    virtual void SetFallOff(float Value) = 0;
+    virtual void SetFallOff(float Value) CK_PURE;
 
     /************************************************
     Summary: Gets the shape between inner and outer cone.
@@ -195,7 +204,7 @@ public:
 
     See also: SetFallOffShape,GetFallOff,GetHotSpot
     ************************************************/
-    virtual float GetFallOffShape() = 0;
+    virtual float GetFallOffShape() CK_PURE;
 
     /************************************************
     Summary: Sets the FallOff Shape of the light.
@@ -205,7 +214,7 @@ public:
 
     See also: GetFallOffShape,SetFallOff,SetHotSpot
     ************************************************/
-    virtual void SetFallOffShape(float Value) = 0;
+    virtual void SetFallOffShape(float Value) CK_PURE;
 
     //--------------------------------------------------
     // ACTIVITY OPTIONS
@@ -219,7 +228,7 @@ public:
 
     See also: GetActivity,SetSpecularFlag
     ************************************************/
-    virtual void Active(CKBOOL Active) = 0;
+    virtual void Active(CKBOOL Active) CK_PURE;
 
     /************************************************
     Summary: Gets the light activity status.
@@ -228,7 +237,7 @@ public:
 
     See also: Active
     ************************************************/
-    virtual CKBOOL GetActivity() = 0;
+    virtual CKBOOL GetActivity() CK_PURE;
 
     /************************************************
     Summary: Enables or disables specular highlights.
@@ -241,7 +250,7 @@ public:
 
     See also: GetSpecularFlag
     ************************************************/
-    virtual void SetSpecularFlag(CKBOOL Specular) = 0;
+    virtual void SetSpecularFlag(CKBOOL Specular) CK_PURE;
 
     /************************************************
     Summary: Returns if specular highlights are enabled.
@@ -253,7 +262,7 @@ public:
 
     See also: SetSpecularFlag
     ************************************************/
-    virtual CKBOOL GetSpecularFlag() = 0;
+    virtual CKBOOL GetSpecularFlag() CK_PURE;
 
     //-------------------------------------------
     // Target Access
@@ -266,7 +275,7 @@ public:
 
     See also: SetTarget
     ************************************************/
-    virtual CK3dEntity *GetTarget() = 0;
+    virtual CK3dEntity *GetTarget() CK_PURE;
 
     /************************************************
     Summary: Sets the target of the light
@@ -278,7 +287,7 @@ public:
 
     See also: GetTarget
     ************************************************/
-    virtual void SetTarget(CK3dEntity *target) = 0;
+    virtual void SetTarget(CK3dEntity *target) CK_PURE;
 
     //-------------------------------------------
     // Target Access
@@ -295,7 +304,7 @@ public:
 
     See also: SetLightPower
     ************************************************/
-    virtual float GetLightPower() = 0;
+    virtual float GetLightPower() CK_PURE;
 
     /************************************************
     Summary: Sets the multiplication power  of the light
@@ -310,16 +319,15 @@ public:
 
     See also: GetLightPower
     ************************************************/
-    virtual void SetLightPower(float power = 1.0f) = 0;
+    virtual void SetLightPower(float power = 1.0f) CK_PURE;
 
     // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKLight *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_LIGHT) ? (CKLight *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKLIGHT_H

@@ -1,4 +1,13 @@
 #if !defined(CKBODYPART_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #define CKBODYPART_H
 #ifndef CK_3DIMPLEMENTATION
 
@@ -70,7 +79,7 @@ public:
         A pointer to the owner CKCharacter.
     See also: CKCharacter
     *************************************************/
-    virtual CKCharacter *GetCharacter() const = 0;
+    virtual CKCharacter *GetCharacter() const CK_PURE;
 
     /*************************************************
     Summary: Sets the only animation that can modify this body-part.
@@ -83,9 +92,9 @@ public:
         that can modify an object.
     See Also:CKAnimation
     *************************************************/
-    virtual void SetExclusiveAnimation(const CKAnimation *anim) = 0;
+    virtual void SetExclusiveAnimation(const CKAnimation *anim) CK_PURE;
 
-    virtual CKAnimation *GetExclusiveAnimation() const = 0;
+    virtual CKAnimation *GetExclusiveAnimation() const CK_PURE;
 
     /*************************************************
     Summary: Gets the IK rotation joint data
@@ -95,7 +104,7 @@ public:
     + This information is only valid if the body-part has the flags CK_3DENTITY_IKJOINTVALID
     See Also : SetRotationJoint,CKIkJoint,CKKinematicChain,CK3dEntity::GetFlags
     *************************************************/
-    virtual void GetRotationJoint(CKIkJoint *rotjoint) const = 0;
+    virtual void GetRotationJoint(CKIkJoint *rotjoint) const CK_PURE;
 
     /*************************************************
     Summary: Sets the rotation joint IK data
@@ -105,7 +114,7 @@ public:
     + This information is only used when the body-part has the flags CK_3DENTITY_IKJOINTVALID
     See Also : GetRotationJoint,CKIkJoint,CKKinematicChain
     *************************************************/
-    virtual void SetRotationJoint(const CKIkJoint *rotjoint) = 0;
+    virtual void SetRotationJoint(const CKIkJoint *rotjoint) CK_PURE;
 
     /*************************************************
     Summary: Ensures the body-part fits its joint limits.
@@ -116,7 +125,7 @@ public:
         CK_OK if successful, an error code otherwise.
     See Also:GetRotationJoint
     *************************************************/
-    virtual CKERROR FitToJoint() = 0;
+    virtual CKERROR FitToJoint() CK_PURE;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -134,9 +143,8 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_BODYPART) ? (CKBodyPart *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKBODYPART_H

@@ -1,4 +1,13 @@
 #if !defined(CKSPRITETEXT_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #define CKSPRITETEXT_H
 #ifndef CK_3DIMPLEMENTATION
 
@@ -39,7 +48,7 @@ public:
         text : A CKSTRING containing the new text.
     See also: GetText
     ************************************************/
-    virtual void SetText(CKSTRING text) = 0;
+    virtual void SetText(CKSTRING text) CK_PURE;
 
     /************************************************
     Summary: Gets the text drawn in the sprite.
@@ -47,7 +56,7 @@ public:
     Return Value: A CKSTRING containing the current text.
     See also: SetText
     ************************************************/
-    virtual CKSTRING GetText() = 0;
+    virtual CKSTRING GetText() CK_PURE;
 
     //-------------------------------------------
     // Appearance
@@ -59,7 +68,7 @@ public:
         col: CKDWORD containing the new color ( 32 bit ARGB )
     See also: GetTextColor,GetBackgroundColor,SetBackgroundColor
     ************************************************/
-    virtual void SetTextColor(CKDWORD col) = 0;
+    virtual void SetTextColor(CKDWORD col) CK_PURE;
 
     /************************************************
     Summary: Gets the text color.
@@ -67,7 +76,7 @@ public:
     Return Value: Current text color.
     See also: SetTextColor,GetBackgroundColor,SetBackgroundColor
     ************************************************/
-    virtual CKDWORD GetTextColor() = 0;
+    virtual CKDWORD GetTextColor() CK_PURE;
 
     /************************************************
     Summary: Sets the background color in the sprite.
@@ -76,7 +85,7 @@ public:
         col: CKDWORD containing the new color ( 32 bit ARGB )
     See also: SetTextColor,GetTextColor, GetBackgroundColor
     ************************************************/
-    virtual void SetBackgroundColor(CKDWORD col) = 0;
+    virtual void SetBackgroundColor(CKDWORD col) CK_PURE;
 
     /************************************************
     Summary: Gets the background color.
@@ -84,7 +93,7 @@ public:
     Return Value: Current background color.
     See also: SetTextColor,GetTextColor, SetBackgroundColor
     ************************************************/
-    virtual CKDWORD GetBackgroundTextColor() = 0;
+    virtual CKDWORD GetBackgroundTextColor() CK_PURE;
 
     /************************************************
     Summary: Sets the font used to draw the text in the sprite.
@@ -100,7 +109,7 @@ public:
         + See CreateFont in the Win32 API documentation for more details.
     See also: RCKSpriteText
     ************************************************/
-    virtual void SetFont(CKSTRING FontName, int FontSize = 12, int Weight = 400, CKBOOL italic = FALSE, CKBOOL underline = FALSE) = 0;
+    virtual void SetFont(CKSTRING FontName, int FontSize = 12, int Weight = 400, CKBOOL italic = FALSE, CKBOOL underline = FALSE) CK_PURE;
 
     /************************************************
     Summary: Sets the drawing alignment for the sprite
@@ -109,7 +118,7 @@ public:
         align : A combination of CKSPRITETEXT_ALIGNMENT flags specifying how to align the text inside the sprite.
     See also: CKSPRITETEXT_ALIGNMENT, GetAlign
     ************************************************/
-    virtual void SetAlign(CKSPRITETEXT_ALIGNMENT align) = 0;
+    virtual void SetAlign(CKSPRITETEXT_ALIGNMENT align) CK_PURE;
 
     /************************************************
     Summary: Gets the drawing alignment of the sprite
@@ -117,7 +126,7 @@ public:
     Return Value: Current alignment options.
     See also: CKSPRITETEXT_ALIGNMENT, SetAlign
     ************************************************/
-    virtual CKSPRITETEXT_ALIGNMENT GetAlign() = 0;
+    virtual CKSPRITETEXT_ALIGNMENT GetAlign() CK_PURE;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -135,9 +144,8 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_SPRITETEXT) ? (CKSpriteText *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKSPRITETEXT_H

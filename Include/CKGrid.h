@@ -1,4 +1,13 @@
 #if !defined(CKGRID_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #ifndef CK_3DIMPLEMENTATION
 #define CKGRID_H
 
@@ -57,7 +66,7 @@ public:
     are destroyed
     See also: DestroyMeshTexture, IsVisible
     *************************************************/
-    virtual void ConstructMeshTexture(float opacity = 0.5f) = 0;
+    virtual void ConstructMeshTexture(float opacity = 0.5f) CK_PURE;
 
     /*************************************************
     Summary: Destroy the mesh, materials and texture associated with the grid
@@ -68,7 +77,7 @@ public:
     are destroyed
     See also: ConstructMeshTexture, IsVisible
     *************************************************/
-    virtual void DestroyMeshTexture() = 0;
+    virtual void DestroyMeshTexture() CK_PURE;
 
     //____________________________________________________
     //      ACTIVATION
@@ -84,7 +93,7 @@ public:
     as any other scene object can be modified from the "Level View" or using the CKScene::ModifyObjectFlags method.
     + An inactive grid won't be parsed by the Grid Manager
     *************************************************/
-    virtual CKBOOL IsActive() = 0;
+    virtual CKBOOL IsActive() CK_PURE;
 
     //____________________________________________________
     //      HEIGHT VALIDITY
@@ -97,7 +106,7 @@ public:
         Changing the Height of Validity only changes the Y axis scale of the grid.
     See also: GetHeightValidity
     ************************************************/
-    virtual void SetHeightValidity(float HeightValidity) = 0;
+    virtual void SetHeightValidity(float HeightValidity) CK_PURE;
 
     /************************************************
     Summary: Returns the grid Height Validity of the grid.
@@ -109,7 +118,7 @@ public:
         Just retrieves the Y axis scale of the grid.
     See also: SetHeightValidity
     ************************************************/
-    virtual float GetHeightValidity() = 0;
+    virtual float GetHeightValidity() CK_PURE;
 
     /************************************************
     Summary: Returns the grid Width
@@ -120,7 +129,7 @@ public:
         Width = Number of squares along the X axis
     See also: GetLength
     ************************************************/
-    virtual int GetWidth() = 0;
+    virtual int GetWidth() CK_PURE;
 
     /************************************************
     Summary: Returns the grid Length
@@ -131,7 +140,7 @@ public:
         Length = Number of squares along the Z axis
     See also: GetWidth
     ************************************************/
-    virtual int GetLength() = 0;
+    virtual int GetLength() CK_PURE;
 
     //____________________________________________________
     //      DIMENSIONS
@@ -151,7 +160,7 @@ public:
     should be kept) then call SetDimensions and AddLayer to recreate the layers.
     See also: GetWidth, GetLength
     ************************************************/
-    virtual void SetDimensions(int width, int length, float sizeX, float sizeY) = 0;
+    virtual void SetDimensions(int width, int length, float sizeX, float sizeY) CK_PURE;
 
     //____________________________________________________
     //      COORDINATES
@@ -166,7 +175,7 @@ public:
         A float that describe the validity height of the given 3d position : Between 0 and 1 the point is in the height validity.
     See also: Get3dPosFrom2dCoords
     ************************************************/
-    virtual float Get2dCoordsFrom3dPos(const VxVector *pos3d, int *x, int *y) = 0;
+    virtual float Get2dCoordsFrom3dPos(const VxVector *pos3d, int *x, int *y) CK_PURE;
 
     /************************************************
     Summary: Convert a 2 coordinate position on the grid, into a 3d position in world coordinate system
@@ -180,7 +189,7 @@ public:
         returned Y position = 0 (in grid referential)
     See also: Get2dCoordsForm3dPos
     ************************************************/
-    virtual void Get3dPosFrom2dCoords(VxVector *pos3d, int x, int z) = 0;
+    virtual void Get3dPosFrom2dCoords(VxVector *pos3d, int x, int z) CK_PURE;
 
     //____________________________________________________
     //      CLASSIFICATION
@@ -197,8 +206,8 @@ public:
     + These attribute must have been create with the CKGridManager::RegisterClassification method which will create the attribute with the attribute manager.
     See also: RemoveClassification,HasCompatibleClass
     ************************************************/
-    virtual CKERROR AddClassification(int classification) = 0;
-    virtual CKERROR AddClassification(CKSTRING ClassificationName) = 0;
+    virtual CKERROR AddClassification(int classification) CK_PURE;
+    virtual CKERROR AddClassification(CKSTRING ClassificationName) CK_PURE;
 
     /************************************************
     Summary: Removes a classification from the grid
@@ -214,8 +223,8 @@ public:
     + These attribute must have been create with the CKGridManager::RegisterClassification method which will create the attribute with the attribute manager.
     See also: AddClassification,HasCompatibleClass
     ************************************************/
-    virtual CKERROR RemoveClassification(int classification) = 0;
-    virtual CKERROR RemoveClassification(CKSTRING ClassificationName) = 0;
+    virtual CKERROR RemoveClassification(int classification) CK_PURE;
+    virtual CKERROR RemoveClassification(CKSTRING ClassificationName) CK_PURE;
 
     /************************************************
     Summary: Check if the grid has a shared Classification.
@@ -227,7 +236,7 @@ public:
         Checks if the entity and the grid share the same classification (attribute).
     See also: AddClassification,RemoveClassification
     ************************************************/
-    virtual CKBOOL HasCompatibleClass(CK3dEntity *ent) = 0;
+    virtual CKBOOL HasCompatibleClass(CK3dEntity *ent) CK_PURE;
 
     //____________________________________________________
     //      PRIORITY
@@ -243,7 +252,7 @@ public:
     when finding on which grid a point should be tested.
     See also: GetPriority
     ************************************************/
-    virtual void SetGridPriority(int Priority) = 0;
+    virtual void SetGridPriority(int Priority) CK_PURE;
 
     /************************************************
     Summary: Gets the Priority of the grid
@@ -255,7 +264,7 @@ public:
     when finding on which grid a point should be tested.
     See also: SetPriority
     ************************************************/
-    virtual int GetGridPriority() = 0;
+    virtual int GetGridPriority() CK_PURE;
 
     //____________________________________________________
     //      ORIENTATION
@@ -268,7 +277,7 @@ public:
         A grid can be forced to be aligned on specific axis.
     See also: GetOrientationMode,CK_GRIDORIENTATION
     ************************************************/
-    virtual void SetOrientationMode(CK_GRIDORIENTATION orimode) = 0;
+    virtual void SetOrientationMode(CK_GRIDORIENTATION orimode) CK_PURE;
 
     /************************************************
     Summary: Gets the grid's Orientation mode
@@ -278,7 +287,7 @@ public:
         A grid can be forced to be aligned on specific axis.
     See also: SetOrientationMode
     ************************************************/
-    virtual CK_GRIDORIENTATION GetOrientationMode() = 0;
+    virtual CK_GRIDORIENTATION GetOrientationMode() CK_PURE;
 
     //____________________________________________________
     //      LAYERS
@@ -297,8 +306,8 @@ public:
       + SetDimensions must have been called before using this method.
     See also: GetLayer, GetLayerCount, RemoveLayer, RemoveAllLayers
     ************************************************/
-    virtual CKLayer *AddLayer(int type, int Format = CKGRID_LAYER_FORMAT_NORMAL) = 0;
-    virtual CKLayer *AddLayer(CKSTRING TypeName = NULL, int Format = CKGRID_LAYER_FORMAT_NORMAL) = 0;
+    virtual CKLayer *AddLayer(int type, int Format = CKGRID_LAYER_FORMAT_NORMAL) CK_PURE;
+    virtual CKLayer *AddLayer(CKSTRING TypeName = NULL, int Format = CKGRID_LAYER_FORMAT_NORMAL) CK_PURE;
 
     /************************************************
     Summary: Gets a layer by its type number, or by its type name
@@ -310,8 +319,8 @@ public:
     Remarks:
     See also: AddLayer, GetLayerCount, RemoveLayer, RemoveAllLayers
     ************************************************/
-    virtual CKLayer *GetLayer(int type) = 0;
-    virtual CKLayer *GetLayer(CKSTRING TypeName) = 0;
+    virtual CKLayer *GetLayer(int type) CK_PURE;
+    virtual CKLayer *GetLayer(CKSTRING TypeName) CK_PURE;
 
     /************************************************
     Summary: Gets the number of layers in the grid
@@ -320,7 +329,7 @@ public:
     Remarks:
     See also: GetLayer,GetLayerByIndex
     ************************************************/
-    virtual int GetLayerCount() = 0;
+    virtual int GetLayerCount() CK_PURE;
 
     /************************************************
     Summary: Gets a layer by its index in the layers of the grid
@@ -331,7 +340,7 @@ public:
     Remarks:
     See also: GetLayer, GetLayerCount,RemoveLayer
     ************************************************/
-    virtual CKLayer *GetLayerByIndex(int type) = 0;
+    virtual CKLayer *GetLayerByIndex(int type) CK_PURE;
 
     /************************************************
     Summary: Removes a layer by its type number, or by its type name
@@ -343,8 +352,8 @@ public:
     Remarks:
     See also: RemoveAllLayers, AddLayer, GetLayer, GetLayerCount
     ************************************************/
-    virtual CKERROR RemoveLayer(int type) = 0;
-    virtual CKERROR RemoveLayer(CKSTRING TypeName) = 0;
+    virtual CKERROR RemoveLayer(int type) CK_PURE;
+    virtual CKERROR RemoveLayer(CKSTRING TypeName) CK_PURE;
 
     /************************************************
     Summary: Removes all the layers from the grid
@@ -353,7 +362,7 @@ public:
     Remarks:
     See also: RemoveLayer, AddLayer, GetLayer, GetLayerCount
     ************************************************/
-    virtual CKERROR RemoveAllLayers() = 0;
+    virtual CKERROR RemoveAllLayers() CK_PURE;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -371,9 +380,8 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_GRID) ? (CKGrid *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKGRID_H

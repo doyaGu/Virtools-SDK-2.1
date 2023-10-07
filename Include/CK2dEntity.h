@@ -1,4 +1,13 @@
 #if !defined(CK2DENTITY_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #ifndef CK_3DIMPLEMENTATION
 #define CK2DENTITY_H
 
@@ -54,7 +63,7 @@ public:
 
     See Also: SetPosition,GetRect,GetSize
     *************************************************/
-    virtual CKERROR GetPosition(Vx2DVector &vect, CKBOOL hom = FALSE, CK2dEntity *ref = NULL) = 0;
+    virtual CKERROR GetPosition(Vx2DVector &vect, CKBOOL hom = FALSE, CK2dEntity *ref = NULL) CK_PURE;
 
     /*************************************************
     Summary: Sets the position of 2d entity.
@@ -67,7 +76,7 @@ public:
 
     See Also: GetPosition,SetRect,SetSize
     *************************************************/
-    virtual void SetPosition(const Vx2DVector &vect, CKBOOL hom = FALSE, CKBOOL KeepChildren = FALSE, CK2dEntity *ref = NULL) = 0;
+    virtual void SetPosition(const Vx2DVector &vect, CKBOOL hom = FALSE, CKBOOL KeepChildren = FALSE, CK2dEntity *ref = NULL) CK_PURE;
 
     /*************************************************
     Summary: Gets the size of 2d entity.
@@ -82,7 +91,7 @@ public:
 
     See Also: SetSize,GetPosition,GetRect
     *************************************************/
-    virtual CKERROR GetSize(Vx2DVector &vect, CKBOOL hom = FALSE) = 0;
+    virtual CKERROR GetSize(Vx2DVector &vect, CKBOOL hom = FALSE) CK_PURE;
 
     /*************************************************
     Summary: Sets the size of 2d entity.
@@ -96,7 +105,7 @@ public:
 
     See Also: GetSize,SetPosition,SetRect.
     *************************************************/
-    virtual void SetSize(const Vx2DVector &vect, CKBOOL hom = FALSE, CKBOOL KeepChildren = FALSE) = 0;
+    virtual void SetSize(const Vx2DVector &vect, CKBOOL hom = FALSE, CKBOOL KeepChildren = FALSE) CK_PURE;
 
     //------------------------------------------------
     // Rect Access
@@ -111,7 +120,7 @@ public:
 
     See Also: GetRect,SetPosition,SetSize
     *************************************************/
-    virtual void SetRect(const VxRect &rect, CKBOOL KeepChildren = FALSE) = 0;
+    virtual void SetRect(const VxRect &rect, CKBOOL KeepChildren = FALSE) CK_PURE;
 
     /*************************************************
     Summary: Gets the 2d entity rectangle in screen coordinates.
@@ -121,7 +130,7 @@ public:
 
     See Also: SetRect,SetHomogeneousRect,GetPosition,GetSize
     *************************************************/
-    virtual void GetRect(VxRect &rect) = 0;
+    virtual void GetRect(VxRect &rect) CK_PURE;
 
     /*************************************************
     Summary: Sets the 2d entity rectangle in homogeneous coordinates.
@@ -133,7 +142,7 @@ public:
         KeepChildren: FALSE to update child entities positions, TRUE otherwise.
     See Also: GetHomogeneousRect,SetRect
     *************************************************/
-    virtual CKERROR SetHomogeneousRect(const VxRect &rect, CKBOOL KeepChildren = FALSE) = 0;
+    virtual CKERROR SetHomogeneousRect(const VxRect &rect, CKBOOL KeepChildren = FALSE) CK_PURE;
 
     /*************************************************
     Summary: Gets the 2d entity rectangle in homogeneous coordinates.
@@ -145,7 +154,7 @@ public:
 
     See Also: SetHomogeneousRect,GetRect
     *************************************************/
-    virtual CKERROR GetHomogeneousRect(VxRect &rect) = 0;
+    virtual CKERROR GetHomogeneousRect(VxRect &rect) CK_PURE;
 
     //------------------------------------------------
     // Source Rect Access
@@ -162,7 +171,7 @@ public:
 
     See also: GetSourceRect, UseSourceRect, IsUsingSourceRect
     *************************************************/
-    virtual void SetSourceRect(VxRect &rect) = 0;
+    virtual void SetSourceRect(VxRect &rect) CK_PURE;
 
     /*************************************************
     Summary: Gets the cropping rectangle.
@@ -172,7 +181,7 @@ public:
 
     See also: SetSourceRect, UseSourceRect, IsUsingSourceRect
     *************************************************/
-    virtual void GetSourceRect(VxRect &rect) = 0;
+    virtual void GetSourceRect(VxRect &rect) CK_PURE;
 
     /*************************************************
     Summary: Enables or disables cropping.
@@ -185,7 +194,7 @@ public:
 
     See also:SetSourceRect, GetSourceRect, IsUsingSourceRect
     *************************************************/
-    virtual void UseSourceRect(CKBOOL Use = TRUE) = 0;
+    virtual void UseSourceRect(CKBOOL Use = TRUE) CK_PURE;
 
     /*************************************************
     Summary: Checks if cropping is enabled or not.
@@ -197,7 +206,7 @@ public:
 
     See also:SetSourceRect, GetSourceRect, UseSourceRect
     *************************************************/
-    virtual CKBOOL IsUsingSourceRect() = 0;
+    virtual CKBOOL IsUsingSourceRect() CK_PURE;
 
     //------------------------------------------------
     // Pickability Access
@@ -212,7 +221,7 @@ public:
 
     See also:SetFlags, IsPickable
     *************************************************/
-    virtual void SetPickable(CKBOOL Pick = TRUE) = 0;
+    virtual void SetPickable(CKBOOL Pick = TRUE) CK_PURE;
 
     /*************************************************
     Summary: Checks if the 2d entity can be picked.
@@ -221,7 +230,7 @@ public:
 
     See also:SetPickable,SetFlags
     *************************************************/
-    virtual CKBOOL IsPickable() = 0;
+    virtual CKBOOL IsPickable() CK_PURE;
 
     //------------------------------------------------
     // Background/foreground Sprites
@@ -236,7 +245,7 @@ public:
 
     See also: SetFlags, IsBackground
     *************************************************/
-    virtual void SetBackground(CKBOOL back = TRUE) = 0;
+    virtual void SetBackground(CKBOOL back = TRUE) CK_PURE;
 
     /*************************************************
     Summary: Checks if background property is set.
@@ -247,7 +256,7 @@ public:
 
     See also: SetFlags, SetBackground
     *************************************************/
-    virtual CKBOOL IsBackground() = 0;
+    virtual CKBOOL IsBackground() CK_PURE;
 
     //------------------------------------------------
     // Clip To Parent
@@ -262,7 +271,7 @@ public:
         o This method sets or removes the CK_2DENTITY_CLIPTOPARENT flag.
     See also: SetFlags, IsClipToParent
     *************************************************/
-    virtual void SetClipToParent(CKBOOL clip = TRUE) = 0;
+    virtual void SetClipToParent(CKBOOL clip = TRUE) CK_PURE;
 
     /*************************************************
     Summary: Checks if entity is clipped to parent extents.
@@ -272,7 +281,7 @@ public:
 
     See also: SetFlags, SetClipToParent
     *************************************************/
-    virtual CKBOOL IsClipToParent() = 0;
+    virtual CKBOOL IsClipToParent() CK_PURE;
 
     //------------------------------------------------
     // Flag Access
@@ -287,7 +296,7 @@ public:
 
     See Also: GetFlags, ModifyFlags,CK_2DENTITY_FLAGS
     *************************************************/
-    virtual void SetFlags(CKDWORD Flags) = 0;
+    virtual void SetFlags(CKDWORD Flags) CK_PURE;
 
     /*************************************************
     Summary: Modifies the flags of 2d entity.
@@ -300,7 +309,7 @@ public:
 
     See Also: GetFlags, SetFlags,CK_2DENTITY_FLAGS
     *************************************************/
-    virtual void ModifyFlags(CKDWORD add, CKDWORD remove = 0) = 0;
+    virtual void ModifyFlags(CKDWORD add, CKDWORD remove = 0) CK_PURE;
 
     /*************************************************
     Summary: Returns the flags of 2d entity.
@@ -312,7 +321,7 @@ public:
 
     See Also: SetFlags, ModifyFlags,CK_2DENTITY_FLAGS
     *************************************************/
-    virtual CKDWORD GetFlags() = 0;
+    virtual CKDWORD GetFlags() CK_PURE;
 
     //------------------------------------------------
     // Camera Ratio Offset
@@ -327,7 +336,7 @@ public:
     o This method sets or removes the CK_2DENTITY_RATIOOFFSET flag.
     See also:SetFlags, IsRatioOffset
     *************************************************/
-    virtual void EnableRatioOffset(CKBOOL Ratio = TRUE) = 0;
+    virtual void EnableRatioOffset(CKBOOL Ratio = TRUE) CK_PURE;
 
     /*************************************************
     Summary: Checks if Ratio offset is enabled
@@ -340,7 +349,7 @@ public:
 
     See also:SetFlags, EnableRatioOffset
     *************************************************/
-    virtual CKBOOL IsRatioOffset() = 0;
+    virtual CKBOOL IsRatioOffset() CK_PURE;
 
     //------------------------------------------------
     // Parenting
@@ -354,7 +363,7 @@ public:
         TRUE if successful.
     See also:GetParent
     *************************************************/
-    virtual CKBOOL SetParent(CK2dEntity *parent) = 0;
+    virtual CKBOOL SetParent(CK2dEntity *parent) CK_PURE;
 
     /*************************************************
     Summary: Returns the parent of a 2dEntity
@@ -364,7 +373,7 @@ public:
 
     See also: SetParent
     *************************************************/
-    virtual CK2dEntity *GetParent() const = 0;
+    virtual CK2dEntity *GetParent() const CK_PURE;
 
     /*************************************************
     Summary: Returns the number of children of the 2dEntity
@@ -374,7 +383,7 @@ public:
 
     See also: SetParent, GetChild
     *************************************************/
-    virtual int GetChildrenCount() const = 0;
+    virtual int GetChildrenCount() const CK_PURE;
 
     /*************************************************
     Summary: Returns the child of a 2dEntity
@@ -386,7 +395,7 @@ public:
 
     See also: SetParent, GetChildrenCount
     *************************************************/
-    virtual CK2dEntity *GetChild(int i) const = 0;
+    virtual CK2dEntity *GetChild(int i) const CK_PURE;
 
     /*************************************************
     Summary: Checks if the object is root object.
@@ -396,7 +405,7 @@ public:
         This method returns TRUE if the entity does not have a parent.
 
     *************************************************/
-    virtual CKBOOL IsRootObject() = 0;
+    virtual CKBOOL IsRootObject() CK_PURE;
     /************************************************
     Summary: Parses the sub hierarchy of an entity.
     Arguments:
@@ -420,7 +429,7 @@ public:
 
     See also: GetChildrenCount,GetChildren
     ************************************************/
-    virtual CK2dEntity *HierarchyParser(CK2dEntity *current) const = 0;
+    virtual CK2dEntity *HierarchyParser(CK2dEntity *current) const CK_PURE;
 
     //------------------------------------------------
     // Material Rendering
@@ -435,7 +444,7 @@ public:
 
     See Also: GetMaterial
     *************************************************/
-    virtual void SetMaterial(CKMaterial *mat) = 0;
+    virtual void SetMaterial(CKMaterial *mat) CK_PURE;
 
     /*************************************************
     Summary: Returns the material used to render the 2d entity
@@ -445,7 +454,7 @@ public:
 
     See Also: SetMaterial
     *************************************************/
-    virtual CKMaterial *GetMaterial() = 0;
+    virtual CKMaterial *GetMaterial() CK_PURE;
 
     //------------------------------------------------
     // Homogeneous Coordinates
@@ -460,7 +469,7 @@ public:
     o This method sets or removes the CK_2DENTITY_USEHOMOGENEOUSCOORD flag.
     See Also:SetFlags,IsHomogeneousCoordinates,SetPosition,SetSize
     *************************************************/
-    virtual void SetHomogeneousCoordinates(CKBOOL Coord = TRUE) = 0;
+    virtual void SetHomogeneousCoordinates(CKBOOL Coord = TRUE) CK_PURE;
 
     /*************************************************
     Summary: Checks whether homogeneous coordinates mode is enabled or not.
@@ -470,7 +479,7 @@ public:
 
     See Also: SetHomogeneousCoordinates
     *************************************************/
-    virtual CKBOOL IsHomogeneousCoordinates() = 0;
+    virtual CKBOOL IsHomogeneousCoordinates() CK_PURE;
 
     //------------------------------------------------
     // Clip to Camera view
@@ -487,7 +496,7 @@ public:
 
     See also:SetFlags, IsClippedToCamera
     *************************************************/
-    virtual void EnableClipToCamera(CKBOOL Clip = TRUE) = 0;
+    virtual void EnableClipToCamera(CKBOOL Clip = TRUE) CK_PURE;
 
     /*************************************************
     Summary: Checks whether camera clipping is enabled or not.
@@ -500,7 +509,7 @@ public:
 
     See also:SetFlags, EnableClipToCamera
     *************************************************/
-    virtual CKBOOL IsClippedToCamera() = 0;
+    virtual CKBOOL IsClippedToCamera() CK_PURE;
 
     //------------------------------------------------
     // Entity Rendering
@@ -520,7 +529,7 @@ public:
 
     See also: Draw
     *************************************************/
-    virtual CKERROR Render(CKRenderContext *context) = 0;
+    virtual CKERROR Render(CKRenderContext *context) CK_PURE;
 
     //------------------------------------------------
     // Actual Entity Drawing
@@ -537,14 +546,14 @@ public:
 
     See Also: Render
     *************************************************/
-    virtual CKERROR Draw(CKRenderContext *context) = 0;
+    virtual CKERROR Draw(CKRenderContext *context) CK_PURE;
 
     //------------------------------------------------
     // Extents (Surface actually rendered)
 
-    virtual void GetExtents(VxRect &srcrect, VxRect &rect) = 0;
+    virtual void GetExtents(VxRect &srcrect, VxRect &rect) CK_PURE;
 
-    virtual void SetExtents(const VxRect &srcrect, const VxRect &rect) = 0;
+    virtual void SetExtents(const VxRect &srcrect, const VxRect &rect) CK_PURE;
 
     /*************************************************
     Summary: Restores initial size.
@@ -554,7 +563,7 @@ public:
 
     See Also:
     *************************************************/
-    virtual void RestoreInitialSize() = 0;
+    virtual void RestoreInitialSize() CK_PURE;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -572,8 +581,8 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_2DENTITY) ? (CK2dEntity *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
 #endif
+
 #endif // CK2DENTITY_H

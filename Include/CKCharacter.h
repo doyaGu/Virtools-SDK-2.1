@@ -1,4 +1,13 @@
 #if !defined(CKCHARACTER_H) || defined(CK_3DIMPLEMENTATION)
+
+#ifndef CK_PURE
+#ifndef CK_3DIMPLEMENTATION
+#define CK_PURE = 0
+#else
+#define CK_PURE
+#endif
+#endif
+
 #define CKCHARACTER_H
 #ifndef CK_3DIMPLEMENTATION
 
@@ -59,7 +68,7 @@ public:
 
     See also: RemoveBodyPart,GetRootBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKERROR AddBodyPart(CKBodyPart *part) = 0;
+    virtual CKERROR AddBodyPart(CKBodyPart *part) CK_PURE;
 
     /************************************************
     Summary: Removes a body-part from this character.
@@ -69,7 +78,7 @@ public:
 
     See also: AddBodyPart,GetRootBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKERROR RemoveBodyPart(CKBodyPart *part) = 0;
+    virtual CKERROR RemoveBodyPart(CKBodyPart *part) CK_PURE;
 
     /************************************************
     Summary: Gets the root body part.
@@ -80,7 +89,7 @@ public:
 
     See also: AddBodyPart,RemoveBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKBodyPart *GetRootBodyPart() = 0;
+    virtual CKBodyPart *GetRootBodyPart() CK_PURE;
 
     /************************************************
     Summary: Forces the character to use a specific body-part as its RootBodyPart
@@ -95,7 +104,7 @@ public:
 
     See also: GetRootBodyPart,AddBodyPart,RemoveBodyPart,GetBodyPartCount,GetBodyPart
     ************************************************/
-    virtual CKERROR SetRootBodyPart(CKBodyPart *part) = 0;
+    virtual CKERROR SetRootBodyPart(CKBodyPart *part) CK_PURE;
 
     /************************************************
     Summary: Gets a body-part at a given index.
@@ -105,7 +114,7 @@ public:
 
     See also: GetRootBodyPart,AddBodyPart,RemoveBodyPart,GetBodyPartCount
     ************************************************/
-    virtual CKBodyPart *GetBodyPart(int index) = 0;
+    virtual CKBodyPart *GetBodyPart(int index) CK_PURE;
 
     /************************************************
     Summary: Gets the number of body-parts of this character.
@@ -113,7 +122,7 @@ public:
 
     See also: GetRootBodyPart,AddBodyPart,RemoveBodyPart,GetBodyPart
     ************************************************/
-    virtual int GetBodyPartCount() = 0;
+    virtual int GetBodyPartCount() CK_PURE;
 
     //-----------------------------------------------------
     // Animations
@@ -126,7 +135,7 @@ public:
 
     See also: RemoveAnimation,GetAnimation,GetAnimationCount
     *******************************************************/
-    virtual CKERROR AddAnimation(CKAnimation *anim) = 0;
+    virtual CKERROR AddAnimation(CKAnimation *anim) CK_PURE;
 
     /*******************************************************
     Summary: Removes an animation from the character
@@ -136,7 +145,7 @@ public:
 
     See also: AddAnimation,GetAnimation,GetAnimationCount
     *******************************************************/
-    virtual CKERROR RemoveAnimation(CKAnimation *anim) = 0;
+    virtual CKERROR RemoveAnimation(CKAnimation *anim) CK_PURE;
 
     /************************************************
     Summary: Gets a specific animation given its index.
@@ -146,7 +155,7 @@ public:
 
     See also: AddAnimation,GetAnimation,GetAnimationCount
     ************************************************/
-    virtual CKAnimation *GetAnimation(int index) = 0;
+    virtual CKAnimation *GetAnimation(int index) CK_PURE;
 
     /************************************************
     Summary: Gets the number of animations in this character.
@@ -154,7 +163,7 @@ public:
 
     See also: RemoveAnimation,GetAnimation,GetAnimationCount
     ************************************************/
-    virtual int GetAnimationCount() = 0;
+    virtual int GetAnimationCount() CK_PURE;
 
     /************************************************
     Summary: Gets the animation used to make transitions.
@@ -166,7 +175,7 @@ public:
 
     See also: AddAnimation,RemoveAnimation,GetAnimation,GetAnimationCount,GetWarperParameters
     ************************************************/
-    virtual CKAnimation *GetWarper() = 0;
+    virtual CKAnimation *GetWarper() CK_PURE;
 
     //-----------------------------------------------------
     // Playing Animations
@@ -177,7 +186,7 @@ public:
 
     See also: SetActiveAnimation,SetNextActiveAnimation
     ************************************************/
-    virtual CKAnimation *GetActiveAnimation() = 0;
+    virtual CKAnimation *GetActiveAnimation() CK_PURE;
 
     /************************************************
     Summary: Gets the animation that will be played next.
@@ -185,7 +194,7 @@ public:
 
     See also: GetActiveAnimation,SetActiveAnimation,SetNextActiveAnimation
     ************************************************/
-    virtual CKAnimation *GetNextActiveAnimation() = 0;
+    virtual CKAnimation *GetNextActiveAnimation() CK_PURE;
 
     /************************************************
     Summary: Forces the current active animation
@@ -199,7 +208,7 @@ public:
         any transition.
     See also: GetActiveAnimation,GetNextActiveAnimation,SetNextActiveAnimation
     ************************************************/
-    virtual CKERROR SetActiveAnimation(CKAnimation *anim) = 0;
+    virtual CKERROR SetActiveAnimation(CKAnimation *anim) CK_PURE;
 
     /*************************************************
     Summary: Sets the next animation to be played by the character
@@ -235,7 +244,7 @@ public:
 
     See also: GetActiveAnimation,SetActiveAnimation,CK_ANIMATION_TRANSITION_MODE
     *************************************************/
-    virtual CKERROR SetNextActiveAnimation(CKAnimation *anim, CKDWORD transitionmode, float warplength = 0.0f) = 0;
+    virtual CKERROR SetNextActiveAnimation(CKAnimation *anim, CKDWORD transitionmode, float warplength = 0.0f) CK_PURE;
 
     //-----------------------------------------------------
     // animation processing
@@ -250,7 +259,7 @@ public:
 
     See also: SetAutomaticProcess, SetActiveAnimation, SetNextActiveAnimation
     ************************************************/
-    virtual void ProcessAnimation(float deltat = 1.0f) = 0;
+    virtual void ProcessAnimation(float deltat = 1.0f) CK_PURE;
 
     /************************************************
     Summary: Sets whether character animations are processed by the engine.
@@ -260,7 +269,7 @@ public:
 
     See also: IsAutomaticProcess, ProcessAnimation
     ************************************************/
-    virtual void SetAutomaticProcess(CKBOOL process = TRUE) = 0;
+    virtual void SetAutomaticProcess(CKBOOL process = TRUE) CK_PURE;
 
     /************************************************
     Summary: Checks whether animations are processed by the engine.
@@ -268,7 +277,7 @@ public:
 
     See also: SetAutomaticProcess, ProcessAnimation
     ************************************************/
-    virtual CKBOOL IsAutomaticProcess() = 0;
+    virtual CKBOOL IsAutomaticProcess() CK_PURE;
 
     /************************************************
     Summary: Gets the velocity vector of the character.
@@ -281,7 +290,7 @@ public:
 
     See Also:CKTimeManager
     ************************************************/
-    virtual void GetEstimatedVelocity(float deltat, VxVector *velocity) = 0;
+    virtual void GetEstimatedVelocity(float deltat, VxVector *velocity) CK_PURE;
 
     //-----------------------------------------------------
     // Secondary Animations
@@ -303,7 +312,7 @@ public:
 
     See also: StopSecondaryAnimation
     ************************************************/
-    virtual CKERROR PlaySecondaryAnimation(CKAnimation *anim, float StartingFrame = 0.0f, CK_SECONDARYANIMATION_FLAGS PlayFlags = CKSECONDARYANIMATION_ONESHOT, float warplength = 5.0f, int LoopCount = 0) = 0;
+    virtual CKERROR PlaySecondaryAnimation(CKAnimation *anim, float StartingFrame = 0.0f, CK_SECONDARYANIMATION_FLAGS PlayFlags = CKSECONDARYANIMATION_ONESHOT, float warplength = 5.0f, int LoopCount = 0) CK_PURE;
 
     /************************************************
     Summary: Stops playing a secondary animation.
@@ -315,8 +324,8 @@ public:
 
     See also: PlaySecondaryAnimation
     ************************************************/
-    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, CKBOOL warp = FALSE, float warplength = 5.0f) = 0;
-    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, float warplength = 5.0f) = 0;
+    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, CKBOOL warp = FALSE, float warplength = 5.0f) CK_PURE;
+    virtual CKERROR StopSecondaryAnimation(CKAnimation *anim, float warplength = 5.0f) CK_PURE;
 
     /************************************************
     Summary: Gets the number of secondary animations currently playing on this character.
@@ -324,7 +333,7 @@ public:
 
     See also: PlaySecondaryAnimation,GetSecondaryAnimationCount, StopSecondaryAnimation
     ************************************************/
-    virtual int GetSecondaryAnimationsCount() = 0;
+    virtual int GetSecondaryAnimationsCount() CK_PURE;
 
     /************************************************
     Summary: Gets a secondary animation according to its index.
@@ -334,7 +343,7 @@ public:
 
     See also: PlaySecondaryAnimation, GetSecondaryAnimationCount, StopSecondaryAnimation
     ************************************************/
-    virtual CKAnimation *GetSecondaryAnimation(int index) = 0;
+    virtual CKAnimation *GetSecondaryAnimation(int index) CK_PURE;
 
     /************************************************
     Summary: Removes all secondary animations.
@@ -343,7 +352,7 @@ public:
 
     See also: PlaySecondaryAnimation, StopSecondaryAnimation
     ************************************************/
-    virtual void FlushSecondaryAnimations() = 0;
+    virtual void FlushSecondaryAnimations() CK_PURE;
 
     /************************************************
     Summary: Aligns character position and orientation with its root
@@ -354,7 +363,7 @@ public:
 
     See also: GetRootBodyPart, ProcessAnimation, SetAutomaticProcess
     ************************************************/
-    virtual void AlignCharacterWithRootPosition() = 0;
+    virtual void AlignCharacterWithRootPosition() CK_PURE;
 
     /************************************************
     Summary: Gets the entity used to represent floor reference.
@@ -365,7 +374,7 @@ public:
 
     See also: GetRootBodyPart, SetFloorReferenceObject.
     ************************************************/
-    virtual CK3dEntity *GetFloorReferenceObject() = 0;
+    virtual CK3dEntity *GetFloorReferenceObject() CK_PURE;
 
     /************************************************
     Summary: Sets the entity used to represent floor reference.
@@ -377,7 +386,7 @@ public:
 
     See also: GetRootBodyPart, GetFloorReferenceObject
     ************************************************/
-    virtual void SetFloorReferenceObject(CK3dEntity *FloorRef) = 0;
+    virtual void SetFloorReferenceObject(CK3dEntity *FloorRef) CK_PURE;
 
     /************************************************
     Summary: Sets the level of detail for animation processing.
@@ -395,9 +404,9 @@ public:
 
     See also: GetRootBodyPart, GetFloorReferenceObject
     ************************************************/
-    virtual void SetAnimationLevelOfDetail(float LOD) = 0;
+    virtual void SetAnimationLevelOfDetail(float LOD) CK_PURE;
 
-    virtual float GetAnimationLevelOfDetail() = 0;
+    virtual float GetAnimationLevelOfDetail() CK_PURE;
 
     /************************************************
     Summary: Gets the parameters that were used to create the warping animation.
@@ -414,7 +423,7 @@ public:
 
     See also: GetWarper
     ************************************************/
-    virtual void GetWarperParameters(CKDWORD *TransitionMode, CKAnimation **AnimSrc, float *FrameSrc, CKAnimation **AnimDest, float *FrameDest) = 0;
+    virtual void GetWarperParameters(CKDWORD *TransitionMode, CKAnimation **AnimSrc, float *FrameSrc, CKAnimation **AnimDest, float *FrameDest) CK_PURE;
 
     /*************************************************
     Summary: Dynamic cast operator.
@@ -432,9 +441,8 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_CHARACTER) ? (CKCharacter *)iO : NULL;
     }
-
 #ifndef CK_3DIMPLEMENTATION
 };
-
 #endif
+
 #endif // CKCHARACTER_H
