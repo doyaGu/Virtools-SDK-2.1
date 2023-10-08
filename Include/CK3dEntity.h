@@ -510,7 +510,7 @@ public:
     o When KeepChildren is set to TRUE, children entities of this object will keep their current position.
     See also: SetOrientation, GetOrientation
     ************************************************/
-    virtual void Rotate(float X, float Y, float Z, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void Rotate3f(float X, float Y, float Z, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
 
     virtual void Rotate(const VxVector *Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
     void Rotate(const VxVector &Axis, float Angle, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
@@ -531,7 +531,7 @@ public:
 
     See also: SetPosition, GetPosition.
     ************************************************/
-    virtual void Translate(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void Translate3f(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
 
     virtual void Translate(const VxVector *Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
     void Translate(const VxVector &Vect, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
@@ -549,7 +549,7 @@ public:
         + When KeepChildren is set to TRUE, children entities of this object will keep their current position/orientation.
     See also: GetScale, AddScale
     ************************************************/
-    virtual void AddScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
+    virtual void AddScale3f(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
 
     virtual void AddScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
     void AddScale(const VxVector &Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE)
@@ -570,7 +570,7 @@ public:
     + When KeepChildren is set to TRUE, children entity of this object will keep their current position.
     See also: Translate
     ************************************************/
-    virtual void SetPosition(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
+    virtual void SetPosition3f(float X, float Y, float Z, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
 
     virtual void SetPosition(const VxVector *Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
     void SetPosition(const VxVector &Pos, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
@@ -671,7 +671,7 @@ public:
 
     See also: GetScale, AddScale
     ************************************************/
-    virtual void SetScale(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
+    virtual void SetScale3f(float X, float Y, float Z, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
 
     virtual void SetScale(const VxVector *Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE) CK_PURE;
     void SetScale(const VxVector &Scale, CKBOOL KeepChildren = FALSE, CKBOOL Local = TRUE)
