@@ -63,6 +63,12 @@ public:
                CKMANAGER_FUNC_OnSequenceToBeDeleted |
                CKMANAGER_FUNC_OnCKPlay;
     }
+
+    XArray<CKBehavior *> m_Behaviors;
+    XArray<CKBeObject *> m_BeObjects;
+    BeObjectTable m_BeObjectTable;
+    CKBehavior *m_CurrentBehavior;
+    int m_BehaviorMaxIteration;
 };
 
 #endif // CKBEHAVIORMANAGER_H
