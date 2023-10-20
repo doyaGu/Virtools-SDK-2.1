@@ -6,7 +6,14 @@
 #include "CKDependencies.h"
 #include "XObjectArray.h"
 
-class CKDeferredDeletion;
+class CKDeferredDeletion {
+public:
+    CKDWORD field_0;
+    CKDWORD field_4;
+    CKDWORD field_8;
+    CKDependencies *m_Dependencies;
+    int m_Next;
+};
 
 class CKObjectManager : public CKBaseManager
 {
