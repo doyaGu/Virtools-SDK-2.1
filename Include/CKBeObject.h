@@ -25,7 +25,7 @@ struct CKAttributeVal
     CK_ID Parameter;            // ID of the associated parameter
 };
 
-typedef XNHashTable<CK_ID, CK_ID> XAttributeList;
+typedef XNHashTable<CKAttributeVal, CK_ID> XAttributeList;
 
 /*************************************************
 {filename:CKBeObject}
