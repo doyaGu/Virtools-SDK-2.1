@@ -9,7 +9,11 @@ struct CKMessageWaitingList;
 
 struct CKMessageDesc;
 
-struct CKWaitingObject;
+struct CKWaitingObject {
+    CKBeObject *m_BeObject;
+    CKBehavior *m_Behavior;
+    CKBehaviorIO *m_Output;
+};
 
 typedef XArray<CKWaitingObject> CKWaitingObjectArray;
 
@@ -108,7 +112,7 @@ protected:
     CKMessage *CreateMessage();
 
     CKStringArray m_RegistredMessageTypes;
-    CKWaitingObjectArray **m_MsgWaitingList;
+    CKWaitingObjectArray *m_MsgWaitingList;
     XArray<CKMessage *> m_ReceivedMsgThisFrame;
     XObjectPointerArray m_LastFrameObjects;
 };
