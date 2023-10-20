@@ -136,6 +136,16 @@ public:
                                                      CKMANAGER_FUNC_PostLoad |
                                                      CKMANAGER_FUNC_OnSequenceAddedToScene |
                                                      CKMANAGER_FUNC_OnSequenceRemovedFromScene; }
+
+    int m_AttributeDescCount;
+    CKAttributeDesc **m_AttributeDescPtrs;
+    int m_AttributeCategoryCount;
+    CKAttributeCategoryDesc **m_AttributeCategories;
+    int *m_ConversionTable;
+    int m_ConversionTableSize;
+    XBitArray m_BitArray;
+    CKBOOL m_Saving;
+    XArray<int> m_Array;
 };
 
 #endif // CKATTRIBUTEMANAGER_H
