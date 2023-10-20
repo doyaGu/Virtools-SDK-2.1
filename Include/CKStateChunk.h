@@ -10,7 +10,7 @@
 struct ChunkIteratorData
 {
     int ChunkVersion;
-    int Data;
+    int *Data;
     int ChunkSize;
     CKBOOL Flag;
     int *Ids;
@@ -19,11 +19,23 @@ struct ChunkIteratorData
     int ChunkCount;
     int *Managers;
     int ManagerCount;
-    CKGUID ManagerGuid;
+    CKGUID Guid;
     int *ConversionTable;
     int NbEntries;
     CKDependenciesContext *DepContext;
     CKContext *Context;
+
+    ChunkIteratorData() : Guid() {
+        memset(this, 0, sizeof(ChunkIteratorData));
+    }
+
+    void CopyFctData(ChunkIteratorData *it) {
+        Guid = it->Guid;
+        ConversionTable = it->ConversionTable;
+        NbEntries = it->NbEntries;
+        DepContext = it->DepContext;
+        Context = it->Context;
+    }
 };
 typedef int (*ChunkIterateFct)(ChunkIteratorData *It);
 
@@ -33,32 +45,90 @@ typedef int (*ChunkIterateFct)(ChunkIteratorData *It);
 #define CHUNK_VERSION3 6 // New ConvertToBuffer / ReadFromBuffer (file system changed to reflect this )
 #define CHUNK_VERSION4 7 // New WriteObjectID when saving to a file
 
-class IntListStruct : public XArray<int>
+class IntListStruct
 {
 public:
+    IntListStruct() : Size(0), AllocatedSize(0), Data(NULL) {}
+
+    IntListStruct(const IntListStruct &list)
+    {
+        Size = list.Size;
+        AllocatedSize = list.Size;
+        Data = new int[list.Size];
+        memcpy(Data, list.Data, list.Size * sizeof(int));
+    }
+
     void AddEntry(int pos)
     {
-        PushBack(pos);
+        if ( Size + 1 >= AllocatedSize )
+        {
+            int *data = new int[(AllocatedSize + 1) * 2];
+            if (AllocatedSize != 0)
+                memcpy(data, Data, Size * sizeof(int));
+            AllocatedSize = (AllocatedSize + 1) * 2;
+            delete[] Data;
+            Data = data;
+        }
+        Data[Size++] = pos;
     }
+
     void AddEntries(int pos)
     {
-        PushBack(-1);
-        PushBack(pos);
-    }
-    void Append(int *list, int count, int StartPos)
-    {
-        if (!list || !count)
-            return;
-        for (int i = 0; i < count; ++i)
+        if ( Size + 2 >= AllocatedSize )
         {
-            if (list[i] >= 0)
+            int *data = new int[(AllocatedSize + 1) * 2];
+            if (Size != 0)
+                memcpy(data, Data, Size * sizeof(int));
+            AllocatedSize = (AllocatedSize + 1) * 2;
+            delete[] Data;
+            Data = data;
+        }
+        Data[Size++] = -1;
+        Data[Size++] = pos;
+    }
+
+    void Append(IntListStruct *list, int StartPos)
+    {
+        if (!list)
+            return;
+        if ( Size + list->Size >= AllocatedSize ){
+            int *data = new int[AllocatedSize + list->Size];
+            if (Size > 0)
+                memcpy(data, Data, Size * sizeof(int));
+            AllocatedSize += list->Size;
+            delete[] Data;
+            Data = data;
+        }
+        if (Size > 0)
+        {
+            memcpy(&Data[Size], list->Data, list->Size * sizeof(int));
+            int *p;
+            for (int i = 0; i < list->Size; ++i)
             {
-                PushBack(list[i] + StartPos);
+                p = &Data[Size + i];
+                if (*p >= 0)
+                    *p += StartPos;
             }
-            else
-                PushBack(list[i]);
+        }
+        Size += list->Size;
+    }
+
+    void Compact()
+    {
+        if ( Size > 0 )
+        {
+            int *data = new int[Size];
+            memcpy(data, Data, Size * sizeof(int));
+            delete[] Data;
+            Data = data;
+            AllocatedSize = Size;
         }
     }
+
+public:
+    int Size;
+    int AllocatedSize;
+    int *Data;
 };
 
 enum CHUNK_OPTIONS
@@ -79,8 +149,13 @@ public:
     int CurrentPos;
     int DataSize;
     int PrevIdentifierPos;
-    virtual CKBOOL IsReader() { return FALSE; }
-    virtual CKBOOL IsWriter() { return FALSE; }
+
+    void Clear()
+    {
+        CurrentPos = 0;
+        DataSize = 0;
+        PrevIdentifierPos = 0;
+    }
 
 public:
     virtual ~ChunkParser() {}
@@ -286,7 +361,6 @@ public:
     CKStateChunk(CKStateChunk *chunk);
     CKStateChunk(CK_CLASSID Cid, CKFile *f);
 
-private:
     int m_ChunkClassID;
     int m_ChunkSize;
     int *m_Data;
@@ -297,7 +371,7 @@ private:
     IntListStruct *m_Chunks;
     IntListStruct *m_Managers;
     CKFile *m_File;
-    CKBOOL m_Flag;
+    CKBOOL m_Dynamic;
 
     static XObjectPointerArray m_TempXOPA;
     static XObjectArray m_TempXOA;
@@ -308,7 +382,6 @@ class CKFileChunk
 public:
     CKStateChunk chunk;
     ChunkParser parser;
-    void InitFromBuffer(void *Buffer, CKFile *f);
 };
 
 #endif // CKSTATECHUNK_H
