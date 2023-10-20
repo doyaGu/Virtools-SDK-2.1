@@ -152,7 +152,7 @@ public:
         VxVector Translation(10.0f,0,0);
         int VCount = mesh->GetModifierVertexCount();
         CKDWORD Stride;
-        BYTE* VPtr = mesh->GetModifierVertices(&Stride);
+        CKBYTE* VPtr = mesh->GetModifierVertices(&Stride);
 
         if (VPtr) {
             for (int i = 0; i < VCount; ++i ,VPtr+=Stride) {
@@ -205,7 +205,7 @@ public:
         VxUV Translation(0.01f,0);
         int VCount = mesh->GetModifierUVCount();
         CKDWORD Stride;
-        BYTE* VPtr = mesh->GetModifierUVs(&Stride);
+        CKBYTE* VPtr = mesh->GetModifierUVs(&Stride);
 
         if (VPtr) {
             for (int i = 0; i < VCount; ++i ,VPtr+=Stride) {
@@ -666,7 +666,7 @@ public:
     Arguments:
         Stride : Size in byte between each normals in the returned array .
     Return Value:
-        BYTE Pointer containing the address of the normal of the first face.
+        CKBYTE Pointer containing the address of the normal of the first face.
     Remarks:
         + the returned pointer is the address of an array containing VxVector
         normals for each face, Stride contains the size in bytes between each normal.

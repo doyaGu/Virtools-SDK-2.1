@@ -35,7 +35,7 @@ public:
     //  Object are directly inserted or removed from the level Scene
     CKERROR AddObject(CKObject *obj);
     CKERROR RemoveObject(CKObject *obj);
-    CKERROR RemoveObject(CK_ID obj);
+    CKERROR RemoveObject(CK_ID objID);
     void BeginAddSequence(CKBOOL Begin);
     void BeginRemoveSequence(CKBOOL Begin);
 
@@ -84,7 +84,6 @@ public:
     CKERROR Merge(CKLevel *mergedLevel, CKBOOL asScene);
 
 #ifndef NO_OLDERVERSION_COMPATIBILITY
-
     virtual void ApplyPatchForOlderVersion(int NbObject, CKFileObject *FileObjects);
 #endif
 

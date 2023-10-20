@@ -39,10 +39,10 @@ public:
     {
         m_Context = context;
         delta = 0;
-        CurrentObject = 0;
-        CurrentScript = 0;
-        CurrentBehavior = 0;
-        SubBehavior = 0;
+        CurrentObject = NULL;
+        CurrentScript = NULL;
+        CurrentBehavior = NULL;
+        SubBehavior = NULL;
 
         InDebug = 0;
         CurrentBehaviorAction = CKDEBUG_NOP;

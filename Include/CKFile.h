@@ -197,7 +197,7 @@ public:
     void SaveObject(CKObject *obj, CKDWORD flags = CK_STATESAVE_ALL);
     void SaveObjects(CKObjectArray *array, CKDWORD flags = CK_STATESAVE_ALL);
     void SaveObjects(CK_ID *ids, int count, CKDWORD flags = CK_STATESAVE_ALL);
-    void SaveObjects(CKObject **obs, int count, CKDWORD flags = CK_STATESAVE_ALL);
+    void SaveObjects(CKObject **objs, int count, CKDWORD flags = CK_STATESAVE_ALL);
     // Add obj to the list of objects to be saved
     void SaveObjectAsReference(CKObject *obj);
     CKERROR EndSave();
@@ -209,7 +209,7 @@ public:
     //-------------------------------------------------
     // Used to update from old file formats
     void LoadAndSave(CKSTRING filename, CKSTRING filename_new);
-    //-- Remap every chunks according to the conversion table
+    //-- Remap every chunk according to the conversion table
     void RemapManagerInt(CKGUID Manager, int *ConversionTable, int TableSize);
 
     //-------------------------------------------------

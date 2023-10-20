@@ -135,9 +135,9 @@ public:
     //----------------------------------------------------------------
     // Behavior Typage
     CK_BEHAVIOR_TYPE GetType();
-    void SetType(CK_BEHAVIOR_TYPE);
+    void SetType(CK_BEHAVIOR_TYPE type);
 
-    void SetFlags(CK_BEHAVIOR_FLAGS);
+    void SetFlags(CK_BEHAVIOR_FLAGS flags);
     CK_BEHAVIOR_FLAGS GetFlags();
     CK_BEHAVIOR_FLAGS ModifyFlags(CKDWORD Add, CKDWORD Remove);
 
