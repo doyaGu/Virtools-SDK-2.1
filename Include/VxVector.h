@@ -1310,24 +1310,12 @@ inline void VxVector4::Set(float _x, float _y, float _z)
 
 inline const float &VxVector4::operator[](int i) const
 {
-    switch (i) {
-        case 0: return x;
-        case 1: return y;
-        case 2: return z;
-        case 4: return w;
-        default: return x;
-    }
+    return *((&x) + i);
 }
 
 inline float &VxVector4::operator[](int i)
 {
-    switch (i) {
-        case 0: return x;
-        case 1: return y;
-        case 2: return z;
-        case 4: return w;
-        default: return x;
-    }
+    return *((&x) + i);
 }
 
 //------------------------------------------------------------------------------------------------------
