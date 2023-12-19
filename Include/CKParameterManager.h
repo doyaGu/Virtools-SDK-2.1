@@ -225,11 +225,7 @@ public:
     CKGUID OperationNameToGuid(CKSTRING name);
     CKOperationType OperationNameToCode(CKSTRING name);
 
-    int GetAvailableOperationsDesc(const CKGUID &opGuid,
-                                   CKParameterOut *res,
-                                   CKParameterIn *p1,
-                                   CKParameterIn *p2,
-                                   CKOperationDesc *list);
+    int GetAvailableOperationsDesc(const CKGUID &opGuid, CKParameterOut *res, CKParameterIn *p1, CKParameterIn *p2, CKOperationDesc *list);
 
     int GetParameterOperationCount();
 
