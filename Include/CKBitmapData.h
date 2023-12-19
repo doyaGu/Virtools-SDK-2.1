@@ -211,16 +211,6 @@ public:
     *************************************************/
     CKBOOL ReleaseSurfacePtr(int Slot = -1);
 
-    /*************************************************
-    Summary: Flush a slot system memory
-
-    Arguments:
-        Slot: In a multi-images bitmap, number of the image slot to mark as invalid.
-    Remarks:
-        This method frees the memory allocated in system memory for a given bitmap slot.
-    See also: LockSurfacePtr,SetPixel
-    *************************************************/
-    CKBOOL FlushSurfacePtr(int Slot = -1);
     //-------------------------------------------------------------
     // Bitmap filenames information
 
@@ -519,14 +509,6 @@ public:
         return m_BitmapFlags & CKBITMAPDATA_CUBEMAP;
     }
 
-    /*************************************************
-    Summary: tells if the bitmap can be restored from the original file
-    Return Value:
-        TRUE if it can.
-
-    *************************************************/
-    CKBOOL HasOriginalFile();
-
     /*******************************************************
     Summary: Resizes all slots.
 
@@ -577,14 +559,14 @@ public:
     {
         return m_BitmapFlags & CKBITMAPDATA_FORCERESTORE;
     }
-    CKBOOL ReloadSlot(int Slot = 0, VxImageDescEx *iRealFormat = NULL);
+
     CKBOOL LoadSlotImage(const XString &Name, int Slot = 0);
     CKBOOL LoadMovieFile(const XString &Name);
 
     CKMovieInfo *CreateMovieInfo(const XString &s, CKMovieProperties **mp);
     void SetMovieInfo(CKMovieInfo *mi);
 
-    CKBitmapData(CKContext *iContext);
+    CKBitmapData();
     ~CKBitmapData();
 
 public:

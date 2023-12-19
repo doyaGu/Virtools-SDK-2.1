@@ -296,7 +296,7 @@ public:
     ************************************************/
     virtual int GetRstTextureIndex() = 0;
 
-    CKTexture(CKContext *Context, CKSTRING name = NULL) : CKBeObject(Context, name), CKBitmapData(Context) {}
+    CKTexture(CKContext *Context, CKSTRING name = NULL) : CKBeObject(Context, name), CKBitmapData() {}
 
     /*************************************************
     Summary: Dynamic cast operator.
