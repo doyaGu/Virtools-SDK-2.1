@@ -161,7 +161,7 @@ public:
         Tex: A Pointer to the texture to use.
     See also: GetTexture,SetTextureBlendMode
     *************************************************/
-    virtual void SetTexture(CKTexture *Tex) = 0;
+    virtual void SetTexture0(CKTexture *Tex) = 0;
 
     //--------------------------------------------------------------
     //  TEXTURE BLEND MODE
