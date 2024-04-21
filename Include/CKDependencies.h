@@ -222,7 +222,7 @@ public:
 
     XObjectPointerArray m_DynamicObjects;
 
-    void FinishPrepareDependencies(CKObject *iMySelf, CK_ID Cid);
+    CKERROR FinishPrepareDependencies(CKObject *iMySelf, CK_CLASSID Cid);
 
     // the context
     CKContext *m_CKContext;
