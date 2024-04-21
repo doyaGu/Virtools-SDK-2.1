@@ -105,7 +105,7 @@ public:
 
     //--------------------------------------------
     // Dependencies Functions
-    virtual CKERROR PrepareDependencies(CKDependenciesContext &context, CKBOOL iCaller = TRUE);
+    virtual CKERROR PrepareDependencies(CKDependenciesContext &context);
 
     //--------------------------------------------
     // Class Registering

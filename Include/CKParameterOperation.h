@@ -127,7 +127,7 @@ public:
     virtual int IsObjectUsed(CKObject *o, CK_CLASSID cid);
     //--------------------------------------------
     // Dependencies Functions
-    virtual CKERROR PrepareDependencies(CKDependenciesContext &context, CKBOOL iCaller = TRUE);
+    virtual CKERROR PrepareDependencies(CKDependenciesContext &context);
     virtual CKERROR RemapDependencies(CKDependenciesContext &context);
     virtual CKERROR Copy(CKObject &o, CKDependenciesContext &context);
 

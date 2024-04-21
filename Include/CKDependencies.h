@@ -75,7 +75,7 @@ public:
     CK_DEPENDENCIES_FLAGS m_Flags;
 };
 
-#define StackDependencies() CKDependenciesContext::DynamicSentinel ds = context.StackPrepareDependencies(this, iCaller)
+#define StackDependencies() CKDependenciesContext::DynamicSentinel ds = context.StackPrepareDependencies(this)
 
 /*************************************************
 Summary: Storage of dependencies, when performing objects
