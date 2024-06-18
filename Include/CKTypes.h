@@ -284,8 +284,6 @@ typedef struct VxStats
     float DevicePostCallbacks;        // Time taken by render context post render callbacks
     float BackToFrontTime;            // Time taken to perform the back buffer presentation on screen.
                                       // It can be longer due to 3d objects asynchronous drawing(see ObjectsRenderTime)
-    float ClearTime;                  // Time taken by clear back,z,(stencil) buffers
-    CKDWORD Reserved1;
 } VxStats;
 
 // DO NOT CHANGE THE ORDER of this structure !!!!
