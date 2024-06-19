@@ -425,6 +425,8 @@ public:
     ************************************************/
     virtual void GetWarperParameters(CKDWORD *TransitionMode, CKAnimation **AnimSrc, float *FrameSrc, CKAnimation **AnimDest, float *FrameDest) CK_PURE;
 
+#ifndef CK_3DIMPLEMENTATION
+
     /*************************************************
     Summary: Dynamic cast operator.
     Arguments:
@@ -441,7 +443,6 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_CHARACTER) ? (CKCharacter *)iO : NULL;
     }
-#ifndef CK_3DIMPLEMENTATION
 };
 #endif
 

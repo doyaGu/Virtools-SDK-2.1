@@ -128,6 +128,8 @@ public:
     ************************************************/
     virtual CKSPRITETEXT_ALIGNMENT GetAlign() CK_PURE;
 
+#ifndef CK_3DIMPLEMENTATION
+
     /*************************************************
     Summary: Dynamic cast operator.
     Arguments:
@@ -144,7 +146,6 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_SPRITETEXT) ? (CKSpriteText *)iO : NULL;
     }
-#ifndef CK_3DIMPLEMENTATION
 };
 #endif
 

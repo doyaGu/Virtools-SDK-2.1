@@ -207,7 +207,7 @@ public:
     See also: RemoveClassification,HasCompatibleClass
     ************************************************/
     virtual CKERROR AddClassification(int classification) CK_PURE;
-    virtual CKERROR AddClassification(CKSTRING ClassificationName) CK_PURE;
+    virtual CKERROR AddClassificationByName(CKSTRING ClassificationName) CK_PURE;
 
     /************************************************
     Summary: Removes a classification from the grid
@@ -224,7 +224,7 @@ public:
     See also: AddClassification,HasCompatibleClass
     ************************************************/
     virtual CKERROR RemoveClassification(int classification) CK_PURE;
-    virtual CKERROR RemoveClassification(CKSTRING ClassificationName) CK_PURE;
+    virtual CKERROR RemoveClassificationByName(CKSTRING ClassificationName) CK_PURE;
 
     /************************************************
     Summary: Check if the grid has a shared Classification.
@@ -307,7 +307,7 @@ public:
     See also: GetLayer, GetLayerCount, RemoveLayer, RemoveAllLayers
     ************************************************/
     virtual CKLayer *AddLayer(int type, int Format = CKGRID_LAYER_FORMAT_NORMAL) CK_PURE;
-    virtual CKLayer *AddLayer(CKSTRING TypeName = NULL, int Format = CKGRID_LAYER_FORMAT_NORMAL) CK_PURE;
+    virtual CKLayer *AddLayerByName(CKSTRING TypeName = NULL, int Format = CKGRID_LAYER_FORMAT_NORMAL) CK_PURE;
 
     /************************************************
     Summary: Gets a layer by its type number, or by its type name
@@ -320,7 +320,7 @@ public:
     See also: AddLayer, GetLayerCount, RemoveLayer, RemoveAllLayers
     ************************************************/
     virtual CKLayer *GetLayer(int type) CK_PURE;
-    virtual CKLayer *GetLayer(CKSTRING TypeName) CK_PURE;
+    virtual CKLayer *GetLayerByName(CKSTRING TypeName) CK_PURE;
 
     /************************************************
     Summary: Gets the number of layers in the grid
@@ -353,7 +353,7 @@ public:
     See also: RemoveAllLayers, AddLayer, GetLayer, GetLayerCount
     ************************************************/
     virtual CKERROR RemoveLayer(int type) CK_PURE;
-    virtual CKERROR RemoveLayer(CKSTRING TypeName) CK_PURE;
+    virtual CKERROR RemoveLayerByName(CKSTRING TypeName) CK_PURE;
 
     /************************************************
     Summary: Removes all the layers from the grid

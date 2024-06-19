@@ -321,12 +321,13 @@ public:
     ************************************************/
     virtual void SetLightPower(float power = 1.0f) CK_PURE;
 
+#ifndef CK_3DIMPLEMENTATION
+
     // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKLight *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_LIGHT) ? (CKLight *)iO : NULL;
     }
-#ifndef CK_3DIMPLEMENTATION
 };
 #endif
 

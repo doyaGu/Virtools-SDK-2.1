@@ -183,6 +183,8 @@ public:
     *************************************************/
     virtual void NotifyUpdate() CK_PURE;
 
+#ifndef CK_3DIMPLEMENTATION
+
     /*************************************************
     Summary: Dynamic cast operator.
     Arguments:
@@ -199,7 +201,6 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_CURVEPOINT) ? (CKCurvePoint *)iO : NULL;
     }
-#ifndef CK_3DIMPLEMENTATION
 };
 #endif
 

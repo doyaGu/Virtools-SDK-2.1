@@ -85,12 +85,13 @@ public:
     *************************************************/
     virtual void Clear() CK_PURE;
 
+#ifndef CK_3DIMPLEMENTATION
+
     // Dynamic Cast method (returns NULL if the object can't be cast)
     static CKKeyedAnimation *Cast(CKObject *iO)
     {
         return CKIsChildClassOf(iO, CKCID_KEYEDANIMATION) ? (CKKeyedAnimation *)iO : NULL;
     }
-#ifndef CK_3DIMPLEMENTATION
 };
 #endif
 
