@@ -703,8 +703,8 @@ public:
         of runtime specific structures each time a face have its material changed.
     See Also: GetFaceMaterial,ReplaceMaterial
     *************************************************/
-    virtual void SetFaceMaterial(int FaceIndex, CKMaterial *Mat) = 0;
     virtual void SetFaceMaterialEx(int *FaceIndices, int FaceCount, CKMaterial *Mat) = 0;
+    virtual void SetFaceMaterial(int FaceIndex, CKMaterial *Mat) = 0;
 
     virtual void SetFaceChannelMask(int FaceIndex, CKWORD ChannelMask) = 0;
 
