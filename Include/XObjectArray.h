@@ -213,7 +213,7 @@ See Also:XSObjectPointerArray,XObjectArray,CKObjectArray
 class XObjectPointerArray : public XArray<CKObject *>
 {
 public:
-    XObjectPointerArray(const int iSize = 0) : XArray<CKObject *>(iSize) {}
+    explicit XObjectPointerArray(const int iSize = 0) : XArray<CKObject *>(iSize) {}
 
     /*******************************************************
     Summary: Adds given object to object array only if it is not in array.
