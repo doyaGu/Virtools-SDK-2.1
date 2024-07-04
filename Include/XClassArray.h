@@ -37,7 +37,7 @@ public:
         a: An array to copy from.
 
     ************************************************/
-    XClassArray(int ss = 0)
+    explicit XClassArray(int ss = 0)
     {
         // Allocated
         if (ss > 0)

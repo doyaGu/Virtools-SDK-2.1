@@ -334,7 +334,7 @@ struct Vx2DVector
     // =====================================
 
     Vx2DVector() : x(0.0f), y(0.0f) {}
-    Vx2DVector(float f) : x(f), y(f) {}
+    explicit Vx2DVector(float f) : x(f), y(f) {}
     Vx2DVector(float iX, float iY) : x(iX), y(iY) {}
     Vx2DVector(int iX, int iY) : x((float)iX), y((float)iY) {}
     Vx2DVector(const float f[2]) : x(f[0]), y(f[1]) {}

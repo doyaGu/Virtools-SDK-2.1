@@ -9,7 +9,7 @@ template <class T>
 class XMatrix
 {
 public:
-    XMatrix(int iWidth = 0, int iHeight = 0) : m_Data(NULL), m_Width(0), m_Height(0)
+    explicit XMatrix(int iWidth = 0, int iHeight = 0) : m_Data(NULL), m_Width(0), m_Height(0)
     {
         Allocate(iWidth, iHeight);
     }

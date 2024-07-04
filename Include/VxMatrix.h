@@ -46,7 +46,7 @@ class VxMatrix
 {
 public:
     VxMatrix() {}
-    VxMatrix(float m[4][4]) { memcpy(m_Data, m, sizeof(VxMatrix)); }
+    explicit VxMatrix(float m[4][4]) { memcpy(m_Data, m, sizeof(VxMatrix)); }
 
     VX_EXPORT const static VxMatrix &Identity();
 

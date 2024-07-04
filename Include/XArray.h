@@ -37,7 +37,7 @@ public:
         a: An array to copy from.
 
     ************************************************/
-    XArray(int ss = 0)
+    explicit XArray(int ss = 0)
     {
         // Allocated
         if (ss > 0)

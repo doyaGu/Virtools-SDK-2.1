@@ -15,7 +15,7 @@ Remarks:
 class XBitArray
 {
 public:
-    XBitArray(int initialize = 1)
+    explicit XBitArray(int initialize = 1)
     {
         if (initialize < 1) initialize = 1;
         m_Size = (initialize << 5);

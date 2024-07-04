@@ -133,8 +133,8 @@ public:
 
     VxColor(const float _r, const float _g, const float _b, const float _a);
     VxColor(const float _r, const float _g, const float _b);
-    VxColor(const float _r);
-    VxColor(const unsigned long col);
+    explicit VxColor(const float _r);
+    explicit VxColor(const unsigned long col);
     VxColor(const int _r, const int _g, const int _b, const int _a);
     VxColor(const int _r, const int _g, const int _b);
 

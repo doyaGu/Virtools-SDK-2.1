@@ -56,7 +56,7 @@ public:
     // Constructors
     // =====================================
     VxVector();
-    VxVector(float f);
+    explicit VxVector(float f);
     VxVector(float _x, float _y, float _z);
     VxVector(const float f[3]);
 

@@ -39,7 +39,7 @@ public:
     Input Arguments:
         iBaseNumber: Default number of reserved elements.
     ************************************************/
-    XPriorityQueue(int iBaseNumber = 0) : m_Cells(iBaseNumber) {}
+    explicit XPriorityQueue(int iBaseNumber = 0) : m_Cells(iBaseNumber) {}
 
     /************************************************
     Summary: Removes all the elements from the queue.

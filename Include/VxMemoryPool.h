@@ -23,7 +23,7 @@ public:
     }
 
     // Constructs the class allocating the buffer to size dwords.
-    VxMemoryPool(int size = 0)
+    explicit VxMemoryPool(int size = 0)
     {
         m_Memory = NULL;
         m_Allocated = 0;

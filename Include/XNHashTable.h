@@ -371,7 +371,7 @@ public:
         a: hash table to copy.
 
     ************************************************/
-    XNHashTable(int initialize = 16, float l = 0.75f)
+    explicit XNHashTable(int initialize = 16, float l = 0.75f)
     {
         int dec = -1;
         while (initialize)
