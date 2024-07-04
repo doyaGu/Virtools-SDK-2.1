@@ -449,7 +449,7 @@ public:
         z = _z;
         w = _w;
     }
-    VxVector4(const float f[4])
+    explicit VxVector4(const float f[4])
     {
         x = f[0];
         y = f[1];
