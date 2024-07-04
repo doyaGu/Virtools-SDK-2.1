@@ -441,7 +441,7 @@ public:
     float w;
 
     VxVector4() { x = y = z = w = 0.0f; }
-    VxVector4(float f) { x = y = z = w = f; }
+    explicit VxVector4(float f) { x = y = z = w = f; }
     VxVector4(float _x, float _y, float _z, float _w)
     {
         x = _x;
@@ -574,7 +574,7 @@ typedef struct VxBbox
 public:
     VxBbox() : Max(-1e6f, -1e6f, -1e6f), Min(1e6f, 1e6f, 1e6f) {}
     VxBbox(VxVector iMin, VxVector iMax) : Max(iMax), Min(iMin) {}
-    VxBbox(float value)
+    explicit VxBbox(float value)
     {
         Max.x = value;
         Max.y = value;
