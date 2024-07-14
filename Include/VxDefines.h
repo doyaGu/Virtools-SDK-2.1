@@ -1020,6 +1020,8 @@ typedef enum CKRST_SPECIFICCAPS
     CKRST_SPECIFICCAPS_HW_SKINNING        = 0x00020000UL,   // Implementation can perform hardware accelerated skinning
 
     CKRST_SPECIFICCAPS_AUTGENMIPMAP       = 0x00040000UL,   // Graphics card supports automatic mipmap generation
+
+    CKRST_SPECIFICCAPS_EXPLICITSWAPCHAIN  = 0x00040000UL,   // Rasterizer will do explicit swapchain management
 } CKRST_SPECIFICCAPS;
 
 /****************************************************************
