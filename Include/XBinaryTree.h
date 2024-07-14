@@ -777,7 +777,14 @@ protected:
     // Construction by placement new
     void XConsval(Pointer iP, ConstReference iValue) { new ((void *)iP) T(iValue); }
     void XDestval(Pointer iP) { (iP)->~T(); }
-    void XFreeNode(Node *iN) { VxDelete<Node>(iN); }
+    void XFreeNode(Node *iN)
+    {
+#ifdef NO_VX_MALLOC
+        delete iN;
+#else
+        VxDelete<Node>(iN);
+#endif
+    }
 
     // Null reference
     static Node *m_Nil;
@@ -891,7 +898,11 @@ public:
     ~XBinaryTree()
     {
         XRemove(m_Root);
+#ifdef NO_VX_MALLOC
+        delete iN;
+#else
         VxDelete<tNode>(iN);
+#endif
     }
 
     void Clear()
@@ -1004,13 +1015,21 @@ public:
                 // if it's a leaf ?
                 if (t->m_Right == m_NullNode)
                 {
+#ifdef NO_VX_MALLOC
+                    delete iN;
+#else
                     VxDelete<tNode>(iN);
+#endif
                     *parent = m_NullNode;
                 }
                 else
                 { // we reup the right tree in place
                     *parent = t->m_Right;
+#ifdef NO_VX_MALLOC
+                    delete iN;
+#else
                     VxDelete<tNode>(iN);
+#endif
                 }
             }
             else // There's a left child
@@ -1019,7 +1038,11 @@ public:
                 if (t->m_Right == m_NullNode) // we reup the left tree in place
                 {
                     *parent = t->m_Left;
+#ifdef NO_VX_MALLOC
+                    delete iN;
+#else
                     VxDelete<tNode>(iN);
+#endif
                 }
                 else // we have to put the max of the left tree in place
                 {
@@ -1032,7 +1055,11 @@ public:
                     }
                     *parent = left->m_Left;
                     t->m_Data = left->m_Data;
+#ifdef NO_VX_MALLOC
+                    delete iN;
+#else
                     VxDelete<tNode>(iN);
+#endif
                 }
             }
             return 1;
@@ -1089,7 +1116,11 @@ private:
         {
             XRemove(t->m_Left);
             XRemove(t->m_Right);
+#ifdef NO_VX_MALLOC
+            delete iN;
+#else
             VxDelete<tNode>(iN);
+#endif
         }
     }
 

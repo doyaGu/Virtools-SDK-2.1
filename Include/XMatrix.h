@@ -69,7 +69,11 @@ public:
     // Free the memory taken by the matrix.
     void Clear()
     {
+#ifdef NO_VX_MALLOC
+        delete[] m_Data;
+#else
         VxDeallocate<T>(m_Data, iWidth * iHeight);
+#endif
         m_Data = NULL;
         m_Width = 0;
         m_Height = 0;
@@ -104,7 +108,11 @@ private:
         int count = iWidth * iHeight;
         if (count)
         {
+#ifdef NO_VX_MALLOC
+            m_Data	= new T[count];
+#else
             m_Data = VxAllocate<T>(count);
+#endif
             XASSERT(m_Data); // No more free space ???
             m_Width = iWidth;
             m_Height = iHeight;

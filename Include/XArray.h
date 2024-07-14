@@ -1035,7 +1035,11 @@ protected:
     T *Allocate(int size)
     {
         if (size)
+#ifdef NO_VX_MALLOC
+            return (T *)new T[size];
+#else
             return (T *)VxMalloc(sizeof(T) * size);
+#endif
         else
             return 0;
     }
@@ -1043,7 +1047,11 @@ protected:
     // Free {secret}
     void Free()
     {
+#ifdef NO_VX_MALLOC
+        delete[] m_Begin;
+#else
         VxFree(m_Begin);
+#endif
     }
 
     ///

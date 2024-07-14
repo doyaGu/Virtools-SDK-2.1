@@ -590,7 +590,11 @@ public:
         else // No
         {
             typedef XNHashTableEntry<T, K> Entry;
+#ifdef NO_VX_MALLOC
+            tEntry newe = new Entry(key, o);
+#else
             tEntry newe = VxNew(Entry)(key, o);
+#endif
             newe->m_Next = m_Table[index];
             m_Table[index] = newe;
             m_Count++;
@@ -623,12 +627,20 @@ public:
                 if (old)
                 {
                     old->m_Next = e->m_Next;
+#ifdef NO_VX_MALLOC
+                    delete e;
+#else
                     VxDelete<XNHashTableEntry<T, K> >(e);
+#endif
                 }
                 else
                 {
                     m_Table[index] = e->m_Next;
+#ifdef NO_VX_MALLOC
+                    delete e;
+#else
                     VxDelete<XNHashTableEntry<T, K> >(e);
+#endif
                 }
                 --m_Count;
                 break;
@@ -653,13 +665,21 @@ public:
                 if (old)
                 {
                     old->m_Next = e->m_Next;
+#ifdef NO_VX_MALLOC
+                    delete e;
+#else
                     VxDelete<XNHashTableEntry<T, K> >(e);
+#endif
                     old = old->m_Next;
                 }
                 else
                 {
                     m_Table[index] = e->m_Next;
+#ifdef NO_VX_MALLOC
+                    delete e;
+#else
                     VxDelete<XNHashTableEntry<T, K> >(e);
+#endif
                     old = m_Table[index];
                 }
                 --m_Count;
@@ -925,7 +945,11 @@ private:
         {
             del = tmp;
             tmp = tmp->m_Next;
+#ifdef NO_VX_MALLOC
+            delete del;
+#else
             VxDelete<XNHashTableEntry<T, K> >(del);
+#endif
         }
     }
 
@@ -939,7 +963,11 @@ private:
         while (tmp != NULL)
         {
             typedef XNHashTableEntry<T, K> Entry;
+#ifdef NO_VX_MALLOC
+            newone = new Entry(*tmp);
+#else
             newone = VxNew(Entry)(*tmp);
+#endif
             if (oldone)
                 oldone->m_Next = newone;
             else
@@ -1002,7 +1030,11 @@ private:
     tEntry XInsert(int index, const K &key, const T &o)
     {
         typedef XNHashTableEntry<T, K> Entry;
+#ifdef NO_VX_MALLOC
+        tEntry newe = new Entry(key, o);
+#else
         tEntry newe = VxNew(Entry)(key, o);
+#endif
         newe->m_Next = m_Table[index];
         m_Table[index] = newe;
         ++m_Count;

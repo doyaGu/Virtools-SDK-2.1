@@ -592,7 +592,11 @@ protected:
     {
         if (size)
         {
+#ifdef NO_VX_MALLOC
+            return new T[size];
+#else
             return VxAllocate<T>(size);
+#endif
         }
         else
         {
@@ -602,7 +606,11 @@ protected:
 
     void Free()
     {
+#ifdef NO_VX_MALLOC
+        delete[] m_Begin;
+#else
         VxDeallocate<T>(m_Begin, (m_AllocatedEnd - m_Begin) / sizeof(T));
+#endif
     }
 
     ///

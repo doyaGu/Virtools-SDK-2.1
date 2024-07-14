@@ -462,22 +462,38 @@ private:
 
     INode *AllocateInternalNode()
     {
+#ifdef NO_VX_MALLOC
+        return new INode;
+#else
         return VxNew(INode);
+#endif
     }
 
     Leaf *AllocateLeaf()
     {
+#ifdef NO_VX_MALLOC
+        return new Leaf;
+#else
         return VxNew(Leaf);
+#endif
     }
 
     void ReleaseInternalNode(INode *iNode)
     {
+#ifdef NO_VX_MALLOC
+        delete iNode;
+#else
         VxDelete<INode>(iNode);
+#endif
     }
 
     void ReleaseLeaf(Leaf *iLeaf)
     {
+#ifdef NO_VX_MALLOC
+        delete iLeaf;
+#else
         VxDelete<Leaf>(iLeaf);
+#endif
     }
 
     // Members

@@ -405,12 +405,20 @@ public:
 private:
     XDWORD *Allocate(int size)
     {
+#ifdef NO_VX_MALLOC
+        return new XDWORD[size];
+#else
         return (XDWORD *)VxMalloc(sizeof(XDWORD) * size);
+#endif
     }
 
     void Free()
     {
+#ifdef NO_VX_MALLOC
+        delete[] m_Data;
+#else
         VxFree(m_Data);
+#endif
     }
 
     // the array itself {secret}

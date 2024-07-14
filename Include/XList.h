@@ -143,7 +143,11 @@ public:
     ************************************************/
     XList()
     {
+#ifdef NO_VX_MALLOC
+        m_Node = new XNode<T>;
+#else
         m_Node = VxNew(XNode<T>);
+#endif
         m_Node->m_Prev = m_Node;
         m_Node->m_Next = m_Node;
         m_Count = 0;
@@ -151,7 +155,11 @@ public:
 
     XList(const XList<T> &list)
     {
+#ifdef NO_VX_MALLOC
+        m_Node = new XNode<T>;
+#else
         m_Node = VxNew(XNode<T>);
+#endif
         m_Node->m_Prev = m_Node;
         m_Node->m_Next = m_Node;
         m_Count = 0;
@@ -217,7 +225,11 @@ public:
     ~XList()
     {
         Clear();
+#ifdef NO_VX_MALLOC
+        delete m_Node;
+#else
         VxDelete< XNode<T> >(m_Node);
+#endif
     }
 
     /************************************************
@@ -231,7 +243,11 @@ public:
         {
             del = tmp;
             tmp = tmp->m_Next;
+#ifdef NO_VX_MALLOC
+            delete del;
+#else
             VxDelete<XNode<T> >(del);
+#endif
         }
         m_Node->m_Prev = m_Node;
         m_Node->m_Next = m_Node;
@@ -455,7 +471,11 @@ private:
 
     XNode<T> *XInsert(XNode<T> *i, const T &o)
     {
+#ifdef NO_VX_MALLOC
+        XNode<T> *n = new XNode<T>;
+#else
         XNode<T> *n = VxNew(XNode<T>);
+#endif
         // Data
         n->m_Data = o;
         // Pointers
@@ -475,7 +495,11 @@ private:
         prev->m_Next = next;
         next->m_Prev = prev;
         // we delete the old node
+#ifdef NO_VX_MALLOC
+        delete i;
+#else
         VxDelete<XNode<T> >(i);
+#endif
         m_Count--;
         // We return the element just after
         return next;
