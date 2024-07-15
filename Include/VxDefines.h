@@ -208,6 +208,19 @@ typedef struct VxDisplayMode
     int RefreshRate; // Refresh rate in Hertz.
 } VxDisplayMode;
 
+inline bool operator==(const VxDisplayMode &lhs, const VxDisplayMode &rhs)
+{
+    return lhs.Width == rhs.Width &&
+           lhs.Height == rhs.Height &&
+           lhs.Bpp == rhs.Bpp &&
+           lhs.RefreshRate == rhs.RefreshRate;
+}
+
+inline bool operator!=(const VxDisplayMode &lhs, const VxDisplayMode &rhs)
+{
+    return !(rhs == lhs);
+}
+
 /*****************************************************************
 Summary: Vertices to transform to screen coordinates
 
