@@ -584,10 +584,6 @@ public:
     See also: GetOrientation, Rotate
     ************************************************/
     virtual void SetOrientation(const VxVector *Dir, const VxVector *Up, const VxVector *Right = NULL, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE) CK_PURE;
-    void SetOrientation(const VxVector &Dir, const VxVector &Up, const VxVector *Right = NULL, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE)
-    {
-        SetOrientation(&Dir, &Up, Right, Ref, KeepChildren);
-    }
 
     /*************************************************
     Summary: Returns the entity orientation axes.
@@ -617,10 +613,6 @@ public:
     See also: VxQuaternion,GetQuaternion,SetOrientation
     ************************************************/
     virtual void SetQuaternion(const VxQuaternion *Quat, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE, CKBOOL KeepScale = FALSE) CK_PURE;
-    void SetQuaternion(const VxQuaternion &Quat, CK3dEntity *Ref = NULL, CKBOOL KeepChildren = FALSE, CKBOOL KeepScale = FALSE)
-    {
-        SetQuaternion(&Quat, Ref, KeepChildren, KeepScale);
-    }
 
     /*************************************************
     Summary: Returns the quaternion giving the entity orientation.
@@ -1040,10 +1032,6 @@ public:
     See also: VxBbox, GetRadius, GetBaryCenter, GetHierarchicalBox,GetBoundingBox
     ************************************************/
     virtual CKBOOL SetBoundingBox(const VxBbox *BBox, CKBOOL Local = FALSE) CK_PURE;
-    CKBOOL SetBoundingBox(const VxBbox &BBox, CKBOOL Local = FALSE)
-    {
-        return SetBoundingBox(&BBox, Local);
-    }
 
     /************************************************
     Summary: Returns the hierarchical bounding box of this entity and its children.
