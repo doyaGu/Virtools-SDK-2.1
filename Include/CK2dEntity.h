@@ -397,15 +397,6 @@ public:
     *************************************************/
     virtual CK2dEntity *GetChild(int i) const CK_PURE;
 
-    /*************************************************
-    Summary: Checks if the object is root object.
-    Return Value:
-        TRUE if the entity is root, FALSE otherwise.
-    Remarks:
-        This method returns TRUE if the entity does not have a parent.
-
-    *************************************************/
-    virtual CKBOOL IsRootObject() CK_PURE;
     /************************************************
     Summary: Parses the sub hierarchy of an entity.
     Arguments:
