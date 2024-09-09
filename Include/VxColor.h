@@ -26,15 +26,6 @@ VX_EXPORT unsigned long RGBAFTOCOLOR(float r, float g, float b, float a);
 VX_EXPORT unsigned long RGBAFTOCOLOR(const VxColor *col);
 
 /***************************************************
-Summary: Converts 4 floats to a DWORD BGRA color
-
-Remarks:
-This function takes 4 floats R,G,B,A (in the range 0..1) and converts them into
-a color stored in DWORD in 32 bit BGRA format.
-*****************************************************/
-VX_EXPORT unsigned long BGRAFTOCOLOR(const VxColor *col);
-
-/***************************************************
 Summary: Converts 4 integers to a DWORD ARGB color
 Remarks:
 This macro takes 4 integer R,G,B,A (in the range 0..255) and convert them
