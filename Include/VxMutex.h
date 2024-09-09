@@ -16,11 +16,11 @@ public:
     VX_EXPORT VxMutex();
     VX_EXPORT ~VxMutex();
 
-    VX_EXPORT XBOOL EnterMutex();
-    VX_EXPORT XBOOL LeaveMutex();
+    VX_EXPORT int EnterMutex();
+    VX_EXPORT int LeaveMutex();
 
-    VX_EXPORT XBOOL operator++(int);
-    VX_EXPORT XBOOL operator--(int);
+    VX_EXPORT int operator++(int);
+    VX_EXPORT int operator--(int);
 
 private:
     void *m_Mutex;
