@@ -92,8 +92,6 @@ public:
         return CKIsChildClassOf(iO, CKCID_GROUP) ? (CKGroup *)iO : NULL;
     }
 
-    void ComputeClassID();
-
 protected:
     XObjectPointerArray m_ObjectArray;
     CK_CLASSID m_CommonClassId;
