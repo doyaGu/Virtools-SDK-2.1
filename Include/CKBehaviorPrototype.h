@@ -185,7 +185,7 @@ public:
     CKSTRING GetOutParamIndex(int);
     CKSTRING GetLocalParamIndex(int);
 
-    void SetSoureObjectDeclaration(CKObjectDeclaration *decl) { m_SourceObjectDeclaration = decl; }
+    void SetSourceObjectDeclaration(CKObjectDeclaration *decl) { m_SourceObjectDeclaration = decl; }
 
     virtual ~CKBehaviorPrototype();
     CKBehaviorPrototype(CKSTRING Name);
