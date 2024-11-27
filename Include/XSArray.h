@@ -128,7 +128,7 @@ public:
                     if (a.Find(*t) == a.m_End)
                     {
                         // the element is not in the other array, we copy it to the newone
-                        *temp = *t; // t was it
+                        *temp = *t;
                         ++temp;
                     }
                 }

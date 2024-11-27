@@ -144,7 +144,8 @@ public:
     Summary: Jumps to next entry in the hashtable.
     ************************************************/
     tIterator &operator++()
-    { // Prefixe
+    {
+        // Prefixe
         tEntry old = m_Node;
         // next element of the linked list
         m_Node = m_Node->m_Next;
