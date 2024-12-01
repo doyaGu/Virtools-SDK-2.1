@@ -424,7 +424,7 @@ public:
         Perspective: TRUE to enable Texture perspective correction.
     See also: EnablePerpectiveCorrection
     *************************************************/
-    virtual void EnablePerpectiveCorrection(CKBOOL Perspective = TRUE) = 0;
+    virtual void EnablePerspectiveCorrection(CKBOOL Perspective = TRUE) = 0;
 
     //--------------------------------------------------------------
     //  FILL MODE
