@@ -2,7 +2,6 @@
 #define CKPLUGINMANAGER_H
 
 #include "CKDefines.h"
-#include "CKBaseManager.h"
 #include "CKDataReader.h"
 #include "CKBitmapReader.h"
 #include "CKSoundReader.h"
