@@ -179,12 +179,6 @@ public:
     int GetOutParamIndex(CKSTRING name);
     int GetLocalParamIndex(CKSTRING name);
 
-    CKSTRING GetInIOName(int);
-    CKSTRING GetOutIOIndex(int);
-    CKSTRING GetInParamIndex(int);
-    CKSTRING GetOutParamIndex(int);
-    CKSTRING GetLocalParamIndex(int);
-
     void SetSourceObjectDeclaration(CKObjectDeclaration *decl) { m_SourceObjectDeclaration = decl; }
 
     virtual ~CKBehaviorPrototype();

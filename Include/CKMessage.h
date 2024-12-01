@@ -155,8 +155,6 @@ public:
 
     CKMessage();
     ~CKMessage();
-    int AddRef();
-    int Release();
 
 protected:
     int m_RefCount;

@@ -60,11 +60,6 @@ public:
         return CKIsChildClassOf(iO, CKCID_MIDISOUND) ? (CKMidiSound *)iO : NULL;
     }
 
-    CKERROR OpenFile();
-    CKERROR CloseFile();
-    CKERROR Prepare();
-    CKERROR Start();
-
 protected:
     void *m_Source;
     CKMidiManager *m_MidiManager;

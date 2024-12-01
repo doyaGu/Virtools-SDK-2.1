@@ -63,7 +63,6 @@ typedef int CKAttributeCategory;
 // Objects and derivative classes
 class CKObject;
     class CKInterfaceObjectManager;
-    class CKRenderContext;
     class CKParameterIn;
     class CKParameter;
         class CKParameterOut;
@@ -91,7 +90,6 @@ class CKObject;
             class CKTexture;
             class CKMesh;
                 class CKPatchMesh;
-                class CKProgressiveMesh;
             class CKDataArray;
             class CKSound;
                 class CKMidiSound;

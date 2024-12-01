@@ -220,14 +220,6 @@ public:
     int m_Duration; // Duration in milliseconds
     CKWaveFormat m_WaveFormat;
 
-    int GetDistanceFromCursor();
-    void InternalSetGain(float Gain);
-
-    void SaveSettings();
-    void RestoreSettings();
-
-    void *ReallocSource(void *oSource, int alreadyWritten, int newSize);
-
     // Save Information From Current source
     CKWaveSoundSettings m_2DSetting;
     CKWaveSound3DSettings m_3DSetting;
