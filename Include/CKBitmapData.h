@@ -72,8 +72,8 @@ public:
     XString m_MovieFileName;
     CKMovieReader *m_MovieReader;
     int m_MovieCurrentSlot;
-    CKMovieInfo(const XString &FileName);
-    ~CKMovieInfo();
+    // CKMovieInfo(const XString &FileName);
+    // ~CKMovieInfo();
 };
 
 /************************************************************
