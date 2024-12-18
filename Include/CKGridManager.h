@@ -181,7 +181,7 @@ public:
 
     See also: GetClassificationFromName,GetClassificationName,RegisterClassification,CKAttributeManager
     *************************************************/
-    virtual int GetGridClassificationCatego() = 0;
+    virtual int GetGridClassificationCategory() = 0;
 
     //____________________________________________________
     //      GRID FINDING
