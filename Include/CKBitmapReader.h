@@ -41,7 +41,6 @@ See Also:Creation of Bitmap Media Plugins,CKBitmapReader
 ****************************************************************/
 struct CKBitmapProperties
 {
-
     CKBitmapProperties()
     {
         m_Size = sizeof(CKBitmapProperties);
