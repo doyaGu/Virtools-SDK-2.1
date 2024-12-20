@@ -33,6 +33,13 @@ public:
     XBitArray ValidGuids;
 };
 
+inline bool operator==(const CKFilePluginDependencies &lhs, const CKFilePluginDependencies &rhs)
+{
+    return lhs.m_PluginCategory == rhs.m_PluginCategory &&
+           lhs.m_Guids.Size() == rhs.m_Guids.Size() &&
+           lhs.ValidGuids.Size() == rhs.ValidGuids.Size();
+}
+
 /*************************************************
 Summary: Description of a loaded/saved object.
 
