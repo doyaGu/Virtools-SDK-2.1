@@ -12,10 +12,9 @@
 #ifndef CK_3DIMPLEMENTATION
 
 #include "CKRenderObject.h"
+#include "CKSkin.h"
 #include "VxQuaternion.h"
 #include "VxRect.h"
-
-class CKSkin;
 
 #define CKRENDER_UPDATEEXTENTS 0x00000FF
 #define CKRENDER_DONTSETMATRIX 0x0000100
