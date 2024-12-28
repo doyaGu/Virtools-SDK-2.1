@@ -56,6 +56,12 @@ public:
     static CKSynchroObject *CreateInstance(CKContext *Context);
     static CK_CLASSID m_ClassID;
 
+    // Dynamic Cast method (returns NULL if the object can't be cast)
+    static CKSynchroObject *Cast(CKObject *iO)
+    {
+        return CKIsChildClassOf(iO, CKCID_SYNCHRO) ? (CKSynchroObject *)iO : NULL;
+    }
+
 protected:
     int m_MaxWaiters;
     CKObjectArray m_Arrived;
@@ -109,6 +115,12 @@ public:
     static CKCriticalSectionObject *CreateInstance(CKContext *Context);
     static CK_CLASSID m_ClassID;
 
+    // Dynamic Cast method (returns NULL if the object can't be cast)
+    static CKCriticalSectionObject *Cast(CKObject *iO)
+    {
+        return CKIsChildClassOf(iO, CKCID_CRITICALSECTION) ? (CKCriticalSectionObject *)iO : NULL;
+    }
+
 protected:
     CK_ID m_ObjectInSection;
 };
@@ -157,6 +169,12 @@ public:
     static void Register();
     static CKStateObject *CreateInstance(CKContext *Context);
     static CK_CLASSID m_ClassID;
+
+    // Dynamic Cast method (returns NULL if the object can't be cast)
+    static CKStateObject *Cast(CKObject *iO)
+    {
+        return CKIsChildClassOf(iO, CKCID_STATE) ? (CKStateObject *)iO : NULL;
+    }
 
 protected:
     CKBOOL m_Event;

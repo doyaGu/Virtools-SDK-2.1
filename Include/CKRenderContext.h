@@ -1316,6 +1316,12 @@ public:
     virtual void SetStereoParameters(float EyeSeparation, float FocalLength) = 0;
 
     virtual void GetStereoParameters(float &EyeSeparation, float &FocalLength) = 0;
+
+    // Dynamic Cast method (returns NULL if the object can't be cast)
+    static CKRenderContext *Cast(CKObject *iO)
+    {
+        return CKIsChildClassOf(iO, CKCID_RENDERCONTEXT) ? (CKRenderContext *)iO : NULL;
+    }
 };
 
 #endif // CKRENDERCONTEXT_H

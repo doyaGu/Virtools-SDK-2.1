@@ -33,6 +33,12 @@ public:
     static CKInterfaceObjectManager *CreateInstance(CKContext *Context);
     static CK_ID m_ClassID;
 
+    // Dynamic Cast method (returns NULL if the object can't be cast)
+    static CKInterfaceObjectManager *Cast(CKObject *iO)
+    {
+        return CKIsChildClassOf(iO, CKCID_INTERFACEOBJECTMANAGER) ? (CKInterfaceObjectManager *)iO : NULL;
+    }
+
 private:
     int m_Count;
     CKStateChunk *m_Chunks;
