@@ -189,7 +189,7 @@ struct VxDrawPrimitiveDataSimple
 
 struct VxDrawPrimitiveData : public VxDrawPrimitiveDataSimple
 {
-    void *TexCoordPtrs[CKRST_MAX_STAGES - 1];           // A pointer to texture coordinates  data per stage of textures
+    void *TexCoordPtrs[CKRST_MAX_STAGES - 1];           // A pointer to texture coordinates data per stage of textures
     unsigned int TexCoordStrides[CKRST_MAX_STAGES - 1]; // ...
 };
 
