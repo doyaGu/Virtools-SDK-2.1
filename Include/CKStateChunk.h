@@ -204,6 +204,7 @@ public:
     // Initialization function
     void StartRead();
     void StartWrite();
+    void CheckSize(int size);
     void CloseChunk();
 
     void Clear();
