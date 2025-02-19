@@ -107,7 +107,6 @@ See also: CreateCKBehaviorPrototype,CKBehavior
 class CKBehaviorPrototype
 {
     friend class CKBehavior;
-    friend class CKBehaviorPrototypeTemporary;
 
 public:
     //---------------------------------------------------------------------
