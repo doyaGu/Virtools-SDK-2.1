@@ -12,7 +12,7 @@ Summary: Class representation of an array.
 Remarks:
     This array behaves exactly like the XArray,
 except that its size is exactly the number it contains,
-so it is more slow for adding and removing elements,
+so it is slower for adding and removing elements,
 but it occupies less memory.
 
 
