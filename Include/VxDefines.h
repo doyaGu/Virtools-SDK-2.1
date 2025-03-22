@@ -756,10 +756,10 @@ typedef enum CKRST_TEXTURESTAGESTATETYPE
 
     CKRST_TSS_TEXTURETRANSFORMFLAGS = 24UL, // CKRST_TEXTURETRANSFORMFLAGS
 
-    CKRST_TSS_ADDRESW               = 25UL,
-    CKRST_TSS_COLORARG0             = 26UL,
-    CKRST_TSS_ALPHAARG0             = 27UL,
-    CKRST_TSS_RESULTARG0            = 28UL,
+    CKRST_TSS_ADDRESW               = 25UL, // Texture addressing for 3D textures (W coordinate)
+    CKRST_TSS_COLORARG0             = 26UL, // Third color argument for texture blending
+    CKRST_TSS_ALPHAARG0             = 27UL, // Third alpha argument for texture blending
+    CKRST_TSS_RESULTARG0            = 28UL, // Result argument for texture blending
 
     CKRST_TSS_TEXTUREMAPBLEND       = 39UL, // VXTEXTURE_BLENDMODE
     CKRST_TSS_STAGEBLEND            = 40UL, // Use STAGEBLEND(SrcBlendMode,DstBlendMode) macro. This state is used to test if we can perform mono-pass multitexturing. For example
@@ -1034,7 +1034,7 @@ typedef enum CKRST_SPECIFICCAPS
 
     CKRST_SPECIFICCAPS_AUTGENMIPMAP       = 0x00040000UL,   // Graphics card supports automatic mipmap generation
 
-    CKRST_SPECIFICCAPS_EXPLICITSWAPCHAIN  = 0x00040000UL,   // Rasterizer will do explicit swapchain management
+    CKRST_SPECIFICCAPS_EXPLICITSWAPCHAIN  = 0x00080000UL,   // Rasterizer will do explicit swapchain management
 } CKRST_SPECIFICCAPS;
 
 /****************************************************************
