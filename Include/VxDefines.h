@@ -1092,6 +1092,7 @@ typedef enum CKRST_TEXTURECAPS
     CKRST_TEXTURECAPS_PROJECTED          = 0x00000400UL,    // Device supports the CKRST_TTF_PROJECTED transform flags: If this capability is present, then the projective divide occurs per pixel
     CKRST_TEXTURECAPS_CUBEMAP            = 0x00000800UL,    // Device can do cube maps
     CKRST_TEXTURECAPS_VOLUMEMAP          = 0x00002000UL,    // Device can do volume maps.
+    CKRST_TEXTURECAPS_NONPOW2            = 0x00004000UL,    // Unrestricted non-power-of-2 texture
 } CKRST_TEXTURECAPS;
 
 /****************************************************************
