@@ -828,85 +828,109 @@ See Also: CKRenderContext, CKRenderContext::SetState
 *****************************************************************/
 typedef enum VXRENDERSTATETYPE
 {
-    VXRENDERSTATE_ANTIALIAS           = 2,      // Antialiasing mode (TRUE/FALSE)
-    VXRENDERSTATE_TEXTUREPERSPECTIVE  = 4,      // Enable Perspective correction (TRUE/FALSE)
-    VXRENDERSTATE_ZENABLE             = 7,      // Enable z test (TRUE/FALSE)
-    VXRENDERSTATE_FILLMODE            = 8,      // Fill mode  (VXFILL_MODE)
-    VXRENDERSTATE_SHADEMODE           = 9,      // Shade mode  (VXSHADE_MODE)
-    VXRENDERSTATE_LINEPATTERN         = 10,     // Line pattern (bit pattern in a DWORD)
-    VXRENDERSTATE_ZWRITEENABLE        = 14,     // Enable z writes (TRUE/FALSE)
-    VXRENDERSTATE_ALPHATESTENABLE     = 15,     // Enable alpha tests  (TRUE/FALSE)
-    VXRENDERSTATE_SRCBLEND            = 19,     // Blend factor for source (VXBLEND_MODE)
-    VXRENDERSTATE_DESTBLEND           = 20,     // Blend factor for destination (VXBLEND_MODE)
-    VXRENDERSTATE_CULLMODE            = 22,     // Back-face culling mode (VXCULL)
-    VXRENDERSTATE_ZFUNC               = 23,     // Z-comparison function  (VXCMPFUNC)
-    VXRENDERSTATE_ALPHAREF            = 24,     // Reference alpha value  (DWORD (0..255) )
-    VXRENDERSTATE_ALPHAFUNC           = 25,     // Alpha-comparison function (VXCMPFUNC)
-    VXRENDERSTATE_DITHERENABLE        = 26,     // Enable dithering (TRUE/FALSE)
-    VXRENDERSTATE_ALPHABLENDENABLE    = 27,     // Enable alpha blending  (TRUE/FALSE)
-    VXRENDERSTATE_FOGENABLE           = 28,     // Enable fog (TRUE/FALSE)
-    VXRENDERSTATE_SPECULARENABLE      = 29,     // Enable specular highlights (TRUE/FALSE)
-    VXRENDERSTATE_FOGCOLOR            = 34,     // Fog color (DWORD ARGB)
-    VXRENDERSTATE_FOGPIXELMODE        = 35,     // Fog mode for per pixel fog (VXFOG_MODE)
-    VXRENDERSTATE_FOGSTART            = 36,     // Fog start (for both vertex and pixel fog)
-    VXRENDERSTATE_FOGEND              = 37,     // Fog end (for both vertex and pixel fog)
-    VXRENDERSTATE_FOGDENSITY          = 38,     // Fog density (for both vertex and pixel fog)
-    VXRENDERSTATE_EDGEANTIALIAS       = 40,     // Antialias edges (TRUE/FALSE)
-    VXRENDERSTATE_ZBIAS               = 47,     // Z-bias (DWORD 0..16)
-    VXRENDERSTATE_RANGEFOGENABLE      = 48,     // Enables range-based fog
-    VXRENDERSTATE_STENCILENABLE       = 52,     // Enable or disable stenciling (TRUE/FALSE)
-    VXRENDERSTATE_STENCILFAIL         = 53,     // Stencil operation (VXSTENCILOP)
-    VXRENDERSTATE_STENCILZFAIL        = 54,     // Stencil operation (VXSTENCILOP)
-    VXRENDERSTATE_STENCILPASS         = 55,     // Stencil operation (VXSTENCILOP)
-    VXRENDERSTATE_STENCILFUNC         = 56,     // Stencil comparison function  (VXCMPFUNC)
-    VXRENDERSTATE_STENCILREF          = 57,     // Reference value for stencil test (DWORD (0..255))
-    VXRENDERSTATE_STENCILMASK         = 58,     // Mask value used in stencil test (DWORD (0..255))
-    VXRENDERSTATE_STENCILWRITEMASK    = 59,     // Stencil buffer write mask
-    VXRENDERSTATE_TEXTUREFACTOR       = 60,     // Texture factor
-    VXRENDERSTATE_WRAP0               = 128,    // Wrap flags for 1st texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP1               = 129,    // Wrap flags for 2nd texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP2               = 130,    // Wrap flags for 3rd texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP3               = 131,    // Wrap flags for 4th texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP4               = 132,    // Wrap flags for 5th texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP5               = 133,    // Wrap flags for 6th texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP6               = 134,    // Wrap flags for 7th texture coord set (VXWRAP_MODE)
-    VXRENDERSTATE_WRAP7               = 135,    // Wrap flags for last texture coord set
-    VXRENDERSTATE_CLIPPING            = 136,    // Enable or disable primitive clipping (TRUE/FALSE)
-    VXRENDERSTATE_LIGHTING            = 137,    // Enable or disable lighting (TRUE/FALSE)
-    VXRENDERSTATE_AMBIENT             = 139,    // Ambient color for scene (DWORD ARGB)
-    VXRENDERSTATE_FOGVERTEXMODE       = 140,    // Fog mode for per vertex fog (VXFOG_MODE)
-    VXRENDERSTATE_COLORVERTEX         = 141,    // Enable or disable per-vertex color
-    VXRENDERSTATE_LOCALVIEWER         = 142,    // Camera relative specular highlights (TRUE/FALSE)
-    VXRENDERSTATE_NORMALIZENORMALS    = 143,    // Enable automatic normalization of vertex normals
-    VXRENDERSTATE_DIFFUSEFROMVERTEX   = 145,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether diffuse color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
-    VXRENDERSTATE_SPECULARFROMVERTEX  = 146,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether specular color is taken from the vertex color (2) or from the currently set material (0)
-    VXRENDERSTATE_AMBIENTFROMVERTEX   = 147,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether ambient color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
-    VXRENDERSTATE_EMISSIVEFROMVERTEX  = 148,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether emissive color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
+    VXRENDERSTATE_ANTIALIAS                   = 2,      // Antialiasing mode (TRUE/FALSE)
+    VXRENDERSTATE_TEXTUREPERSPECTIVE          = 4,      // Enable Perspective correction (TRUE/FALSE)
+    VXRENDERSTATE_ZENABLE                     = 7,      // Enable z test (TRUE/FALSE)
+    VXRENDERSTATE_FILLMODE                    = 8,      // Fill mode  (VXFILL_MODE)
+    VXRENDERSTATE_SHADEMODE                   = 9,      // Shade mode  (VXSHADE_MODE)
+    VXRENDERSTATE_LINEPATTERN                 = 10,     // Line pattern (bit pattern in a DWORD)
+    VXRENDERSTATE_ZWRITEENABLE                = 14,     // Enable z writes (TRUE/FALSE)
+    VXRENDERSTATE_ALPHATESTENABLE             = 15,     // Enable alpha tests  (TRUE/FALSE)
+    VXRENDERSTATE_SRCBLEND                    = 19,     // Blend factor for source (VXBLEND_MODE)
+    VXRENDERSTATE_DESTBLEND                   = 20,     // Blend factor for destination (VXBLEND_MODE)
+    VXRENDERSTATE_CULLMODE                    = 22,     // Back-face culling mode (VXCULL)
+    VXRENDERSTATE_ZFUNC                       = 23,     // Z-comparison function  (VXCMPFUNC)
+    VXRENDERSTATE_ALPHAREF                    = 24,     // Reference alpha value  (DWORD (0..255) )
+    VXRENDERSTATE_ALPHAFUNC                   = 25,     // Alpha-comparison function (VXCMPFUNC)
+    VXRENDERSTATE_DITHERENABLE                = 26,     // Enable dithering (TRUE/FALSE)
+    VXRENDERSTATE_ALPHABLENDENABLE            = 27,     // Enable alpha blending  (TRUE/FALSE)
+    VXRENDERSTATE_FOGENABLE                   = 28,     // Enable fog (TRUE/FALSE)
+    VXRENDERSTATE_SPECULARENABLE              = 29,     // Enable specular highlights (TRUE/FALSE)
+    VXRENDERSTATE_FOGCOLOR                    = 34,     // Fog color (DWORD ARGB)
+    VXRENDERSTATE_FOGPIXELMODE                = 35,     // Fog mode for per pixel fog (VXFOG_MODE)
+    VXRENDERSTATE_FOGSTART                    = 36,     // Fog start (for both vertex and pixel fog)
+    VXRENDERSTATE_FOGEND                      = 37,     // Fog end (for both vertex and pixel fog)
+    VXRENDERSTATE_FOGDENSITY                  = 38,     // Fog density (for both vertex and pixel fog)
+    VXRENDERSTATE_EDGEANTIALIAS               = 40,     // Antialias edges (TRUE/FALSE)
+    VXRENDERSTATE_ZBIAS                       = 47,     // Z-bias (DWORD 0..16)
+    VXRENDERSTATE_RANGEFOGENABLE              = 48,     // Enables range-based fog
+    VXRENDERSTATE_STENCILENABLE               = 52,     // Enable or disable stenciling (TRUE/FALSE)
+    VXRENDERSTATE_STENCILFAIL                 = 53,     // Stencil operation (VXSTENCILOP)
+    VXRENDERSTATE_STENCILZFAIL                = 54,     // Stencil operation (VXSTENCILOP)
+    VXRENDERSTATE_STENCILPASS                 = 55,     // Stencil operation (VXSTENCILOP)
+    VXRENDERSTATE_STENCILFUNC                 = 56,     // Stencil comparison function  (VXCMPFUNC)
+    VXRENDERSTATE_STENCILREF                  = 57,     // Reference value for stencil test (DWORD (0..255))
+    VXRENDERSTATE_STENCILMASK                 = 58,     // Mask value used in stencil test (DWORD (0..255))
+    VXRENDERSTATE_STENCILWRITEMASK            = 59,     // Stencil buffer write mask
+    VXRENDERSTATE_TEXTUREFACTOR               = 60,     // Texture factor
+    VXRENDERSTATE_WRAP0                       = 128,    // Wrap flags for 1st texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP1                       = 129,    // Wrap flags for 2nd texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP2                       = 130,    // Wrap flags for 3rd texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP3                       = 131,    // Wrap flags for 4th texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP4                       = 132,    // Wrap flags for 5th texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP5                       = 133,    // Wrap flags for 6th texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP6                       = 134,    // Wrap flags for 7th texture coord set (VXWRAP_MODE)
+    VXRENDERSTATE_WRAP7                       = 135,    // Wrap flags for last texture coord set
+    VXRENDERSTATE_CLIPPING                    = 136,    // Enable or disable primitive clipping (TRUE/FALSE)
+    VXRENDERSTATE_LIGHTING                    = 137,    // Enable or disable lighting (TRUE/FALSE)
+    VXRENDERSTATE_AMBIENT                     = 139,    // Ambient color for scene (DWORD ARGB)
+    VXRENDERSTATE_FOGVERTEXMODE               = 140,    // Fog mode for per vertex fog (VXFOG_MODE)
+    VXRENDERSTATE_COLORVERTEX                 = 141,    // Enable or disable per-vertex color
+    VXRENDERSTATE_LOCALVIEWER                 = 142,    // Camera relative specular highlights (TRUE/FALSE)
+    VXRENDERSTATE_NORMALIZENORMALS            = 143,    // Enable automatic normalization of vertex normals
+    VXRENDERSTATE_DIFFUSEFROMVERTEX           = 145,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether diffuse color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
+    VXRENDERSTATE_SPECULARFROMVERTEX          = 146,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether specular color is taken from the vertex color (2) or from the currently set material (0)
+    VXRENDERSTATE_AMBIENTFROMVERTEX           = 147,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether ambient color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
+    VXRENDERSTATE_EMISSIVEFROMVERTEX          = 148,    // If VXRENDERSTATE_COLORVERTEX is TRUE this flags indicate whether emissive color is taken from the vertex color (TRUE) or from the currently set material (FALSE)
 
-    VXRENDERSTATE_VERTEXBLEND         = 151,    // Enable vertex blending and set the number of matrices to use (VXVERTEXBLENDFLAGS)
-    VXRENDERSTATE_SOFTWAREVPROCESSING = 153,    // When using a T&L driver in mixed mode, for the usage of software processing
+    VXRENDERSTATE_VERTEXBLEND                 = 151,    // Enable vertex blending and set the number of matrices to use (VXVERTEXBLENDFLAGS)
+    VXRENDERSTATE_SOFTWAREVPROCESSING         = 153,    // When using a T&L driver in mixed mode, for the usage of software processing
 
-    VXRENDERSTATE_POINTSIZE           = 154,    // Size of point when drawing point sprites. This value is in screen space units if VXRENDERSTATE_POINTSCALEENABLE is FALSE; otherwise this value is in world space units.
-    VXRENDERSTATE_POINTSIZE_MIN       = 155,    // Specifies the minimum size of point primitives. If below 1 the points drawn will disappear when smaller than a pixel 
-    VXRENDERSTATE_POINTSIZE_MAX       = 166,    // Specifies the maximum size of point primitives. If below 1 the points drawn will disappear when smaller than a pixel 
-    VXRENDERSTATE_POINTSPRITEENABLE   = 156,    // 
+    VXRENDERSTATE_POINTSIZE                   = 154,    // Size of point when drawing point sprites. This value is in screen space units if VXRENDERSTATE_POINTSCALEENABLE is FALSE; otherwise this value is in world space units.
+    VXRENDERSTATE_POINTSIZE_MIN               = 155,    // Specifies the minimum size of point primitives. If below 1 the points drawn will disappear when smaller than a pixel 
+    VXRENDERSTATE_POINTSIZE_MAX               = 166,    // Specifies the maximum size of point primitives. If below 1 the points drawn will disappear when smaller than a pixel 
+    VXRENDERSTATE_POINTSPRITEENABLE           = 156,    // 
 
-    VXRENDERSTATE_POINTSCALEENABLE    = 157,	// If true the size of point will be attenuated according to distance :
-                                                // Size = pointSize * sqrt(1/ (a + b*dist + c * dist*dist)) where dist 
-                                                // is the distance from viewpoint to point.
-    VXRENDERSTATE_POINTSCALE_A        = 158,    // constant attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
-    VXRENDERSTATE_POINTSCALE_B        = 159,    // linear attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
-    VXRENDERSTATE_POINTSCALE_C        = 160,    // quadratic attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
+    VXRENDERSTATE_POINTSCALEENABLE            = 157,	// If true the size of point will be attenuated according to distance :
+                                                        // Size = pointSize * sqrt(1/ (a + b*dist + c * dist*dist)) where dist 
+                                                        // is the distance from viewpoint to point.
+    VXRENDERSTATE_POINTSCALE_A                = 158,    // constant attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
+    VXRENDERSTATE_POINTSCALE_B                = 159,    // linear attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
+    VXRENDERSTATE_POINTSCALE_C                = 160,    // quadratic attenuation factor for point size computation (see VXRENDERSTATE_POINTSCALEENABLE)
 
-    VXRENDERSTATE_CLIPPLANEENABLE     = 152,    // Enable one or more user-defined clipping planes ( DWORD mask of planes)
-    VXRENDERSTATE_INDEXVBLENDENABLE   = 167,    // Enable indexed vertex blending (to use with VXRENDERSTATE_VERTEXBLEND)
-    VXRENDERSTATE_BLENDOP             = 171,    // Set blending operation VXBLENDOP
+    VXRENDERSTATE_CLIPPLANEENABLE             = 152,    // Enable one or more user-defined clipping planes (DWORD mask of planes)
+    VXRENDERSTATE_INDEXVBLENDENABLE           = 167,    // Enable indexed vertex blending (to use with VXRENDERSTATE_VERTEXBLEND)
+    VXRENDERSTATE_COLORWRITEENABLE            = 168,    // Enable writing to the color buffer (DWORD mask of channels)
+    VXRENDERSTATE_BLENDOP                     = 171,    // Set blending operation VXBLENDOP
+
+    VXRENDERSTATE_SCISSORTESTENABLE           = 174,    // Enable scissor test (TRUE/FALSE)
+    VXRENDERSTATE_SLOPESCALEDEPTHBIAS         = 175,    // Scale factor for depth bias slope
+    VXRENDERSTATE_ANTIALIASEDLINEENABLE       = 176,    // Enable line antialiasing (TRUE/FALSE)
+    
+    VXRENDERSTATE_TWOSIDEDSTENCILMODE         = 185,    // Enable two-sided stencil testing (TRUE/FALSE)
+    VXRENDERSTATE_CCW_STENCILFAIL             = 186,    // Operation to perform if CCW stencil test fails (VXSTENCILOP)
+    VXRENDERSTATE_CCW_STENCILZFAIL            = 187,    // Operation to perform if CCW stencil test passes and Z test fails (VXSTENCILOP)
+    VXRENDERSTATE_CCW_STENCILPASS             = 188,    // Operation to perform if CCW stencil test and Z test both pass (VXSTENCILOP)
+    VXRENDERSTATE_CCW_STENCILFUNC             = 189,    // CCW stencil comparison function (VXCMPFUNC)
+    
+    VXRENDERSTATE_COLORWRITEENABLE1           = 190,    // Color write mask for render target 1 (DWORD mask of channels)
+    VXRENDERSTATE_COLORWRITEENABLE2           = 191,    // Color write mask for render target 2 (DWORD mask of channels)
+    VXRENDERSTATE_COLORWRITEENABLE3           = 192,    // Color write mask for render target 3 (DWORD mask of channels)
+    
+    VXRENDERSTATE_BLENDFACTOR                 = 193,    // Constant blend factor (DWORD ARGB)
+    VXRENDERSTATE_SRGBWRITEENABLE             = 194,    // Enable conversion to sRGB color space on write (TRUE/FALSE)
+    VXRENDERSTATE_DEPTHBIAS                   = 195,    // Depth bias value for vertices
+    
+    VXRENDERSTATE_SEPARATEALPHABLENDENABLE    = 206,    // Enable separate blend functions for alpha channel (TRUE/FALSE)
+    VXRENDERSTATE_SRCBLENDALPHA               = 207,    // Source blend factor for alpha channel (VXBLEND_MODE)
+    VXRENDERSTATE_DESTBLENDALPHA              = 208,    // Destination blend factor for alpha channel (VXBLEND_MODE)
+    VXRENDERSTATE_BLENDOPALPHA                = 209,    // Blend operation for alpha channel (VXBLENDOP)
 
     // Virtools Specific Render States
-    VXRENDERSTATE_TEXTURETARGET       = 253,    // Hint: context is used to render on a texture
-    VXRENDERSTATE_INVERSEWINDING      = 254,    // Invert Cull CW and cull CCW (TRUE/FALSE)
-    VXRENDERSTATE_MAXSTATE            = 256,
-    VXRENDERSTATE_FORCE_DWORD         = 0x7fffffff
+    VXRENDERSTATE_TEXTURETARGET               = 253,    // Hint: context is used to render on a texture
+    VXRENDERSTATE_INVERSEWINDING              = 254,    // Invert Cull CW and cull CCW (TRUE/FALSE)
+    VXRENDERSTATE_MAXSTATE                    = 256,
+    VXRENDERSTATE_FORCE_DWORD                 = 0x7fffffff
 } VXRENDERSTATETYPE;
 
 /****************************************************************************/
