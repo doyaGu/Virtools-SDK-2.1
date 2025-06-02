@@ -120,64 +120,81 @@ Remarks:
 See Also : XP
 ************************************************/
 template <class T>
-class XPtrStrided
+class XPtrStrided : public VxStridedData
 {
 public:
-    XPtrStrided() : m_Ptr(0), m_Stride(0) {}
-    XPtrStrided(void *Ptr, int Stride) : m_Ptr((unsigned char *)Ptr), m_Stride(Stride) {}
+    XPtrStrided() {}
+
+    XPtrStrided(void *Ptr, unsigned int Stride) : VxStridedData(Ptr, Stride) {}
+
+    template <class U>
+    XPtrStrided(const XPtrStrided<U> &copy)
+    {
+        Ptr = copy.Ptr;
+        Stride = copy.Stride;
+    }
+
+    void Set(void *iPtr, unsigned int iStride)
+    {
+        Ptr = iPtr;
+        Stride = iStride;
+    }
+
+    template <class U>
+    XPtrStrided &operator=(const XPtrStrided<U> &copy)
+    {
+        Ptr = copy.Ptr;
+        Stride = copy.Stride;
+    }
 
     /************************************************
     Summary: Cast to the relevant type of pointer.
     ************************************************/
-    operator T *() { return (T *)m_Ptr; }
+    operator T *() { return (T *)Ptr; }
 
     /************************************************
     Summary: Dereferencing operators.
     ************************************************/
-    T &operator*() { return *(T *)m_Ptr; }
-    const T &operator*() const { return *(T *)m_Ptr; }
-    T *operator->() { return (T *)m_Ptr; }
+    T &operator*() { return *(T *)Ptr; }
+    const T &operator*() const { return *(T *)Ptr; }
+    T *operator->() { return (T *)Ptr; }
 
-    const T &operator[](unsigned short iCount) const { return *(T *)(m_Ptr + iCount * m_Stride); }
-    T &operator[](unsigned short iCount) { return *(T *)(m_Ptr + iCount * m_Stride); }
+    const T &operator[](unsigned short iCount) const { return *(T *)(CPtr + iCount * Stride); }
+    T &operator[](unsigned short iCount) { return *(T *)(CPtr + iCount * Stride); }
 
-    const T &operator[](int iCount) const { return *(T *)(m_Ptr + iCount * m_Stride); }
-    T &operator[](int iCount) { return *(T *)(m_Ptr + iCount * m_Stride); }
+    const T &operator[](int iCount) const { return *(T *)(CPtr + iCount * Stride); }
+    T &operator[](int iCount) { return *(T *)(CPtr + iCount * Stride); }
 
-    const T &operator[](unsigned int iCount) const { return *(T *)(m_Ptr + iCount * m_Stride); }
-    T &operator[](unsigned int iCount) { return *(T *)(m_Ptr + iCount * m_Stride); }
+    const T &operator[](unsigned int iCount) const { return *(T *)(CPtr + iCount * Stride); }
+    T &operator[](unsigned int iCount) { return *(T *)(CPtr + iCount * Stride); }
 
-    const T &operator[](unsigned long iCount) const { return *(T *)(m_Ptr + iCount * m_Stride); }
-    T &operator[](unsigned long iCount) { return *(T *)(m_Ptr + iCount * m_Stride); }
+    const T &operator[](unsigned long iCount) const { return *(T *)(CPtr + iCount * Stride); }
+    T &operator[](unsigned long iCount) { return *(T *)(CPtr + iCount * Stride); }
 
     /************************************************
     Summary: Go to the next element.
     ************************************************/
     XPtrStrided &operator++()
     {
-        m_Ptr += m_Stride;
+        CPtr += Stride;
         return *this;
     }
     XPtrStrided operator++(int)
     {
         XPtrStrided tmp = *this;
-        m_Ptr += m_Stride;
+        CPtr += Stride;
         return tmp;
     }
 
     /************************************************
     Summary: Go to the n next element.
     ************************************************/
-    XPtrStrided operator+(int n) { return XPtrStrided(m_Ptr + n * m_Stride, m_Stride); }
+    XPtrStrided operator+(int n) { return XPtrStrided(CPtr + n * Stride, Stride); }
     XPtrStrided &operator+=(int n)
     {
-        m_Ptr += n * m_Stride;
+        CPtr += n * Stride;
         return *this;
     }
-
-private:
-    unsigned char *m_Ptr;
-    int m_Stride;
 };
 
 #endif // XSMARTPTR_H
