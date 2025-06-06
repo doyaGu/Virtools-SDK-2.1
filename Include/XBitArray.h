@@ -28,7 +28,8 @@ public:
     {
         m_Size = a.m_Size;
         m_Data = Allocate(m_Size >> 5);
-        memcpy(m_Data, a.m_Data, m_Size >> 3);
+        if (m_Data && a.m_Data)
+            memcpy(m_Data, a.m_Data, m_Size >> 3);
     }
 
 #if VX_HAS_CXX11
@@ -57,12 +58,9 @@ public:
                 Free();
                 m_Size = a.m_Size;
                 m_Data = Allocate(m_Size >> 5);
-                memcpy(m_Data, a.m_Data, m_Size >> 3);
             }
-            else
-            {
-                memcpy(m_Data, a.m_Data, m_Size >> 3);
-            }
+
+            memcpy(m_Data, a.m_Data, m_Size >> 3);
         }
         return *this;
     }
@@ -88,19 +86,22 @@ public:
     {
         while (n >= m_Size)
         {
-            int size = (m_Size >> 5);
-            XDWORD *temp = Allocate(size + size);
+            int dwords = (m_Size >> 5);
+            int newDwords = dwords ? dwords * 2 : 1;
+            XDWORD *temp = Allocate(newDwords);
 
-            // Copy the old bits
-            memcpy(temp, m_Data, size * sizeof(XDWORD));
-
-            // Clear the new bits
-            memset(temp + size, 0, size * sizeof(XDWORD));
+            if (temp && m_Data)
+            {
+                // Copy the old bits
+                memcpy(temp, m_Data, dwords * sizeof(XDWORD));
+                // Clear the new bits
+                memset(temp + dwords, 0, (newDwords - dwords) * sizeof(XDWORD));
+            }
 
             Free();
 
             m_Data = temp;
-            m_Size += m_Size;
+            m_Size = newDwords * 32;
         }
     }
 
@@ -108,14 +109,17 @@ public:
     {
         if (m_Size < a.m_Size)
         {
-            int size = a.m_Size >> 5;
-            int oldsize = m_Size >> 5;
-            XDWORD *temp = Allocate(size);
-            // Copy the old bits
-            memcpy(temp, m_Data, oldsize * sizeof(XDWORD));
+            int newDwords = a.m_Size >> 5;
+            int dwords = m_Size >> 5;
+            XDWORD *temp = Allocate(newDwords);
 
-            // Clear the new bits
-            memset(temp + oldsize, 0, (size - oldsize) * sizeof(XDWORD));
+            if (temp && m_Data)
+            {
+                // Copy the old bits
+                memcpy(temp, m_Data, dwords * sizeof(XDWORD));
+                // Clear the new bits
+                memset(temp + dwords, 0, (newDwords - dwords) * sizeof(XDWORD));
+            }
 
             Free();
 
@@ -125,15 +129,15 @@ public:
     }
 
     // Summary: Returns if the n-th bit is set to 1
-    int IsSet(int n)
+    int IsSet(int n) const
     {
         if (n >= m_Size)
             return 0;                              // Out of range
-        return (m_Data[n >> 5] & (1 << (n & 31))); // Allocated after the first DWORD
+        return (m_Data[n >> 5] & (1U << (n & 31))); // Allocated after the first DWORD
     }
 
     // Summary: Returns if the n-th bit is set to 1
-    int operator[](int n)
+    int operator[](int n) const
     {
         return IsSet(n);
     }
@@ -155,36 +159,29 @@ public:
     // Summary: Sets the n-th bit to 1
     void Set(int n)
     {
-        if (n < m_Size)
-        {
-            m_Data[n >> 5] |= 1 << (n & 31);
-        }
-        else
-        {
-            // we have to reallocate
+        if (n < 0) return;
+        if (n >= m_Size)
             CheckSize(n);
-            m_Data[n >> 5] |= 1 << (n & 31);
-        }
+        m_Data[n >> 5] |= (1U << (n & 31));
     }
 
     // Summary: Sets the n-th bit to 1 and return 0 if it was set, 1 otherwise
     int TestSet(int n)
     {
-        if (n < m_Size)
+        if (n < 0) return 0;
+        if (n >= m_Size)
         {
-            int pos = n >> 5;
-            int mask = 1 << (n & 31);
-
-            if (m_Data[pos] & mask)
-                return 0;
-            m_Data[pos] |= mask;
+            CheckSize(n);
+            m_Data[n >> 5] |= (1U << (n & 31));
             return 1;
         }
         else
         {
-            // we have to reallocate
-            CheckSize(n);
-            m_Data[n >> 5] |= 1 << (n & 31);
+            int pos = n >> 5;
+            unsigned int mask = 1U << (n & 31);
+            if (m_Data[pos] & mask)
+                return 0;
+            m_Data[pos] |= mask;
             return 1;
         }
     }
@@ -192,19 +189,19 @@ public:
     // Summary: Sets the n-th bit to 0
     void Unset(int n)
     {
-        if (n < m_Size)
+        if (n < m_Size && n >= 0)
         {
-            m_Data[n >> 5] &= ~(1 << (n & 31));
+            m_Data[n >> 5] &= ~(1U << (n & 31));
         }
     }
 
     // Summary: Sets the n-th bit to 0 and return 1 if it was set, 0 otherwise
     int TestUnset(int n)
     {
-        if (n < m_Size)
+        if (n < m_Size && n >= 0)
         {
             int pos = n >> 5;
-            int mask = 1 << (n & 31);
+            unsigned int mask = 1U << (n & 31);
             if (m_Data[pos] & mask)
             {
                 m_Data[pos] &= ~mask;
@@ -225,7 +222,8 @@ public:
     // Summary: Resets the array
     void Clear()
     {
-        memset(m_Data, 0, (m_Size >> 3));
+        if (m_Data)
+            memset(m_Data, 0, (m_Size >> 3));
     }
 
     // Summary: Sets all bits of the array to 1
@@ -233,21 +231,22 @@ public:
     // used bits
     void Fill()
     {
-        memset(m_Data, 0xff, (m_Size >> 3));
+        if (m_Data)
+            memset(m_Data, 0xff, (m_Size >> 3));
     }
 
     // Summary: Performs a binary AND with another array
     void And(XBitArray &a)
     {
-        int size = a.m_Size >> 5;
-        int i = 0;
-        for (; i < size; ++i)
+        int dwords1 = m_Size >> 5;
+        int dwords2 = a.m_Size >> 5;
+        int dwords = XMin(dwords1, dwords2);
+        for (int i = 0; i < dwords; ++i)
         {
             m_Data[i] &= a.m_Data[i];
         }
-        // clear the remaining bytes
-        int rsize = m_Size >> 5;
-        for (; i < rsize; ++i)
+        // clear the remaining bytes in this array
+        for (int i = dwords; i < dwords1; ++i)
         {
             m_Data[i] = 0;
         }
@@ -256,9 +255,10 @@ public:
     // Summary: subtract bits from another bitarray
     XBitArray &operator-=(XBitArray &a)
     {
-        int size = a.m_Size >> 5;
-        int i = 0;
-        for (; i < size; ++i)
+        int dwords1 = m_Size >> 5;
+        int dwords2 = a.m_Size >> 5;
+        int dwords = XMin(dwords1, dwords2);
+        for (int i = 0; i < dwords; ++i)
         {
             m_Data[i] &= ~a.m_Data[i];
         }
@@ -268,8 +268,10 @@ public:
     // Summary: Returns TRUE if at least one common bit is set in two arrays
     XBOOL CheckCommon(XBitArray &a)
     {
-        int size = a.m_Size >> 5;
-        for (int i = 0; i < size; ++i)
+        int dwords1 = m_Size >> 5;
+        int dwords2 = a.m_Size >> 5;
+        int dwords = XMin(dwords1, dwords2);
+        for (int i = 0; i < dwords; ++i)
         {
             if (m_Data[i] & a.m_Data[i])
                 return TRUE;
@@ -379,19 +381,14 @@ public:
     {
         if (buffer)
         {
-            int count = 0;
-            for (int i = 0; i < (m_Size >> 5); i++)
+            for (int i = 0; i < m_Size; i++)
             {
-                for (int j = 0; j < 32; j++)
-                {
-                    if (m_Data[i] & (1 << j))
-                        buffer[count] = '1';
-                    else
-                        buffer[count] = '0';
-                    count++;
-                }
+                if (m_Data[i >> 5] & (1U << (i & 31)))
+                    buffer[i] = '1';
+                else
+                    buffer[i] = '0';
             }
-            buffer[m_Size] = 0;
+            buffer[m_Size] = '\0';
         }
         return buffer;
     }
@@ -419,6 +416,7 @@ private:
 #else
         VxFree(m_Data);
 #endif
+        m_Data = NULL;
     }
 
     // the array itself {secret}
