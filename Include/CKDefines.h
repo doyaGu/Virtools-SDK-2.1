@@ -309,12 +309,11 @@ typedef CK_LOADMODE (*CK_LOADRENAMECALLBACK)(CK_CLASSID Cid, CKSTRING OldName, C
                     #define  CKCID_BODYPART		42
     #define  CKCID_PARAMETER				46
         #define  CKCID_PARAMETERLOCAL		45
-            #define  CKCID_PARAMETERVARIABLE	55
         #define  CKCID_PARAMETEROUT			3
     #define CKCID_INTERFACEOBJECTMANAGER	48
     #define CKCID_CRITICALSECTION			49
     #define CKCID_LAYER						51
-    #define CKCID_MAXCLASSID				56
+    #define CKCID_MAXCLASSID				55
     #define CKCID_SYNCHRO					20
 
 //-------------------------------------------------------------------------
