@@ -7,19 +7,8 @@
 #include "CKParameterOut.h"
 #include "CKParameterLocal.h"
 
-/********************************************************
- Kept for compatibility issues : On macintosh the
- const CKGUID& must be used to conform to Codewarrior, On PC
- we do not need to to this (and  must not to keep CK2 compatible
- with previously created DLLs) {secret}
-*********************************************************/
-#ifdef macintosh
-#define CKGUIDCONSTREF const CKGUID &
-#define CKGUIDREF const CKGUID &
-#else
 #define CKGUIDCONSTREF CKGUID
 #define CKGUIDREF CKGUID &
-#endif
 
 typedef XNHashTable<int, CKGUID> XHashGuidToType;
 
