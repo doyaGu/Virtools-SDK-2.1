@@ -241,12 +241,14 @@ public:
         int dwords1 = m_Size >> 5;
         int dwords2 = a.m_Size >> 5;
         int dwords = XMin(dwords1, dwords2);
-        for (int i = 0; i < dwords; ++i)
+
+		int i;
+        for (i = 0; i < dwords; ++i)
         {
             m_Data[i] &= a.m_Data[i];
         }
         // clear the remaining bytes in this array
-        for (int i = dwords; i < dwords1; ++i)
+        for (i = dwords; i < dwords1; ++i)
         {
             m_Data[i] = 0;
         }
