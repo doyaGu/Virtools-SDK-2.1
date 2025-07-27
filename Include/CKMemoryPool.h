@@ -14,7 +14,7 @@ public:
 
 protected:
     CKContext *m_Context;
-    VxMemoryPool *m_Memory;
+    void *m_Memory;
     int m_Index;
 };
 
