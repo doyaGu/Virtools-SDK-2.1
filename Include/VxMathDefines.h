@@ -271,12 +271,6 @@ typedef enum VX_PIXELFORMAT
     _32_V16U16       = 25,	// 32-bit Bump Map format (16 bits per color)
     _16_L6V5U5       = 26,	// 16-bit Bump Map format with luminance
     _32_X8L8V8U8     = 27,	// 32-bit Bump Map format with luminance
-
-// Clut Formats
-    _8_ABGR8888_CLUT = 28,  // 8 bits indexed CLUT (ABGR)
-    _8_ARGB8888_CLUT = 29,  // 8 bits indexed CLUT (ARGB)
-    _4_ABGR8888_CLUT = 30,  // 4 bits indexed CLUT (ABGR)
-    _4_ARGB8888_CLUT = 31   // 4 bits indexed CLUT (ARGB)
 } VX_PIXELFORMAT;
 
 /*****************************************************************
