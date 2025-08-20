@@ -37,7 +37,12 @@ public:
 
     //---------------------------------------
     // Object Access
+#ifdef UNICODE
+    CKBeObject *GetObjectA(int pos);
+    CKBeObject *GetObject(int pos) { return GetObjectA(pos); }
+#else
     CKBeObject *GetObject(int pos);
+#endif
     int GetObjectCount();
 
     CK_CLASSID GetCommonClassID();
