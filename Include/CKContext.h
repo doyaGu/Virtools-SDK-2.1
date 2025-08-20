@@ -51,7 +51,12 @@ public:
     CKObject *CopyObject(CKObject *src, CKDependencies *Dependencies = NULL, CKSTRING AppendName = NULL, CK_OBJECTCREATION_OPTIONS Options = CK_OBJECTCREATION_NONAMECHECK);
     const XObjectArray &CopyObjects(const XObjectArray &SrcObjects, CKDependencies *Dependencies = NULL, CK_OBJECTCREATION_OPTIONS Options = CK_OBJECTCREATION_NONAMECHECK, CKSTRING AppendName = NULL);
 
+#ifdef UNICODE
+    CKObject *GetObjectA(CK_ID ObjID);
+    CKObject *GetObject(CK_ID ObjID) { return GetObjectA(ObjID); }
+#else
     CKObject *GetObject(CK_ID ObjID);
+#endif
     int GetObjectCount();
     int GetObjectSize(CKObject *obj);
     CKERROR DestroyObject(CKObject *obj, CKDWORD Flags = 0, CKDependencies *depoptions = NULL);
