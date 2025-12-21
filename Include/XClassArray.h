@@ -4,42 +4,43 @@
 #include "VxMathDefines.h"
 #include "XUtil.h"
 
+#if VX_HAS_CXX11
+#include <initializer_list>
+#include <utility>
+#endif
+
 #ifdef VX_MSVC
 #pragma warning(disable : 4786)
 #endif
 
-/************************************************
-{filename:XClassArray}
-Name: XClassArray
-
-Summary: Class representation of an array.
-
-Remarks:
-    This array is designed to hold structure or class
-which have something specific to do on the construction,
-deletion or recopy, like allocating/destroying pointers.
-
-
-
-See Also : XArray, XSArray
-************************************************/
+/**
+ * @class XClassArray
+ * @brief A dynamic array designed to hold classes or structures.
+ *
+ * @tparam T The type of the class or structure to be stored.
+ *
+ * @remarks
+ * This array is specifically designed for elements that require proper
+ * construction, destruction, or copy assignment handling (e.g., classes
+ * with pointers or other managed resources). Unlike XArray, it uses
+ * copy assignment and does not rely on `memcpy`, ensuring correct behavior
+ * for complex types.
+ *
+ * @see XArray, XSArray
+ */
 template <class T>
 class XClassArray
 {
 public:
-    typedef T *Iterator;
+    typedef T *Iterator;            ///< A pointer to an element, used as an iterator.
+    typedef const T *ConstIterator; ///< A pointer to a const element, used as a const iterator.
 
-    /************************************************
-    Summary: Constructors.
-
-    Input Arguments:
-        ss: Default number of reserved elements.
-        a: An array to copy from.
-
-    ************************************************/
+    /**
+     * @brief Constructs an empty array, optionally reserving space.
+     * @param ss The initial number of elements to reserve space for.
+     */
     explicit XClassArray(int ss = 0)
     {
-        // Allocated
         if (ss > 0)
         {
             m_Begin = Allocate(ss);
@@ -48,23 +49,63 @@ public:
         }
         else
         {
-            m_AllocatedEnd = 0;
-            m_Begin = m_End = 0;
+            m_AllocatedEnd = NULL;
+            m_Begin = m_End = NULL;
         }
     }
 
+    /**
+     * @brief Copy constructor. Creates a deep copy of another array using element-wise copy assignment.
+     * @param a The array to copy from.
+     */
     XClassArray(const XClassArray<T> &a)
     {
-        // the resize
         int size = a.Size();
-        m_Begin = Allocate(size);
-        m_End = m_Begin + size;
-        m_AllocatedEnd = m_End;
-        // The copy
-        XCopy(m_Begin, a.m_Begin, a.m_End);
+        if (size > 0)
+        {
+            m_Begin = Allocate(size);
+            m_End = m_Begin + size;
+            m_AllocatedEnd = m_End;
+            XCopy(m_Begin, a.m_Begin, a.m_End);
+        }
+        else
+        {
+            m_AllocatedEnd = NULL;
+            m_Begin = m_End = NULL;
+        }
     }
 
 #if VX_HAS_CXX11
+    /**
+     * @brief Constructs the array from an initializer list (C++11).
+     * @param init The initializer list.
+     */
+    XClassArray(std::initializer_list<T> init)
+    {
+        int size = (int)init.size();
+        if (size > 0)
+        {
+            m_Begin = Allocate(size);
+            m_End = m_Begin;
+            m_AllocatedEnd = m_Begin + size;
+            for (const auto &v : init)
+            {
+                *(m_End++) = v;
+            }
+        }
+        else
+        {
+            m_AllocatedEnd = NULL;
+            m_Begin = m_End = NULL;
+        }
+    }
+#endif
+
+#if VX_HAS_CXX11
+    /**
+     * @brief Move constructor (C++11).
+     * @param a The array to move from.
+     */
     XClassArray(XClassArray<T> &&a) VX_NOEXCEPT
     {
         m_Begin = a.m_Begin;
@@ -76,53 +117,94 @@ public:
     }
 #endif
 
-    /************************************************
-    Summary: Destructor.
-
-    Remarks:
-        Release the elements contained in the array. If
-    you were storing pointers, you need first to iterate
-    on the array and call delete on each pointer.
-    ************************************************/
+    /**
+     * @brief Destructor.
+     * @remarks Releases the memory for the array. Note that if `T` is a pointer type,
+     * the objects pointed to are *not* deleted. You must iterate and delete them manually
+     * before the array is destroyed.
+     */
     ~XClassArray()
     {
         Clear();
     }
 
-    /************************************************
-    Summary: Affectation operator.
-
-    Remarks:
-        The content of the array is entirely overwritten
-    by the given array.
-    ************************************************/
+    /**
+     * @brief Assignment operator. Replaces the array's content with a copy of another array's content.
+     * @param a The array to assign from.
+     * @return A reference to this array.
+     */
     XClassArray<T> &operator=(const XClassArray<T> &a)
     {
         if (this != &a)
         {
-            if (Allocated() >= a.Size())
-            { // No need to allocate
-                // The copy
+            int size = a.Size();
+            if (size == 0)
+            {
+                m_End = m_Begin;
+                if (!m_Begin)
+                {
+                    m_End = NULL;
+                }
+            }
+            else if (Allocated() >= size)
+            {
                 XCopy(m_Begin, a.m_Begin, a.m_End);
-                m_End = m_Begin + a.Size();
+                m_End = m_Begin + size;
             }
             else
             {
                 Free();
-                // the resize
-                int size = a.Size();
                 m_Begin = Allocate(size);
                 m_End = m_Begin + size;
                 m_AllocatedEnd = m_End;
-                // The copy
                 XCopy(m_Begin, a.m_Begin, a.m_End);
             }
         }
-
         return *this;
     }
 
 #if VX_HAS_CXX11
+    /**
+     * @brief Assignment from initializer list (C++11).
+     * @param init The initializer list.
+     * @return A reference to this array.
+     */
+    XClassArray<T> &operator=(std::initializer_list<T> init)
+    {
+        int size = (int)init.size();
+        if (size == 0)
+        {
+            m_End = m_Begin;
+            if (!m_Begin)
+            {
+                m_End = NULL;
+            }
+            return *this;
+        }
+
+        if (Allocated() < size)
+        {
+            Free();
+            m_Begin = Allocate(size);
+            m_AllocatedEnd = m_Begin + size;
+        }
+
+        T *out = m_Begin;
+        for (const auto &v : init)
+        {
+            *(out++) = v;
+        }
+        m_End = out;
+        return *this;
+    }
+#endif
+
+#if VX_HAS_CXX11
+    /**
+     * @brief Move assignment operator (C++11).
+     * @param a The array to move from.
+     * @return A reference to this array.
+     */
     XClassArray<T> &operator=(XClassArray<T> &&a) VX_NOEXCEPT
     {
         if (this != &a)
@@ -139,232 +221,245 @@ public:
     }
 #endif
 
-    /************************************************
-    Summary: Removes all the elements from an array.
-
-    Remarks:
-        There is no more space reserved after this call.
-    ************************************************/
+    /**
+     * @brief Removes all elements from the array and frees all allocated memory.
+     */
     void Clear()
     {
         Free();
-        m_Begin = 0;
-        m_End = 0;
-        m_AllocatedEnd = 0;
+        m_Begin = NULL;
+        m_End = NULL;
+        m_AllocatedEnd = NULL;
     }
 
-    /************************************************
-    Summary: Reserves n elements fot an array.
-
-    Remarks:
-        The elements beyond the reserved limit are
-    discarded.
-    ************************************************/
+    /**
+     * @brief Reserves memory for a specified number of elements.
+     * @remarks If the new size is smaller than the current size, elements are discarded.
+     * @param size The number of elements to reserve space for.
+     */
     void Reserve(int size)
     {
         // allocation of new size
         T *newdata = Allocate(size);
 
         // Recopy of old elements
-        T *last = XMin(m_Begin + size, m_End);
-        XCopy(newdata, m_Begin, last);
+        int oldCount = Size();
+        if (oldCount > 0)
+        {
+            T *last = XMin(m_Begin + size, m_End);
+            XCopy(newdata, m_Begin, last);
+            oldCount = (int)(last - m_Begin);
+        }
+        else
+        {
+            oldCount = 0;
+        }
 
         // new Pointers
         Free();
-        m_End = newdata + (last - m_Begin);
         m_Begin = newdata;
-        m_AllocatedEnd = newdata + size;
+        m_End = newdata ? (newdata + oldCount) : NULL;
+        m_AllocatedEnd = newdata ? (newdata + size) : NULL;
     }
 
-    /************************************************
-    Summary: Resizes th elements numbers of an array.
-
-    Remarks:
-        If the size is greater than the reserved size,
-    the array is reallocated at the exact needed size.
-    If not, three is no reallocation at all. Resize(0)
-    is faster than Clear() if you know you will probably
-    push some more elements after.
-    ************************************************/
+    /**
+     * @brief Resizes the array to contain a specified number of elements.
+     * @param size The new size of the array.
+     * @remarks If the new size is larger than the current size, new default-constructed
+     * elements are added. If smaller, elements are removed from the end.
+     */
     void Resize(int size)
     {
-        // we check if the array has enough capacity
-        int oldsize = (m_AllocatedEnd - m_Begin);
-        // If not, we allocate extra data
-        if (size > oldsize)
+        if (size > Allocated())
+        {
             Reserve(size);
-        // We set the end cursor
+        }
         m_End = m_Begin + size;
     }
 
-    /************************************************
-    Summary: Inserts an element at the end of an array.
-
-    Input Arguments:
-        o: object to insert.
-    ************************************************/
+    /**
+     * @brief Inserts an element at the end of the array.
+     * @param o The element to insert.
+     */
     void PushBack(const T &o)
     {
         XInsert(m_End, o);
     }
 
-    /************************************************
-    Summary: Expands an array of e elements.
+#if VX_HAS_CXX11
+    /**
+     * @brief Inserts an element at the end of the array by moving it (C++11).
+     */
+    void PushBack(T &&o) { XInsert(m_End, std::move(o)); }
 
-    Input Arguments:
-        e: size to expand.
-    ************************************************/
+    /**
+     * @brief Constructs an element at the end of the array (C++11).
+     * @remarks Implemented via assignment into an existing slot.
+     */
+    template <class... Args>
+    void EmplaceBack(Args &&...args)
+    {
+        XInsert(m_End, T(std::forward<Args>(args)...));
+    }
+#endif
+
+    /**
+     * @brief Increases the size of the array by a given number of default-constructed elements.
+     * @param e The number of elements to add to the size.
+     */
     void Expand(int e = 1)
     {
-        // we check if the array has enough capacity
-
-        // If not, we allocate extra data
-        while (Size() + e > Allocated())
+        int newSize = Size() + e;
+        if (newSize > Allocated())
         {
-            Reserve(Allocated() ? Allocated() * 2 : 2);
+            int newCapacity = Allocated() ? Allocated() * 2 : 2;
+            while (newSize > newCapacity)
+            {
+                newCapacity *= 2;
+            }
+            Reserve(newCapacity);
         }
-        // We set the end cursor
         m_End += e;
     }
 
-    /************************************************
-    Summary: Inserts an element at the start of an array.
-
-    Input Arguments:
-        o: object to insert.
-    ************************************************/
+    /**
+     * @brief Inserts an element at the beginning of the array.
+     * @param o The element to insert.
+     */
     void PushFront(const T &o)
     {
         XInsert(m_Begin, o);
     }
 
-    /************************************************
-    Summary: Inserts an element before another one.
-
-    Input Arguments:
-        i: iterator on the element to insert before.
-        pos: position to insert the object
-        o: object to insert.
-
-    Remarks:
-        The element to insert before is given as
-    an iterator on it, i.e. a pointer on it in
-    this case.
-    ************************************************/
+    /**
+     * @brief Inserts an element at a specified position.
+     * @param i An iterator (pointer) to the element before which to insert.
+     * @param o The element to insert.
+     */
     void Insert(T *i, const T &o)
     {
-        // TODO : s'assurer que i est dans les limites...
-        if (i < m_Begin || i > m_End)
-            return;
-
-        // The Call
-        XInsert(i, o);
+        if (i >= m_Begin && i <= m_End)
+        {
+            XInsert(i, o);
+        }
     }
+
+#if VX_HAS_CXX11
+    void Insert(T *i, T &&o)
+    {
+        if (i >= m_Begin && i <= m_End)
+        {
+            XInsert(i, std::move(o));
+        }
+    }
+
+    template <class... Args>
+    void Emplace(T *i, Args &&...args)
+    {
+        if (i >= m_Begin && i <= m_End)
+        {
+            XInsert(i, T(std::forward<Args>(args)...));
+        }
+    }
+#endif
+
+    /**
+     * @brief Inserts an element at a specified index.
+     * @param pos The index at which to insert the element.
+     * @param o The element to insert.
+     */
     void Insert(int pos, const T &o)
     {
         Insert(m_Begin + pos, o);
     }
 
-    /************************************************
-    Summary: Removes the last element of an array.
-    ************************************************/
+#if VX_HAS_CXX11
+    void Insert(int pos, T &&o) { Insert(m_Begin + pos, std::move(o)); }
+#endif
+
+    /**
+     * @brief Removes the last element of the array.
+     */
     void PopBack()
     {
-        // we remove the last element only if it exists
         if (m_End > m_Begin)
             XRemove(m_End - 1);
     }
 
-    /************************************************
-    Summary: Removes the first element of an array.
-    ************************************************/
+    /**
+     * @brief Removes the first element of the array.
+     */
     void PopFront()
     {
-        // we remove the first element only if it exists
         if (m_Begin != m_End)
             XRemove(m_Begin);
     }
 
-    /************************************************
-    Summary: Removes an element.
-
-    Input Arguments:
-        i: iterator on the element to remove.
-        pos: position of the object to remove.
-
-    Return Value: an iterator on the next
-    element after the element removed (to go on with
-    an iteration).
-
-    Remarks:
-        The elements are given by iterators on them,
-    i.e. pointer on them in this case.
-    ************************************************/
+    /**
+     * @brief Removes an element at a specified position.
+     * @param i An iterator pointing to the element to remove.
+     * @return An iterator to the element that followed the removed element, or NULL if the iterator was invalid.
+     */
     T *Remove(T *i)
     {
-        // we ensure i is in boundary...
-        if (i < m_Begin || i >= m_End)
-            return 0;
-
-        // the Call
-        return XRemove(i);
+        if (i >= m_Begin && i < m_End)
+            return XRemove(i);
+        return NULL;
     }
 
+    /**
+     * @brief Removes an element at a specified index.
+     * @param pos The index of the element to remove.
+     * @return An iterator to the element that followed the removed element, or NULL if the index was out of bounds.
+     */
     T *RemoveAt(int pos)
     {
-        // we ensure i is in boundary...
         if (pos >= Size())
             return NULL;
-
-        // the Call
         return XRemove(m_Begin + pos);
     }
 
+    /**
+     * @brief Quickly removes an element by swapping it with the last element. Does not preserve order.
+     * @param o The element to remove.
+     */
     void FastRemove(const T &o)
     {
         FastRemove(Find(o));
     }
 
+    /**
+     * @brief Quickly removes an element by swapping it with the last element. Does not preserve order.
+     * @param iT An iterator to the element to remove.
+     */
     void FastRemove(const Iterator &iT)
     {
-        // we ensure i is in boundary...
-        if (iT < m_Begin || iT >= m_End)
-            return;
-
-        m_End--;
-        if (iT < m_End)
-            *iT = *m_End;
+        if (iT >= m_Begin && iT < m_End)
+        {
+            m_End--;
+            if (iT < m_End)
+            {
+                *iT = *m_End;
+            }
+        }
     }
 
-    /************************************************
-    Summary: Access to an array element.
-
-    Input Arguments:
-        i: index of the element to access.
-
-    Return Value: a reference on the object accessed.
-
-    Remarks:
-        No test are provided on i.
-    ************************************************/
+    /**
+     * @brief Provides const access to an element by its index.
+     * @param i The index of the element.
+     * @return A const reference to the element.
+     */
     T &operator[](int i) const
     {
         XASSERT(i >= 0 && i < Size());
         return *(m_Begin + i);
     }
 
-    /************************************************
-    Summary: Access to an array element.
-
-    Input Arguments:
-        i: index of the element to access.
-
-    Return Value: a pointer on the object accessed.
-
-    Remarks:
-        End() is returned if i is outside the array
-    limits.
-    ************************************************/
+    /**
+     * @brief Provides safe const access to an element by its index.
+     * @param i The index of the element.
+     * @return A pointer to the element, or End() if the index is out of bounds.
+     */
     T *At(unsigned int i) const
     {
         if (i >= (unsigned int)Size())
@@ -372,27 +467,22 @@ public:
         return m_Begin + i;
     }
 
-    /************************************************
-    Summary: Swaps two items in array.
-
-    Input Arguments:
-        pos1: position of first item to swap
-        pos2: position of second item to swap.
-    ************************************************/
+    /**
+     * @brief Swaps two elements in the array.
+     * @param pos1 The index of the first element.
+     * @param pos2 The index of the second element.
+     */
     void Swap(int pos1, int pos2)
     {
-        char buffer[sizeof(T)];
-        memcpy(buffer, m_Begin + pos1, sizeof(T));
-        memcpy(m_Begin + pos1, m_Begin + pos2, sizeof(T));
-        memcpy(m_Begin + pos2, buffer, sizeof(T));
+        T temp = *(m_Begin + pos1);
+        *(m_Begin + pos1) = *(m_Begin + pos2);
+        *(m_Begin + pos2) = temp;
     }
 
-    /************************************************
-    Summary: Swaps two arrays.
-
-    Input Arguments:
-        o: second array to swap.
-    ************************************************/
+    /**
+     * @brief Swaps the contents of this array with another.
+     * @param a The other array to swap with.
+     */
     void Swap(XClassArray<T> &a)
     {
         XSwap(m_Begin, a.m_Begin);
@@ -400,67 +490,64 @@ public:
         XSwap(m_AllocatedEnd, a.m_AllocatedEnd);
     }
 
-    /************************************************
-    Summary: Returns the last element of an array.
-
-    Remarks:
-        No test are provided to see if there is an
-    element.
-    ************************************************/
+    /**
+     * @brief Returns a reference to the last element.
+     * @remarks Behavior is undefined if the array is empty.
+     */
     T &Back() { return *(End() - 1); }
-
     const T &Back() const { return *(End() - 1); }
 
-    /************************************************
-    Summary: Returns an iterator on the first element.
-
-    Example:
-        Typically, an algorithm iterating on an array
-    looks like:
-
-        for(T* t = a.Begin(); t != a.End(); ++t) {
-            // do something with *t
-        }
-
-    ************************************************/
+    /**
+     * @brief Returns an iterator to the beginning of the array.
+     * @example
+     * @code
+     * for(XClassArray<MyClass>::Iterator it = arr.Begin(); it != arr.End(); ++it) {
+     *     // do something with *it
+     * }
+     * @endcode
+     */
     T *Begin() const { return m_Begin; }
 
-    /************************************************
-    Summary: Returns an iterator after the last element.
-    ************************************************/
+    /// @brief STL-compatible begin() for range-for and algorithms.
+    T *begin() { return m_Begin; }
+    const T *begin() const { return m_Begin; }
+    const T *cbegin() const { return m_Begin; }
+
+    /**
+     * @brief Returns an iterator to the position after the last element.
+     */
     T *End() const { return m_End; }
 
-    /************************************************
-    Summary: Returns the elements number.
-    ************************************************/
-    int Size() const { return m_End - m_Begin; }
+    /// @brief STL-compatible end() for range-for and algorithms.
+    T *end() { return m_End; }
+    const T *end() const { return m_End; }
+    const T *cend() const { return m_End; }
 
-    /************************************************
-    Summary: Returns the elements allocated.
-    ************************************************/
-    int Allocated() const { return m_AllocatedEnd - m_Begin; }
+    /**
+     * @brief Returns the number of elements in the array.
+     */
+    int Size() const { return m_Begin ? (int)(m_End - m_Begin) : 0; }
 
-    /************************************************
-    Summary: Returns the occupied size in memory in bytes
+    /**
+     * @brief Returns the number of elements the array can hold without reallocating.
+     */
+    int Allocated() const { return m_Begin ? (int)(m_AllocatedEnd - m_Begin) : 0; }
 
-    Parameters:
-        addstatic: TRUE if you want to add the size occupied
-    by the class itself.
-    ************************************************/
+    /**
+     * @brief Returns the total memory occupied by the allocated buffer in bytes.
+     * @param addstatic If TRUE, adds the `sizeof(XClassArray)` to the result.
+     * @return The memory size in bytes.
+     */
     int GetMemoryOccupation(XBOOL addstatic = FALSE) const
     {
         return Allocated() * sizeof(T) + (addstatic ? sizeof(*this) : 0);
     }
 
-    /************************************************
-    Summary: Finds an element.
-
-    Input Arguments:
-        o: element to find.
-
-    Return Value: a pointer on the first object found
-    or End() if the object is not found.
-    ************************************************/
+    /**
+     * @brief Finds the first occurrence of an element in the array.
+     * @param o The element to find.
+     * @return An iterator to the first found element, or End() if not found.
+     */
     T *Find(const T &o) const
     {
         // If the array is empty
@@ -469,52 +556,49 @@ public:
         T *t = m_Begin;
         while (t < m_End && *t != o)
             ++t;
-
         return t;
     }
 
-    /************************************************
-    Summary: Returns the position of an element.
-
-    Input Arguments:
-        o: element to find.
-
-    Return Value: position or -1 if not found.
-    ************************************************/
+    /**
+     * @brief Gets the index of the first occurrence of an element.
+     * @param o The element to find.
+     * @return The zero-based index of the element, or -1 if not found.
+     */
     int GetPosition(const T &o) const
     {
         T *t = Find(o);
-        // If the element is not found
-        if (t == m_End)
-            return -1;
-        // else return the position
-        return t - m_Begin;
+        return (t == m_End) ? -1 : (t - m_Begin);
     }
 
+    /**
+     * @brief A default comparison function for sorting.
+     * @internal
+     */
     static int XCompare(const void *elem1, const void *elem2)
     {
-        return *(T *)elem1 - *(T *)elem2;
+        return (*(T *)elem1 > *(T *)elem2) ? 1 : ((*(T *)elem1 < *(T *)elem2) ? -1 : 0);
     }
 
-    /************************************************
-    Summary: Sorts an array with a quick sort.
-
-    Input Arguments:
-        compare: The function comparing two elements.
-
-    Remarks:
-        Two sorts algorithm are available : BubbleSort
-    and (quick)Sort.
-    ************************************************/
+    /**
+     * @brief Sorts the array using the C standard library's `qsort`.
+     * @param Fct An optional pointer to a comparison function.
+     */
     void Sort(VxSortFunc Fct = XCompare)
     {
-        qsort(m_Begin, Size(), sizeof(T), Fct);
+        if (Size() > 1)
+        {
+            qsort(m_Begin, Size(), sizeof(T), Fct);
+        }
     }
 
 protected:
-    ///
-    // Methods
+    /// @name Internal Memory Management
+    ///@{
 
+    /**
+     * @brief Copies elements using the assignment operator.
+     * @internal
+     */
     void XCopy(T *dest, T *start, T *end)
     {
         while (start != end)
@@ -525,11 +609,15 @@ protected:
         }
     }
 
+    /**
+     * @brief Moves elements, handling overlapping regions correctly.
+     * @internal
+     */
     void XMove(T *dest, T *start, T *end)
     {
         if (dest > start)
         {
-            dest += end - start;
+            dest += (end - start);
             while (start != end)
             {
                 --dest;
@@ -538,13 +626,19 @@ protected:
             }
         }
         else
+        {
             XCopy(dest, start, end);
+        }
     }
 
+    /**
+     * @brief Inserts an element, handling reallocation if necessary.
+     * @internal
+     */
     void XInsert(T *i, const T &o)
     {
         // Test For Reallocation
-        if (m_End + 1 > m_AllocatedEnd)
+        if (m_End == m_AllocatedEnd)
         {
             int newsize = (m_AllocatedEnd - m_Begin) * 2; //+m_AllocationSize;
             if (!newsize)
@@ -574,25 +668,67 @@ protected:
             // copy the new element
             *i = o;
         }
-        m_End++;
+        ++m_End;
     }
 
+#if VX_HAS_CXX11
+    void XInsert(T *i, T &&o)
+    {
+        // Test For Reallocation
+        if (m_End == m_AllocatedEnd)
+        {
+            int newsize = (m_AllocatedEnd - m_Begin) * 2;
+            if (!newsize)
+                newsize = 1;
+            T *newdata = Allocate(newsize);
+
+            // copy before insertion point
+            XCopy(newdata, m_Begin, i);
+
+            // copy the new element
+            T *insertionpoint = newdata + (i - m_Begin);
+            *(insertionpoint) = std::move(o);
+
+            // copy after insertion point
+            XCopy(insertionpoint + 1, i, m_End);
+
+            // New Pointers
+            m_End = newdata + (m_End - m_Begin);
+            Free();
+            m_Begin = newdata;
+            m_AllocatedEnd = newdata + newsize;
+        }
+        else
+        {
+            // copy after insertion point
+            XMove(i + 1, i, m_End);
+            // copy the new element
+            *i = std::move(o);
+        }
+        ++m_End;
+    }
+#endif
+
+    /**
+     * @brief Removes an element by shifting subsequent elements.
+     * @internal
+     */
     T *XRemove(T *i)
     {
-        // copy after insertion point
         XMove(i, i + 1, m_End);
-        m_End--;
+        --m_End;
         return i;
     }
 
-    ///
-    // Allocation and deallocation methods : to be overridden for alignment purposes
-
+    /**
+     * @brief Allocates memory and default-constructs elements.
+     * @internal
+     */
     T *Allocate(int size)
     {
-        if (size)
+        if (size > 0)
         {
-#ifdef NO_VX_MALLOC
+#ifndef VX_MALLOC
             return new T[size];
 #else
             return VxAllocate<T>(size);
@@ -604,23 +740,30 @@ protected:
         }
     }
 
+    /**
+     * @brief Destructs elements and frees memory.
+     * @internal
+     */
     void Free()
     {
-#ifdef NO_VX_MALLOC
-        delete[] m_Begin;
+        if (m_Begin)
+        {
+#ifndef VX_MALLOC
+            delete[] m_Begin;
 #else
-        VxDeallocate<T>(m_Begin, (m_AllocatedEnd - m_Begin) / sizeof(T));
+            VxDeallocate<T>(m_Begin, Allocated());
 #endif
+        }
     }
 
-    ///
-    // Members
+    ///@}
 
-    T *m_Begin;
-
-    T *m_End;
-
-    T *m_AllocatedEnd;
+    /// @name Members
+    ///@{
+    T *m_Begin;        ///< @internal Pointer to the beginning of the allocated memory.
+    T *m_End;          ///< @internal Pointer to the position after the last element.
+    T *m_AllocatedEnd; ///< @internal Pointer to the end of the allocated memory block.
+    ///@}
 };
 
 #endif // XCLASSARRAY_H

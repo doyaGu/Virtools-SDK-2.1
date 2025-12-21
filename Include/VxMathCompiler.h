@@ -157,7 +157,7 @@
 #endif
 
 #ifndef VX_HAS_CXX11
-#   if __cplusplus >= 201103L
+#   if (__cplusplus >= 201103L) || (defined(_MSVC_LANG) && (_MSVC_LANG >= 201103L)) || (defined(_MSC_VER) && (_MSC_VER >= 1900))
 #       define VX_HAS_CXX11 1
 #   else
 #       define VX_HAS_CXX11 0
