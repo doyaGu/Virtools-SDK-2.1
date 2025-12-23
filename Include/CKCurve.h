@@ -120,7 +120,7 @@ public:
     See also: SetTangents
     ************************************************/
     virtual CKERROR GetTangents(CKCurvePoint *pt, VxVector *in, VxVector *out) CK_PURE;
-    virtual CKERROR GetTangents(int index, VxVector *in, VxVector *out) CK_PURE;
+    virtual CKERROR GetTangentsByIndex(int index, VxVector *in, VxVector *out) CK_PURE;
 
     /************************************************
     Summary: Sets tangents to a control point
@@ -135,7 +135,7 @@ public:
     See also: GetTangents
     ************************************************/
     virtual CKERROR SetTangents(CKCurvePoint *pt, VxVector *in, VxVector *out) CK_PURE;
-    virtual CKERROR SetTangents(int index, VxVector *in, VxVector *out) CK_PURE;
+    virtual CKERROR SetTangentsByIndex(int index, VxVector *in, VxVector *out) CK_PURE;
 
     /************************************************
     Summary: Sets the fitting coefficient for the curve.
