@@ -268,7 +268,7 @@ public:
 
     virtual CKBOOL IsInitialized() = 0;
 
-    SoundMinion *CreateMinion(CKSOUNDHANDLE source, float minimumdelay = 0.0f);
+    SoundMinion *CreateMinion(CKSOUNDHANDLE source, float minimumDelay = 0.0f);
     void ReleaseMinions();
     void PauseMinions();
     void ResumeMinions();

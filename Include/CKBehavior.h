@@ -12,6 +12,26 @@ struct BehaviorBlockData
     CKDWORD m_CallbackMask;
     void *m_CallbackArg;
     CKDWORD m_Version;
+
+    BehaviorBlockData()
+    {
+        m_Guid = CKGUID();
+        m_Function = nullptr;
+        m_Callback = nullptr;
+        m_CallbackMask = 0;
+        m_CallbackArg = nullptr;
+        m_Version = 0;
+    }
+
+    BehaviorBlockData(const BehaviorBlockData &data)
+    {
+        m_Guid = data.m_Guid;
+        m_Function = data.m_Function;
+        m_Callback = data.m_Callback;
+        m_CallbackMask = data.m_CallbackMask;
+        m_CallbackArg = data.m_CallbackArg;
+        m_Version = data.m_Version;
+    }
 };
 
 struct BehaviorGraphData
@@ -23,6 +43,26 @@ struct BehaviorGraphData
     CKBehavior **m_BehaviorIterators;
     CKWORD m_BehaviorIteratorCount;
     CKWORD m_BehaviorIteratorIndex;
+
+    BehaviorGraphData()
+    {
+        m_BehaviorIterators = nullptr;
+        m_BehaviorIteratorCount = 0;
+        m_BehaviorIteratorIndex = 0;
+    }
+
+    BehaviorGraphData(const BehaviorGraphData &data)
+    {
+        m_Operations = data.m_Operations;
+        m_SubBehaviors = data.m_SubBehaviors;
+        m_SubBehaviorLinks = data.m_SubBehaviorLinks;
+        m_Links = data.m_Links;
+        m_BehaviorIterators = nullptr;
+        m_BehaviorIteratorCount = 0;
+        m_BehaviorIteratorIndex = 0;
+    }
+
+    ~BehaviorGraphData();
 };
 
 /**************************************************************************
@@ -130,6 +170,7 @@ class CKBehavior : public CKSceneObject
     friend class CKParameterOperation;
     friend class CKBehaviorLink;
     friend class CKBehaviorIO;
+    friend class CKDebugContext;
 
 public:
     //----------------------------------------------------------------
@@ -144,7 +185,7 @@ public:
     //---------- BuildingBlock or Graph
     void UseGraph();
     void UseFunction();
-    int IsUsingFunction();
+    CKBOOL IsUsingFunction();
 
     //----------------------------------------------------------------
     // Targetable Behavior
@@ -160,7 +201,7 @@ public:
     //----------------------------------------------------------------
     // Object type to which this behavior applies
     CK_CLASSID GetCompatibleClassID();
-    void SetCompatibleClassID(CK_CLASSID);
+    void SetCompatibleClassID(CK_CLASSID cid);
 
     //----------------------------------------------------------------
     // Execution Function
@@ -176,7 +217,7 @@ public:
     //--------------------------------------------------------------
     // RunTime Functions
     CKBOOL IsActive();
-    int Execute(float deltat);
+    int Execute(float delta);
 
     //--------------------------------------------------------------
     //
@@ -209,7 +250,7 @@ public:
     CKERROR DeleteOutput(int pos);
     CKBehaviorIO *GetOutput(int pos);
     int GetOutputCount();
-    int GetOutputPosition(CKBehaviorIO *pbio);
+    int GetOutputPosition(CKBehaviorIO *io);
     int AddOutput(CKSTRING name);
     CKBehaviorIO *ReplaceOutput(int pos, CKBehaviorIO *io);
     CKBehaviorIO *CreateOutput(CKSTRING name);
@@ -222,7 +263,7 @@ public:
     CKERROR DeleteInput(int pos);
     CKBehaviorIO *GetInput(int pos);
     int GetInputCount();
-    int GetInputPosition(CKBehaviorIO *pbio);
+    int GetInputPosition(CKBehaviorIO *io);
     int AddInput(CKSTRING name);
     CKBehaviorIO *ReplaceInput(int pos, CKBehaviorIO *io);
     CKBehaviorIO *CreateInput(CKSTRING name);
@@ -234,7 +275,7 @@ public:
     CKParameterIn *CreateInputParameter(CKSTRING name, CKGUID guid);
     CKParameterIn *InsertInputParameter(int pos, CKSTRING name, CKParameterType type);
     void AddInputParameter(CKParameterIn *in);
-    int GetInputParameterPosition(CKParameterIn *);
+    int GetInputParameterPosition(CKParameterIn *in);
     CKParameterIn *GetInputParameter(int pos);
     CKParameterIn *RemoveInputParameter(int pos);
     CKParameterIn *ReplaceInputParameter(int pos, CKParameterIn *param);
@@ -252,7 +293,7 @@ public:
     CKParameterOut *CreateOutputParameter(CKSTRING name, CKGUID guid);
     CKParameterOut *InsertOutputParameter(int pos, CKSTRING name, CKParameterType type);
     CKParameterOut *GetOutputParameter(int pos);
-    int GetOutputParameterPosition(CKParameterOut *);
+    int GetOutputParameterPosition(CKParameterOut *p);
     CKParameterOut *ReplaceOutputParameter(int pos, CKParameterOut *p);
     CKParameterOut *RemoveOutputParameter(int pos);
     void AddOutputParameter(CKParameterOut *out);
@@ -323,8 +364,8 @@ public:
     //-------------------------------------------------------------------------
     // Internal functions
 
-    CKERROR SetOwner(CKBeObject *, CKBOOL callback = TRUE);
-    CKERROR SetSubBehaviorOwner(CKBeObject *o, CKBOOL callback = TRUE);
+    CKERROR SetOwner(CKBeObject *owner, CKBOOL callback = TRUE);
+    CKERROR SetSubBehaviorOwner(CKBeObject *owner, CKBOOL callback = TRUE);
 
     void NotifyEdition();
     void NotifySettingsEdition();

@@ -308,9 +308,9 @@ typedef enum CK_BEHAVIOR_FLAGS
     CKBEHAVIOR_NONE                          = 0x00000000,  // Reserved for future use
     CKBEHAVIOR_ACTIVE                        = 0x00000001,  // This behavior is active
     CKBEHAVIOR_SCRIPT                        = 0x00000002,  // This behavior is a script
-    CKBEHAVIOR_RESERVED1                     = 0x00000004,  // Reserved for internal use.
+    CKBEHAVIOR_PRIORITY                      = 0x00000004,  // Reserved for internal use.
     CKBEHAVIOR_USEFUNCTION                   = 0x00000008,  // Behavior uses a function and not a graph
-    CKBEHAVIOR_RESERVED2                     = 0x00000010,  // Reserved for internal use.
+    CKBEHAVIOR_COMPATIBLECLASSID             = 0x00000010,  // Reserved for internal use.
     CKBEHAVIOR_CUSTOMSETTINGSEDITDIALOG      = 0x00000020,  // Behavior has a custom Dialog Box for settings edition .
     CKBEHAVIOR_WAITSFORMESSAGE               = 0x00000040,  // Behavior is waiting for a message to activate one of its outputs
     CKBEHAVIOR_VARIABLEINPUTS                = 0x00000080,  // Behavior may have its inputs changed by editing them
@@ -778,7 +778,7 @@ enum CK_OBJECTCREATION_OPTIONS
 Summary: Specify the mode of operation of a CKDependenciesContext.
 
 Remarks:
-    A CKDependenciesContext class is always used when it come to work
+    A CKDependenciesContext class is always used when it comes to work
     with object dependencies (A mesh if a dependencies of a CK3dEntity for example)
 See also: CKCreateObject
 *************************************************/

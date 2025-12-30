@@ -115,9 +115,6 @@ public:
         return CKIsChildClassOf(iO, CKCID_BEHAVIORIO) ? (CKBehaviorIO *)iO : NULL;
     }
 
-    //--- Ensure Links that are on the same behavior are the last in the list
-    void SortLinks();
-
 protected:
     XSObjectPointerArray m_Links;
     CKBehavior *m_OwnerBehavior;

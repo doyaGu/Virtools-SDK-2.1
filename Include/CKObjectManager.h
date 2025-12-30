@@ -6,13 +6,12 @@
 #include "CKDependencies.h"
 #include "XObjectArray.h"
 
-class CKDeferredDeletion {
-public:
-    CKDWORD field_0;
-    CKDWORD field_4;
-    CKDWORD field_8;
-    CKDependencies *m_Dependencies;
-    int m_Next;
+typedef XHashTable<void *, CK_ID> XObjectAppDataTable;
+
+struct CKDeferredDeletion {
+    CKDependencies m_Dependencies;
+    CKDependencies *m_DependenciesPtr;
+    CKDWORD m_Flags;
 };
 
 class CKObjectManager : public CKBaseManager
@@ -20,6 +19,7 @@ class CKObjectManager : public CKBaseManager
 public:
     int ObjectsByClass(CK_CLASSID cid, CKBOOL derived, CK_ID *obj_ids);
     int GetObjectsCount();
+    CKObject *GetObject(CK_ID id);
 
     CKERROR DeleteAllObjects();
     CKERROR ClearAllObjects();
@@ -43,10 +43,10 @@ public:
     CKERROR GetObjectListByType(CK_CLASSID cid, XObjectPointerArray &array, CKBOOL derived);
 
     CKBOOL InLoadSession();
-    void StartLoadSession(int id);
+    void StartLoadSession(int MaxObjectID);
     void EndLoadSession();
 
-    void RegisterLoadObject(CKObject *iObject, int id);
+    void RegisterLoadObject(CKObject *iObject, int ObjectID);
 
     CK_ID RealId(CK_ID id);
 
@@ -67,25 +67,20 @@ public:
     //-------------------------------------------------------------------------
     // Internal functions
 
-    virtual CKERROR PreClearAll();
     virtual CKERROR PostProcess();
     virtual CKERROR OnCKReset();
-    virtual CKERROR SequenceToBeDeleted(CK_ID *objids, int count);
     virtual CKDWORD GetValidFunctionsMask()
     {
-        return CKMANAGER_FUNC_PreClearAll |
-               CKMANAGER_FUNC_PostProcess |
-               CKMANAGER_FUNC_OnCKReset |
-               CKMANAGER_FUNC_OnSequenceToBeDeleted;
+        return CKMANAGER_FUNC_PostProcess |
+               CKMANAGER_FUNC_OnCKReset;
     }
 
     virtual ~CKObjectManager();
 
     CKObjectManager(CKContext *Context);
 
-public:
     CKDWORD GetGroupGlobalIndex();
-    void ReleaseGroupGlobalIndex(CKDWORD);
+    void ReleaseGroupGlobalIndex(CKDWORD index);
 
     int GetSceneGlobalIndex();
     void ReleaseSceneGlobalIndex(int index);
@@ -96,15 +91,16 @@ public:
     void AddSingleObjectActivity(CKSceneObject *o, CK_ID id);
     int GetSingleObjectActivity(CKSceneObject *o, CK_ID &id);
 
-    int m_ObjectsCount;
+public:
+    int m_ObjectCount;
     CKObject **m_Objects;
-    XClassArray<XObjectArray> m_ObjectLists;
-    CKDWORD m_LoadSession;
-    CKDWORD m_Count;
+    XClassArray<XObjectArray> m_ClassLists;
+    CK_ID *m_LoadSession;
+    int m_AllocatedObjectCount;
     CKBOOL m_NeedDeleteAllDynamicObjects;
     CKBOOL m_InLoadSession;
     CKDWORD m_MaxObjectID;
-    XHashID m_ObjectAppData;
+    XObjectAppDataTable m_ObjectAppData;
     XHashID m_SingleObjectActivities;
     XObjectArray m_FreeObjectIDs;
     XArray<CKDeferredDeletion *> m_DeferredDeletions[4];

@@ -225,8 +225,8 @@ protected:
     float m_FogDensity;
     int m_AddObjectCount;
     int m_RemoveObjectCount;
-    XObjectPointerArray m_AddObjectList;
-    XObjectPointerArray m_RemoveObjectList;
+    XObjectArray m_AddObjectList;
+    XObjectArray m_RemoveObjectList;
     XObjectPointerArray m_ObjectList;
 };
 

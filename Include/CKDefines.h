@@ -265,7 +265,7 @@ typedef CK_LOADMODE (*CK_LOADRENAMECALLBACK)(CK_CLASSID Cid, CKSTRING OldName, C
 //		Class Identifier List								//
 //----------------------------------------------------------//
 
-#define  CKCID_OBJECT					1
+#define  CKCID_OBJECT					    1
     #define  CKCID_PARAMETERIN				2
     #define  CKCID_PARAMETEROPERATION		4
     #define  CKCID_STATE					5
@@ -553,11 +553,11 @@ public:
 
 struct CKPluginEntry;
 
-typedef CKERROR (*CK_PARAMETERCREATEDEFAULTFUNCTION)(CKParameter *);
-typedef void (*CK_PARAMETERDELETEFUNCTION)(CKParameter *);
-typedef void (*CK_PARAMETERCHECKFUNCTION)(CKParameter *);
-typedef void (*CK_PARAMETERREMAPFUNCTION)(CKParameter *, CKDependenciesContext &);
-typedef void (*CK_PARAMETERCOPYFUNCTION)(CKParameter *, CKParameter *);
+typedef CKERROR (*CK_PARAMETERCREATEDEFAULTFUNCTION)(CKParameter *param);
+typedef void (*CK_PARAMETERDELETEFUNCTION)(CKParameter *param);
+typedef void (*CK_PARAMETERCHECKFUNCTION)(CKParameter *param);
+typedef void (*CK_PARAMETERREMAPFUNCTION)(CKParameter *param, CKDependenciesContext &context);
+typedef void (*CK_PARAMETERCOPYFUNCTION)(CKParameter *dest, CKParameter *src);
 typedef void (*CK_PARAMETERSAVELOADFUNCTION)(CKParameter *param, CKStateChunk **chunk, CKBOOL load);
 typedef int (*CK_PARAMETERSTRINGFUNCTION)(CKParameter *param, CKSTRING ValueString, CKBOOL ReadFromString);
 typedef WIN_HANDLE (*CK_PARAMETERUICREATORFUNCTION)(CKParameter *param, WIN_HANDLE ParentWindow, CKRECT *rect);

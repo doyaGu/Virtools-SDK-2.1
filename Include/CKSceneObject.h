@@ -25,7 +25,7 @@ class CKSceneObject : public CKObject
 public:
     //----------------------------------------------------------
     // Scene Activity
-    CKBOOL IsActiveInScene(CKScene *);
+    CKBOOL IsActiveInScene(CKScene *scene);
     CKBOOL IsActiveInCurrentScene();
 
     //----------------------------------------------------------

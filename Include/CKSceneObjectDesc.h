@@ -15,11 +15,32 @@ public:
         m_InitialValue = NULL;
         m_Global = 0;
     };
-    /////////////////////////////////////////
-    // Virtual functions
+
+    CKSceneObjectDesc(CKObject *obj, CKStateChunk *initialValue = NULL, CKDWORD flags = 0)
+    {
+        m_Object = obj ? obj->GetID() : 0;
+        m_InitialValue = initialValue;
+        m_Flags = flags;
+    }
+
+    CKSceneObjectDesc(const CKSceneObjectDesc &desc)
+    {
+        m_Object = desc.m_Object;
+        m_InitialValue = desc.m_InitialValue;
+        m_Global = desc.m_Global;
+    }
+
+    friend bool operator==(const CKSceneObjectDesc &lhs, const CKSceneObjectDesc &rhs) {
+        return lhs.m_Object == rhs.m_Object
+            && lhs.m_InitialValue == rhs.m_InitialValue
+            && lhs.m_Global == rhs.m_Global;
+    }
+
+    friend bool operator!=(const CKSceneObjectDesc &lhs, const CKSceneObjectDesc &rhs) {
+        return !(lhs == rhs);
+    }
 
     CKERROR ReadState(CKStateChunk *chunk);
-    int GetSize();
     void Clear();
     void Init(CKObject *obj = NULL);
 
@@ -29,7 +50,6 @@ public:
     CKDWORD ResetAtStart() { return m_Flags & CK_SCENEOBJECT_START_RESET; }
     CKDWORD IsActive() { return m_Flags & CK_SCENEOBJECT_ACTIVE; }
 
-public:
     CK_ID m_Object;
     CKStateChunk *m_InitialValue;
     union

@@ -124,7 +124,7 @@ public:
     CKERROR OutputToInfo(CKSTRING format, ...);
     CKERROR RefreshBuildingBlocks(const XArray<CKGUID> &iGuids);
 
-    CKERROR ShowSetup(CK_ID);
+    CKERROR ShowSetup(CK_ID id);
     CK_ID ChooseObject(void *dialogParentWnd);
     CKERROR Select(const XObjectArray &o, CKBOOL clearSelection = TRUE);
     CKDWORD SendInterfaceMessage(CKDWORD reason, CKDWORD param1, CKDWORD param2);
@@ -148,9 +148,9 @@ public:
     int GetManagerCount();
     CKBaseManager *GetManager(int index);
 
-    CKBOOL IsManagerActive(CKBaseManager *bm);
-    CKBOOL HasManagerDuplicates(CKBaseManager *bm);
-    void ActivateManager(CKBaseManager *bm, CKBOOL active);
+    CKBOOL IsManagerActive(CKBaseManager *manager);
+    CKBOOL HasManagerDuplicates(CKBaseManager *manager);
+    void ActivateManager(CKBaseManager *manager, CKBOOL activate);
     int GetInactiveManagerCount();
     CKBaseManager *GetInactiveManager(int index);
 
@@ -235,52 +235,7 @@ public:
 
     XManagerHashTable m_ManagerTable;
     XManagerArray m_InactiveManagers;
-    XArray<CKBaseManager*> m_ManagersOnSequenceToBeDeleted;
-    XArray<CKBaseManager*> m_ManagersOnSequenceDeleted;
-    XArray<CKBaseManager*> m_ManagersPreProcess;
-    XArray<CKBaseManager*> m_ManagersPostProcess;
-    XArray<CKBaseManager*> m_ManagersPreClearAll;
-    XArray<CKBaseManager*> m_ManagersPostClearAll;
-    XArray<CKBaseManager*> m_ManagersOnCKInit;
-    XArray<CKBaseManager*> m_ManagersOnCKEnd;
-    XArray<CKBaseManager*> m_ManagersOnCKPlay;
-    XArray<CKBaseManager*> m_ManagersOnCKPause;
-    XArray<CKBaseManager*> m_ManagersPreLoad;
-    XArray<CKBaseManager*> m_ManagersPreSave;
-    XArray<CKBaseManager*> m_ManagersPreLaunchScene;
-    XArray<CKBaseManager*> m_ManagersPostLaunchScene;
-    XArray<CKBaseManager*> m_ManagersOnCKReset;
-    XArray<CKBaseManager*> m_ManagersPostLoad;
-    XArray<CKBaseManager*> m_ManagersPostSave;
-    XArray<CKBaseManager*> m_ManagersOnCKPostReset;
-    XArray<CKBaseManager*> m_ManagersOnSequenceAddedToScene;
-    XArray<CKBaseManager*> m_ManagersOnSequenceRemovedFromScene;
-    XArray<CKBaseManager*> m_ManagersOnPreCopy;
-    XArray<CKBaseManager*> m_ManagersOnPostCopy;
-    XArray<CKBaseManager*> m_ManagersOnPreRender;
-    XArray<CKBaseManager*> m_ManagersOnPostRender;
-    XArray<CKBaseManager*> m_ManagersOnPostSpriteRender;
-    CKDWORD field_150;
-    CKDWORD field_154;
-    CKDWORD field_158;
-    CKDWORD field_15C;
-    CKDWORD field_160;
-    CKDWORD field_164;
-    CKDWORD field_168;
-    CKDWORD field_16C;
-    CKDWORD field_170;
-    CKDWORD field_174;
-    CKDWORD field_178;
-    CKDWORD field_17C;
-    CKDWORD field_180;
-    CKDWORD field_184;
-    CKDWORD field_188;
-    CKDWORD field_18C;
-    CKDWORD field_190;
-    CKDWORD field_194;
-    CKDWORD field_198;
-    CKDWORD field_19C;
-    CKDWORD field_1A0;
+    XArray<CKBaseManager *> m_ManagerList[32];
     CKObjectManager *m_ObjectManager;
     CKParameterManager *m_ParameterManager;
     CKAttributeManager *m_AttributeManager;
@@ -296,12 +251,10 @@ public:
     CK_TEXTURE_SAVEOPTIONS m_GlobalImagesSaveOptions;
     CK_SOUND_SAVEOPTIONS m_GlobalSoundsSaveOptions;
     CKBitmapProperties *m_GlobalImagesSaveFormat;
-    CKDWORD m_FileWriteMode;
+    CK_FILE_WRITEMODE m_FileWriteMode;
     XString m_LastFileLoaded;
     XString m_LastCmoLoaded;
-    void *field_2CC;
-    CKDWORD field_2D0;
-    CKDWORD field_2D4;
+    XArray<CKGUID> field_2CC;
     CKDebugContext *m_DebugContext;
     WIN_HANDLE m_MainWindow;
     CKDWORD m_InterfaceMode;
@@ -320,11 +273,11 @@ public:
     CKBOOL m_InClearAll;
     CKBOOL m_RunTime;
     VxTimeProfiler m_UserProfileTimers[8];
-    float m_UserProfile[8];
+    float m_UserProfileTime[8];
     XString m_StringBuffer;
     CKDWORD m_StartOptions;
-    CKDWORD field_3C8;
-    CKDWORD field_3CC;
+    char *field_3C8;
+    char *field_3CC;
     CK_LOADMODE m_GeneralLoadMode;
     CK_LOADMODE m_3DObjectsLoadMode;
     CK_LOADMODE m_MeshLoadMode;
@@ -335,11 +288,11 @@ public:
     CKBaseManager *m_CurrentManager;
     CKDependenciesContext m_DependenciesContext;
     CKDWORD m_DestroyObjectFlag;
-    CKDWORD field_45C;
-    CKDWORD field_460;
+    CKDWORD m_GeneralRenameOption;
+    CKDWORD m_MatTexturesRenameOption;
     int m_CompressionLevel;
     XArray<VxMemoryPool *> m_MemoryPools;
-    XBitArray m_BitArray;
+    XBitArray m_MemoryPoolMask;
     XObjectPointerArray m_GlobalAttributeList;
     XArray<CKGUID> field_488;
     void *field_494;
@@ -348,8 +301,8 @@ public:
     CKDWORD field_4A0;
     CKDWORD m_PVInformation;
     CKBOOL m_InDynamicCreationMode;
-    XObjectPointerArray m_CopyObjects;
-    XObjectPointerArray m_ObjectList;
+    XObjectArray m_CopyObjects;
+    XObjectPointerArray m_ObjectsUnused;
 };
 
 #endif // CKCONTEXT_H

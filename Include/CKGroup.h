@@ -100,8 +100,8 @@ public:
 protected:
     XObjectPointerArray m_ObjectArray;
     CK_CLASSID m_CommonClassId;
-    CKBOOL m_ClassIdUpated;
-    CKDWORD m_GroupIndex;
+    CKBOOL m_ClassIdUpdated;
+    int m_GroupIndex;
 };
 
 #endif // CKGROUP_H

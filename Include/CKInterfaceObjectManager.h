@@ -41,7 +41,7 @@ public:
 
 private:
     int m_Count;
-    CKStateChunk *m_Chunks;
+    CKStateChunk **m_Chunks;
     CKGUID m_Guid;
 };
 

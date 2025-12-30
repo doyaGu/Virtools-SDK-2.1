@@ -245,7 +245,7 @@ protected:
     XObjectArray m_Objects;
     // Objects to process
     XArray<CKDependencies *> m_DependenciesStack;
-    // In there are sccripts in the objects being processed they will also be stored here
+    // In there are scripts in the objects being processed they will also be stored here
     XObjectArray m_Scripts;
 
     CKDWORD m_Mode;

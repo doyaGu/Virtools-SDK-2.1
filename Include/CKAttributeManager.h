@@ -3,10 +3,7 @@
 
 #include "CKDefines.h"
 #include "CKBaseManager.h"
-
-struct CKAttributeDesc;
-struct CKAttributeCategoryDesc;
-class XObjectPointerArray;
+#include "XObjectArray.h"
 
 /****************************************************************
 Summary: Function called when an attribute is set or removed on an object.
@@ -18,6 +15,28 @@ Remarks:
 See Also:CKAttributeManager::SetAttributeCallbackFunction,Using Attributes
 *****************************************************/
 typedef void (*CKATTRIBUTECALLBACK)(CKAttributeType AttribType, CKBOOL Set, CKBeObject *obj, void *arg);
+
+struct CKAttributeDesc
+{
+    char Name[64];
+    CKGUID ParameterType;
+    XObjectPointerArray GlobalAttributeList;
+    XObjectPointerArray AttributeList;
+    CKAttributeCategory AttributeCategory;
+    CK_CLASSID CompatibleCid;
+    CKATTRIBUTECALLBACK CallbackFct;
+    void *CallbackArg;
+    CKSTRING DefaultValue;
+    CKDWORD Flags;
+    CKPluginEntry *CreatorDll;
+};
+
+struct CKAttributeCategoryDesc
+{
+  char *Name;
+  CKDWORD Flags;
+};
+
 
 /*********************************************************************
 Name: CKAttributeManager
@@ -137,15 +156,15 @@ public:
                                                      CKMANAGER_FUNC_OnSequenceAddedToScene |
                                                      CKMANAGER_FUNC_OnSequenceRemovedFromScene; }
 
-    int m_AttributeDescCount;
-    CKAttributeDesc **m_AttributeDescPtrs;
+    int m_AttributeInfoCount;
+    CKAttributeDesc **m_AttributeInfos;
     int m_AttributeCategoryCount;
     CKAttributeCategoryDesc **m_AttributeCategories;
     int *m_ConversionTable;
-    int m_ConversionTableSize;
-    XBitArray m_BitArray;
+    int m_ConversionTableCount;
+    XBitArray m_AttributeMask;
     CKBOOL m_Saving;
-    XArray<int> m_Array;
+    XObjectPointerArray m_AttributeList;
 };
 
 #endif // CKATTRIBUTEMANAGER_H

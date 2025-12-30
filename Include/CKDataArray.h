@@ -224,6 +224,12 @@ public:
     {
         return CKIsChildClassOf(iO, CKCID_DATAARRAY) ? (CKDataArray *)iO : NULL;
     }
+
+    CKFormatArray m_FormatArray;
+    CKDataMatrix m_DataMatrix;
+    int m_KeyColumn;
+    CKBOOL m_Order;
+    int m_ColumnIndex;
 };
 
 #endif // CKDATAARRAY_H

@@ -25,7 +25,7 @@ struct ChunkIteratorData
     CKDependenciesContext *DepContext;
     CKContext *Context;
 
-    ChunkIteratorData() : Guid() {
+    ChunkIteratorData() {
         memset(this, 0, sizeof(ChunkIteratorData));
     }
 
@@ -37,6 +37,7 @@ struct ChunkIteratorData
         Context = it->Context;
     }
 };
+
 typedef int (*ChunkIterateFct)(ChunkIteratorData *It);
 
 #define CHUNK_VERSIONBASE 0
@@ -56,6 +57,11 @@ public:
         AllocatedSize = list.Size;
         Data = new int[list.Size];
         memcpy(Data, list.Data, list.Size * sizeof(int));
+    }
+
+    ~IntListStruct()
+    {
+        delete[] Data;
     }
 
     void AddEntry(int pos)
@@ -99,7 +105,7 @@ public:
             delete[] Data;
             Data = data;
         }
-        if (Size > 0)
+        if (list->Size > 0)
         {
             memcpy(&Data[Size], list->Data, list->Size * sizeof(int));
             int *p;
@@ -146,6 +152,11 @@ enum CHUNK_OPTIONS
 class ChunkParser
 {
 public:
+    ChunkParser()
+    {
+        Clear();
+    }
+
     int CurrentPos;
     int DataSize;
     int PrevIdentifierPos;
@@ -157,20 +168,12 @@ public:
         PrevIdentifierPos = 0;
     }
 
-public:
-    virtual ~ChunkParser() {}
+    ~ChunkParser() {}
 };
 
 class CKFileChunk;
 class CKBitmapReader;
 struct CKBitmapProperties;
-
-enum CK_READSUBCHUNK_FLAGS
-{
-    CK_RSC_DEFAULT = 0,	// Default Behavior
-    CK_RSC_SKIP    = 1,	// Just skip the sub chunk, returning NULL and advancing the read cursor.
-    CK_RSC_SCRATCH = 2,	// Returned chunk will be allocated in a scratch pool (for temporary usages).
-};
 
 /**************************************************************************
 Name: CKStateChunk
@@ -259,6 +262,9 @@ public:
     void WriteReaderBitmap(const VxImageDescEx &desc, CKBitmapReader *reader, CKBitmapProperties *bp);
     void WriteManagerInt(CKGUID Manager, int val);
 
+    void WriteArray_LEndian(int elementCount, int elementSize, void *srcData);
+    void WriteArray_LEndian16(int elementCount, int elementSize, void *srcData);
+
     // No assumptions are made about contents
     // items should be converted to little-endian (PC) format before calling these if necessary
     void WriteBuffer(int size, void *buf);
@@ -308,6 +314,9 @@ public:
     void ReadMatrix(VxMatrix &mat);
     int ReadManagerInt(CKGUID *guid);
 
+    int ReadArray_LEndian(void **array);
+    int ReadArray_LEndian16(void **array);
+
     const XObjectArray &ReadXObjectArray();
     const XObjectPointerArray &ReadXObjectArray(CKContext *context);
     void ReadObjectArray(CKObjectArray *array);
@@ -324,10 +333,12 @@ public:
     CKStateChunk *ReadSubChunk();
     int ReadBuffer(void **buffer); // returns the size in bytes of the allocated buffer (// Use CKDeletePointer to delete allocated pointer)
     int ReadString(CKSTRING *str); // returns the length of the string including the terminating null character (// Use CKDeletePointer to delete allocated string)
+    void ReadString(XString &str);
 
     //----------------------------------------------------------
     // Bitmaps functions
     BITMAP_HANDLE ReadBitmap();
+    CKBYTE *ReadBitmap2(VxImageDescEx &desc);
     CKBOOL ReadReaderBitmap(const VxImageDescEx &desc);
 
     //----------------------------------------------------------
@@ -354,6 +365,14 @@ public:
     CKBYTE *ReadRawBitmap(VxImageDescEx &desc);
     void WriteRawBitmap(const VxImageDescEx &desc);
 
+    IntListStruct *GetIds() { return m_Ids; }
+    IntListStruct *GetChunks() { return m_Chunks; }
+    IntListStruct *GetManagers() { return m_Managers; }
+
+    void AttributePatch(CKBOOL, int *ConversionTable, int NbEntries);
+
+    void SetDynamic(CKBOOL dynamic) { m_Dynamic = dynamic; }
+
     //--------------------------------------------------------
     ////               Private Part
 
@@ -361,6 +380,14 @@ public:
     CKStateChunk(CKStateChunk *chunk);
     CKStateChunk(CK_CLASSID Cid, CKFile *f);
 
+    ~CKStateChunk();
+
+    static int IterateAndDo(ChunkIterateFct fct, ChunkIteratorData *it);
+    static int ObjectRemapper(ChunkIteratorData *it);
+    static int ManagerRemapper(ChunkIteratorData *it);
+    static int ParameterRemapper(ChunkIteratorData *it);
+
+private:
     int m_ChunkClassID;
     int m_ChunkSize;
     int *m_Data;

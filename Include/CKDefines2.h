@@ -259,7 +259,7 @@ typedef enum CK_STATESAVEFLAGS_WAVSOUND
 } CK_STATESAVEFLAGS_WAVSOUND;
 
 //------------------------------------------------
-// Wave Sound
+// Midi Sound
 typedef enum CK_STATESAVEFLAGS_MIDISOUND
 {
     CK_STATESAVE_MIDISOUNDFILE      = 0x00100000,   // Save sound filename
@@ -315,7 +315,7 @@ typedef enum CK_STATESAVEFLAGS_GROUP
 
 //------------------------------------------------
 // MESH
-// CKSaveOjectSave will save all data and does not take flags into account
+// CKSaveObjectState will save all data and does not take flags into account
 typedef enum CK_STATESAVEFLAGS_MESH
 {
     CK_STATESAVE_MESHRESERVED0    = 0x00001000,	// Reserved for future use
@@ -336,7 +336,7 @@ typedef enum CK_STATESAVEFLAGS_MESH
 
 //------------------------------------------------
 // PATCH MESH
-// CKSaveOjectSave will save all data and does not take flags into account
+// CKSaveObjectState will save all data and does not take flags into account
 typedef enum CK_STATESAVEFLAGS_PATCHMESH
 {
     CK_STATESAVE_PATCHMESHDATA      = 0x00800000,   // Obsolete
@@ -366,7 +366,7 @@ typedef enum CK_STATESAVEFLAGS_MATERIAL
 
 //---------------------------------------------------
 // Texture
-// CKSaveOjectSave will save all relevant data and does not take flags into account
+// CKSaveObjectState will save all relevant data and does not take flags into account
 typedef enum CK_STATESAVEFLAGS_TEXTURE
 {
     CK_STATESAVE_TEXAVIFILENAME   = 0x00001000,	// Save movie file name
@@ -458,7 +458,7 @@ typedef enum CK_STATESAVEFLAGS_KEYEDANIMATION
 
 //---------------------------------------------------
 // Object Animation
-// CKSaveOjectSave will save all relevant data and does not take flags into account
+// CKSaveObjectState will save all relevant data and does not take flags into account
 typedef enum CK_STATESAVEFLAGS_OBJECTANIMATION
 {
     CK_STATESAVE_OBJANIMNEWDATA      = 0x00001000,  // Save all relevant data
@@ -579,7 +579,7 @@ typedef enum CK_STATESAVEFLAGS_BEHAVIOR
 
 //---------------------------------------------------
 // SCENE
-// CKSaveOjectSave will save all relevant data and does not take flags into account
+// CKSaveObjectState will save all relevant data and does not take flags into account
 typedef enum CK_STATESAVEFLAGS_SCENE
 {
     CK_STATESAVE_SCENERESERVED0      = 0x00001000,  // Reserved for future use
@@ -648,7 +648,7 @@ typedef enum CK_STATESAVEFLAGS_OPERATION
 
 //---------------------------------------------------
 // Synchro Object
-// CKSaveOjectSave will save all relevant data and does not take flags into account
+// CKSaveObjectState will save all relevant data and does not take flags into account
 typedef enum CK_STATESAVEFLAGS_SYNCHRO
 {
     CK_STATESAVE_SYNCHRODATA      = 0x00000010, // Save data
@@ -689,7 +689,7 @@ typedef enum CK_STATESAVEFLAGS_LAYER
 
 //------------------------------------------------
 // DataArray
-// CKSaveOjectSave will save all relevant data and does not take flags into account
+// CKSaveObjectState will save all relevant data and does not take flags into account
 typedef enum CK_STATESAVEFLAGS_DATAARRAY
 {
     CK_STATESAVE_DATAARRAYFORMAT  = 0x00001000,	// Save format

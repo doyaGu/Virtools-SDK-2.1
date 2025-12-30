@@ -32,8 +32,8 @@ class CKBehaviorLink : public CKObject
 public:
     //-------------------------------------------------------
     // Behavior IO functions
-    CKERROR SetOutBehaviorIO(CKBehaviorIO *ckbioin);
-    CKERROR SetInBehaviorIO(CKBehaviorIO *ckbioout);
+    CKERROR SetInBehaviorIO(CKBehaviorIO *ckbioin);
+    CKERROR SetOutBehaviorIO(CKBehaviorIO *ckbioout);
 
     CKBehaviorIO *GetOutBehaviorIO() { return m_OutIO; }
 

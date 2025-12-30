@@ -375,7 +375,7 @@ public:
         return (v1.d[0] >= v2.d[0]);
     }
 
-    CKBOOL inline IsValid() { return d[0] || d[1]; }
+    CKBOOL IsValid() const { return d[0] || d[1]; }
 };
 
 /******************************************************************

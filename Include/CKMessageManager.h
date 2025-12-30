@@ -112,7 +112,7 @@ protected:
     CKMessage *CreateMessage();
 
     CKStringArray m_RegisteredMessageTypes;
-    CKWaitingObjectArray *m_MsgWaitingList;
+    CKWaitingObjectArray **m_MsgWaitingList;
     XArray<CKMessage *> m_ReceivedMsgThisFrame;
     XObjectPointerArray m_LastFrameObjects;
 };

@@ -186,7 +186,7 @@ public:
     virtual CKBOOL IsRunTime() { return FALSE; }
 
 private:
-    CKGUID m_guid;
+    CKGUID m_Guid;
     CK_BEHAVIORPROTOTYPE_FLAGS m_bFlags;
     CK_BEHAVIOR_FLAGS m_BehaviorFlags;
     CK_CLASSID m_ApplyTo;

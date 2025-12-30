@@ -64,9 +64,9 @@ public:
                CKMANAGER_FUNC_OnCKPlay;
     }
 
-    XArray<CKBehavior *> m_Behaviors;
-    XArray<CKBeObject *> m_BeObjects;
-    BeObjectTable m_BeObjectTable;
+    XObjectPointerArray m_Behaviors;
+    XObjectPointerArray m_BeObjects;
+    BeObjectTable m_BeObjectNextFrame;
     CKBehavior *m_CurrentBehavior;
     int m_BehaviorMaxIteration;
 };
