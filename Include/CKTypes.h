@@ -516,7 +516,7 @@ class XObjectArray;
 
 typedef enum CK_UICALLBACK_REASON
 {
-    CKUIM_LOADSAVEPROGRESS      = 1,    // NbObjectLoaded,NbObjetsToLoad
+    CKUIM_LOADSAVEPROGRESS      = 1,    // NbObjectLoaded,NbObjectsToLoad
     CKUIM_DEBUGMESSAGESEND      = 2,    // DebugMessageSent
     CKUIM_OUTTOCONSOLE          = 3,    // DoBeep,ConsoleString
     CKUIM_OUTTOINFOBAR          = 4,    // ConsoleString
@@ -538,7 +538,7 @@ typedef struct CKUICallbackStruct
     union
     {
         CKDWORD Param1;
-        int NbObjetsLoaded;
+        int NbObjectsLoaded;
         CKBOOL DoBeep;
         CKMessage *DebugMessageSent;
         CK_ID ObjectID;
@@ -548,7 +548,7 @@ typedef struct CKUICallbackStruct
     union
     {
         CKDWORD Param2;
-        int NbObjetsToLoad;
+        int NbObjectsToLoad;
         CKSTRING ConsoleString;
         int ClearSelection;
     };
