@@ -81,7 +81,7 @@ public:
     virtual void CheckPostDeletion();
 
     virtual int GetMemoryOccupation();
-    virtual int IsObjectUsed(CKObject *o, CK_CLASSID cid);
+    virtual CKBOOL IsObjectUsed(CKObject *o, CK_CLASSID cid);
 
     //--------------------------------------------
     // Dependencies Functions
