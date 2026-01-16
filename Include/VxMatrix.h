@@ -65,8 +65,18 @@ public:
     operator const void *() const { return &m_Data[0]; }
     operator void *() { return &m_Data[0]; }
 
-    XBOOL operator==(const VxMatrix &mat) const { return (this == &mat); }
-    XBOOL operator!=(const VxMatrix &mat) const { return (this != &mat); }
+    XBOOL operator==(const VxMatrix &mat) const
+    {
+        for (int i = 0; i < 4; ++i) {
+            for (int j = 0; j < 4; ++j) {
+                if (m_Data[i][j] != mat.m_Data[i][j]) {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
+    XBOOL operator!=(const VxMatrix &mat) const { return !(*this == mat); }
 
     VxMatrix &operator*=(const VxMatrix &mat)
     {
