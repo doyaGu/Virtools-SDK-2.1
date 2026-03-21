@@ -86,9 +86,37 @@ typedef unsigned long XULONG;
 #endif
 
 #ifdef WIN32
-#define ENDIANSWAP16(x)
-#define ENDIANSWAP32(x)		
-#define ENDIANSWAPFLOAT(x)
+#define ENDIANSWAP16(x)                          \
+    do                                          \
+    {                                           \
+        XWORD _vx_endian_tmp = (XWORD)(x);      \
+        _vx_endian_tmp = (XWORD)((_vx_endian_tmp << 8) | (_vx_endian_tmp >> 8)); \
+        (x) = _vx_endian_tmp;                   \
+    } while (0)
+
+#define ENDIANSWAP32(x)                                                        \
+    do                                                                        \
+    {                                                                         \
+        XDWORD _vx_endian_tmp = (XDWORD)(x);                                  \
+        _vx_endian_tmp = ((_vx_endian_tmp & 0x000000FFU) << 24) |             \
+                         ((_vx_endian_tmp & 0x0000FF00U) << 8)  |             \
+                         ((_vx_endian_tmp & 0x00FF0000U) >> 8)  |             \
+                         ((_vx_endian_tmp & 0xFF000000U) >> 24);              \
+        (x) = _vx_endian_tmp;                                                 \
+    } while (0)
+
+#define ENDIANSWAPFLOAT(x)                       \
+    do                                          \
+    {                                           \
+        union                                   \
+        {                                       \
+            float f;                            \
+            XDWORD u;                           \
+        } _vx_endian_tmp;                       \
+        _vx_endian_tmp.f = (x);                 \
+        ENDIANSWAP32(_vx_endian_tmp.u);         \
+        (x) = _vx_endian_tmp.f;                 \
+    } while (0)
 #endif
 
 typedef int (VX_STDCALL *FUNC_PTR)();
