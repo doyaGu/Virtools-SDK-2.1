@@ -36,7 +36,12 @@ public:
     //----------------------------------------------
     // Object Management
     int GetObjectsCount();
+#ifdef UNICODE
+    CKBeObject *GetObjectA(int pos);
+    CKBeObject *GetObject(int pos) { return GetObjectA(pos); }
+#else
     CKBeObject *GetObject(int pos);
+#endif
 
     //-----------------------------------------------
     // Setup

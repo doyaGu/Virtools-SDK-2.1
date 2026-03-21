@@ -133,7 +133,12 @@ public:
 
     See Also: GetObjectID
     *******************************************************/
+#ifdef UNICODE
+    CKObject *GetObjectA(CKContext *Context, unsigned int i) const;
+    CKObject *GetObject(CKContext *Context, unsigned int i) const { return GetObjectA(Context, i); }
+#else
     CKObject *GetObject(CKContext *Context, unsigned int i) const;
+#endif
 
     /***************************************************************************
     Summary: Gives Object Id at given position in the Object Id Array.
@@ -427,7 +432,12 @@ public:
 
     See Also: GetObjectID
     *******************************************************/
+#ifdef UNICODE
+    CKObject *GetObjectA(CKContext *Context, unsigned int i) const;
+    CKObject *GetObject(CKContext *Context, unsigned int i) const { return GetObjectA(Context, i); }
+#else
     CKObject *GetObject(CKContext *Context, unsigned int i) const;
+#endif
 
     /***************************************************************************
     Summary: Returns Object Id at given position in the Object Id Array.
