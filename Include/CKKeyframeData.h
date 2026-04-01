@@ -272,13 +272,14 @@ public:
 
     CKBOOL Compare(CKMorphKey &key, int NbVertex, float Threshold)
     {
+        int i;
         if (XFabs(TimeStep - key.TimeStep) > Threshold)
             return FALSE;
         if (PosArray)
         {
             if (!key.PosArray)
                 return FALSE;
-            for (int i = 0; i < NbVertex; ++i)
+            for (i = 0; i < NbVertex; ++i)
             {
                 if (PosArray[i] != key.PosArray[i])
                     return FALSE;
@@ -288,7 +289,7 @@ public:
         {
             if (!key.NormArray)
                 return FALSE;
-            for (int i = 0; i < NbVertex; ++i)
+            for (i = 0; i < NbVertex; ++i)
             {
                 if (NormArray[i].xa != key.NormArray[i].xa)
                     return FALSE;
