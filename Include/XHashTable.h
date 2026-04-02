@@ -138,7 +138,7 @@ public:
  * }
  * @endcode
  */
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XHashTableIt
 {
     typedef XHashTableEntry<T, K> *tEntry;
@@ -314,7 +314,7 @@ public:
  * }
  * @endcode
  */
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XHashTableConstIt
 {
     typedef XHashTableEntry<T, K> *tEntry;
@@ -451,7 +451,7 @@ public:
  * @remarks It contains an iterator to the element (either newly inserted or pre-existing)
  * and a boolean flag indicating whether the insertion was new.
  */
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XHashTablePair
 {
 public:

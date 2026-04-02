@@ -173,7 +173,7 @@ public:
  * }
  * @endcode
  */
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XSHashTableIt
 {
     typedef XSHashTableEntry<T, K> *pEntry;
@@ -350,7 +350,7 @@ protected:
  * }
  * @endcode
  */
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XSHashTableConstIt
 {
     typedef XSHashTableEntry<T, K> *pEntry;
@@ -502,7 +502,7 @@ protected:
  * @remarks It contains an iterator to the element (either newly inserted or pre-existing)
  * and a boolean flag indicating whether the insertion was new.
  */
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XSHashTablePair
 {
 public:
@@ -537,7 +537,7 @@ public:
  * A `m_LoadFactor` member determines when the hash table should be extended and rehashed
  * to maintain performance.
  */
-template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K>>
+template <class T, class K, class H = XHashFun<K>, class Eq = XEqual<K> >
 class XSHashTable
 {
     // Types

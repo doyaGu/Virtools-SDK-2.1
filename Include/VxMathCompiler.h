@@ -164,4 +164,17 @@
 #   endif
 #endif
 
+// VS 6.0 compatibility
+#if defined(_MSC_VER) && (_MSC_VER < 1300)
+    // Fix for-loop scoping: VS 6.0 leaks loop variables into the enclosing scope
+#   ifndef for
+#       define for if(0);else for
+#   endif
+#endif
+
+// nullptr is not available before C++11
+#if !VX_HAS_CXX11 && !defined(nullptr)
+#   define nullptr 0
+#endif
+
 #endif // VXMATHCOMPILER_H
