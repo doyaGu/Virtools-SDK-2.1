@@ -1284,7 +1284,8 @@ private:
     // A moved-from table has no buckets until its next insertion.
     tEntry GetBucket(int index) const
     {
-        return m_Table.Size() ? m_Table[index] : NULL;
+        // Compare the endpoints directly; computing Size can inhibit hot-path inlining.
+        return m_Table.IsEmpty() ? NULL : m_Table[index];
     }
 
     /**
