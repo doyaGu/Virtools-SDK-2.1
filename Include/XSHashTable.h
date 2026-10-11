@@ -1081,7 +1081,7 @@ public:
      */
     int IsHere(const K &key) const
     {
-        return (int)XFindIndex(key);
+        return XFindIndex(key) != 0;
     }
 
     /**
@@ -1265,20 +1265,24 @@ private:
     {
         int index = Index(key);
         int oldindex = index;
+        int firstDeleted = -1;
 
         Eq equalFunc;
 
-        while (m_Table[index].m_Status == STATUS_OCCUPIED)
+        while (m_Table[index].m_Status != STATUS_FREE)
         {
-            if (equalFunc(m_Table[index].m_Key, key))
+            if (m_Table[index].m_Status == STATUS_OCCUPIED &&
+                equalFunc(m_Table[index].m_Key, key))
                 return index;
+            if (m_Table[index].m_Status == STATUS_DELETED && firstDeleted < 0)
+                firstDeleted = index;
             ++index; // Compute ith probe
             if (index == m_Table.Size())
                 index = 0;
             if (index == oldindex)
-                return -1;
+                return firstDeleted;
         }
-        return index;
+        return firstDeleted >= 0 ? firstDeleted : index;
     }
 
     /// @brief The array of entries that holds the hash table data.

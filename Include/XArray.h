@@ -333,23 +333,22 @@ public:
      */
     void Reserve(int size)
     {
+        XASSERT(size >= 0);
+        if (size < 0)
+            return;
+
+        T *oldData = m_Begin;
+        int oldCount = Size();
+        if (oldCount > size)
+            oldCount = size;
         T *newData = Allocate(size);
 
-        // Recopy of old elements
-        int oldCount = Size();
         if (oldCount > 0)
         {
-            T *last = XMin(m_Begin + size, m_End);
-            XCopy(newData, m_Begin, last);
-            oldCount = (int)(last - m_Begin);
-        }
-        else
-        {
-            oldCount = 0;
+            XCopy(newData, oldData, oldData + oldCount);
         }
 
-        // new Pointers
-        Free();
+        Free(oldData);
         m_Begin = newData;
         m_End = newData ? (newData + oldCount) : NULL;
         m_AllocatedEnd = newData ? (newData + size) : NULL;
@@ -421,9 +420,11 @@ public:
      */
     void PushBack(const T &o)
     {
+        // o may be an element of this array: XInsert copies it before freeing the old storage.
         if (m_End == m_AllocatedEnd)
         {
-            Reserve(Size() ? Size() * 2 : 2);
+            XInsert(m_End, o);
+            return;
         }
         *(m_End++) = o;
     }
@@ -437,7 +438,8 @@ public:
     {
         if (m_End == m_AllocatedEnd)
         {
-            Reserve(Size() ? Size() * 2 : 2);
+            XInsert(m_End, std::move(o));
+            return;
         }
         *(m_End++) = std::move(o);
     }
@@ -449,11 +451,7 @@ public:
     template <class... Args>
     void EmplaceBack(Args &&...args)
     {
-        if (m_End == m_AllocatedEnd)
-        {
-            Reserve(Size() ? Size() * 2 : 2);
-        }
-        *(m_End++) = T(std::forward<Args>(args)...);
+        PushBack(T(std::forward<Args>(args)...));
     }
 #endif
 
@@ -708,8 +706,9 @@ public:
      */
     void Fill(const T &o)
     {
-        for (T *t = m_Begin; t != m_End; ++t)
-            *t = o;
+        const int count = Size();
+        for (int i = 0; i < count; ++i)
+            m_Begin[i] = o;
     }
 
     /**
@@ -718,8 +717,9 @@ public:
      */
     void Memset(XBYTE val)
     {
-        if (m_Begin)
-            memset(m_Begin, val, Size() * sizeof(T));
+        const int count = Size();
+        if (m_Begin && count > 0)
+            memset(m_Begin, val, static_cast<size_t>(count) * sizeof(T));
     }
 
     /**
@@ -1024,9 +1024,9 @@ protected:
      */
     void XCopy(T *dest, T *start, T *end)
     {
-        if (start == end)
+        if (!dest || !start || !end || start == end)
             return;
-        int size = ((XBYTE *)end - (XBYTE *)start);
+        const size_t size = (size_t)((XBYTE *)end - (XBYTE *)start);
         if (size > 0)
             memcpy(dest, start, size);
     }
@@ -1163,15 +1163,17 @@ protected:
      * @brief Frees the raw memory block.
      * @internal
      */
-    void Free()
+    void Free(T *data)
     {
-        if (m_Begin)
+        if (data)
 #ifndef VX_MALLOC
-            delete[] m_Begin;
+            delete[] data;
 #else
-            VxFree(m_Begin);
+            VxFree(data);
 #endif
     }
+
+    void Free() { Free(m_Begin); }
 
     ///@}
 

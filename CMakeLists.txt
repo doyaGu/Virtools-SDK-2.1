@@ -32,3 +32,9 @@ endforeach ()
 # Exported variables
 set(VirtoolsSDK_INCLUDE_DIR "${VIRTOOLS_SDK_INCLUDE_DIR}" CACHE PATH "VirtoolsSDK include directory")
 set(VirtoolsSDK_LIB_DIR "${VIRTOOLS_SDK_LIB_DIR}" CACHE PATH "VirtoolsSDK library directory")
+
+option(VIRTOOLS_SDK_BUILD_TESTS "Build container regression tests" OFF)
+if (VIRTOOLS_SDK_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif ()

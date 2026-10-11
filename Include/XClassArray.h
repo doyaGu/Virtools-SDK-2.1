@@ -677,7 +677,7 @@ protected:
         // Test For Reallocation
         if (m_End == m_AllocatedEnd)
         {
-            int newsize = (m_AllocatedEnd - m_Begin) * 2;
+            int newsize = (int)((m_AllocatedEnd - m_Begin) * 2);
             if (!newsize)
                 newsize = 1;
             T *newdata = Allocate(newsize);

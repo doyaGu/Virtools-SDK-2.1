@@ -521,7 +521,7 @@ public:
             initialize = 4;
 
         m_Table.Resize(initialize);
-        m_Table.Fill(0);
+        m_Table.Memset(0);
         m_Pool.Reserve((int)(initialize * LOAD_FACTOR));
     }
 
@@ -743,7 +743,7 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+        for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -776,7 +776,7 @@ public:
         while (true)
         {
             int index = Index(key);
-            for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+            for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
             {
                 if (equalFunc(e->m_Key, key))
                 {
@@ -809,7 +809,7 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+        for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -842,7 +842,7 @@ public:
         while (true)
         {
             int index = Index(key);
-            for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+            for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
             {
                 if (equalFunc(e->m_Key, key))
                 {
@@ -874,7 +874,7 @@ public:
         Eq equalFunc;
 
         // we look for existing key
-        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+        for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -904,7 +904,7 @@ public:
         while (true)
         {
             int index = Index(key);
-            for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+            for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
             {
                 if (equalFunc(e->m_Key, key))
                 {
@@ -970,7 +970,7 @@ public:
 
         // we look for existing key
         tEntry old = NULL;
-        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+        for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
@@ -1021,7 +1021,7 @@ public:
 
         // we look for existing key
         tEntry old = NULL;
-        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+        for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
         {
             if (e == it.m_Node)
             {
@@ -1281,12 +1281,21 @@ private:
      */
     tEntry *GetFirstBucket() const { return m_Table.Begin(); }
 
+    // A moved-from table has no buckets until its next insertion.
+    tEntry GetBucket(int index) const
+    {
+        return m_Table.Size() ? m_Table[index] : NULL;
+    }
+
     /**
      * @brief Resizes and rehashes the entire table.
      * @param iSize The new number of buckets for the table.
      */
     void Rehash(int iSize)
     {
+        if (iSize < 4)
+            iSize = 4;
+
         int oldsize = m_Table.Size();
 
         // we create a new pool
@@ -1296,7 +1305,7 @@ private:
         // Temporary table
         XArray<tEntry> tmp;
         tmp.Resize(iSize);
-        tmp.Fill(0);
+        tmp.Memset(0);
 
         for (int index = 0; index < oldsize; ++index)
         {
@@ -1394,7 +1403,7 @@ private:
         Eq equalFunc;
 
         // we look for existing key
-        for (tEntry e = m_Table[index]; e != 0; e = e->m_Next)
+        for (tEntry e = GetBucket(index); e != 0; e = e->m_Next)
         {
             if (equalFunc(e->m_Key, key))
             {
